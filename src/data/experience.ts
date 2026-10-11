@@ -44,12 +44,20 @@ export const experience: ExperienceEntry[] = [
             text: 'Upgraded chatbots into AI agents with memory systems, tool APIs, and MCP Client, driving **120%** partner growth (CTBC Bank, MSI, HPE, iGroup) and users from **3K to 20K** while cutting LLM token usage by **67%+**',
           },
           {
+            label: 'Client Solutions Engineering',
+            text: "Designed the agentic workflow behind CTBC Bank's customer-facing service agent with the bank's product owners and engineers, composing it from their existing APIs and building custom ones where needed; **shipped to production**",
+          },
+          {
             label: 'API Optimization',
             text: 'Optimized **140+** RESTful APIs through SQL query refactoring, connection pooling, and Django caching, cutting response time of 13 high-traffic APIs by **27.7%** and eliminating N+1 queries',
           },
           {
             label: 'CI/CD & Testing',
             text: 'Built a GitHub Actions CI pipeline with pytest unit and E2E coverage, reaching **67%** coverage from a zero baseline and reducing production hotfixes by **90%** initially and **50%** long term',
+          },
+          {
+            label: 'Open Source',
+            text: 'Contributed **14** merged pull requests to **LlamaIndex** (15K+ stars), fixing bugs and adding features across the AWS Bedrock, Claude, Elasticsearch, Cohere, OpenAI, MCP Client, and AI Agent Workflow integrations',
           },
           {
             label: 'Roadmap & Leadership',
