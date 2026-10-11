@@ -2,6 +2,7 @@ import { useState } from 'react'
 import ResponsiveImage from './ResponsiveImage'
 import { ArrowUpRight } from 'lucide-react'
 import MagazineLine from './MagazineLine'
+import { descriptionBlocks } from '../../lib/descriptionBlocks'
 
 // Base project type that works with both API and local data
 interface ProjectCardData {
@@ -90,9 +91,19 @@ export default function ProjectCard({ project, index, featured = false }: Projec
             </h3>
           </div>
 
-          <p className="text-zinc-faded text-sm md:text-base leading-relaxed mb-4 max-w-2xl">
-            {project.description}
-          </p>
+          <div className="text-zinc-faded text-sm md:text-base leading-relaxed mb-4 max-w-2xl space-y-2">
+            {descriptionBlocks(project.description).map((block, i) =>
+              block.kind === 'list' ? (
+                <ul key={i} className="list-disc pl-5 space-y-1">
+                  {block.items.map((item, j) => (
+                    <li key={j}>{item}</li>
+                  ))}
+                </ul>
+              ) : (
+                <p key={i}>{block.text}</p>
+              ),
+            )}
+          </div>
 
           <div className="flex flex-wrap gap-x-4 gap-y-1">
             {project.tags.map((tag) => (

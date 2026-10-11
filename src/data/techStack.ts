@@ -7,11 +7,11 @@ export const techStack: TechCategory[] = [
   },
   {
     category: 'GenAI',
-    items: ['LlamaIndex', 'LangChain', 'LangGraph', 'MCP', 'CrewAI'],
+    items: ['LlamaIndex', 'LangChain', 'LangGraph', 'MCP', 'CrewAI', 'vLLM'],
   },
   {
     category: 'Databases',
-    items: ['PostgreSQL', 'Neo4j', 'Milvus', 'Elasticsearch', 'Chroma', 'MongoDB'],
+    items: ['PostgreSQL', 'Neo4j', 'Milvus', 'Elasticsearch', 'Chroma', 'MongoDB', 'Redis'],
   },
   {
     category: 'Backend',
@@ -32,6 +32,11 @@ export const techStack: TechCategory[] = [
   {
     category: 'AWS',
     items: ['Bedrock', 'EMR', 'EC2', 'S3', 'RDS', 'ElastiCache'],
+  },
+  {
+    // What this site itself runs on: see the Homelab project.
+    category: 'Infrastructure',
+    items: ['Kubernetes (k3s)', 'Argo CD', 'Prometheus', 'Grafana', 'Loki', 'Cloudflare'],
   },
   {
     category: 'Tools',
