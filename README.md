@@ -15,6 +15,7 @@ Built with React 19, TypeScript, Vite and Tailwind CSS v4, and deployed on Verce
 - **Works.** Projects filtered by category. Each card has a stable anchor (`/works#slug`) that citations link to.
 - **Notes.** Markdown notes with GitHub-flavored tables, KaTeX math and syntax highlighting, filterable by tag.
 - **Contact form**, plus links to email, LinkedIn, GitHub and the resume.
+- **Talk.** Interview slides at `/talk`, in the site's type and colours, on a 16:9 canvas that scales to any screen. Arrow keys, Space or a clicker move through slides and their reveal steps; the URL keeps the position. `P` opens a presenter window at `/talk/presenter` with notes, the next slide, an outline and a clock against each part's time budget; the two windows stay in step.
 - Dark and light themes, with no flash of the wrong one on load.
 
 **For the author** (`/admin`, behind a login)
@@ -80,6 +81,7 @@ src/
 ├── components/
 │   ├── sections/         Home page sections (Hero, Ask, Experience, Toolkit, Contact…)
 │   ├── ask/              The chat: provider, chat view, floating widget, select-to-ask
+│   ├── talk/             The /talk deck: stage, presenter view, slide building blocks, and slides/
 │   ├── layout/           Header (with dropdown menus), footer, section wrappers
 │   ├── ui/               Shared pieces: Markdown renderers, project card, images, theme toggle
 │   └── admin/            Admin navigation and the login guard

@@ -35,6 +35,16 @@
   --transition-medium: 500ms var(--ease-elegant);
   --transition-fast: 300ms var(--ease-elegant);
 
+  /* Talk slides settle in as each one appears */
+  --animate-slide-enter: slide-enter 700ms var(--ease-elegant) both;
+
+  @keyframes slide-enter {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+  }
+
   /* Spacing */
   --section-spacing: clamp(6rem, 15vh, 12rem);
 }
