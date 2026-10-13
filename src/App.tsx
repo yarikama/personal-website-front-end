@@ -27,12 +27,17 @@ const AdminCategoryEditor = lazy(() => import('./pages/admin/CategoryEditor'))
 const AdminQuestionsList = lazy(() => import('./pages/admin/QuestionsList'))
 const AdminMessagesList = lazy(() => import('./pages/admin/MessagesList'))
 const AdminVisitors = lazy(() => import('./pages/admin/Visitors'))
+const Talk = lazy(() => import('./pages/Talk'))
 
 function App() {
   return (
     <BrowserRouter>
       <Suspense fallback={null}>
         <Routes>
+          {/* The interview talk - full-screen slides, no header/footer */}
+          <Route path="/talk" element={<Talk />} />
+          <Route path="/talk/presenter" element={<Talk presenter />} />
+
           {/* Admin routes - no header/footer */}
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route
