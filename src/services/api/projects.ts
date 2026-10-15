@@ -23,10 +23,11 @@ export const projectsService = {
   },
 
   /**
-   * Get all project categories with counts
+   * Get all project categories, each with its count of published projects,
+   * after an "all" entry
    */
   async getCategories(): Promise<ApiResponse<CategoryWithCount[]>> {
-    return apiClient.get<ApiResponse<CategoryWithCount[]>>('/categories', { include_counts: true })
+    return apiClient.get<ApiResponse<CategoryWithCount[]>>('/categories')
   },
 
   /**

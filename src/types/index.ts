@@ -8,7 +8,6 @@ export type {
   CategoryWithCount,
   CategoryCreate,
   CategoryUpdate,
-  CategoryReorderItem,
   LabNote,
   LabNoteListItem,
   Project,

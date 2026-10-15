@@ -81,11 +81,6 @@ export interface CategoryUpdate {
   order?: number
 }
 
-export interface CategoryReorderItem {
-  id: string
-  order: number
-}
-
 // Projects Types (API response)
 export interface Project {
   id: string

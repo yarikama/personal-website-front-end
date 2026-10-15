@@ -99,30 +99,6 @@ class AdminProjectsService {
       throw new Error(apiErrorMessage(body, response.status, 'Failed to delete project'))
     }
   }
-
-  /**
-   * Reorder projects
-   */
-  async reorder(orders: Array<{ id: string; order: number }>): Promise<{ message: string; updated: number }> {
-    const response = await adminFetch(
-      `${import.meta.env.VITE_API_BASE_URL || 'https://api.yarikama.com/api/v1'}/admin/projects/reorder`,
-      {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ orders }),
-      }
-    )
-
-    if (!response.ok) {
-      const body: unknown = await response.json().catch(() => null)
-      throw new Error(apiErrorMessage(body, response.status, 'Failed to reorder projects'))
-    }
-
-    const data = await response.json()
-    return data.data
-  }
 }
 
 export const adminProjectsService = new AdminProjectsService()

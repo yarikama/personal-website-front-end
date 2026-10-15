@@ -1,7 +1,6 @@
 export { apiClient, ApiRequestError } from './client'
 export { labNotesService } from './labNotes'
 export { projectsService } from './projects'
-export { categoriesService } from './categories'
 export { contactService } from './contact'
 export { authService } from './auth'
 export { adminLabNotesService } from './adminLabNotes'

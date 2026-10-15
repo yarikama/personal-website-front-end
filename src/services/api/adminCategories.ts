@@ -1,6 +1,6 @@
 import { adminFetch } from './auth'
 import { apiErrorMessage } from './client'
-import type { ApiResponse, Category, CategoryCreate, CategoryUpdate, CategoryReorderItem } from '../../types'
+import type { ApiResponse, Category, CategoryCreate, CategoryUpdate } from '../../types'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://api.yarikama.com/api/v1'
 
@@ -70,27 +70,6 @@ class AdminCategoriesService {
       const body: unknown = await response.json().catch(() => null)
       throw new Error(apiErrorMessage(body, response.status, 'Failed to delete category'))
     }
-  }
-
-  /**
-   * Reorder categories
-   */
-  async reorder(orders: CategoryReorderItem[]): Promise<{ message: string; updated: number }> {
-    const response = await adminFetch(`${API_BASE_URL}/admin/categories/reorder`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ orders }),
-    })
-
-    if (!response.ok) {
-      const body: unknown = await response.json().catch(() => null)
-      throw new Error(apiErrorMessage(body, response.status, 'Failed to reorder categories'))
-    }
-
-    const data = await response.json()
-    return data.data
   }
 }
 
