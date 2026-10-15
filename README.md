@@ -15,12 +15,13 @@ Built with React 19, TypeScript, Vite and Tailwind CSS v4, and deployed on Verce
 - **Works.** Projects filtered by category. Each card has a stable anchor (`/works#slug`) that citations link to.
 - **Notes.** Markdown notes with GitHub-flavored tables, KaTeX math and syntax highlighting, filterable by tag.
 - **Contact form**, plus links to email, LinkedIn, GitHub and the resume.
-- **Talk.** Interview slides at `/talk`, in the site's type and colours, on a 16:9 canvas that scales to any screen. Arrow keys, Space or a clicker move through slides and their reveal steps; the URL keeps the position. `P` opens a presenter window at `/talk/presenter` with notes, the next slide, an outline and a clock against each part's time budget; the two windows stay in step.
+- **Talks.** Interactive slides at `/talks/<slug>`, for talks and lessons, in the site's type and colours, on a 16:9 canvas that scales to any screen. Arrow keys, Space or a clicker move through slides and their reveal steps; the URL keeps the position. `P` opens a presenter window at `/talks/<slug>/presenter` with notes, the next slide, an outline and a clock against each part's time budget; the two windows stay in step. Public talks are listed at `/talks` and in the header. Private ones open only from their link and are marked `noindex`, but their slides ship in the bundle like the rest of the site, so nothing secret goes in a talk. The old `/talk` link goes to the interview talk.
 - Dark and light themes, with no flash of the wrong one on load.
 
 **For the author** (`/admin`, behind a login)
 
 - Editors for notes, projects and categories, with image upload by drag-and-drop or paste.
+- A directory of every talk, public and private, with links to open each deck or its presenter view and to copy its link.
 - **Inline autocomplete** in the note editor: gray suggested text from a second self-hosted model. Tab accepts all of it, ⌥→ accepts one word, and Esc dismisses it.
 - Unsaved edits autosave to the browser, so a closed tab doesn't lose a draft.
 
@@ -77,14 +78,15 @@ This repo is a single-page app with no server of its own. Every request for cont
 
 ```
 src/
-├── pages/                Routes: Home, Works, Notes, a single note, and admin/
+├── pages/                Routes: Home, Works, Notes, a single note, Talks, a talk, and admin/
 ├── components/
 │   ├── sections/         Home page sections (Hero, Ask, Experience, Toolkit, Contact…)
 │   ├── ask/              The chat: provider, chat view, floating widget, select-to-ask
-│   ├── talk/             The /talk deck: stage, presenter view, slide building blocks, and slides/
+│   ├── talk/             The deck engine: stage, presenter view, navigation, slide building blocks
 │   ├── layout/           Header (with dropdown menus), footer, section wrappers
 │   ├── ui/               Shared pieces: Markdown renderers, project card, images, theme toggle
 │   └── admin/            Admin navigation and the login guard
+├── talks/                One folder of slides per talk, and the registry that lists them
 ├── hooks/                Data fetching, the ask stream, autocomplete, draft autosave, scroll spy
 ├── services/api/         One module per API resource, on a small fetch client
 ├── lib/                  Pure functions with tests: citations, image variants, theme

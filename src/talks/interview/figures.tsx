@@ -1,4 +1,4 @@
-import { useStep } from './talk'
+import { useStep } from '../../components/talk/talk'
 
 // Figures for the talk, drawn as inline SVG at the canvas's own pixel scale, so
 // text sizes here are the sizes on the slide. Colour follows the site: sage

@@ -4,6 +4,16 @@
       "source": "/archive",
       "destination": "/works",
       "permanent": true
+    },
+    {
+      "source": "/talk",
+      "destination": "/talks/interview",
+      "permanent": false
+    },
+    {
+      "source": "/talk/presenter",
+      "destination": "/talks/interview/presenter",
+      "permanent": false
     }
   ],
   "rewrites": [
