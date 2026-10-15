@@ -1,4 +1,4 @@
-# Portfolio Site Architecture: The Literary Engineer
+# Personal Website Architecture: The Literary Engineer
 
 根據「文學工程師」的視覺規範，網站劃分為以下結構，以兼顧敘事感與導航的便利性。
 
