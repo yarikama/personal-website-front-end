@@ -17,7 +17,7 @@ const RANGES = [
   { days: 7, label: '7 days' },
   { days: 30, label: '30 days' },
 ]
-const DASHBOARD = 'https://vercel.com/yarikamas-projects/portfolio/analytics'
+const DASHBOARD = 'https://vercel.com/yarikamas-projects/personal-website/analytics'
 
 const DAY = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' })
 const WEEKDAY = new Intl.DateTimeFormat('en-US', { weekday: 'short', timeZone: 'UTC' })
