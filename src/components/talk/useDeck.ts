@@ -15,13 +15,19 @@ const isPosition = (value: unknown): value is Position =>
   Number.isInteger((value as Position).index) &&
   Number.isInteger((value as Position).step)
 
-// The browser can refuse (an embedded frame, a blocked permission); the
-// deck then simply stays in the window
+// Fired when the browser refuses full screen, so the deck can say what to do
+export const FULLSCREEN_REFUSED = 'talk:fullscreen-refused'
+
+// The browser can refuse (an embedded frame such as an editor's built-in
+// browser, a blocked permission); the deck then stays in the window and says so
 export function toggleFullscreen() {
+  const root = document.documentElement
   const change = document.fullscreenElement
     ? document.exitFullscreen()
-    : document.documentElement.requestFullscreen()
-  change.catch(() => {})
+    : root.requestFullscreen
+      ? root.requestFullscreen()
+      : Promise.reject(new Error('Full screen is not available'))
+  change.catch(() => window.dispatchEvent(new Event(FULLSCREEN_REFUSED)))
 }
 
 export function openPresenter() {

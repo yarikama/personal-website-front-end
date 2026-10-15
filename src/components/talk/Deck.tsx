@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { ChevronLeft, ChevronRight, Maximize2, Minimize2, Moon, Presentation, Sun } from 'lucide-react'
 import { setDark, useIsDark } from '../../lib/theme'
 import Stage from './Stage'
-import { openPresenter, toggleFullscreen, useDeck } from './useDeck'
+import { FULLSCREEN_REFUSED, openPresenter, toggleFullscreen, useDeck } from './useDeck'
 import type { SlideDef } from './talk'
 
 // Controls and the cursor fade out after this long without the mouse moving
@@ -29,6 +29,7 @@ export default function Deck({ slides }: { slides: SlideDef[] }) {
   const isDark = useIsDark()
   const [idle, setIdle] = useState(false)
   const [fullscreen, setFullscreen] = useState(false)
+  const [refused, setRefused] = useState(false)
   const idleTimer = useRef(0)
 
   const wake = () => {
@@ -40,16 +41,35 @@ export default function Deck({ slides }: { slides: SlideDef[] }) {
   useEffect(() => {
     idleTimer.current = window.setTimeout(() => setIdle(true), IDLE_MS)
     const onFullscreenChange = () => setFullscreen(Boolean(document.fullscreenElement))
+    let refusedTimer = 0
+    const onRefused = () => {
+      setRefused(true)
+      window.clearTimeout(refusedTimer)
+      refusedTimer = window.setTimeout(() => setRefused(false), 6000)
+    }
     document.addEventListener('fullscreenchange', onFullscreenChange)
+    window.addEventListener(FULLSCREEN_REFUSED, onRefused)
     return () => {
       window.clearTimeout(idleTimer.current)
+      window.clearTimeout(refusedTimer)
       document.removeEventListener('fullscreenchange', onFullscreenChange)
+      window.removeEventListener(FULLSCREEN_REFUSED, onRefused)
     }
   }, [])
 
   return (
     <div className={`fixed inset-0 bg-paper text-ink ${idle ? 'cursor-none' : ''}`} onMouseMove={wake}>
       <Stage className="absolute inset-0" slide={slides[pos.index]} index={pos.index} step={pos.step} total={slides.length} />
+
+      {refused && (
+        <p
+          role="status"
+          className="fixed top-4 left-1/2 -translate-x-1/2 px-4 py-2 bg-paper border border-sage text-sm text-ink-light"
+        >
+          This window can&rsquo;t go full screen. Use the browser&rsquo;s own: <span className="font-mono">⌃⌘F</span> on a
+          Mac, or open the page in Chrome.
+        </p>
+      )}
 
       <div
         className={`
