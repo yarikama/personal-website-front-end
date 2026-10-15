@@ -14,8 +14,9 @@ import {
 } from 'lucide-react'
 import { CaseGrid, ContextWindow, FailurePatterns, MemoryCostCurve, TestArchitecture } from '../figures'
 import PlatformMap from '../PlatformMap'
-import { Decision, Flow, Lead, Outline, Reveal, SlideLayout, Stat } from '../primitives'
-import type { SlideDef } from '../talk'
+import { Decision, Flow, Lead, Reveal, SlideLayout, Stat } from '../../../components/talk/primitives'
+import { TalkOutline } from './outline'
+import type { SlideDef } from '../../../components/talk/talk'
 
 // One story per company, each told in the four steps from the method slide.
 // Figures come from src/data/experience.ts; anything else is marked to fill in.
@@ -26,7 +27,7 @@ export const work: SlideDef[] = [
     title: 'Outline: work',
     section: 'work',
     notes: ['Two stories from work, one from each company.'],
-    render: () => <Outline active="work" />,
+    render: () => <TalkOutline active="work" />,
   },
 
   // Google: one source of truth for integration tests, then agents on top

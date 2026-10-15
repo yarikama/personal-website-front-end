@@ -3,7 +3,7 @@ import { ChevronLeft, ChevronRight, Maximize2, Minimize2, Moon, Presentation, Su
 import { setDark, useIsDark } from '../../lib/theme'
 import Stage from './Stage'
 import { FULLSCREEN_REFUSED, openPresenter, toggleFullscreen, useDeck } from './useDeck'
-import type { SlideDef } from './talk'
+import { useTalk } from './talk'
 
 // Controls and the cursor fade out after this long without the mouse moving
 const IDLE_MS = 2500
@@ -24,8 +24,10 @@ function ControlButton({ label, onClick, children }: { label: string; onClick: (
 
 // The audience view: one slide filling the window, driven by the keyboard,
 // a clicker or the presenter window
-export default function Deck({ slides }: { slides: SlideDef[] }) {
-  const { pos, forward, back } = useDeck(slides, 'audience')
+export default function Deck() {
+  const talk = useTalk()
+  const { slides } = talk
+  const { pos, forward, back } = useDeck(talk, 'audience')
   const isDark = useIsDark()
   const [idle, setIdle] = useState(false)
   const [fullscreen, setFullscreen] = useState(false)
@@ -88,7 +90,7 @@ export default function Deck({ slides }: { slides: SlideDef[] }) {
           <ChevronRight size={18} aria-hidden="true" />
         </ControlButton>
         <span className="w-px h-5 bg-zinc-200 dark:bg-zinc-200/30 mx-1" aria-hidden="true" />
-        <ControlButton label="Presenter view (P)" onClick={openPresenter}>
+        <ControlButton label="Presenter view (P)" onClick={() => openPresenter(talk.slug)}>
           <Presentation size={18} aria-hidden="true" />
         </ControlButton>
         <ControlButton label={fullscreen ? 'Exit full screen (F)' : 'Full screen (F)'} onClick={toggleFullscreen}>

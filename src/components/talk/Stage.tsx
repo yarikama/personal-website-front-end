@@ -1,5 +1,5 @@
 import { useLayoutEffect, useRef, useState } from 'react'
-import { StepContext, sectionLabel, type SlideDef } from './talk'
+import { StepContext, sectionLabel, useTalk, type SlideDef } from './talk'
 
 // Slides are laid out on a fixed 16:9 canvas and scaled to fit, so they look
 // the same on a laptop, a projector and a screen share
@@ -20,6 +20,7 @@ interface StageProps {
 // The box needs a position and a size of its own: `absolute inset-0`, or
 // `relative` with an aspect ratio.
 export default function Stage({ slide, index, step, total, animate = true, className = '' }: StageProps) {
+  const { sections } = useTalk()
   const boxRef = useRef<HTMLDivElement>(null)
   const [scale, setScale] = useState(0)
 
@@ -54,7 +55,7 @@ export default function Stage({ slide, index, step, total, animate = true, class
         {!slide.bare && (
           <>
             <div className="absolute bottom-10 left-28 right-28 flex justify-between font-mono text-[15px] text-zinc-400 uppercase tracking-widest">
-              <span>{sectionLabel(slide.section)}</span>
+              <span>{sectionLabel(sections, slide.section)}</span>
               <span>
                 {index + 1} / {total}
               </span>

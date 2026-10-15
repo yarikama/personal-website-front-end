@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { setDark } from '../../lib/theme'
 import { START, formatHash, last, next, parseHash, prev, samePosition, type Position } from '../../lib/deck'
-import type { SlideDef } from './talk'
+import type { Talk } from './talk'
 
 // The audience view and the presenter window keep each other in step over
-// this channel; either one can drive the talk
-const CHANNEL = 'talk-deck'
+// this channel, one per talk so that two open talks stay apart; either window
+// can drive the talk
+const channelName = (slug: string) => `talk-deck:${slug}`
 
 type Message = { type: 'go'; pos: Position } | { type: 'hello' }
 
@@ -30,11 +31,11 @@ export function toggleFullscreen() {
   change.catch(() => window.dispatchEvent(new Event(FULLSCREEN_REFUSED)))
 }
 
-export function openPresenter() {
-  window.open(`/talk/presenter${window.location.hash}`, 'talk-presenter', 'popup,width=1280,height=800')
+export function openPresenter(slug: string) {
+  window.open(`/talks/${slug}/presenter${window.location.hash}`, `talk-presenter:${slug}`, 'popup,width=1280,height=800')
 }
 
-export function useDeck(slides: SlideDef[], role: 'audience' | 'presenter') {
+export function useDeck({ slug, slides }: Talk, role: 'audience' | 'presenter') {
   const steps = useMemo(() => slides.map((slide) => slide.steps ?? 0), [slides])
   const [pos, setPos] = useState(() => parseHash(window.location.hash, steps))
   const posRef = useRef(pos)
@@ -55,7 +56,7 @@ export function useDeck(slides: SlideDef[], role: 'audience' | 'presenter') {
   const back = useCallback(() => go(prev(posRef.current, steps)), [go, steps])
 
   useEffect(() => {
-    const channel = new BroadcastChannel(CHANNEL)
+    const channel = new BroadcastChannel(channelName(slug))
     channelRef.current = channel
     channel.onmessage = (event: MessageEvent<Message>) => {
       const message = event.data
@@ -71,7 +72,7 @@ export function useDeck(slides: SlideDef[], role: 'audience' | 'presenter') {
       channel.close()
       channelRef.current = null
     }
-  }, [role, show, steps])
+  }, [role, show, slug, steps])
 
   // Typing a slide number into the address bar jumps there
   useEffect(() => {
@@ -118,7 +119,7 @@ export function useDeck(slides: SlideDef[], role: 'audience' | 'presenter') {
           setDark(!document.documentElement.classList.contains('dark'))
           break
         case 'p':
-          if (role === 'audience') openPresenter()
+          if (role === 'audience') openPresenter(slug)
           break
         default:
           return
@@ -127,7 +128,7 @@ export function useDeck(slides: SlideDef[], role: 'audience' | 'presenter') {
     }
     window.addEventListener('keydown', onKeyDown)
     return () => window.removeEventListener('keydown', onKeyDown)
-  }, [back, forward, go, role, steps])
+  }, [back, forward, go, role, slug, steps])
 
   return { pos, steps, go, forward, back }
 }

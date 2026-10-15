@@ -1,20 +1,17 @@
 import { Fragment, type ReactNode } from 'react'
 import {
   ArrowRight,
-  Briefcase,
   Check,
+  Circle,
   CircleHelp,
-  FlaskConical,
-  Handshake,
   MessagesSquare,
   Scale,
   Split,
   Target,
-  User,
   type LucideIcon,
 } from 'lucide-react'
 import { tieEnd } from '../../lib/text'
-import { sections, useStep, type SectionId } from './talk'
+import { useStep, useTalk } from './talk'
 
 // Plain text keeps its last words together; anything else passes through
 const tied = (node: ReactNode) => (typeof node === 'string' ? tieEnd(node) : node)
@@ -284,28 +281,21 @@ export function Entries({ heading, items }: { heading: string; items: Entry[] })
   )
 }
 
-const SECTION_ICONS: Record<SectionId, LucideIcon> = {
-  intro: User,
-  work: Briefcase,
-  projects: FlaskConical,
-  close: Handshake,
-}
-
 // The talk's parts with their minutes. Shown at the start and again between
-// parts, with the part about to begin highlighted.
-export function Outline({ active }: { active?: SectionId }) {
+// parts, with the part about to begin highlighted. `after` names what follows
+// the last part, such as the Q&A.
+export function Outline({ active, headline, after }: { active?: string; headline: ReactNode; after?: string }) {
+  const { sections } = useTalk()
   return (
     <div className="h-full grid grid-cols-[1fr_36rem] gap-16 items-center">
       <div>
         <Eyebrow>Outline</Eyebrow>
-        <Headline className="mt-5">
-          Four parts, <em>then</em> your questions.
-        </Headline>
+        <Headline className="mt-5">{headline}</Headline>
       </div>
       <ol>
         {sections.map((section) => {
           const current = section.id === active
-          const Icon = SECTION_ICONS[section.id]
+          const Icon = section.icon ?? Circle
           return (
             <li
               key={section.id}
@@ -330,10 +320,12 @@ export function Outline({ active }: { active?: SectionId }) {
             </li>
           )
         })}
-        <li className="flex items-center gap-5 pt-5 text-zinc-400">
-          <MessagesSquare size={30} strokeWidth={1.25} aria-hidden="true" />
-          <span className="font-serif text-[44px] leading-tight font-light">Your questions</span>
-        </li>
+        {after && (
+          <li className="flex items-center gap-5 pt-5 text-zinc-400">
+            <MessagesSquare size={30} strokeWidth={1.25} aria-hidden="true" />
+            <span className="font-serif text-[44px] leading-tight font-light">{after}</span>
+          </li>
+        )}
       </ol>
     </div>
   )

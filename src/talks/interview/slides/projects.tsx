@@ -1,8 +1,9 @@
 import { ChartScatter, Crosshair, Globe, KeyRound, Route, ScanSearch, Search, Waypoints, Wrench } from 'lucide-react'
 import { tieEnd } from '../../../lib/text'
 import { IndexTradeoffBars, PivotScatter, PoisoningBars } from '../figures'
-import { Credit, Decision, Flow, Lead, Outline, Reveal, SlideLayout, Stat } from '../primitives'
-import type { SlideDef } from '../talk'
+import { Credit, Decision, Flow, Lead, Reveal, SlideLayout, Stat } from '../../../components/talk/primitives'
+import { TalkOutline } from './outline'
+import type { SlideDef } from '../../../components/talk/talk'
 
 // Two projects, told like the work stories. Facts and their limits follow
 // resume_latex/content/bank/projects/: tool-schema-poisoning-defense.tex and
@@ -14,7 +15,7 @@ export const projects: SlideDef[] = [
     title: 'Outline: projects',
     section: 'projects',
     notes: ['Now two projects. Same shape: why, break it down, trade-off, result.'],
-    render: () => <Outline active="projects" />,
+    render: () => <TalkOutline active="projects" />,
   },
 
   // Defending LLM agents against tool-schema poisoning

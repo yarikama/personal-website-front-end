@@ -11,6 +11,7 @@ import {
   Inbox,
   LogOut,
   MessageSquare,
+  Presentation,
   Tags,
   UserRound,
   Users,
@@ -46,6 +47,7 @@ const GROUPS: Group[] = [
       { label: 'Notes', href: '/admin/notes', icon: FileText },
       { label: 'Projects', href: '/admin/projects', icon: FolderKanban },
       { label: 'Categories', href: '/admin/categories', icon: Tags },
+      { label: 'Talks', href: '/admin/talks', icon: Presentation },
     ],
   },
   {

@@ -6,6 +6,7 @@ import Container from './Container'
 import ThemeToggle from '../ui/ThemeToggle'
 import { useScrollSpy } from '../../hooks/useScrollSpy'
 import { hasAdminHint } from '../../services/api/auth'
+import { publicTalks } from '../../talks'
 
 interface SubItem {
   label: string
@@ -27,7 +28,8 @@ interface NavItem {
 }
 
 // Works and Notes open their own pages, and are also marked while their
-// previews on the home page are on screen.
+// previews on the home page are on screen. Talks shows once there is a public
+// one to list.
 const navItems: NavItem[] = [
   { label: 'Ask', href: '/#ask', sectionId: 'ask' },
   {
@@ -42,6 +44,7 @@ const navItems: NavItem[] = [
   },
   { label: 'Works', href: '/works', isRoute: true, sectionId: 'works' },
   { label: 'Notes', href: '/notes', isRoute: true, sectionId: 'notes' },
+  ...(publicTalks.length > 0 ? [{ label: 'Talks', href: '/talks', isRoute: true }] : []),
   {
     label: 'Contact',
     href: '/#contact',

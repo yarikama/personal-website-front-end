@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { formatDuration, next, plannedSeconds, samePosition } from '../../lib/deck'
 import Stage from './Stage'
 import { useDeck } from './useDeck'
-import { sections, type SlideDef } from './talk'
+import { useTalk } from './talk'
 
 // Within this many seconds of the plan counts as on pace
 const PACE_SLACK = 30
@@ -55,8 +55,10 @@ function useTalkClock(started: boolean) {
 
 // Opened from the audience view with P. Shows the clock against the plan,
 // the notes, what comes next and an outline to jump around in.
-export default function PresenterView({ slides }: { slides: SlideDef[] }) {
-  const { pos, steps, go } = useDeck(slides, 'presenter')
+export default function PresenterView() {
+  const talk = useTalk()
+  const { sections, slides } = talk
+  const { pos, steps, go } = useDeck(talk, 'presenter')
   const clock = useTalkClock(pos.index > 0 || pos.step > 0)
   const slide = slides[pos.index]
   const upcoming = next(pos, steps)

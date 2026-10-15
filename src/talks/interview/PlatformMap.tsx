@@ -16,7 +16,7 @@ import {
   type LucideIcon,
 } from 'lucide-react'
 import { tieEnd } from '../../lib/text'
-import { useStep } from './talk'
+import { useStep } from '../../components/talk/talk'
 
 // Everything built or led at MaiAgent, as one map that follows a file from
 // upload to a cited answer. The parts appear in that order, one per step.

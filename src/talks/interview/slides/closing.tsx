@@ -1,7 +1,7 @@
 import { Activity, ClipboardCheck, IterationCw, Layers, Plug } from 'lucide-react'
 import { tieEnd } from '../../../lib/text'
-import { Reveal, SlideLayout } from '../primitives'
-import type { SlideDef } from '../talk'
+import { Reveal, SlideLayout } from '../../../components/talk/primitives'
+import type { SlideDef } from '../../../components/talk/talk'
 
 const contacts = [
   ['Site', 'yarikama.com'],

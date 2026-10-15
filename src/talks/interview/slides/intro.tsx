@@ -1,7 +1,8 @@
 import { Github, Globe, Linkedin, Mail, Phone } from 'lucide-react'
-import FlipText from '../../ui/FlipText'
-import { Badge, Contacts, Entries, Outline } from '../primitives'
-import type { SlideDef } from '../talk'
+import FlipText from '../../../components/ui/FlipText'
+import { Badge, Contacts, Entries } from '../../../components/talk/primitives'
+import { TalkOutline } from './outline'
+import type { SlideDef } from '../../../components/talk/talk'
 
 export const intro: SlideDef[] = [
   {
@@ -93,6 +94,6 @@ export const intro: SlideDef[] = [
       'Four parts: who I am, two stories from work, projects, and what I would bring.',
       'The projects get the most time.',
     ],
-    render: () => <Outline />,
+    render: () => <TalkOutline />,
   },
 ]
