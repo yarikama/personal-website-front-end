@@ -1,11 +1,11 @@
 {
-  "name": "portfolio-front-end",
+  "name": "personal-website-front-end",
   "version": "1.0.0",
   "private": true,
-  "description": "The front end of yarikama.com: portfolio, notes and a self-hosted LLM chat",
+  "description": "The front end of yarikama.com: projects, notes and a self-hosted LLM chat",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yarikama/portfolio-front-end.git"
+    "url": "https://github.com/yarikama/personal-website-front-end.git"
   },
   "type": "commonjs",
   "scripts": {

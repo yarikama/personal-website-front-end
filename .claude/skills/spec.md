@@ -1,4 +1,4 @@
-# Portfolio Design System: The Literary Engineer
+# Personal Website Design System: The Literary Engineer
 
 這份規範定義了「全端工程師 / 機器學習工程師」作品集的視覺與敘事風格。
 

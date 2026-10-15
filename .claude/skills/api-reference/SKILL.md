@@ -1,13 +1,13 @@
 ---
 name: api-reference
-description: Reference documentation for the Portfolio API. Use when working with projects, categories, lab notes, or other API endpoints.
+description: Reference documentation for the personal website API. Use when working with projects, categories, lab notes, or other API endpoints.
 user-invocable: true
 disable-model-invocation: false
 ---
 
-# Portfolio API Reference
+# Personal Website API Reference
 
-This skill provides reference documentation for the Portfolio backend API.
+This skill provides reference documentation for the personal website backend API.
 
 ## Quick Reference
 

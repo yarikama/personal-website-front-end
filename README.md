@@ -1,10 +1,10 @@
-# Portfolio Front-End
+# Personal Website Front-End
 
-[![CI](https://github.com/yarikama/portfolio-front-end/actions/workflows/ci.yml/badge.svg)](https://github.com/yarikama/portfolio-front-end/actions/workflows/ci.yml)
+[![CI](https://github.com/yarikama/personal-website-front-end/actions/workflows/ci.yml/badge.svg)](https://github.com/yarikama/personal-website-front-end/actions/workflows/ci.yml)
 
-The front end of [yarikama.com](https://www.yarikama.com), Henry Hsu's portfolio: projects, technical notes, and a chat that answers questions about them, streamed from a language model I host at home.
+The front end of [yarikama.com](https://www.yarikama.com), Henry Hsu's personal website: projects, technical notes, and a chat that answers questions about them, streamed from a language model I host at home.
 
-Built with React 19, TypeScript, Vite and Tailwind CSS v4, and deployed on Vercel. The API, database and models live in [portfolio-back-end](https://github.com/yarikama/portfolio-back-end).
+Built with React 19, TypeScript, Vite and Tailwind CSS v4, and deployed on Vercel. The API, database and models live in [personal-website-back-end](https://github.com/yarikama/personal-website-back-end).
 
 ## Features
 

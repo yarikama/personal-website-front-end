@@ -1,4 +1,4 @@
-# Portfolio Development Conventions
+# Personal Website Development Conventions
 
 這份文件記錄開發此作品集時的偏好與慣例。
 
