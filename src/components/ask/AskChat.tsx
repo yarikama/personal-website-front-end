@@ -5,6 +5,7 @@ import { useAskChat } from '../../hooks'
 import type { Turn } from '../../hooks'
 import type { Citation } from '../../services/api'
 import { explainQuestion, withoutCitations } from '../../lib/ask'
+import AskOwl, { type OwlMood } from './AskOwl'
 
 const MAX_QUESTION = 500
 
@@ -188,6 +189,18 @@ export default function AskChat({ className = '', compact = false, autoFocus = f
     ask(q, about ?? undefined)
   }
 
+  const latest = turns[turns.length - 1]
+  const owlMood: OwlMood =
+    latest?.status === 'error'
+      ? 'sleep'
+      : isStreaming
+        ? latest?.answer
+          ? 'nod'
+          : 'think'
+        : question.trim()
+          ? 'look'
+          : 'idle'
+
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     // Enter sends; Shift+Enter is a new line. While an input method is
     // composing (Chinese, Japanese), Enter picks a candidate instead.
@@ -203,8 +216,9 @@ export default function AskChat({ className = '', compact = false, autoFocus = f
       ref={log}
       onScroll={handleScroll}
       aria-live="polite"
-      // The page stays put when the conversation is scrolled to its end.
-      className={`flex-1 overflow-y-auto overscroll-contain ${compact ? 'px-4' : 'px-5 md:px-8'}`}
+      // The page stays put when the conversation is scrolled to its end. On
+      // the page the owl stands at the foot of it, so the last line clears it.
+      className={`flex-1 overflow-y-auto overscroll-contain ${compact ? 'px-4' : 'px-5 md:px-8 pb-10'}`}
     >
       {turns.length === 0 ? (
         // min-h-full, not h-full: centred when it fits, scrollable when it
@@ -240,8 +254,10 @@ export default function AskChat({ className = '', compact = false, autoFocus = f
         e.preventDefault()
         submit(question)
       }}
-      className="border-t border-zinc-200 dark:border-zinc-700 p-3"
+      className="relative border-t border-zinc-200 dark:border-zinc-700 p-3"
     >
+      {/* The owl lives in the page's chat only; the floating one is too small */}
+      {!compact && <AskOwl mood={owlMood} />}
       {passage && (
         <div className={`${column} mx-auto mb-2 flex items-start gap-2 rounded-xl bg-sage/10 pl-3 pr-1 py-2`}>
           <blockquote className="flex-1 border-l-2 border-sage/60 pl-3 text-sm italic text-zinc-faded line-clamp-3">
