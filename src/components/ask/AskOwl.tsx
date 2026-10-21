@@ -203,7 +203,7 @@ export default function AskOwl({ mood }: { mood: OwlMood }) {
             style={reducedMotion ? { transform: `translateX(${owl.start}px)` } : undefined}
           >
             {mood === 'think' && owl.thinks && <span className="owl-thought">…</span>}
-            {mood === 'idle' && poses[i].startsWith('talk') && <span className="owl-hoo">hoo</span>}
+            {mood === 'idle' && poses[i].startsWith('talk') && <span className="owl-greeting">howdy</span>}
             {mood === 'sleep' && (
               <span className="owl-zz" style={delay}>
                 z

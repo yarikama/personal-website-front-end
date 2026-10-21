@@ -331,8 +331,8 @@ body.dark {
   animation: owl-zz 2.4s ease-out infinite;
 }
 
-/* The companion's word when the two owls meet, over its raised wing */
-.owl-hoo {
+/* The companion's greeting when the two owls meet, over its raised wing */
+.owl-greeting {
   position: absolute;
   right: -0.25rem;
   bottom: 100%;
