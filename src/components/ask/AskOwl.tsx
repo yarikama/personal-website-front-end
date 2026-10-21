@@ -30,13 +30,17 @@ const TALK_MS = 220
 // lane, then in to land. Its speed, bounds on its length, how far the owls
 // rise as they take off, how far the lane sits from the column, how much later
 // the second owl sets off, and how fast the wings beat.
-const FLIGHT_SPEED = 0.7 // px per ms
-const FLIGHT_MIN_MS = 600
-const FLIGHT_MAX_MS = 1600
+const FLIGHT_SPEED = 0.25 // px per ms
+const FLIGHT_MIN_MS = 1600
+const FLIGHT_MAX_MS = 3200
 const FLIGHT_LIFT = 10
 const LANE_GAP = 12
-const FLIGHT_STAGGER_MS = 140
-const FLAP_MS = 110
+const FLIGHT_STAGGER_MS = 220
+// One wing beat: up, level, down, level
+const FLAP_MS = 140
+const FLAP: OwlPose[] = ['flyUp', 'flyMid', 'flyDown', 'flyMid']
+// How far the open wings reach past the body on each side
+const WING_REACH = 4 * SCALE
 
 interface OwlSpec {
   colour: OwlColour
@@ -80,16 +84,20 @@ function along(path: Point[], t: number): Point {
 }
 
 const Sprite = memo(function Sprite({ pose, colour }: { pose: OwlPose; colour: OwlColour }) {
+  const rows = OWL_FRAMES[pose]
+  // Wider frames (open wings) spread evenly either side of the body
+  const columns = rows[0].length
   return (
     <svg
-      width={SIZE}
+      width={columns * SCALE}
       height={SIZE}
-      viewBox={`0 0 ${OWL_GRID} ${OWL_GRID}`}
+      viewBox={`0 0 ${columns} ${OWL_GRID}`}
       shapeRendering="crispEdges"
-      className="block"
+      className="block max-w-none"
+      style={{ marginLeft: ((OWL_GRID - columns) / 2) * SCALE }}
       data-pose={pose}
     >
-      {frameRuns(OWL_FRAMES[pose], OWL_PALETTES[colour]).map((run) => (
+      {frameRuns(rows, OWL_PALETTES[colour]).map((run) => (
         <rect
           key={`${run.x}-${run.y}`}
           x={run.x}
@@ -180,10 +188,11 @@ export default function AskOwl({ mood, logRef, formRef }: AskOwlProps) {
       if (!column) return null
       const base = layer.getBoundingClientRect()
       const rect = column.getBoundingClientRect()
-      const clamp = (x: number) => Math.min(Math.max(x, 4), base.width - SIZE - 4)
+      // Room for the open wings, against the column and the chat's edges
+      const clamp = (x: number) => Math.min(Math.max(x, WING_REACH), base.width - SIZE - WING_REACH)
       return {
-        left: clamp(rect.left - base.left - SIZE - LANE_GAP),
-        right: clamp(rect.right - base.left + LANE_GAP),
+        left: clamp(rect.left - base.left - SIZE - LANE_GAP - WING_REACH),
+        right: clamp(rect.right - base.left + LANE_GAP + WING_REACH),
       }
     }
 
@@ -313,7 +322,7 @@ export default function AskOwl({ mood, logRef, formRef }: AskOwlProps) {
       const next = walkers.map((_, i): OwlPose => {
         const t = now + OWLS[i].offset
         if (!motion) return STILL_POSE[current]
-        if (flying[i]) return Math.floor(t / FLAP_MS) % 2 ? 'flyUp' : 'flyDown'
+        if (flying[i]) return FLAP[Math.floor(t / FLAP_MS) % FLAP.length]
         if (chatting) {
           if (OWLS[i].inChat === 'talk') return Math.floor(t / TALK_MS) % 2 ? 'talkOpen' : 'talk'
           return t % BLINK_EVERY_MS < BLINK_MS ? 'blink' : 'listen'

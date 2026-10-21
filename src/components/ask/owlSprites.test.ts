@@ -2,10 +2,12 @@ import { describe, expect, it } from 'vitest'
 import { OWL_FRAMES, OWL_GRID, OWL_PALETTES, frameRuns } from './owlSprites'
 
 describe('owl frames', () => {
-  it.each(Object.entries(OWL_FRAMES))('%s fills the grid with colours every palette has', (_, rows) => {
+  it.each(Object.entries(OWL_FRAMES))('%s fills its grid with colours every palette has', (name, rows) => {
+    // Flight frames are wider, for the open wings; the body keeps its 16
+    const width = name.startsWith('fly') ? OWL_GRID + 8 : OWL_GRID
     expect(rows).toHaveLength(OWL_GRID)
     for (const row of rows) {
-      expect(row).toHaveLength(OWL_GRID)
+      expect(row).toHaveLength(width)
       for (const pixel of row) {
         if (pixel === '.') continue
         for (const palette of Object.values(OWL_PALETTES)) expect(palette).toHaveProperty(pixel)
@@ -13,7 +15,7 @@ describe('owl frames', () => {
     }
   })
 
-  it.each(['stand', 'flyUp', 'flyDown'] as const)('is symmetric when facing ahead (%s)', (pose) => {
+  it.each(['stand', 'flyUp', 'flyMid', 'flyDown'] as const)('is symmetric when facing ahead (%s)', (pose) => {
     for (const row of OWL_FRAMES[pose]) expect(row).toBe([...row].reverse().join(''))
   })
 })
