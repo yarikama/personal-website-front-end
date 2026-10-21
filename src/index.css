@@ -241,16 +241,16 @@ body.dark {
     transform: rotateX(0deg);
   }
   20% {
-    transform: rotateX(28deg);
+    transform: rotateX(45deg);
   }
   40% {
-    transform: rotateX(-10deg);
+    transform: rotateX(-14deg);
   }
   60% {
-    transform: rotateX(18deg);
+    transform: rotateX(30deg);
   }
   80% {
-    transform: rotateX(-4deg);
+    transform: rotateX(-6deg);
   }
 }
 
