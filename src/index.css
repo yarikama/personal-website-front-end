@@ -277,3 +277,71 @@ body.dark {
 .prose blockquote {
   font-family: var(--font-sans), var(--font-serif-tc);
 }
+
+/* Ask owl: nodding along to an answer, a thought while it waits for the
+   first words, and a z drifting up while it sleeps */
+@keyframes owl-nod {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(2px);
+  }
+}
+
+.owl-nod {
+  animation: owl-nod 0.6s steps(2, jump-none) infinite;
+}
+
+@keyframes owl-thought {
+  0%, 100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.owl-thought,
+.owl-zz {
+  position: absolute;
+  left: 100%;
+  bottom: 100%;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  line-height: 1;
+  color: var(--color-sage);
+}
+
+.owl-thought {
+  animation: owl-thought 1.2s ease-in-out infinite;
+}
+
+@keyframes owl-zz {
+  0% {
+    opacity: 0;
+    transform: translate(0, 4px);
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(6px, -10px);
+  }
+}
+
+.owl-zz {
+  animation: owl-zz 2.4s ease-out infinite;
+}
+
+/* The companion's greeting when the two owls meet, over its raised wing */
+.owl-greeting {
+  position: absolute;
+  right: -0.25rem;
+  bottom: 100%;
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  line-height: 1;
+  color: var(--color-zinc-faded);
+}
