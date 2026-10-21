@@ -10,7 +10,7 @@
 
 **雙重靈魂**：
 - 人文部分：使用 Cormorant Garamond 字體，呈現思考的深度。
-- 技術部分：使用 JetBrains Mono 字體，呈現邏輯的精準。
+- 技術部分：使用 Overpass Mono 字體，呈現邏輯的精準。
 
 ## 2. 視覺規範 (Visual Specs)
 
@@ -26,7 +26,7 @@
 - **H1 (Hero Title)**: Cormorant Garamond, Light, 10rem (Desktop), Leading-none。
 - **H3 (Section Title)**: Cormorant Garamond, Light, 4rem ~ 6rem。
 - **Body (Narrative)**: Inter, Light, 1.125rem, Leading-relaxed。
-- **Metadata (Tech Specs)**: JetBrains Mono, 10px, Tracking-widest, Uppercase。
+- **Metadata (Tech Specs)**: Overpass Mono, 10px, Tracking-widest, Uppercase。
 
 ### C. 裝飾元素 (Motifs)
 
