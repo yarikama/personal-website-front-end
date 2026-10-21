@@ -26,6 +26,9 @@ const stories = [
 
 const SQUARE_SIZE = 70
 
+// A card counts as settled, and gets its nudge, once it is nearly opaque
+const SETTLED_OPACITY = 0.85
+
 // Opacity and 3D transform of card `index` at overall section progress 0-1
 function cardFrame(index: number, progress: number) {
   const start = index / stories.length
@@ -68,11 +71,12 @@ interface StoryCardProps {
   index: number
   isFlipped: boolean
   shouldNudge: boolean
+  onNudgeEnd: () => void
   onHoverChange: (hovered: boolean) => void
   onToggle: () => void
 }
 
-function StoryCard({ story, index, isFlipped, shouldNudge, onHoverChange, onToggle }: StoryCardProps) {
+function StoryCard({ story, index, isFlipped, shouldNudge, onNudgeEnd, onHoverChange, onToggle }: StoryCardProps) {
   const storyId = `manifesto-story-${index}`
   const [firstWord, ...rest] = story.text.split(' ')
 
@@ -97,6 +101,7 @@ function StoryCard({ story, index, isFlipped, shouldNudge, onHoverChange, onTogg
     >
       <div
         className={`relative transition-transform duration-700 ${shouldNudge ? 'animate-nudge' : ''}`}
+        onAnimationEnd={onNudgeEnd}
         style={{
           transformStyle: 'preserve-3d',
           transform: isFlipped ? 'rotateX(180deg)' : 'rotateX(0deg)',
@@ -156,7 +161,9 @@ function ScrollManifesto() {
   const [activeCard, setActiveCard] = useState(-1)
   const [hoveredCard, setHoveredCard] = useState<number | null>(null)
   const [pinnedCard, setPinnedCard] = useState<number | null>(null)
-  const [nudgedCards, setNudgedCards] = useState<Set<number>>(new Set())
+  const [nudgingCard, setNudgingCard] = useState<number | null>(null)
+  // Cards that have had their nudge; read only from the scroll handler
+  const nudgedCards = useRef(new Set<number>())
 
   // Drive every card and the square straight from scroll; only the active
   // card index goes through state, and it changes once per story
@@ -170,15 +177,21 @@ function ScrollManifesto() {
       const progress = Math.max(0, Math.min(1, -rect.top / scrollable))
 
       let active = -1
+      let settled = -1
       cardRefs.current.forEach((card, i) => {
         if (!card) return
         const { opacity, transform } = cardFrame(i, progress)
         card.style.opacity = String(opacity)
         card.style.transform = transform
         if (opacity > 0.5) active = i
+        if (opacity > SETTLED_OPACITY) settled = i
       })
       if (squareRef.current) Object.assign(squareRef.current.style, squareFrame(progress))
       setActiveCard(active)
+      // Nudge each card once, when it has fully risen into view
+      if (settled >= 0 && !nudgedCards.current.has(settled)) {
+        setNudgingCard((nudging) => nudging ?? settled)
+      }
     }
     const handleScroll = () => {
       if (!frame) frame = requestAnimationFrame(update)
@@ -192,14 +205,10 @@ function ScrollManifesto() {
     }
   }, [])
 
-  // Nudge each card once, when it first becomes active, to hint that it flips
-  useEffect(() => {
-    if (activeCard < 0 || nudgedCards.has(activeCard)) return
-    const timer = setTimeout(() => {
-      setNudgedCards((prev) => new Set(prev).add(activeCard))
-    }, 1500)
-    return () => clearTimeout(timer)
-  }, [activeCard, nudgedCards])
+  const endNudge = (index: number) => {
+    nudgedCards.current.add(index)
+    setNudgingCard(null)
+  }
 
   // A card pinned open by tap or keyboard closes when you scroll to another one
   useEffect(() => {
@@ -228,7 +237,8 @@ function ScrollManifesto() {
                 story={story}
                 index={index}
                 isFlipped={flippedCard === index}
-                shouldNudge={isActive && !nudgedCards.has(index)}
+                shouldNudge={nudgingCard === index}
+                onNudgeEnd={() => endNudge(index)}
                 onHoverChange={(hovered) => setHoveredCard(hovered ? index : null)}
                 onToggle={() => setPinnedCard((pinned) => (pinned === index ? null : index))}
               />

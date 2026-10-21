@@ -54,9 +54,10 @@ export default function Hero() {
           {/* Left: Text content */}
           <div>
             <h1 className="font-serif font-light tracking-tight leading-[0.9] text-[clamp(4rem,12vw,10rem)] lg:text-[clamp(3rem,8vw,7rem)]">
-              <FlipText front="Henry" back="恒睿" />
+              {/* Each word nudges once on load, so visitors learn it flips to Chinese */}
+              <FlipText front="Henry" back="恒睿" hintDelay={900} />
               <br />
-              <FlipText front="Hsu" back="許" className="italic" backClassName="not-italic" />
+              <FlipText front="Hsu" back="許" className="italic" backClassName="not-italic" hintDelay={1050} />
             </h1>
 
             <div className="mt-12 md:mt-16">

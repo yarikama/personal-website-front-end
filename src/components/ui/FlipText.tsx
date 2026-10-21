@@ -1,14 +1,25 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { usePrefersReducedMotion } from '../../hooks'
 
 interface FlipTextProps {
   front: string
   back: string
   className?: string
   backClassName?: string
+  // Nudge once on its own this many ms after mount, to show that it flips
+  hintDelay?: number
 }
 
-export default function FlipText({ front, back, className = '', backClassName = '' }: FlipTextProps) {
+export default function FlipText({ front, back, className = '', backClassName = '', hintDelay }: FlipTextProps) {
   const [isFlipped, setIsFlipped] = useState(false)
+  const [isNudging, setIsNudging] = useState(false)
+  const reducedMotion = usePrefersReducedMotion()
+
+  useEffect(() => {
+    if (hintDelay === undefined || reducedMotion) return
+    const timer = setTimeout(() => setIsNudging(true), hintDelay)
+    return () => clearTimeout(timer)
+  }, [hintDelay, reducedMotion])
 
   return (
     <span
@@ -18,7 +29,8 @@ export default function FlipText({ front, back, className = '', backClassName = 
       onMouseLeave={() => setIsFlipped(false)}
     >
       <span
-        className="inline-block transition-transform duration-700 ease-out"
+        className={`inline-block transition-transform duration-700 ease-out ${isNudging ? 'animate-nudge' : ''}`}
+        onAnimationEnd={() => setIsNudging(false)}
         style={{
           transformStyle: 'preserve-3d',
           transform: isFlipped ? 'rotateX(180deg)' : 'rotateX(0deg)',
