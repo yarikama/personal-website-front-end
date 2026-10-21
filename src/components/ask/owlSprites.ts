@@ -98,6 +98,39 @@ const side = (beakTop: string, beakBottom: string) => [
   '.......yy.......',
 ]
 
+// In flight, feet tucked: wings raised, then wings down
+const FLY_UP = [
+  '................',
+  '...o........o...',
+  'b..oo......oo..b',
+  'bb.obboooobbo.bb',
+  '.bobbbbbbbbbbob.',
+  ...EYES_AHEAD,
+  '.obbllllllllbbo.',
+  '.obbllbllbllbbo.',
+  '.obbllllllllbbo.',
+  '..obbllllllbbo..',
+  '...obbbbbbbbo...',
+  '....oooooooo....',
+  '......y..y......',
+]
+
+const FLY_DOWN = [
+  '................',
+  '...o........o...',
+  '...oo......oo...',
+  '...obboooobbo...',
+  '..obbbbbbbbbbo..',
+  ...EYES_AHEAD,
+  'bobbllllllllbbob',
+  'bobbllbllbllbbob',
+  'bobbllllllllbbob',
+  'b.obbllllllbbo.b',
+  '...obbbbbbbbo...',
+  '....oooooooo....',
+  '......y..y......',
+]
+
 const FEET_STILL = '.....yy..yy.....'
 const FEET_WIDE = '....yy....yy....'
 const FEET_TOGETHER = '......yyyy......'
@@ -115,6 +148,8 @@ export const OWL_FRAMES = {
   listen: owl(EYES_RIGHT, FEET_STILL),
   talk: side('.yyowwwbbbbobbbo', '..yobbbbbbobbbo.'),
   talkOpen: side('.yyowwwbbbbobbbo', '.y.obbbbbbobbbo.'),
+  flyUp: FLY_UP,
+  flyDown: FLY_DOWN,
 }
 
 export type OwlPose = keyof typeof OWL_FRAMES

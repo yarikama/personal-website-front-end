@@ -13,8 +13,8 @@ describe('owl frames', () => {
     }
   })
 
-  it('is symmetric when facing ahead', () => {
-    for (const row of OWL_FRAMES.stand) expect(row).toBe([...row].reverse().join(''))
+  it.each(['stand', 'flyUp', 'flyDown'] as const)('is symmetric when facing ahead (%s)', (pose) => {
+    for (const row of OWL_FRAMES[pose]) expect(row).toBe([...row].reverse().join(''))
   })
 })
 
