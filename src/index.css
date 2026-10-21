@@ -234,24 +234,28 @@ body.dark {
   will-change: transform;
 }
 
-/* Card nudge animation to hint it's flippable */
+/* Nudge to hint that something flips: two tips toward the back face that
+   settle out, never far enough to show it */
 @keyframes nudge {
   0%, 100% {
     transform: rotateX(0deg);
   }
-  25% {
-    transform: rotateX(15deg);
+  20% {
+    transform: rotateX(28deg);
   }
-  50% {
+  40% {
     transform: rotateX(-10deg);
   }
-  75% {
-    transform: rotateX(5deg);
+  60% {
+    transform: rotateX(18deg);
+  }
+  80% {
+    transform: rotateX(-4deg);
   }
 }
 
 .animate-nudge {
-  animation: nudge 0.8s ease-in-out;
+  animation: nudge 1s ease-in-out;
 }
 
 /* Markdown Chinese Typography */
