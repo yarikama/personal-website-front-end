@@ -330,3 +330,14 @@ body.dark {
 .owl-zz {
   animation: owl-zz 2.4s ease-out infinite;
 }
+
+/* The companion's word when the two owls meet, over its raised wing */
+.owl-hoo {
+  position: absolute;
+  right: -0.25rem;
+  bottom: 100%;
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  line-height: 1;
+  color: var(--color-zinc-faded);
+}
