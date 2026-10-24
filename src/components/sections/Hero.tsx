@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import Container from '../layout/Container'
 import HeroPhoto from '../ui/HeroPhoto'
+import HeroBackdrop from '../ui/HeroBackdrop'
 import FlipText from '../ui/FlipText'
 
 const BAR_MAX_HEIGHT = 22
@@ -10,6 +11,37 @@ function barScale(i: number, progress: number) {
   const waveCenter = progress * 9
   const waveHeight = Math.max(0, 1 - Math.abs(i - waveCenter) * 0.4)
   return (8 + waveHeight * 14) / BAR_MAX_HEIGHT
+}
+
+const AWARD_LABEL = 'font-mono text-sm uppercase tracking-widest px-4 py-2'
+
+// An award badge that, on hover, a wave of sage washes over from the left,
+// then pushes the arrow open on the right
+function AwardLink({ href, children }: { href: string; children: string }) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="liquid-trigger group flex items-stretch border border-sage/40 hover:border-sage transition-colors duration-300"
+    >
+      <span className="relative overflow-hidden">
+        <span className={`block text-sage ${AWARD_LABEL}`}>{children}</span>
+        <span aria-hidden="true" className="liquid-foam" />
+        <span aria-hidden="true" className="liquid-fill">
+          <span className="liquid-fill-body">
+            <span className={`liquid-fill-text flex items-center text-paper ${AWARD_LABEL}`}>{children}</span>
+          </span>
+        </span>
+      </span>
+      {/* Opens as the wave reaches it, closes at once */}
+      <span className="flex items-center justify-center overflow-hidden w-0 group-hover:w-10 group-hover:px-3 group-focus-visible:w-10 group-focus-visible:px-3 bg-sage text-paper transition-[width,padding] duration-300 group-hover:delay-[350ms] group-focus-visible:delay-[350ms]">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1 13L13 1M13 1H5M13 1V9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      </span>
+    </a>
+  )
 }
 
 export default function Hero() {
@@ -72,36 +104,10 @@ export default function Hero() {
             </div>
 
             <div className="mt-12 flex flex-wrap gap-4">
-              <a
-                href="https://english.president.gov.tw/News/6881"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group flex items-stretch border border-sage/40 hover:border-sage transition-colors duration-300"
-              >
-                <span className="font-mono text-sm text-sage uppercase tracking-widest px-4 py-2">
-                  2024 Presidential Hackathon Winner
-                </span>
-                <span className="flex items-center justify-center overflow-hidden w-0 group-hover:w-10 group-hover:px-3 group-focus-visible:w-10 group-focus-visible:px-3 bg-sage text-paper transition-[width,padding] duration-300">
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M1 13L13 1M13 1H5M13 1V9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </span>
-              </a>
-              <a
-                href="https://lifenews.com.tw/334346"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group flex items-stretch border border-zinc-200 dark:border-zinc-200/30 hover:border-sage transition-colors duration-300"
-              >
-                <span className="font-mono text-sm text-zinc-400 group-hover:text-sage group-focus-visible:text-sage uppercase tracking-widest px-4 py-2 transition-colors duration-300">
-                  Golden Peak Award 2025
-                </span>
-                <span className="flex items-center justify-center overflow-hidden w-0 group-hover:w-10 group-hover:px-3 group-focus-visible:w-10 group-focus-visible:px-3 bg-sage text-paper transition-[width,padding] duration-300">
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M1 13L13 1M13 1H5M13 1V9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </span>
-              </a>
+              <AwardLink href="https://english.president.gov.tw/News/6881">
+                2024 Presidential Hackathon Winner
+              </AwardLink>
+              <AwardLink href="https://lifenews.com.tw/334346">Golden Peak Award 2025</AwardLink>
               <span className="font-mono text-sm text-zinc-400 uppercase tracking-widest px-4 py-2 border border-zinc-200 dark:border-zinc-200/30">
                 Dean's List × 2
               </span>
@@ -109,7 +115,8 @@ export default function Hero() {
           </div>
 
           {/* Right: Interactive photo */}
-          <div className="lg:justify-self-end">
+          <div className="lg:justify-self-end relative w-full max-w-[400px] lg:max-w-[480px] mx-auto">
+            <HeroBackdrop />
             <HeroPhoto
               // Split from one photo, far to near: sky and street, the bridge,
               // the buildings on either side, the crowd (in black and white so
