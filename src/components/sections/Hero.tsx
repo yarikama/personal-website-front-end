@@ -93,7 +93,9 @@ export default function Hero() {
             </h1>
 
             <div className="mt-12 md:mt-16">
-              <p className="text-2xl md:text-3xl text-zinc-faded leading-relaxed font-light">
+              {/* In the name's italic. Cormorant's small x-height reads small,
+                  so it is set a step larger than the old tagline. */}
+              <p className="font-serif italic font-normal text-[1.75rem] md:text-[2.25rem] text-zinc-faded leading-snug">
                 Building AI systems, and the infrastructure behind them.
               </p>
 
