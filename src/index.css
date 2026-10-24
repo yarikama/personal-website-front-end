@@ -218,8 +218,14 @@ body.dark {
 .hero-decor {
   position: absolute;
   inset: 0;
+}
 
-  /* Sage from deep to pale, with a sand that matches the paper */
+/* The stripe palette, shared by the hero's striped card and the stripes
+   behind the travel photos: sage from deep to pale, with a sand that matches
+   the paper */
+.hero-decor,
+.travel-track,
+.travel-backdrop {
   --hero-stripe-0: #2f4a47;
   --hero-stripe-1: var(--color-sage);
   --hero-stripe-2: #d6c8a8;
@@ -229,7 +235,9 @@ body.dark {
 }
 
 /* Lifted a step so the deepest stripes still show against the dark page */
-.dark .hero-decor {
+.dark .hero-decor,
+.dark .travel-track,
+.dark .travel-backdrop {
   --hero-stripe-0: #3e5f5b;
   --hero-stripe-2: #a89a7b;
   --hero-stripe-3: #5d817c;
@@ -426,6 +434,143 @@ body.dark {
 
 .animate-nudge {
   animation: nudge 1s ease-in-out;
+}
+
+/* The caret that types out the Ask title and then stays after it, blinking:
+   a sage bar hung from a zero-width span, so moving it along the text never
+   shifts the layout */
+.ask-cursor {
+  position: absolute;
+  left: 0.06em;
+  bottom: -0.12em;
+  width: 0.07em;
+  min-width: 2px;
+  height: 1em;
+  background: var(--color-sage);
+  animation: ask-cursor-blink 1s steps(1) infinite;
+}
+
+@keyframes ask-cursor-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Travel collage: one long strip of photos, sized in a unit that follows the
+   screen's height but never lets a photo outgrow a phone's width. The strip
+   is 100 units tall: the full screen on a desktop, a centred band on a phone. */
+.travel-track {
+  --u: min(1vh, 1.3vw);
+  position: relative;
+  flex: none;
+  width: calc(var(--track) * var(--u));
+  height: calc(100 * var(--u));
+}
+
+/* Faint shapes in the hero's palette behind the whole strip, overlapping
+   so they deepen where they meet, as on the blob card behind the hero photo */
+.travel-backdrop-blob {
+  opacity: 0.24;
+  mix-blend-mode: multiply;
+}
+
+/* A touch stronger on the dark page, and without multiply, which would
+   vanish into black */
+.dark .travel-backdrop-blob {
+  opacity: 0.2;
+  mix-blend-mode: normal;
+}
+
+.travel-photo {
+  position: absolute;
+  left: calc(var(--x) * var(--u));
+  top: var(--y);
+  /* As wide as the photo would be at its height; the border adds below */
+  width: calc(var(--h) * var(--ratio) * var(--u));
+}
+
+/* Hovered, a photo comes to the front of any it overlaps */
+.travel-photo:hover {
+  z-index: 1;
+}
+
+/* A print: a border on three sides and a thick one at the bottom to write
+   on, in one of the palette's colours. Prints keep their colours in dark
+   mode, as paper would. */
+.travel-photo-card {
+  padding: 4% 4% 0;
+  background: var(--print-bg);
+  color: var(--print-ink);
+  box-shadow: 0 1px 2px rgb(26 26 26 / 0.08), 0 18px 40px -16px rgb(26 26 26 / 0.35);
+  transform: rotate(var(--tilt));
+  transition: transform 600ms var(--ease-elegant);
+}
+
+.dark .travel-photo-card {
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 18px 40px -16px rgb(0 0 0 / 0.7);
+}
+
+.travel-print-paper {
+  --print-bg: #f7f6f2;
+  --print-ink: #2d2d2d;
+}
+
+.travel-print-sand {
+  --print-bg: #e8dfca;
+  --print-ink: #2d2d2d;
+}
+
+.travel-print-mist {
+  --print-bg: #dde7e4;
+  --print-ink: #2d2d2d;
+}
+
+.travel-print-sage {
+  --print-bg: #9db7b3;
+  --print-ink: #1f2d2b;
+}
+
+.travel-print-forest {
+  --print-bg: #2f4a47;
+  --print-ink: #e9eeec;
+}
+
+.travel-frame {
+  aspect-ratio: var(--aspect);
+  overflow: hidden;
+  background: var(--color-paper-dark);
+}
+
+/* The note on the bottom border; padding in percentages follows the print's
+   width, so the border keeps its proportion at every size */
+.travel-print-note {
+  padding: 4.5% 1% 5.5%;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: calc(var(--u) * 2);
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+/* Faded until looked at, so the photos sit with the sage page */
+.travel-frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.6) contrast(0.97);
+  transition: filter 600ms ease, transform 900ms var(--ease-elegant);
+}
+
+@media (hover: hover) {
+  .travel-photo:hover .travel-photo-card {
+    transform: rotate(0deg);
+  }
+
+  .travel-photo:hover img {
+    filter: none;
+    transform: scale(1.03);
+  }
 }
 
 /* Markdown Chinese Typography */
