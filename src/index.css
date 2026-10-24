@@ -23,6 +23,7 @@
   --font-serif-tc: "Noto Serif TC", serif;
   --font-sans: "Inter", system-ui, sans-serif;
   --font-mono: "Overpass Mono", monospace;
+  --font-syne: "Syne", system-ui, sans-serif;
 
   /* Font sizes for titles */
   --text-display: clamp(4rem, 12vw, 10rem);

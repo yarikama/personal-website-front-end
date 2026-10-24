@@ -93,7 +93,9 @@ export default function Hero() {
             </h1>
 
             <div className="mt-12 md:mt-16">
-              <p className="text-2xl md:text-3xl text-zinc-faded leading-relaxed font-light">
+              {/* Syne shows its character from semibold up, and runs wide there,
+                  so it is set a step smaller than the old tagline */}
+              <p className="font-syne font-semibold text-xl md:text-[1.75rem] tracking-[-0.01em] text-zinc-faded leading-snug">
                 Building AI systems, and the infrastructure behind them.
               </p>
 
