@@ -220,12 +220,9 @@ body.dark {
   inset: 0;
 }
 
-/* The stripe palette, shared by the hero's striped card and the stripes
-   behind the travel photos: sage from deep to pale, with a sand that matches
-   the paper */
-.hero-decor,
-.travel-track,
-.travel-backdrop {
+/* The hero's palette: sage from deep to pale, with a sand that matches the
+   paper */
+.hero-decor {
   --hero-stripe-0: #2f4a47;
   --hero-stripe-1: var(--color-sage);
   --hero-stripe-2: #d6c8a8;
@@ -235,9 +232,7 @@ body.dark {
 }
 
 /* Lifted a step so the deepest stripes still show against the dark page */
-.dark .hero-decor,
-.dark .travel-track,
-.dark .travel-backdrop {
+.dark .hero-decor {
   --hero-stripe-0: #3e5f5b;
   --hero-stripe-2: #a89a7b;
   --hero-stripe-3: #5d817c;
@@ -467,18 +462,17 @@ body.dark {
   height: calc(100 * var(--u));
 }
 
-/* Faint shapes in the hero's palette behind the whole strip, overlapping
-   so they deepen where they meet, as on the blob card behind the hero photo */
-.travel-backdrop-blob {
-  opacity: 0.24;
-  mix-blend-mode: multiply;
-}
-
-/* A touch stronger on the dark page, and without multiply, which would
-   vanish into black */
-.dark .travel-backdrop-blob {
-  opacity: 0.2;
-  mix-blend-mode: normal;
+/* Behind the strip, a sheet of notebook squares: hairlines a page shade
+   darker than the paper, the squares sized with the photos */
+.travel-grid {
+  --u: min(1vh, 1.3vw);
+  --cell: calc(var(--u) * 7);
+  --line: color-mix(in srgb, var(--color-ink) 11%, transparent);
+  background-image:
+    linear-gradient(to right, var(--line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--line) 1px, transparent 1px);
+  background-size: var(--cell) var(--cell);
+  background-position: center;
 }
 
 .travel-photo {
@@ -560,6 +554,13 @@ body.dark {
   object-fit: cover;
   filter: saturate(0.6) contrast(0.97);
   transition: filter 600ms ease, transform 900ms var(--ease-elegant);
+}
+
+/* Full colour while passing the middle of the screen, and always on the
+   reduced-motion strip, where nothing passes */
+.travel-photo-focus img,
+.travel-strip .travel-frame img {
+  filter: none;
 }
 
 @media (hover: hover) {

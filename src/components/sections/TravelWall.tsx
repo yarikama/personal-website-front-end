@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import { usePrefersReducedMotion } from '../../hooks'
-import { blobPath, type BlobShape } from '../../lib/blob'
 
 // The border each print sits in, from the site's palette (index.css)
 type Frame = 'paper' | 'sand' | 'mist' | 'sage' | 'forest'
@@ -93,42 +92,23 @@ const PHOTOS: Photo[] = [
     alt: 'A plane wing over desert canyons seen from the window',
     caption: 'Somewhere over the Southwest',
     frame: 'paper',
-    x: 306, y: 6, h: 78, tilt: -1, depth: 0.95,
+    x: 306, y: 10, h: 76, tilt: -1, depth: 0.95,
   },
 ]
 
-// Track length in units: the last photo's right edge plus a margin
-const TRACK_UNITS = 385
+// Track length in units: long enough past the plane that, on a 16:9 screen,
+// the pan ends with the plane in the middle
+const TRACK_UNITS = 414
 // How far a photo drifts over the whole pan per unit of depth away from 1
 // (px): at depth 1.15 that is about 85px ahead
 const DRIFT = 560
 // The backdrop pans at this share of the photos' speed, so it sits well
 // behind them
 const BACKDROP_DEPTH = 0.6
-
-// Small, faint shapes in the hero's palette scattered along the backdrop, in
-// the same units as the track (100 tall), at varied heights; a few overlap
-// in pairs so they deepen where they meet, as on the blob card behind the
-// hero photo. Colours index the --hero-stripe palette.
-const BACKDROP_BLOBS: (BlobShape & { color: number })[] = [
-  { cx: 14, cy: 20, rx: 20, ry: 15, rotate: -12, phase: [0.4, 2.1], color: 4 },
-  { cx: 40, cy: 84, rx: 18, ry: 13, rotate: 10, phase: [2.6, 0.9], color: 2 },
-  { cx: 52, cy: 72, rx: 14, ry: 11, rotate: -20, phase: [5.3, 1.7], color: 5 },
-  { cx: 78, cy: 12, rx: 16, ry: 12, rotate: 18, phase: [4.1, 3.3], color: 1 },
-  { cx: 100, cy: 56, rx: 22, ry: 16, rotate: -8, phase: [1.2, 5.0], color: 2 },
-  { cx: 128, cy: 88, rx: 17, ry: 12, rotate: 4, phase: [3.0, 4.4], color: 4 },
-  { cx: 150, cy: 26, rx: 19, ry: 14, rotate: 14, phase: [0.9, 2.8], color: 5 },
-  { cx: 162, cy: 16, rx: 13, ry: 10, rotate: -6, phase: [4.7, 0.3], color: 3 },
-  { cx: 190, cy: 78, rx: 21, ry: 15, rotate: 6, phase: [2.2, 1.1], color: 1 },
-  { cx: 220, cy: 40, rx: 15, ry: 12, rotate: -16, phase: [3.6, 4.9], color: 2 },
-  { cx: 246, cy: 90, rx: 18, ry: 12, rotate: 12, phase: [1.7, 3.8], color: 4 },
-  { cx: 258, cy: 80, rx: 13, ry: 10, rotate: -4, phase: [5.9, 0.6], color: 5 },
-  { cx: 284, cy: 18, rx: 20, ry: 14, rotate: 8, phase: [0.2, 5.4], color: 1 },
-  { cx: 312, cy: 62, rx: 16, ry: 12, rotate: -14, phase: [2.9, 2.0], color: 2 },
-  { cx: 344, cy: 88, rx: 19, ry: 13, rotate: 16, phase: [4.4, 1.4], color: 3 },
-  { cx: 370, cy: 30, rx: 17, ry: 13, rotate: -10, phase: [1.0, 3.1], color: 4 },
-]
-const BACKDROP_PATHS = BACKDROP_BLOBS.map((blob) => ({ d: blobPath(blob), color: blob.color }))
+// The photo nearest the middle of the screen comes up to full colour, along
+// with any other whose centre is within this share of the screen's width
+// either side of it
+const FOCUS_BAND = 0.15
 
 const clamp01 = (n: number) => Math.min(1, Math.max(0, n))
 
@@ -174,27 +154,11 @@ function TravelPhoto({ photo, innerRef }: { photo: Photo; innerRef?: (el: HTMLDi
   )
 }
 
-// The shapes, scaled to cover their box and anchored at its left edge
-function TravelBackdrop({ className = '' }: { className?: string }) {
-  return (
-    <svg
-      aria-hidden="true"
-      viewBox={`0 0 ${TRACK_UNITS} 100`}
-      preserveAspectRatio="xMinYMid slice"
-      className={`travel-backdrop ${className}`}
-    >
-      {BACKDROP_PATHS.map(({ d, color }) => (
-        <path key={d} d={d} className="travel-backdrop-blob" style={{ fill: `var(--hero-stripe-${color})` }} />
-      ))}
-    </svg>
-  )
-}
-
 // A collage of travel photos between the hero and Ask. The section pins to
 // the screen and scrolling down pans the strip to the left, so the visitor
 // travels right through it; overlapping photos drift at slightly different
-// speeds so they read as layers, over faint shapes in the hero's palette
-// that pans slower still. With reduced motion it is a plain strip
+// speeds so they read as layers, on a sheet of faint notebook squares that
+// pans slower still. With reduced motion it is a plain strip
 // the visitor can swipe or scroll sideways.
 export default function TravelWall() {
   const reducedMotion = usePrefersReducedMotion()
@@ -238,6 +202,19 @@ export default function TravelWall() {
       if (backdropRef.current) {
         backdropRef.current.style.transform = `translateX(${-progress * distance * BACKDROP_DEPTH}px)`
       }
+      // The photo passing the middle of the screen comes up to full colour, as
+      // a hovered one does, so there is always one in colour
+      const middle = window.innerWidth / 2
+      const offsets = driftRefs.current.map((el) => {
+        if (!el) return Infinity
+        const box = el.getBoundingClientRect()
+        return Math.abs(box.left + box.width / 2 - middle)
+      })
+      const nearest = Math.min(...offsets)
+      driftRefs.current.forEach((el, i) => {
+        const inFocus = offsets[i] === nearest || offsets[i] < window.innerWidth * FOCUS_BAND
+        el?.classList.toggle('travel-photo-focus', inFocus)
+      })
     }
     const onScroll = () => {
       if (!frame) frame = requestAnimationFrame(update)
@@ -261,8 +238,7 @@ export default function TravelWall() {
   if (reducedMotion) {
     return (
       <section aria-label="Travel photos" className="travel-strip overflow-x-auto overscroll-x-contain">
-        <div className="travel-track" style={{ '--track': TRACK_UNITS } as CSSProperties}>
-          <TravelBackdrop className="absolute inset-0 h-full w-full" />
+        <div className="travel-track travel-grid" style={{ '--track': TRACK_UNITS } as CSSProperties}>
           {PHOTOS.map((photo) => (
             <TravelPhoto key={photo.slug} photo={photo} />
           ))}
@@ -284,11 +260,10 @@ export default function TravelWall() {
             slower pan */}
         <div
           ref={backdropRef}
-          className="absolute inset-y-0 left-0 will-change-transform"
+          aria-hidden="true"
+          className="travel-grid absolute inset-y-0 left-0 will-change-transform"
           style={{ width: `${TRACK_UNITS}vh`, maxWidth: 'none' }}
-        >
-          <TravelBackdrop className="h-full w-full" />
-        </div>
+        />
         <div
           ref={trackRef}
           className="travel-track will-change-transform"
