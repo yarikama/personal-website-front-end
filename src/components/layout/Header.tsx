@@ -154,11 +154,14 @@ export default function Header() {
       to={item.href}
       onClick={() => handleNavClick(item.href, item.isRoute)}
       aria-current={isActive(item) ? 'page' : undefined}
+      // The active item is also underlined, the line drawing in from the left
       className={`
-        inline-flex items-center gap-1
+        relative inline-flex items-center gap-1
         font-mono text-[0.8125rem] uppercase tracking-widest
         transition-colors duration-300
-        ${isActive(item) ? 'text-sage' : 'text-zinc-faded hover:text-sage'}
+        after:absolute after:left-0 after:-bottom-1.5 after:h-0.5 after:w-full after:bg-sage
+        after:origin-left after:transition-transform after:duration-500 after:ease-[var(--ease-elegant)]
+        ${isActive(item) ? 'text-sage after:scale-x-100' : 'text-zinc-faded hover:text-sage after:scale-x-0'}
       `}
     >
       {item.label}

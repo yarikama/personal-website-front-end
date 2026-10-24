@@ -214,6 +214,176 @@ body.dark {
   border-radius: 24px;
 }
 
+/* Everything behind the hero photo, laid over the photo's own box */
+.hero-decor {
+  position: absolute;
+  inset: 0;
+
+  /* Sage from deep to pale, with a sand that matches the paper */
+  --hero-stripe-0: #2f4a47;
+  --hero-stripe-1: var(--color-sage);
+  --hero-stripe-2: #d6c8a8;
+  --hero-stripe-3: #4f6f6b;
+  --hero-stripe-4: var(--color-sage-light);
+  --hero-stripe-5: #b7cbc8;
+}
+
+/* Lifted a step so the deepest stripes still show against the dark page */
+.dark .hero-decor {
+  --hero-stripe-0: #3e5f5b;
+  --hero-stripe-2: #a89a7b;
+  --hero-stripe-3: #5d817c;
+  --hero-stripe-4: #94b5b0;
+  --hero-stripe-5: #c3d4d1;
+}
+
+/* Cards the same size as the photo, each shifted so only one corner shows */
+.hero-card {
+  position: absolute;
+  overflow: hidden;
+  border-radius: 24px;
+}
+
+/* Up and to the right. The gaps between stripes are the page itself. */
+.hero-card-stripes {
+  inset: -5% -6% 5% 6%;
+}
+
+/* Down and to the left, on a cream a shade darker than the page */
+.hero-card-blobs {
+  inset: 5% 6% -5% -6%;
+  background: var(--color-paper-dark);
+}
+
+/* Translucent, so overlaps mix into a deeper shade of both */
+.hero-blob {
+  opacity: 0.8;
+  mix-blend-mode: multiply;
+}
+
+.dark .hero-blob {
+  opacity: 0.7;
+  mix-blend-mode: normal;
+}
+
+/* Fine speckle over the blobs */
+.hero-grain {
+  opacity: 0.35;
+  mix-blend-mode: soft-light;
+}
+
+/* Smaller shifts on narrow screens keep both clear of the page gutter */
+@media (max-width: 1023px) {
+  .hero-card-stripes {
+    inset: -3% -3% 3% 3%;
+  }
+
+  .hero-card-blobs {
+    inset: 3% 3% -3% -3%;
+  }
+}
+
+/* Wave wash: on hovering (or focusing) a .liquid-trigger, a wave of sage
+   washes in from the left, and draws back out on leave.
+
+   Two layers ride in. Translucent foam races ahead, and the water surges in
+   just behind it, fast at first and easing to a stop. Each leads with a
+   breaking crest that stretches and settles once as it travels, like a swash.
+   On leave the water drains first and the foam trails it, like backwash.
+
+   The water carries a copy of the label in the paper color and slides it the
+   opposite way, so the copy stays put and the text seems to change color
+   wherever the water has reached. */
+.liquid-foam,
+.liquid-fill {
+  --liquid-crest: 20px;
+  position: absolute;
+  inset: 0;
+  transform: translateX(calc(-100% - var(--liquid-crest)));
+}
+
+/* Faded as a whole rather than painted translucent, so the crest's overlap
+   with the body doesn't show as a darker line */
+.liquid-foam {
+  --liquid-color: var(--color-sage);
+  background: var(--liquid-color);
+  opacity: 0.4;
+  transition: transform 750ms cubic-bezier(0.5, 0, 0.75, 0);
+}
+
+.liquid-fill {
+  --liquid-color: var(--color-sage);
+  transition: transform 550ms cubic-bezier(0.5, 0, 0.75, 0);
+}
+
+/* Clips the label copy to the water, leaving the crest outside it */
+.liquid-fill-body {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: var(--liquid-color);
+}
+
+/* The crest: its top reaches furthest and curls back in below, like a wave
+   about to break */
+.liquid-foam::after,
+.liquid-fill::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  /* Tucked 1px under the body so no seam shows where they meet */
+  left: calc(100% - 1px);
+  width: calc(var(--liquid-crest) + 1px);
+  background: var(--liquid-color);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 40' preserveAspectRatio='none'%3E%3Cpath d='M0 0C10 0 20 2 20 9C20 15 13 14 12 19C11 25 17 30 11 36C9 38 5 40 0 40Z'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
+  transform-origin: left;
+}
+
+.liquid-fill-text {
+  position: absolute;
+  inset: 0;
+  white-space: nowrap;
+  transform: translateX(calc(100% + var(--liquid-crest)));
+  transition: transform 550ms cubic-bezier(0.5, 0, 0.75, 0);
+}
+
+.liquid-trigger:hover .liquid-foam,
+.liquid-trigger:focus-visible .liquid-foam {
+  transform: translateX(0);
+  transition: transform 650ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.liquid-trigger:hover .liquid-fill,
+.liquid-trigger:focus-visible .liquid-fill,
+.liquid-trigger:hover .liquid-fill-text,
+.liquid-trigger:focus-visible .liquid-fill-text {
+  transform: translateX(0);
+  transition: transform 900ms cubic-bezier(0.16, 1, 0.3, 1) 70ms;
+}
+
+.liquid-trigger:hover .liquid-foam::after,
+.liquid-trigger:focus-visible .liquid-foam::after,
+.liquid-trigger:hover .liquid-fill::after,
+.liquid-trigger:focus-visible .liquid-fill::after {
+  animation: liquid-swash 900ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes liquid-swash {
+  0% {
+    transform: scaleX(0.4);
+  }
+  35% {
+    transform: scaleX(1.7);
+  }
+  65% {
+    transform: scaleX(0.85);
+  }
+  100% {
+    transform: scaleX(1);
+  }
+}
+
 /* Background layer */
 .hero-photo-bg {
   display: block;
