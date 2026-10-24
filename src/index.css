@@ -428,6 +428,26 @@ body.dark {
   animation: nudge 1s ease-in-out;
 }
 
+/* The caret that types out the Ask title and then stays after it, blinking:
+   a sage bar hung from a zero-width span, so moving it along the text never
+   shifts the layout */
+.ask-cursor {
+  position: absolute;
+  left: 0.06em;
+  bottom: -0.12em;
+  width: 0.07em;
+  min-width: 2px;
+  height: 1em;
+  background: var(--color-sage);
+  animation: ask-cursor-blink 1s steps(1) infinite;
+}
+
+@keyframes ask-cursor-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
 /* Markdown Chinese Typography */
 .prose {
   font-family: var(--font-sans), var(--font-serif-tc);
