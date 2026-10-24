@@ -530,7 +530,7 @@ body.dark {
 }
 
 .travel-frame {
-  aspect-ratio: var(--aspect);
+  aspect-ratio: var(--ratio);
   overflow: hidden;
   background: var(--color-paper-dark);
 }
