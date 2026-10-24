@@ -56,10 +56,6 @@ export const experience: ExperienceEntry[] = [
             text: 'Built a GitHub Actions CI pipeline with pytest unit and E2E coverage, reaching **67%** coverage from a zero baseline and reducing production hotfixes by **90%** initially and **50%** long term',
           },
           {
-            label: 'Open Source',
-            text: 'Contributed **14** merged pull requests to **LlamaIndex** (15K+ stars), fixing bugs and adding features across the AWS Bedrock, Claude, Elasticsearch, Cohere, OpenAI, MCP Client, and AI Agent Workflow integrations',
-          },
-          {
             label: 'Roadmap & Leadership',
             text: 'Defined the GenAI product roadmap for a 10-person startup and led end-to-end delivery of Agentic RAG, Artifact Generation, a Tagging & Permission System, and Information Retrieval',
           },
