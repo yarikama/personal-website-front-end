@@ -26,29 +26,48 @@ const stories = [
 
 const SQUARE_SIZE = 70
 
-// A card counts as settled, and gets its nudge, once it is nearly opaque
-const SETTLED_OPACITY = 0.85
+// A card counts as settled, and gets its nudge, once the wheel is within this
+// share of a step of bringing it to rest at the bottom
+const SETTLED_STEPS = 0.15
 
-// Opacity and 3D transform of card `index` at overall section progress 0-1
-function cardFrame(index: number, progress: number) {
-  const start = index / stories.length
-  const end = (index + 1) / stories.length
-  if (progress < start || progress >= end) return { opacity: 0, transform: 'perspective(1000px) translateY(100px) rotateX(45deg)' }
+// The stories sit around the rim of a large wheel whose center is far above
+// the screen, so only its bottom arc shows. Scrolling turns the wheel
+// clockwise: the current story rolls off to the left along the arc, tilting
+// with it, as the next rolls in from the right and settles at the bottom.
+// Neighbours peek in faintly at the sides.
+const STEP_ANGLE = 30
+// Radius as a share of the viewport width. Titles take up more of a phone's
+// width, so the wheel is larger there to keep neighbours clear of the title.
+const WHEEL_RADIUS = 1.15
+const WHEEL_RADIUS_NARROW = 1.3
+const NARROW_WIDTH = 768
+const NEIGHBOUR_OPACITY = 0.2
 
-  const local = (progress - start) / (end - start)
-  if (local < 0.5) {
-    // Entering: fade in and rise up
-    const enter = local * 2
-    return {
-      opacity: enter,
-      transform: `perspective(1000px) translateY(${50 * (1 - enter)}px) rotateX(${20 * (1 - enter)}deg)`,
-    }
-  }
-  // Exiting: flip away
-  const exit = (local - 0.5) * 2
+const easeInOut = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2)
+
+// Which story is at the bottom of the wheel at section progress 0-1, as a
+// fraction between stories while turning. Each story's share of the scroll
+// holds it still for the first half, then turns to the next; the last holds.
+function wheelPosition(progress: number) {
+  const scaled = Math.min(progress * stories.length, stories.length - 1)
+  const index = Math.floor(scaled)
+  if (index >= stories.length - 1) return stories.length - 1
+  const turn = Math.max(0, (scaled - index - 0.5) / 0.5)
+  return index + easeInOut(turn)
+}
+
+// Opacity and transform of card `index` with the wheel at `position`
+function cardFrame(index: number, position: number) {
+  const steps = index - position
+  const distance = Math.abs(steps)
+  const opacity = distance < 1 ? 1 - distance * (1 - NEIGHBOUR_OPACITY) : Math.max(0, NEIGHBOUR_OPACITY * (2 - distance))
+  const width = window.innerWidth
+  const radius = width * (width < NARROW_WIDTH ? WHEEL_RADIUS_NARROW : WHEEL_RADIUS)
   return {
-    opacity: 1 - exit,
-    transform: `perspective(1000px) translateY(${-30 * exit}px) rotateX(${-45 * exit}deg)`,
+    opacity,
+    // Turning about the wheel's center, not the card's own
+    transformOrigin: `50% calc(50% - ${radius}px)`,
+    transform: `rotate(${-steps * STEP_ANGLE}deg)`,
   }
 }
 
@@ -176,15 +195,11 @@ function ScrollManifesto() {
       const scrollable = containerRef.current.offsetHeight - window.innerHeight
       const progress = Math.max(0, Math.min(1, -rect.top / scrollable))
 
-      let active = -1
-      let settled = -1
+      const position = wheelPosition(progress)
+      const active = Math.round(position)
+      const settled = Math.abs(position - active) < SETTLED_STEPS ? active : -1
       cardRefs.current.forEach((card, i) => {
-        if (!card) return
-        const { opacity, transform } = cardFrame(i, progress)
-        card.style.opacity = String(opacity)
-        card.style.transform = transform
-        if (opacity > 0.5) active = i
-        if (opacity > SETTLED_OPACITY) settled = i
+        if (card) Object.assign(card.style, cardFrame(i, position))
       })
       if (squareRef.current) Object.assign(squareRef.current.style, squareFrame(progress))
       setActiveCard(active)
@@ -198,9 +213,12 @@ function ScrollManifesto() {
     }
 
     window.addEventListener('scroll', handleScroll, { passive: true })
+    // The wheel's radius follows the viewport width
+    window.addEventListener('resize', handleScroll)
     update()
     return () => {
       window.removeEventListener('scroll', handleScroll)
+      window.removeEventListener('resize', handleScroll)
       cancelAnimationFrame(frame)
     }
   }, [])
