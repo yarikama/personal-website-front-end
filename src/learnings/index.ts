@@ -11,6 +11,7 @@ export interface LearningPage {
 // it here, and once it is live publish its node (kind "learning", ref
 // /learnings/<slug>) through the writing MCP server.
 export const learningPages: LearningPage[] = [
+  { slug: 'data-systems', load: () => import('./data-systems') },
   { slug: 'faults-and-failures', load: () => import('./faults-and-failures') },
   { slug: 'describing-load', load: () => import('./describing-load') },
   { slug: 'percentiles', load: () => import('./percentiles') },
