@@ -1,12 +1,14 @@
 import { Component, useEffect, useMemo, useState, type ReactNode } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
-import { ArrowLeft, List, Loader2, RotateCcw, X } from 'lucide-react'
+import { ArrowLeft, ArrowRight, ArrowUpRight, List, Loader2, RotateCcw, X } from 'lucide-react'
+import { motion } from 'motion/react'
 import Graph3D from '../components/learnings/Graph3D'
 import NodePanel from '../components/learnings/NodePanel'
 import ThemeToggle from '../components/ui/ThemeToggle'
 import { usePrefersReducedMotion } from '../hooks'
 import { useLearningGraph } from '../hooks/useLearningGraph'
 import { findLearningPage } from '../learnings'
+import { useLearningPage } from '../learnings/useLearningPage'
 import { areaColours, homes, linksOf, places, tagCounts } from '../lib/learningGraph'
 import { useIsDark } from '../lib/theme'
 import type { LearningGraph, LearningNode } from '../types'
@@ -188,6 +190,45 @@ function Topics({ graph, onSelect }: { graph: LearningGraph; onSelect: (slug: st
   )
 }
 
+// A learning page read inside the map's panel: a bar to fold it back into
+// the card, open it on its own, or close it, and the page under it
+function Reader({ slug, onCollapse, onClose }: { slug: string; onCollapse: () => void; onClose: () => void }) {
+  const { Page, failed } = useLearningPage(slug)
+  const control = 'inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-zinc-faded hover:text-ink transition-colors'
+  return (
+    <div>
+      <div className="sticky top-0 z-10 flex items-center justify-between gap-4 border-b border-zinc-200 dark:border-zinc-200/20 bg-paper/90 backdrop-blur-md px-6 py-3">
+        <button onClick={onCollapse} className={control} aria-label="Collapse into the card">
+          <ArrowRight size={14} /> Collapse
+        </button>
+        <div className="flex items-center gap-5">
+          <Link to={`/learnings/${slug}`} className={control}>
+            View full page <ArrowUpRight size={14} />
+          </Link>
+          <button onClick={onClose} className="p-1 text-zinc-faded hover:text-ink transition-colors" aria-label="Close">
+            <X size={16} />
+          </button>
+        </div>
+      </div>
+      <motion.div
+        key={slug}
+        initial={{ opacity: 0, x: 24 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.15, duration: 0.4 }}
+        className="px-6 py-8 md:px-10"
+      >
+        {failed ? (
+          <p className="font-serif text-xl text-zinc-faded italic">This page did not load. Try opening it on its own.</p>
+        ) : Page ? (
+          <Page />
+        ) : (
+          <Loader2 className="mx-auto my-16 h-6 w-6 animate-spin text-zinc-400" />
+        )}
+      </motion.div>
+    </div>
+  )
+}
+
 // The Learnings map, the whole screen: a 3D knowledge graph to turn, zoom
 // and pick from, with the chosen topic's card and road beside it
 export default function LearningsPage() {
@@ -210,18 +251,37 @@ export default function LearningsPage() {
   const selectedSlug = params.get('node')
   const selected = graph?.nodes.find((node) => node.slug === selectedSlug) ?? null
   const tag = params.get('tag')
-  const change = (key: 'node' | 'tag', value: string | null) =>
+  // The page being read in the panel: also in the address (read=1)
+  const reading = params.get('read') === '1' && selected !== null && hasPage(selected.slug)
+  const change = (values: Partial<Record<'node' | 'tag' | 'read', string | null>>) =>
     setParams(
       (current) => {
         const next = new URLSearchParams(current)
-        if (value) next.set(key, value)
-        else next.delete(key)
+        for (const [key, value] of Object.entries(values)) {
+          if (value) next.set(key, value)
+          else next.delete(key)
+        }
         return next
       },
       { replace: true }
     )
-  const select = (slug: string | null) => change('node', slug)
-  const highlight = (name: string | null) => change('tag', name)
+  // Choosing another node goes back to its card
+  const select = (slug: string | null) => change({ node: slug, read: null })
+  const highlight = (name: string | null) => change({ tag: name })
+  const expand = () => change({ read: '1' })
+  const collapse = () => change({ read: null })
+
+  // Escape folds the page back into the card
+  useEffect(() => {
+    if (!reading) return
+    const fold = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') collapse()
+    }
+    window.addEventListener('keydown', fold)
+    return () => window.removeEventListener('keydown', fold)
+    // collapse only writes the address, which this effect doesn't read
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reading])
   const pick = (slug: string) => {
     select(slug)
     setShowTopics(false)
@@ -316,20 +376,40 @@ export default function LearningsPage() {
         </nav>
       )}
 
-      {/* The chosen topic: right on a wide screen, a sheet at the bottom on a phone */}
+      {/* The chosen topic: right on a wide screen, a sheet at the bottom on a
+          phone. Expanded, the same panel widens to the left with the page in
+          it; on a phone it takes the screen below the title. */}
       {selected && graph && !showTopics && (
         <aside
           aria-live="polite"
-          className={`absolute inset-x-4 bottom-4 max-h-[45dvh] md:inset-x-auto md:right-8 md:top-20 md:bottom-6 md:max-h-none md:w-80 overflow-y-auto p-6 ${overlay}`}
+          // The overlay's own transition-colors would otherwise win, and the
+          // width would jump instead of growing to the left
+          style={{ transitionProperty: 'width, background-color, border-color' }}
+          className={`absolute inset-x-4 bottom-4 md:inset-x-auto md:right-8 md:top-20 md:bottom-6 md:max-h-none md:max-w-[calc(100vw-4rem)] overflow-y-auto overscroll-contain duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${overlay} ${
+            reading ? 'top-20 md:w-[48rem]' : 'max-h-[45dvh] p-6 md:w-80'
+          }`}
         >
-          <button
-            onClick={() => select(null)}
-            className="absolute right-3 top-3 p-1 text-zinc-faded hover:text-ink transition-colors"
-            aria-label="Close"
-          >
-            <X size={16} />
-          </button>
-          <NodePanel graph={graph} node={selected} onSelect={select} onTag={highlight} hasPage={hasPage} />
+          {reading ? (
+            <Reader slug={selected.slug} onCollapse={collapse} onClose={() => select(null)} />
+          ) : (
+            <>
+              <button
+                onClick={() => select(null)}
+                className="absolute right-3 top-3 p-1 text-zinc-faded hover:text-ink transition-colors"
+                aria-label="Close"
+              >
+                <X size={16} />
+              </button>
+              <NodePanel
+                graph={graph}
+                node={selected}
+                onSelect={select}
+                onTag={highlight}
+                hasPage={hasPage}
+                onExpand={expand}
+              />
+            </>
+          )}
         </aside>
       )}
 
