@@ -164,3 +164,34 @@ export interface UploadResponse {
 export interface UploadDeleteResponse {
   message: string
 }
+
+// Learnings Types: the knowledge graph on /learnings. A learning node's page
+// is code in src/learnings; the backend keeps only its card and its links.
+export type LearningNodeKind = 'learning' | 'concept' | 'external'
+
+// prerequisite: source is learned before target; part_of: source is part
+// of target; related: either way round
+export type LearningEdgeType = 'prerequisite' | 'part_of' | 'related'
+
+export interface LearningNode {
+  slug: string
+  kind: LearningNodeKind
+  title: string
+  summary: string
+  // A learning's path on the site, an external node's URL, a concept's null
+  ref: string | null
+  tags: string[]
+  previewImage: string | null
+  published: boolean
+}
+
+export interface LearningEdge {
+  source: string
+  target: string
+  type: LearningEdgeType
+}
+
+export interface LearningGraph {
+  nodes: LearningNode[]
+  edges: LearningEdge[]
+}

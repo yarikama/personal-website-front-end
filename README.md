@@ -16,6 +16,7 @@ Built with React 19, TypeScript, Vite and Tailwind CSS v4, and deployed on Verce
 - **Notes.** Markdown notes with GitHub-flavored tables, KaTeX math and syntax highlighting, filterable by tag.
 - **Contact form**, plus links to email, LinkedIn, GitHub and the resume.
 - **Talks.** Interactive slides at `/talks/<slug>`, for talks and lessons, in the site's type and colours, on a 16:9 canvas that scales to any screen. Arrow keys, Space or a clicker move through slides and their reveal steps; the URL keeps the position. `P` opens a presenter window at `/talks/<slug>/presenter` with notes, the next slide, an outline and a clock against each part's time budget; the two windows stay in step. Public talks are listed at `/talks` and in the header. Private ones open only from their link and are marked `noindex`, but their slides ship in the bundle like the rest of the site, so nothing secret goes in a talk. The old `/talk` link goes to the interview talk.
+- **Learnings.** A full-screen 3D knowledge graph at `/learnings`, to turn, zoom and drag. Each node is a topic, a concept that gathers others, or a paper elsewhere; arrows run from what to learn first. Picking a topic flies to it and lights up its road: every prerequisite, in an order to learn them. The graph comes from the API (`GET /learnings/graph`); each topic's page is code in `src/learnings/<slug>`, at `/learnings/<slug>`. Until a node is published, a sample graph stands in. three.js loads only on this page.
 - Dark and light themes, with no flash of the wrong one on load.
 
 **For the author** (`/admin`, behind a login)
@@ -70,6 +71,7 @@ This repo is a single-page app with no server of its own. Every request for cont
 | Build | Vite 7 with SWC |
 | Styling | Tailwind CSS v4 with design tokens in [`src/index.css`](src/index.css), plus the Typography plugin |
 | Content | react-markdown, remark-gfm, remark-math, rehype-katex, rehype-highlight |
+| Graph | react-force-graph-3d (three.js), three-spritetext for labels |
 | Icons | lucide-react |
 | Quality | ESLint 10 (typescript-eslint, React Hooks), Vitest, GitHub Actions |
 | Hosting | Vercel |
@@ -78,15 +80,17 @@ This repo is a single-page app with no server of its own. Every request for cont
 
 ```
 src/
-├── pages/                Routes: Home, Works, Notes, a single note, Talks, a talk, and admin/
+├── pages/                Routes: Home, Works, Notes, a single note, Talks, a talk, Learnings, a learning, and admin/
 ├── components/
 │   ├── sections/         Home page sections (Hero, Ask, Experience, Toolkit, Contact…)
 │   ├── ask/              The chat: provider, chat view, floating widget, select-to-ask
 │   ├── talk/             The deck engine: stage, presenter view, navigation, slide building blocks
+│   ├── learnings/        The 3D graph and the chosen topic's card
 │   ├── layout/           Header (with dropdown menus), footer, section wrappers
 │   ├── ui/               Shared pieces: Markdown renderers, project card, images, theme toggle
 │   └── admin/            Admin navigation and the login guard
 ├── talks/                One folder of slides per talk, and the registry that lists them
+├── learnings/            One folder per learning page, the registry that lists them, and the sample graph
 ├── hooks/                Data fetching, the ask stream, autocomplete, draft autosave, scroll spy
 ├── services/api/         One module per API resource, on a small fetch client
 ├── lib/                  Pure functions with tests: citations, image variants, theme
