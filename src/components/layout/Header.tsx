@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from 'react'
 import type { LucideIcon } from 'lucide-react'
-import { ChevronDown, FileText, Github, Linkedin, Mail, MessageSquare } from 'lucide-react'
+import { ChevronDown, FileText, Mail, MessageSquare } from 'lucide-react'
+import { Github, Linkedin } from '../ui/brandIcons'
 import { Link, useLocation } from 'react-router-dom'
 import Container from './Container'
 import ThemeToggle from '../ui/ThemeToggle'
