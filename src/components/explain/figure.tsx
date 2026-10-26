@@ -120,8 +120,14 @@ export function Readout({ label: name, value, accent = false }: { label: string;
 }
 
 // A few worked numbers side by side: the arithmetic, shown rather than
-// written as a formula
-export function Numbers({ items }: { items: { label: string; value: ReactNode; note?: string }[] }) {
+// written as a formula. `words` sizes the values for a few words each.
+export function Numbers({
+  items,
+  words = false,
+}: {
+  items: { label: string; value: ReactNode; note?: string }[]
+  words?: boolean
+}) {
   return (
     <div
       className="not-prose my-8 grid border-y border-zinc-200 dark:border-zinc-200/20 text-center"
@@ -130,7 +136,7 @@ export function Numbers({ items }: { items: { label: string; value: ReactNode; n
       {items.map((item) => (
         <div key={item.label} className="px-2 py-5">
           <p className="font-mono text-[0.8rem] uppercase tracking-widest text-zinc-faded">{item.label}</p>
-          <p className="mt-2 font-serif text-4xl font-light text-ink">{item.value}</p>
+          <p className={`mt-2 font-serif font-light text-ink ${words ? 'text-2xl leading-tight' : 'text-4xl'}`}>{item.value}</p>
           {item.note && <p className="font-mono text-[0.8rem] text-zinc-400">{item.note}</p>}
         </div>
       ))}
