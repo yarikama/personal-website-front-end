@@ -3,9 +3,14 @@ import ForceGraph3D, { type ForceGraphMethods, type LinkObject, type NodeObject 
 import {
   CanvasTexture,
   Group,
+  IcosahedronGeometry,
+  Mesh,
+  MeshStandardMaterial,
+  SphereGeometry,
   Sprite,
   SpriteMaterial,
   SRGBColorSpace,
+  type BufferGeometry,
   type Material,
   type Texture,
 } from 'three'
@@ -37,11 +42,20 @@ interface Palette {
   faded: string
 }
 
-// Each node is a flat shape that always faces the camera, rounder and
-// smaller the deeper it sits: a field is a hexagon, a topic an octagon, an
-// idea a circle; a link elsewhere a small grey dot
-const SHAPE: Record<Level, Shape> = { 1: 'hexagon', 2: 'octagon', 3: 'dot' }
-const SIZE: Record<Level | 'elsewhere', number> = { 1: 14, 2: 10, 3: 6, elsewhere: 4 }
+// Each node is a solid, rounder and smaller the deeper it sits: a field is
+// an icosahedron (20 faces), a topic the same split once (80 faces), an idea
+// a smooth sphere; a link elsewhere a small grey sphere. Faceted ones are
+// flat-shaded, so their faces catch the light as the graph turns.
+function shapes(): Record<Level | 'elsewhere', BufferGeometry> {
+  return {
+    1: new IcosahedronGeometry(1, 0),
+    2: new IcosahedronGeometry(1, 1),
+    3: new SphereGeometry(1, 24, 16),
+    elsewhere: new SphereGeometry(1, 16, 12),
+  }
+}
+// How wide each is, across
+const SIZE: Record<Level | 'elsewhere', number> = { 1: 18, 2: 13, 3: 8, elsewhere: 5 }
 const LABEL: Record<Level | 'elsewhere', number> = { 1: 6, 2: 4.4, 3: 3.4, elsewhere: 3.2 }
 // How wide the glow around a tagged node is
 const GLOW_SIZE = 40
@@ -87,38 +101,26 @@ function layerForce(layer: Map<string, number>) {
   return force
 }
 
-// A dot, a polygon or a soft glow, drawn white once and tinted by each
+// The soft glow behind a tagged node, drawn white once and tinted by its
 // sprite's colour
-type Shape = 'dot' | 'hexagon' | 'octagon' | 'glow'
-let discs: Record<Shape, Texture> | null = null
-function disc(shape: Shape): Texture {
-  const draw = (paint: (context: CanvasRenderingContext2D, half: number) => void) => {
+let glowTexture: Texture | null = null
+function glow(): Texture {
+  if (!glowTexture) {
     const size = 128
+    const half = size / 2
     const canvas = document.createElement('canvas')
     canvas.width = canvas.height = size
-    paint(canvas.getContext('2d')!, size / 2)
-    const texture = new CanvasTexture(canvas)
-    texture.colorSpace = SRGBColorSpace
-    return texture
+    const context = canvas.getContext('2d')!
+    const fade = context.createRadialGradient(half, half, 0, half, half, half)
+    fade.addColorStop(0, 'rgba(255,255,255,1)')
+    fade.addColorStop(0.5, 'rgba(255,255,255,0.45)')
+    fade.addColorStop(1, 'rgba(255,255,255,0)')
+    context.fillStyle = fade
+    context.fillRect(0, 0, size, size)
+    glowTexture = new CanvasTexture(canvas)
+    glowTexture.colorSpace = SRGBColorSpace
   }
-  discs ??= {
-    dot: draw((context, half) => {
-      context.arc(half, half, half - 2, 0, Math.PI * 2)
-      context.fillStyle = '#fff'
-      context.fill()
-    }),
-    hexagon: draw((context, half) => polygon(context, half, 6)),
-    octagon: draw((context, half) => polygon(context, half, 8)),
-    glow: draw((context, half) => {
-      const fade = context.createRadialGradient(half, half, 0, half, half, half)
-      fade.addColorStop(0, 'rgba(255,255,255,1)')
-      fade.addColorStop(0.5, 'rgba(255,255,255,0.45)')
-      fade.addColorStop(1, 'rgba(255,255,255,0)')
-      context.fillStyle = fade
-      context.fillRect(0, 0, half * 2, half * 2)
-    }),
-  }
-  return discs[shape]
+  return glowTexture
 }
 
 // A link's two slugs: before the layout starts its ends are slugs, after it
@@ -131,18 +133,6 @@ function ends(link: GraphLink) {
 // Whether a link is one of the other things a node is part of, besides its
 // home: drawn faintly, and pulling only a little, so the node sits at home
 const alsoPartOf = (link: GraphLink) => link.type === 'part_of' && !link.home
-
-// A filled regular polygon of `sides`, a point at the top
-function polygon(context: CanvasRenderingContext2D, half: number, sides: number) {
-  context.beginPath()
-  for (let i = 0; i < sides; i++) {
-    const angle = (i / sides) * Math.PI * 2 - Math.PI / 2 + (sides % 2 === 0 ? Math.PI / sides : 0)
-    context.lineTo(half + Math.cos(angle) * (half - 2), half + Math.sin(angle) * (half - 2))
-  }
-  context.closePath()
-  context.fillStyle = '#fff'
-  context.fill()
-}
 
 interface Body {
   object: Group
@@ -213,28 +203,34 @@ export default function Graph3D({
   const [made, setMade] = useState(0)
   useEffect(() => {
     const made = new Map<string, Body>()
+    const geometry = shapes()
     for (const node of graph.nodes) {
       const place = placed.get(node.slug)
       const level = place?.level ?? 'elsewhere'
       const size = SIZE[level]
       // Coloured by its area; a field in ink, a link elsewhere in grey
       const colour = !place ? palette.faded : place.area ? (colours.get(place.area) ?? palette.sage) : palette.ink
-      const material = new SpriteMaterial({
-        map: disc(place ? SHAPE[place.level] : 'dot'),
+      const material = new MeshStandardMaterial({
         color: colour,
+        // A little of its own colour, so the light doesn't muddy the
+        // palette, while the faces still shade
+        emissive: colour,
+        emissiveIntensity: 0.22,
+        flatShading: level === 1 || level === 2,
+        roughness: 0.55,
+        metalness: 0.05,
         transparent: true,
         opacity: 1,
-        depthWrite: false,
       })
-      const dot = new Sprite(material)
-      dot.scale.setScalar(size)
-      const glow = new Sprite(
-        new SpriteMaterial({ map: disc('glow'), color: palette.sage, transparent: true, opacity: 0.32, depthWrite: false })
+      const solid = new Mesh(geometry[level], material)
+      solid.scale.setScalar(size / 2)
+      const halo = new Sprite(
+        new SpriteMaterial({ map: glow(), color: palette.sage, transparent: true, opacity: 0.32, depthWrite: false })
       )
-      glow.scale.setScalar(GLOW_SIZE)
-      glow.visible = false
+      halo.scale.setScalar(GLOW_SIZE)
+      halo.visible = false
       const object = new Group()
-      object.add(glow, dot)
+      object.add(halo, solid)
       const labelColor = place ? palette.ink : palette.faded
       const label = new SpriteText(node.title, LABEL[level], labelColor)
       const serif = level === 1 || level === 2
@@ -242,7 +238,7 @@ export default function Graph3D({
       label.fontWeight = serif ? '500' : '400'
       label.position.y = -(size / 2 + LABEL[level] * 0.9)
       object.add(label)
-      made.set(node.slug, { object, materials: [material, glow.material, label.material], label, labelColor, glow })
+      made.set(node.slug, { object, materials: [material, halo.material, label.material], label, labelColor, glow: halo })
     }
     bodies.current = made
     setMade((count) => count + 1)
@@ -251,6 +247,7 @@ export default function Graph3D({
         label.material.map?.dispose()
         for (const material of materials) material.dispose()
       }
+      for (const shape of Object.values(geometry)) shape.dispose()
     }
   }, [graph, palette, placed, colours])
   const nodeObject = useCallback(
