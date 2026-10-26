@@ -41,6 +41,12 @@ describe('the sample graph', () => {
     }
   })
 
+  it('has a page on the site for every learning', () => {
+    for (const node of demoGraph.nodes.filter((n) => n.kind === 'learning')) {
+      expect(findLearningPage(node.slug), node.slug).toBeDefined()
+    }
+  })
+
   it('gives each kind of node the ref it may have', () => {
     for (const node of demoGraph.nodes) {
       if (node.kind === 'learning') expect(node.ref).toBe(`/learnings/${node.slug}`)
