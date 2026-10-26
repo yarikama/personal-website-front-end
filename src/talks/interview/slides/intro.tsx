@@ -1,4 +1,5 @@
-import { Github, Globe, Linkedin, Mail, Phone } from 'lucide-react'
+import { Globe, Mail, Phone } from 'lucide-react'
+import { Github, Linkedin } from '../../../components/ui/brandIcons'
 import FlipText from '../../../components/ui/FlipText'
 import { Badge, Contacts, Entries } from '../../../components/talk/primitives'
 import { TalkOutline } from './outline'
