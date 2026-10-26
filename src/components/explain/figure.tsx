@@ -118,3 +118,22 @@ export function Readout({ label: name, value, accent = false }: { label: string;
     </div>
   )
 }
+
+// A few worked numbers side by side: the arithmetic, shown rather than
+// written as a formula
+export function Numbers({ items }: { items: { label: string; value: ReactNode; note?: string }[] }) {
+  return (
+    <div
+      className="not-prose my-8 grid border-y border-zinc-200 dark:border-zinc-200/20 text-center"
+      style={{ gridTemplateColumns: `repeat(${items.length}, minmax(0, 1fr))` }}
+    >
+      {items.map((item) => (
+        <div key={item.label} className="px-2 py-5">
+          <p className="font-mono text-[0.8rem] uppercase tracking-widest text-zinc-faded">{item.label}</p>
+          <p className="mt-2 font-serif text-4xl font-light text-ink">{item.value}</p>
+          {item.note && <p className="font-mono text-[0.8rem] text-zinc-400">{item.note}</p>}
+        </div>
+      ))}
+    </div>
+  )
+}

@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
+import { Link } from 'react-router-dom'
 import Article from '../../components/explain/Article'
-import { Choice, Controls, Figure, Slider } from '../../components/explain/figure'
+import { Choice, Controls, Figure, Numbers, Slider } from '../../components/explain/figure'
 import { Predict } from '../../components/explain/Predict'
 import { seeded } from '../../components/explain/random'
 import { Steps } from '../../components/explain/Steps'
@@ -96,21 +97,17 @@ export default function TailLatencyAmplification() {
         A dinner starts on time only if <strong>every</strong> friend is on time. Each one is, 99 times in 100, so
         all of them are 0.99 × 0.99 × … once for each friend:
       </p>
-      <div className="not-prose my-8 grid grid-cols-3 border-y border-zinc-200 dark:border-zinc-200/20 text-center">
-        {[1, 10, 100].map((n) => (
-          <div key={n} className="py-5">
-            <p className="font-mono text-[0.8rem] uppercase tracking-widest text-zinc-faded">
-              {n} {n === 1 ? 'server' : 'servers'}
-            </p>
-            <p className="mt-2 font-serif text-4xl font-light text-ink">{percent(slowChance(0.01, n))}</p>
-            <p className="font-mono text-[0.8rem] text-zinc-400">of pages slow</p>
-          </div>
-        ))}
-      </div>
+      <Numbers
+        items={[1, 10, 100].map((n) => ({
+          label: `${n} ${n === 1 ? 'server' : 'servers'}`,
+          value: percent(slowChance(0.01, n)),
+          note: 'of pages slow',
+        }))}
+      />
       <p>
         So a server’s rare bad moment, its slowest 1% of answers, becomes most users’ everyday experience. Engineers
-        call that slowest 1% the server’s <strong>tail</strong>, and this effect <strong>tail latency
-        amplification</strong>.
+        call that slowest 1% the server’s <strong>tail</strong> (its <Link to="/learnings/percentiles">p99</Link>),
+        and this effect <strong>tail latency amplification</strong>.
       </p>
 
       <h2>See it in a real system</h2>

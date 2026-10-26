@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react'
-import { motion, useAnimationFrame } from 'motion/react'
+import { useAnimationFrame } from 'motion/react'
+import { DotGrid, DotKey } from '../../components/explain/DotGrid'
 import { usePrefersReducedMotion } from '../../hooks'
 import { MS_PER_MINUTE, SLOW_MS } from './model'
 
@@ -90,15 +91,10 @@ export function OneDinner({ arrivals }: { arrivals: number[] }) {
   )
 }
 
-const COLUMNS = 10
-const CELL = 34
-
-// A hundred dinners (or pages) at once, each a dot: sage if it started on
-// time, ink if it waited for someone. They appear one after another.
+// A hundred dinners (or pages) at once, each a dot: light if it started on
+// time, dark if it waited for someone
 export function ManyDinners({ waited, unit }: { waited: boolean[]; unit: 'dinner' | 'page' }) {
-  const reducedMotion = usePrefersReducedMotion()
   const count = waited.filter(Boolean).length
-  const rows = Math.ceil(waited.length / COLUMNS)
   const words =
     unit === 'dinner'
       ? { late: 'waited for someone', fine: 'started on time', what: 'dinners' }
@@ -112,33 +108,19 @@ export function ManyDinners({ waited, unit }: { waited: boolean[]; unit: 'dinner
           of {waited.length} {words.what} {unit === 'dinner' ? 'waited' : 'were slow'}
         </span>
       </p>
-      <svg
-        viewBox={`0 0 ${COLUMNS * CELL} ${rows * CELL}`}
-        className="mx-auto mt-4 w-full max-w-[22rem]"
-        role="img"
-        aria-label={`${count} of ${waited.length} ${words.what} ${words.late}`}
-      >
-        {waited.map((late, i) => (
-          <motion.circle
-            key={`${unit}-${waited.length}-${i}`}
-            cx={(i % COLUMNS) * CELL + CELL / 2}
-            cy={Math.floor(i / COLUMNS) * CELL + CELL / 2}
-            r={unit === 'dinner' ? 12 : 11}
-            initial={reducedMotion ? false : { opacity: 0, scale: 0.4 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: reducedMotion ? 0 : i * 0.012, duration: 0.3 }}
-            className={late ? 'fill-ink' : 'fill-sage/50'}
-          />
-        ))}
-      </svg>
-      <div className="mt-4 flex flex-wrap justify-center gap-x-6 gap-y-2 font-mono text-[0.8rem] uppercase tracking-widest text-zinc-faded">
-        <span className="inline-flex items-center gap-2">
-          <span className="h-3 w-3 rounded-full bg-sage/50" /> {words.fine}
-        </span>
-        <span className="inline-flex items-center gap-2">
-          <span className="h-3 w-3 rounded-full bg-ink" /> {words.late}
-        </span>
+      <div className="mt-4">
+        <DotGrid
+          tones={waited.map((late) => (late ? 'bad' : 'fine'))}
+          label={`${count} of ${waited.length} ${words.what} ${words.late}`}
+          run={`${unit}-${waited.length}`}
+        />
       </div>
+      <DotKey
+        items={[
+          ['fine', words.fine],
+          ['bad', words.late],
+        ]}
+      />
     </div>
   )
 }
