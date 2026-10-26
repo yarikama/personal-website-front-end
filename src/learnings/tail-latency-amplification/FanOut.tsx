@@ -92,7 +92,7 @@ export default function FanOut({ calls, slowness }: FanOutProps) {
 
   return (
     <div>
-      <svg viewBox={`0 0 ${WIDTH} ${HEIGHT}`} className="w-full" role="img" aria-label={`One page waiting on ${calls} backend calls`}>
+      <svg viewBox={`0 0 ${WIDTH} ${HEIGHT}`} className="w-full" role="img" aria-label={`One page waiting on ${calls} servers`}>
         {/* Calls out to the backends */}
         {backends.map((backend, i) => {
           const ms = page?.[i]
@@ -163,7 +163,7 @@ export default function FanOut({ calls, slowness }: FanOutProps) {
           Page
         </text>
         <text x={BACKENDS_X + 18} y={APP.y + 4} className="fill-zinc-faded font-mono text-[11px] uppercase tracking-widest">
-          {calls} {calls === 1 ? 'backend' : 'backends'}
+          {calls} {calls === 1 ? 'server' : 'servers'}
         </text>
 
         {/* When each call answered, on one time axis */}

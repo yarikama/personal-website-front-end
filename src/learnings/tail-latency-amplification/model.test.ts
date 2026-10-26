@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { seeded } from '../../components/explain/random'
-import { neededPercentile, percentileName, sampleCall, samplePage, slowChance, SLOW_MS } from './model'
+import { percent, sampleCall, samplePage, slowChance, slowPages, SLOW_MS } from './model'
 
 describe('the chance a page is slow', () => {
   it('is the chance of one call for a page of one call', () => {
@@ -12,9 +12,8 @@ describe('the chance a page is slow', () => {
     expect(slowChance(0.01, 100)).toBeCloseTo(0.634, 3)
   })
 
-  it('needs each of 100 calls to be fast at p99.99 to keep pages fast at p99', () => {
-    expect(percentileName(neededPercentile(0.01, 100))).toBe('p99.99')
-    expect(percentileName(neededPercentile(0.01, 1))).toBe('p99')
+  it('reads as the story tells it', () => {
+    expect([1, 10, 100].map((n) => percent(slowChance(0.01, n)))).toEqual(['1%', '9.6%', '63.4%'])
   })
 })
 
@@ -40,6 +39,19 @@ describe('a sampled call', () => {
     const pages = Array.from({ length: 5000 }, () => Math.max(...samplePage(random, 0.01, 50)))
     const slow = pages.filter((ms) => ms > SLOW_MS).length / pages.length
     expect(slow).toBeCloseTo(slowChance(0.01, 50), 1)
+  })
+})
+
+describe('a run of pages', () => {
+  it('has one answer per page, slow when any call was', () => {
+    const pages = slowPages(seeded(4), 0.01, 100, 2000)
+    expect(pages).toHaveLength(2000)
+    const share = pages.filter(Boolean).length / pages.length
+    expect(share).toBeCloseTo(slowChance(0.01, 100), 1)
+  })
+
+  it('is never slow when no call can be', () => {
+    expect(slowPages(seeded(5), 0, 100, 100).some(Boolean)).toBe(false)
   })
 })
 

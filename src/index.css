@@ -579,18 +579,13 @@ body.dark {
   font-family: var(--font-sans), var(--font-serif-tc);
 }
 
-.prose h1,
-.prose h2,
-.prose h3,
-.prose h4,
-.prose h5,
-.prose h6 {
+/* Not inside a figure that opts out of the prose styles (not-prose), whose
+   text sets its own font */
+.prose :is(h1, h2, h3, h4, h5, h6):not(.not-prose *) {
   font-family: var(--font-serif), var(--font-serif-tc);
 }
 
-.prose p,
-.prose li,
-.prose blockquote {
+.prose :is(p, li, blockquote):not(.not-prose *) {
   font-family: var(--font-sans), var(--font-serif-tc);
 }
 

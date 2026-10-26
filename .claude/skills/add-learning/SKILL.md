@@ -20,21 +20,48 @@ src/learnings/<slug>/     One page: index.tsx, its figures, model.ts and model.t
 
 `src/learnings/tail-latency-amplification/` is a complete example to copy from.
 
-## What makes a good page (the 80/20)
+## How a page teaches
 
-- **One idea per page.** If it needs sub-headings that could each stand alone, and
-  something else would want to link to one of them, split it. If nothing would ever
-  link to a page except its parent, fold it into the parent.
-- **The gist first.** `takeaway` is the one sentence a reader should leave with. Write
-  it before anything else; every figure and paragraph should serve it.
-- **Let the reader find it out.** The main figure is something to play with (a slider,
-  a button that runs a simulation), not a picture to look at. The reader should be able
-  to *see* the point happen: the slow call holding the page up, the mean moving while
-  the median stays.
-- **Then the arithmetic or the mechanism**, briefly, tied to what they just saw.
-- **"What it changes"**: two to four practical consequences, in bold lead-ins.
-- **"Where it comes back"**: what later topics build on this one.
-- Short. Most pages are 600 to 1,000 words of prose.
+The aim is the most learning for the least effort from the reader. Build every page
+around the reader, in this order:
+
+1. **The promise.** `promise` is the question the page answers ("Why do pages get slow
+   when every server behind them is fast almost all the time?"). It says why to read on.
+   Never give the answer here: the reader is about to guess it.
+2. **Guess first.** A multiple-choice `Predict` before any explanation, on the number or
+   outcome the page is about. Pick options so the intuitive answer is wrong (1% when the
+   truth is 63%). A wrong guess is what makes the answer stick.
+3. **A scene they have lived.** A `Steps` story set somewhere everyday (waiting for the last
+   friend to arrive for dinner), told one sentence per step, with a figure that plays by
+   itself at every step. No jargon yet. Script the first steps (fixed numbers that make
+   the point); then scale up with a seeded simulation (100 dinners at once).
+4. **The reveal.** The story's last step maps the scene onto the system, on the same figure:
+   the dinner *is* the page, each friend *is* a server. Relabel; don't redraw.
+5. **The one line of math**, in words first, with three worked numbers rather than a chart.
+   Name the concept only now, after the reader has seen it ("this is called tail latency
+   amplification").
+6. **The real system**, as an optional figure to play with, for readers who want the
+   mechanism in real units.
+7. **A quick check** where the reader has to make a judgement, then **what to do about it**:
+   two to four practices in bold lead-ins, in plain words.
+8. **Check yourself**: a last `Predict` with a *new* situation (different numbers or
+   setting), so the reader applies the idea instead of recalling the answer.
+9. **Remember this**: `takeaway`, one sentence, shown at the end once it is earned.
+
+Questions are always multiple choice: four options, one right, an explanation on reveal
+that says *why*, not only what.
+
+Keep the reader's effort low:
+
+- One idea per page. If it needs sub-headings that could each stand alone, and something
+  else would want to link to one of them, split it. If nothing would ever link to a page
+  except its parent, fold it into the parent.
+- Show, then tell. Every claim the reader should believe, they should first see happen.
+- One sentence per story step, short words, second person ("You're having dinner").
+- Plain words before terms: introduce a term only after the thing it names is on screen,
+  and define it in the same sentence.
+- Nothing to configure before the point lands: figures play themselves; sliders come after.
+- Short. Most pages are 500 to 900 words of prose, and readable in five minutes.
 
 ## Sources and copyright
 
@@ -71,8 +98,12 @@ opens the same way every time and tests are stable.
   where a token is too strong on black (`dark:stroke-zinc-200/25`).
 - Text in SVG: `font-mono text-[10px]` or `text-[11px] uppercase tracking-widest`.
 - Animation: drive it with a clock (`useAnimationFrame` from `motion/react`) and derive
-  every position from the time, rather than animating each element on its own. With
-  `usePrefersReducedMotion()`, jump to the end state.
+  every position from the time, rather than animating each element on its own. Give a
+  story step's figure a `key`, so it plays again from the start when the step is shown.
+  With `usePrefersReducedMotion()`, jump to the end state.
+- Seeded runs a story tells numbers from: pick the seed so the run lands on what the
+  arithmetic says (63 of 100 when the formula gives 63.4%), and write the numbers in the
+  narration from the run, not by hand.
 - Guard against state from before a setting changed: a figure renders once with the old
   data before an effect resets it.
 
@@ -81,16 +112,23 @@ opens the same way every time and tests are stable.
 ```tsx
 import Article from '../../components/explain/Article'
 import { Choice, Controls, Figure, Slider } from '../../components/explain/figure'
+import { Predict } from '../../components/explain/Predict'
+import { Steps } from '../../components/explain/Steps'
 
 export default function MyTopic() {
   return (
     <Article
       kicker="Data systems · Scalability"   // the domain and topic it sits under
       title="Tail latency amplification"
-      takeaway={<>One sentence, with the key word in <em>italics</em>.</>}
+      promise="The question this page answers?"
+      takeaway={<>One sentence to remember, the key word in <em>italics</em>.</>}
       sources={[{ title: 'Designing Data-Intensive Applications', by: 'Martin Kleppmann, 2017',
                   part: 'Chapter 1, “Percentiles in Practice”', url: 'https://dataintensive.net/' }]}
     >
+      <Predict question="…" options={[{ label: 'About 1%' }, { label: 'About 63%', right: true }, …]} reveal={<>…</>} />
+      <Steps say={[<>One sentence.</>, <>The next.</>]}>
+        {(step) => <MyScene step={step} />}
+      </Steps>
       <h2>…</h2>
       <p>…</p>
       <Figure caption="What to notice, in a sentence or two.">
@@ -108,7 +146,9 @@ Hold settings that several figures share in the page, and pass them down.
 
 | Block | Use |
 |---|---|
-| `Article` | The page: kicker, title, the gist, the prose (styled like a note), sources |
+| `Article` | The page: kicker, title, the promise, the prose (styled like a note), the takeaway to remember, sources |
+| `Predict` | A multiple-choice question and its explanation once answered. `kicker`: "Guess first", "Quick check", "Check yourself" |
+| `Steps` | A story told one sentence at a time, Next / Back or the arrow keys; draws `children(step)` |
 | `Figure` | A framed figure with a caption. Outside the prose styling |
 | `Controls` | A row of controls under a drawing, wrapping on a phone |
 | `Slider`, `Choice` | A number in a range; one of a few options |

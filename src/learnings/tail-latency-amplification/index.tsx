@@ -1,33 +1,40 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useMemo, useState } from 'react'
 import Article from '../../components/explain/Article'
 import { Choice, Controls, Figure, Slider } from '../../components/explain/figure'
-import ChanceChart from './ChanceChart'
+import { Predict } from '../../components/explain/Predict'
+import { seeded } from '../../components/explain/random'
+import { Steps } from '../../components/explain/Steps'
+import { ManyDinners, OneDinner } from './Dinner'
 import FanOut from './FanOut'
-import { neededPercentile, percent, percentileName, slowChance } from './model'
+import { percent, slowChance, slowPages } from './model'
 
 const SLOWNESS = [0.001, 0.01, 0.05] as const
 
+// The story's two evenings, in minutes after seven: everyone on time, then
+// one friend 41 minutes late
+const ON_TIME = [3, 5, 2, 7]
+const ONE_LATE = [3, 5, 41, 7]
+
 export default function TailLatencyAmplification() {
-  // Both figures share these, so moving one moves the other
+  // The story's hundred dinners. Seeded so the story always tells the same
+  // numbers, and chosen to land on what the arithmetic says: 4 and 63
+  const fewGuests = useMemo(() => slowPages(seeded(3), 0.01, 4, 100), [])
+  const manyGuests = useMemo(() => slowPages(seeded(10), 0.01, 100, 100), [])
+  const waitedFew = fewGuests.filter(Boolean).length
+  const waitedMany = manyGuests.filter(Boolean).length
+
   const [calls, setCalls] = useState(10)
   const [slowness, setSlowness] = useState<(typeof SLOWNESS)[number]>(0.01)
-
-  const settings = (
-    <Controls>
-      <Slider label="Calls per page" value={calls} min={1} max={100} onChange={setCalls} />
-      <Choice label="Each call slow" options={SLOWNESS} value={slowness} onChange={setSlowness} format={percent} />
-    </Controls>
-  )
 
   return (
     <Article
       kicker="Data systems · Scalability"
       title="Tail latency amplification"
+      promise="Why do pages get slow when every server behind them is fast almost all the time?"
       takeaway={
         <>
-          A page that waits on many calls is as slow as the <em>slowest</em> of them, so a call that is rarely
-          slow makes pages that are often slow.
+          A page is as slow as the <em>slowest</em> server it waits on. The more servers it waits on, the more
+          often one of them is having a bad moment.
         </>
       }
       sources={[
@@ -45,83 +52,121 @@ export default function TailLatencyAmplification() {
         },
       ]}
     >
-      <h2>One page, many calls</h2>
+      <Predict
+        question="A web page asks 100 servers for data. Each server is slow only 1 time in 100. How many pages are slow?"
+        options={[{ label: 'About 1%' }, { label: 'About 10%' }, { label: 'About 63%', right: true }, { label: 'Nearly all' }]}
+        reveal={<>About 63 in 100. It feels wrong, so here is a dinner that shows why.</>}
+      />
+
+      <h2>Waiting for the last friend</h2>
+
+      <Steps
+        say={[
+          <>You’re having dinner with 4 friends. Each of them is late only 1 time in 100.</>,
+          <>
+            Dinner starts when the <em>last</em> person sits down. Tonight one friend is 41 minutes late, and
+            everyone waits.
+          </>,
+          <>That’s rare. Out of 100 dinners with 4 friends, only {waitedFew} wait for someone.</>,
+          <>
+            Now invite 100 friends to every dinner, each just as punctual. {waitedMany} of 100 dinners wait. Nobody got
+            worse; there are just more people to wait for.
+          </>,
+          <>
+            That dinner is your web page. Each friend is a server the page asks for data, and the page can’t
+            appear until the last one answers.
+          </>,
+        ]}
+      >
+        {(step) =>
+          step === 0 ? (
+            <OneDinner key="on-time" arrivals={ON_TIME} />
+          ) : step === 1 ? (
+            <OneDinner key="one-late" arrivals={ONE_LATE} />
+          ) : step === 2 ? (
+            <ManyDinners waited={fewGuests} unit="dinner" />
+          ) : (
+            <ManyDinners waited={manyGuests} unit={step === 3 ? 'dinner' : 'page'} />
+          )
+        }
+      </Steps>
+
+      <h2>The one line of math</h2>
       <p>
-        Behind one page there are often dozens of requests: the profile from one service, recommendations from
-        another, then prices, stock and ads. They go out in parallel, so it is tempting to think the page takes as
-        long as a typical call. It takes as long as the <strong>slowest</strong> one, because it cannot be sent until
-        every answer is in.
+        A dinner starts on time only if <strong>every</strong> friend is on time. Each one is, 99 times in 100, so
+        all of them are 0.99 × 0.99 × … once for each friend:
       </p>
+      <div className="not-prose my-8 grid grid-cols-3 border-y border-zinc-200 dark:border-zinc-200/20 text-center">
+        {[1, 10, 100].map((n) => (
+          <div key={n} className="py-5">
+            <p className="font-mono text-[0.8rem] uppercase tracking-widest text-zinc-faded">
+              {n} {n === 1 ? 'server' : 'servers'}
+            </p>
+            <p className="mt-2 font-serif text-4xl font-light text-ink">{percent(slowChance(0.01, n))}</p>
+            <p className="font-mono text-[0.8rem] text-zinc-400">of pages slow</p>
+          </div>
+        ))}
+      </div>
       <p>
-        Each backend below usually answers in 20 to 80 ms. Now and then a call takes most of a second instead: a
-        garbage collection pause, a lost packet that has to be sent again, a disk busy with something else. Send a
-        page and watch it wait.
+        So a server’s rare bad moment, its slowest 1% of answers, becomes most users’ everyday experience. Engineers
+        call that slowest 1% the server’s <strong>tail</strong>, and this effect <strong>tail latency
+        amplification</strong>.
       </p>
 
-      <Figure
-        caption={
-          <>
-            Each line is one call. Most come back almost at once, and the page waits for the last. Raise the number
-            of calls, send a hundred, and slow pages stop being rare.
-          </>
-        }
-      >
+      <h2>See it in a real system</h2>
+      <p>The same thing with timings: send a page, and watch it wait for its slowest call.</p>
+      <Figure caption="Each line is one call to a server. The page can only answer the user once the last line comes back.">
         <FanOut calls={calls} slowness={slowness} />
-        {settings}
+        <Controls>
+          <Slider label="Servers per page" value={calls} min={1} max={100} onChange={setCalls} />
+          <Choice label="Each server slow" options={SLOWNESS} value={slowness} onChange={setSlowness} format={percent} />
+        </Controls>
       </Figure>
 
-      <h2>The arithmetic</h2>
-      <p>
-        If each call is slow with chance <em>p</em>, a page of <em>n</em> calls is fast only when every one of them
-        is: that happens with chance (1 − <em>p</em>)<sup>n</sup>. So the page is slow with chance 1 − (1 −{' '}
-        <em>p</em>)<sup>n</sup>, which climbs fast.
-      </p>
-
-      <Figure
-        caption={
+      <Predict
+        kicker="Quick check"
+        question="A teammate says: “Our servers answer in 30 ms on average, so our pages are fast.” What should you ask to see?"
+        options={[
+          { label: 'Nothing, 30 ms is fast' },
+          { label: 'The fastest answers' },
+          { label: 'The slowest 1% of answers', right: true },
+          { label: 'How many servers there are' },
+        ]}
+        reveal={
           <>
-            With {calls} {calls === 1 ? 'call' : 'calls'}, each slow {percent(slowness)} of the time,{' '}
-            <strong className="text-ink font-medium">{percent(slowChance(slowness, calls))}</strong> of pages are
-            slow. To keep 99% of them fast, each call would have to be fast at{' '}
-            <strong className="text-ink font-medium">{percentileName(neededPercentile(0.01, calls))}</strong>.
+            A page waits on its slowest server, so what matters is how slow each server’s worst 1% is. Engineers call
+            that number the <strong className="text-ink font-medium">p99</strong>: 99% of answers are faster than it.
+            An average of 30 ms can hide a p99 of a full second.
           </>
         }
-      >
-        <ChanceChart calls={calls} slowness={slowness} options={SLOWNESS} />
-        {settings}
-      </Figure>
+      />
 
-      <p>
-        Take a backend that is slow 1% of the time: its p99 is slow. Ten calls to it make one page in ten slow; a
-        hundred make nearly two in three. Turned around, a page of a hundred calls only stays fast for 99% of users
-        if every backend is fast at p99.99. <strong>A backend&rsquo;s rare tail becomes the user&rsquo;s everyday
-        experience.</strong>
-      </p>
-
-      <h2>What it changes</h2>
+      <h2>What engineers do about it</h2>
       <ul>
         <li>
-          <strong>Watch each backend&rsquo;s tail, not its average.</strong> In a fan-out, its p99 and p99.9 are what
-          users feel. An average hides them entirely.
+          <strong>Watch the p99, not the average.</strong> The average hides exactly the bad moments that pages end
+          up waiting for.
         </li>
         <li>
-          <strong>Time calls from the caller&rsquo;s side.</strong> A backend&rsquo;s own timer misses the time a
-          request spent queued in front of it, behind slower ones.
+          <strong>Ask fewer servers per page.</strong> Every server you drop is one less chance to wait.
         </li>
         <li>
-          <strong>Make fewer calls, or stop waiting for stragglers.</strong> Fetch less per page, or hedge: if a call
-          has not answered within about the backend&rsquo;s p95, send the same request to another replica and take
-          whichever answers first. That costs a few percent more requests and cuts most of the tail.
+          <strong>Don’t wait forever for a straggler.</strong> If one answer is late, ask a copy of that server the
+          same thing and take whichever answers first.
         </li>
       </ul>
 
-      <h2>Where it comes back</h2>
-      <p>
-        Spreading data over many machines turns a query into a fan-out to every machine that holds part of it, so
-        this is the price of every scatter-gather read. It is also why the rest of the book keeps measuring
-        performance in percentiles. See the whole <Link to="/learnings?node=tail-latency-amplification">map</Link>{' '}
-        for what leads here and what follows.
-      </p>
+      <Predict
+        kicker="Check yourself"
+        question="A page asks 10 servers. Each is slow only 1 time in 1,000. About how many pages are slow?"
+        options={[{ label: '0.1%' }, { label: 'About 1%', right: true }, { label: '10%' }, { label: '63%' }]}
+        reveal={
+          <>
+            About 1 in 100: ten servers, each with a 1-in-1,000 chance, add up to roughly ten times the chance. Small
+            per server, but ten times what you might expect.
+          </>
+        }
+      />
     </Article>
   )
 }
