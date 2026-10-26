@@ -108,6 +108,15 @@ export function layers(graph: LearningGraph): Map<string, number> {
   return layer
 }
 
+// Every tag in the graph with how many nodes have it, most used first
+export function tagCounts(graph: LearningGraph): { tag: string; count: number }[] {
+  const counts = new Map<string, number>()
+  for (const node of graph.nodes) for (const tag of node.tags) counts.set(tag, (counts.get(tag) ?? 0) + 1)
+  return [...counts]
+    .map(([tag, count]) => ({ tag, count }))
+    .sort((a, b) => b.count - a.count || a.tag.localeCompare(b.tag))
+}
+
 export type Destination =
   | { kind: 'page'; to: string }
   | { kind: 'link'; href: string }

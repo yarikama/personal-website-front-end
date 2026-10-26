@@ -1,12 +1,13 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import ForceGraph3D, { type ForceGraphMethods, type LinkObject, type NodeObject } from 'react-force-graph-3d'
 import {
+  CanvasTexture,
   Group,
-  Mesh,
-  MeshLambertMaterial,
-  OctahedronGeometry,
-  SphereGeometry,
+  Sprite,
+  SpriteMaterial,
+  SRGBColorSpace,
   type Material,
+  type Texture,
 } from 'three'
 import SpriteText from 'three-spritetext'
 import { layers, learnFirst, neighbours } from '../../lib/learningGraph'
@@ -22,7 +23,9 @@ interface Graph3DProps {
   height: number
   selected: string | null
   onSelect: (slug: string | null) => void
-  hasPage: (slug: string) => boolean
+  // The tag whose nodes to bring forward, each in a glow: close together,
+  // the glows run into one region
+  tag: string | null
   reducedMotion: boolean
 }
 
@@ -34,7 +37,10 @@ interface Palette {
   faded: string
 }
 
-const RADIUS = { concept: 9, learning: 4, external: 3 } as const
+// Each node is a flat disc that always faces the camera, this wide
+const SIZE = { concept: 11, learning: 6, external: 4 } as const
+// How wide the glow around a tagged node is
+const GLOW_SIZE = 40
 // How far apart the layers of a road of prerequisites sit, left to right
 const LAYER_SPACING = 46
 
@@ -77,16 +83,63 @@ function layerForce(layer: Map<string, number>) {
   return force
 }
 
+// A dot, a ring or a soft glow, drawn white once and tinted by each
+// sprite's colour
+type Shape = 'dot' | 'ring' | 'glow'
+let discs: Record<Shape, Texture> | null = null
+function disc(shape: Shape): Texture {
+  const draw = (paint: (context: CanvasRenderingContext2D, half: number) => void) => {
+    const size = 128
+    const canvas = document.createElement('canvas')
+    canvas.width = canvas.height = size
+    paint(canvas.getContext('2d')!, size / 2)
+    const texture = new CanvasTexture(canvas)
+    texture.colorSpace = SRGBColorSpace
+    return texture
+  }
+  discs ??= {
+    dot: draw((context, half) => {
+      context.arc(half, half, half - 2, 0, Math.PI * 2)
+      context.fillStyle = '#fff'
+      context.fill()
+    }),
+    ring: draw((context, half) => {
+      context.arc(half, half, half - 9, 0, Math.PI * 2)
+      context.lineWidth = 12
+      context.strokeStyle = '#fff'
+      context.stroke()
+    }),
+    glow: draw((context, half) => {
+      const fade = context.createRadialGradient(half, half, 0, half, half, half)
+      fade.addColorStop(0, 'rgba(255,255,255,1)')
+      fade.addColorStop(0.5, 'rgba(255,255,255,0.45)')
+      fade.addColorStop(1, 'rgba(255,255,255,0)')
+      context.fillStyle = fade
+      context.fillRect(0, 0, half * 2, half * 2)
+    }),
+  }
+  return discs[shape]
+}
+
 interface Body {
   object: Group
   materials: Material[]
   label: SpriteText
   labelColor: string
+  glow: Sprite
 }
 
-// Fades the bodies out of focus, and marks the selected one
-function paint(bodies: Map<string, Body>, lit: (slug: string) => boolean, selected: string | null, accent: string) {
+// Fades the bodies out of focus, marks the selected one, and lights the
+// glows of the tagged ones
+function paint(
+  bodies: Map<string, Body>,
+  lit: (slug: string) => boolean,
+  selected: string | null,
+  tagged: Set<string> | null,
+  accent: string
+) {
   for (const [slug, body] of bodies) {
+    body.glow.visible = tagged?.has(slug) ?? false
     for (const material of body.materials) {
       material.userData.opacity ??= material.opacity
       material.opacity = material.userData.opacity * (lit(slug) ? 1 : 0.12)
@@ -98,7 +151,15 @@ function paint(bodies: Map<string, Body>, lit: (slug: string) => boolean, select
 
 // The knowledge graph in 3D: drag to turn it, scroll or pinch to zoom, drag
 // a node to move it, click one to fly to it
-export default function Graph3D({ graph, width, height, selected, onSelect, hasPage, reducedMotion }: Graph3DProps) {
+export default function Graph3D({
+  graph,
+  width,
+  height,
+  selected,
+  onSelect,
+  tag,
+  reducedMotion,
+}: Graph3DProps) {
   const fg = useRef<ForceGraphMethods<GraphNode, GraphLink> | undefined>(undefined)
   const palette = usePalette()
   const [hovered, setHovered] = useState<string | null>(null)
@@ -120,44 +181,42 @@ export default function Graph3D({ graph, width, height, selected, onSelect, hasP
   useEffect(() => {
     const made = new Map<string, Body>()
     for (const node of graph.nodes) {
-      const r = RADIUS[node.kind]
-      const live = node.kind !== 'learning' || hasPage(node.slug)
-      const material = new MeshLambertMaterial({
+      const size = SIZE[node.kind]
+      // A learning is a sage dot, a concept a ring, a link elsewhere a small
+      // grey dot
+      const material = new SpriteMaterial({
+        map: disc(node.kind === 'concept' ? 'ring' : 'dot'),
         color: node.kind === 'concept' ? palette.ink : node.kind === 'external' ? palette.faded : palette.sage,
         transparent: true,
-        opacity: node.kind === 'concept' ? 0.18 : 0.95,
-        wireframe: node.kind === 'learning' && !live,
+        opacity: 1,
+        depthWrite: false,
       })
-      const shape =
-        node.kind === 'external' ? new OctahedronGeometry(r) : new SphereGeometry(r, node.kind === 'concept' ? 24 : 16, 12)
+      const dot = new Sprite(material)
+      dot.scale.setScalar(size)
+      const glow = new Sprite(
+        new SpriteMaterial({ map: disc('glow'), color: palette.sage, transparent: true, opacity: 0.32, depthWrite: false })
+      )
+      glow.scale.setScalar(GLOW_SIZE)
+      glow.visible = false
       const object = new Group()
-      object.add(new Mesh(shape, material))
-      const materials: Material[] = [material]
-      if (node.kind === 'concept') {
-        // A faint shell around a concept, with its edges drawn
-        const edge = new MeshLambertMaterial({ color: palette.ink, transparent: true, opacity: 0.25, wireframe: true })
-        object.add(new Mesh(new SphereGeometry(r, 12, 8), edge))
-        materials.push(edge)
-      }
+      object.add(glow, dot)
       const labelColor = node.kind === 'external' ? palette.faded : palette.ink
-      const label = new SpriteText(node.title, node.kind === 'concept' ? 6 : 4, labelColor)
+      const label = new SpriteText(node.title, node.kind === 'concept' ? 5 : 3.4, labelColor)
       label.fontFace = node.kind === 'concept' ? 'Cormorant Garamond, serif' : 'Inter, system-ui, sans-serif'
       label.fontWeight = node.kind === 'concept' ? '500' : '400'
-      label.position.y = -(r + (node.kind === 'concept' ? 5 : 4))
+      label.position.y = -(size / 2 + (node.kind === 'concept' ? 4.5 : 3.5))
       object.add(label)
-      materials.push(label.material)
-      made.set(node.slug, { object, materials, label, labelColor })
+      made.set(node.slug, { object, materials: [material, glow.material, label.material], label, labelColor, glow })
     }
     bodies.current = made
     setMade((count) => count + 1)
     return () => {
-      for (const { object } of made.values()) {
-        object.traverse((part) => {
-          if (part instanceof Mesh) part.geometry.dispose()
-        })
+      for (const { materials, label } of made.values()) {
+        label.material.map?.dispose()
+        for (const material of materials) material.dispose()
       }
     }
-  }, [graph, palette, hasPage])
+  }, [graph, palette])
   const nodeObject = useCallback(
     (n: GraphNode) => bodies.current.get(n.id)?.object ?? new Group(),
     // A new function makes the graph ask for every node's body again
@@ -173,10 +232,19 @@ export default function Graph3D({ graph, width, height, selected, onSelect, hasP
   )
   const focus = hovered ?? selected
   const near = useMemo(() => (focus ? neighbours(graph, focus) : null), [graph, focus])
+  // A chosen node leads; without one, the tag does
+  const tagged = useMemo(
+    () => (tag ? new Set(graph.nodes.filter((node) => node.tags.includes(tag)).map((node) => node.slug)) : null),
+    [graph, tag]
+  )
+  const lit = useCallback(
+    (slug: string) => (near ? near.has(slug) || path.has(slug) : tagged ? tagged.has(slug) : true),
+    [near, path, tagged]
+  )
 
   useEffect(() => {
-    paint(bodies.current, (slug) => !near || near.has(slug) || path.has(slug), selected, palette.sage)
-  }, [made, near, path, selected, palette.sage])
+    paint(bodies.current, lit, selected, tagged, palette.sage)
+  }, [made, lit, selected, tagged, palette.sage])
 
   const ends = (link: GraphLink) => {
     const end = (end: GraphLink['source']) => (typeof end === 'object' ? end.id : String(end))
@@ -191,11 +259,12 @@ export default function Graph3D({ graph, width, height, selected, onSelect, hasP
   )
   const linkLit = useCallback(
     (link: GraphLink) => {
-      if (!near || onPath(link)) return true
       const [source, target] = ends(link)
+      if (!near) return !tagged || (tagged.has(source) && tagged.has(target))
+      if (onPath(link)) return true
       return (source === focus || target === focus) && near.has(source) && near.has(target)
     },
-    [near, focus, onPath]
+    [near, focus, onPath, tagged]
   )
 
   const linkColor = useCallback(

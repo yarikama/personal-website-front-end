@@ -8,7 +8,27 @@ const node = (
   title: string,
   summary: string,
   ref: string | null = kind === 'learning' ? `/learnings/${slug}` : null
-): LearningNode => ({ slug, kind, title, summary, ref, tags: [], previewImage: null, published: true })
+): LearningNode => ({ slug, kind, title, summary, ref, tags: TAGS[slug] ?? [], previewImage: null, published: true })
+
+// Tags cut across the concepts: optimization runs from the maths to RL
+const TAGS: Record<string, string[]> = {
+  'linear-algebra': ['math'],
+  probability: ['math'],
+  'gradient-descent': ['math', 'optimization'],
+  backprop: ['optimization'],
+  attention: ['nlp'],
+  transformer: ['nlp'],
+  tokenization: ['nlp'],
+  pretraining: ['nlp', 'optimization'],
+  'kv-cache': ['systems'],
+  serving: ['systems'],
+  sft: ['optimization'],
+  dpo: ['optimization', 'rl'],
+  grpo: ['optimization', 'rl'],
+  'attention-paper': ['nlp'],
+  'dpo-paper': ['rl'],
+  'grpo-paper': ['rl'],
+}
 
 const nodes: LearningNode[] = [
   node('foundations', 'concept', 'Foundations', 'The maths every model after it leans on.'),

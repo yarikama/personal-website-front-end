@@ -7,7 +7,7 @@ import ThemeToggle from '../components/ui/ThemeToggle'
 import { usePrefersReducedMotion } from '../hooks'
 import { useLearningGraph } from '../hooks/useLearningGraph'
 import { findLearningPage } from '../learnings'
-import { linksOf } from '../lib/learningGraph'
+import { linksOf, tagCounts } from '../lib/learningGraph'
 import type { LearningGraph, LearningNode } from '../types'
 
 const hasPage = (slug: string) => findLearningPage(slug) !== undefined
@@ -46,15 +46,11 @@ function Legend() {
         Learning
       </span>
       <span className={item}>
-        <span className="h-2.5 w-2.5 rounded-full border border-dashed border-sage" />
-        Coming soon
-      </span>
-      <span className={item}>
-        <span className="h-3.5 w-3.5 rounded-full border border-ink/40 bg-ink/10" />
+        <span className="h-3.5 w-3.5 rounded-full border-[1.5px] border-ink" />
         Concept
       </span>
       <span className={item}>
-        <span className="h-2 w-2 rotate-45 bg-zinc-faded" />
+        <span className="h-2 w-2 rounded-full bg-zinc-faded" />
         Elsewhere
       </span>
       <span className={item}>
@@ -62,6 +58,34 @@ function Legend() {
         <span aria-hidden>›</span>
         Learn before
       </span>
+    </div>
+  )
+}
+
+// The tags to light up a region of the graph by, most used first
+function TagBar({ graph, tag, onTag }: { graph: LearningGraph; tag: string | null; onTag: (tag: string | null) => void }) {
+  const tags = useMemo(() => tagCounts(graph), [graph])
+  if (tags.length === 0) return null
+  return (
+    <div className="pointer-events-auto mt-4 flex gap-2 overflow-x-auto pb-1 md:flex-wrap md:overflow-visible">
+      {tags.map(({ tag: name, count }) => {
+        const active = name === tag
+        return (
+          <button
+            key={name}
+            onClick={() => onTag(active ? null : name)}
+            aria-pressed={active}
+            className={`shrink-0 px-2.5 py-1 font-mono text-[0.8rem] uppercase tracking-widest transition-colors ${
+              active
+                ? 'border border-sage bg-sage/15 text-sage'
+                : `text-zinc-faded hover:text-ink ${overlay}`
+            }`}
+          >
+            {name}
+            <span className="ml-1.5 opacity-60">{count}</span>
+          </button>
+        )
+      })}
     </div>
   )
 }
@@ -119,10 +143,23 @@ export default function LearningsPage() {
   const [params, setParams] = useSearchParams()
   const [showTopics, setShowTopics] = useState(false)
 
-  // The selected node is in the address, so a link can open the map on it
+  // The selected node and tag are in the address, so a link can open the
+  // map on them
   const selectedSlug = params.get('node')
   const selected = graph?.nodes.find((node) => node.slug === selectedSlug) ?? null
-  const select = (slug: string | null) => setParams(slug ? { node: slug } : {}, { replace: true })
+  const tag = params.get('tag')
+  const change = (key: 'node' | 'tag', value: string | null) =>
+    setParams(
+      (current) => {
+        const next = new URLSearchParams(current)
+        if (value) next.set(key, value)
+        else next.delete(key)
+        return next
+      },
+      { replace: true }
+    )
+  const select = (slug: string | null) => change('node', slug)
+  const highlight = (name: string | null) => change('tag', name)
   const pick = (slug: string) => {
     select(slug)
     setShowTopics(false)
@@ -157,7 +194,7 @@ export default function LearningsPage() {
             height={height}
             selected={selected?.slug ?? null}
             onSelect={select}
-            hasPage={hasPage}
+            tag={tag}
             reducedMotion={reducedMotion}
           />
         </GraphBoundary>
@@ -180,6 +217,7 @@ export default function LearningsPage() {
             Sample map
           </p>
         )}
+        {graph && <TagBar graph={graph} tag={tag} onTag={highlight} />}
       </header>
 
       {/* Controls, top right */}
@@ -220,7 +258,7 @@ export default function LearningsPage() {
           >
             <X size={16} />
           </button>
-          <NodePanel graph={graph} node={selected} onSelect={select} hasPage={hasPage} />
+          <NodePanel graph={graph} node={selected} onSelect={select} onTag={highlight} hasPage={hasPage} />
         </aside>
       )}
 

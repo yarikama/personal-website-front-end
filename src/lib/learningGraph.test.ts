@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import type { LearningEdgeType, LearningGraph, LearningNode } from '../types'
-import { destination, layers, learnFirst, linksOf, neighbours } from './learningGraph'
+import { destination, layers, learnFirst, linksOf, neighbours, tagCounts } from './learningGraph'
 
 const node = (slug: string, overrides: Partial<LearningNode> = {}): LearningNode => ({
   slug,
@@ -85,6 +85,20 @@ describe('the layers of the graph', () => {
   it('end even on a cycle', () => {
     const loop = graph(['a', 'b'], [['a', 'prerequisite', 'b'], ['b', 'prerequisite', 'a']])
     expect([...layers(loop).keys()].sort()).toEqual(['a', 'b'])
+  })
+})
+
+describe('the tags of the graph', () => {
+  it('are counted, most used first and then by name', () => {
+    const g: LearningGraph = {
+      nodes: [node('a', { tags: ['math', 'ml'] }), node('b', { tags: ['ml'] }), node('c', { tags: ['llm'] }), node('d')],
+      edges: [],
+    }
+    expect(tagCounts(g)).toEqual([
+      { tag: 'ml', count: 2 },
+      { tag: 'llm', count: 1 },
+      { tag: 'math', count: 1 },
+    ])
   })
 })
 

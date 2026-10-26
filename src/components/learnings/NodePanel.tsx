@@ -7,6 +7,8 @@ interface NodePanelProps {
   graph: LearningGraph
   node: LearningNode
   onSelect: (slug: string) => void
+  // Lights up every node with this tag
+  onTag: (tag: string) => void
   hasPage: (slug: string) => boolean
 }
 
@@ -42,7 +44,7 @@ function NodeList({ title, nodes, onSelect, ordered = false }: {
 
 // The selected node's card: what it is, where it leads, and what to learn
 // before it
-export default function NodePanel({ graph, node, onSelect, hasPage }: NodePanelProps) {
+export default function NodePanel({ graph, node, onSelect, onTag, hasPage }: NodePanelProps) {
   const links = linksOf(graph, node.slug)
   const road = learnFirst(graph, node.slug)
   const to = destination(node, hasPage)
@@ -56,9 +58,13 @@ export default function NodePanel({ graph, node, onSelect, hasPage }: NodePanelP
         {node.tags.length > 0 && (
           <div className="flex flex-wrap gap-2 mt-4">
             {node.tags.map((tag) => (
-              <span key={tag} className="font-mono text-[0.8rem] text-zinc-400">
+              <button
+                key={tag}
+                onClick={() => onTag(tag)}
+                className="font-mono text-[0.8rem] text-zinc-400 hover:text-sage transition-colors"
+              >
                 #{tag}
-              </span>
+              </button>
             ))}
           </div>
         )}
