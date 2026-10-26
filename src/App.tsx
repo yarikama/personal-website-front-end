@@ -30,6 +30,9 @@ const AdminMessagesList = lazy(() => import('./pages/admin/MessagesList'))
 const AdminVisitors = lazy(() => import('./pages/admin/Visitors'))
 const AdminTalksList = lazy(() => import('./pages/admin/TalksList'))
 const Talk = lazy(() => import('./pages/Talk'))
+// The 3D graph (three.js) loads only here
+const LearningsPage = lazy(() => import('./pages/LearningsPage'))
+const LearningPage = lazy(() => import('./pages/LearningPage'))
 
 // The first talk's old address, already sent out. Keeps the hash, so a link
 // to a slide still lands on it.
@@ -48,6 +51,9 @@ function App() {
           <Route path="/talks/:slug/presenter" element={<Talk presenter />} />
           <Route path="/talk" element={<OldTalkRedirect to="/talks/interview" />} />
           <Route path="/talk/presenter" element={<OldTalkRedirect to="/talks/interview/presenter" />} />
+
+          {/* The Learnings map - full screen, no header/footer */}
+          <Route path="/learnings" element={<LearningsPage />} />
 
           {/* Admin routes - no header/footer */}
           <Route path="/admin/login" element={<AdminLogin />} />
@@ -186,6 +192,7 @@ function App() {
                         <Route path="/notes" element={<NotesPage />} />
                         <Route path="/notes/:slug" element={<NotePage />} />
                         <Route path="/talks" element={<TalksPage />} />
+                        <Route path="/learnings/:slug" element={<LearningPage />} />
                       </Routes>
                     </Suspense>
                   </main>
