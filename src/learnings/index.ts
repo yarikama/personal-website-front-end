@@ -15,6 +15,7 @@ export const learningPages: LearningPage[] = [
   { slug: 'describing-load', load: () => import('./describing-load') },
   { slug: 'percentiles', load: () => import('./percentiles') },
   { slug: 'tail-latency-amplification', load: () => import('./tail-latency-amplification') },
+  { slug: 'scaling-up-and-out', load: () => import('./scaling-up-and-out') },
 ]
 
 export const findLearningPage = (slug: string | undefined) => learningPages.find((page) => page.slug === slug)
