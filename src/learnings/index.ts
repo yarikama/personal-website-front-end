@@ -10,6 +10,8 @@ export interface LearningPage {
 // add one: make src/learnings/<slug>/index.tsx default-export the page, list
 // it here, and once it is live publish its node (kind "learning", ref
 // /learnings/<slug>) through the writing MCP server.
-export const learningPages: LearningPage[] = []
+export const learningPages: LearningPage[] = [
+  { slug: 'tail-latency-amplification', load: () => import('./tail-latency-amplification') },
+]
 
 export const findLearningPage = (slug: string | undefined) => learningPages.find((page) => page.slug === slug)
