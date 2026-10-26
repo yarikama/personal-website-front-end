@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from 'react'
 import type { LucideIcon } from 'lucide-react'
-import { ChevronDown, FileText, Github, Linkedin, Mail, MessageSquare } from 'lucide-react'
+import { ChevronDown, FileText, Mail, MessageSquare } from 'lucide-react'
+import { Github, Linkedin } from '../ui/brandIcons'
 import { Link, useLocation } from 'react-router-dom'
 import Container from './Container'
 import ThemeToggle from '../ui/ThemeToggle'
@@ -28,8 +29,8 @@ interface NavItem {
 }
 
 // Works and Notes open their own pages, and are also marked while their
-// previews on the home page are on screen. Talks shows once there is a public
-// one to list.
+// previews on the home page are on screen. Learnings opens the map, and stays
+// marked on each learning page. Talks shows once there is a public one to list.
 const navItems: NavItem[] = [
   { label: 'Ask', href: '/#ask', sectionId: 'ask' },
   {
@@ -44,6 +45,7 @@ const navItems: NavItem[] = [
   },
   { label: 'Works', href: '/works', isRoute: true, sectionId: 'works' },
   { label: 'Notes', href: '/notes', isRoute: true, sectionId: 'notes' },
+  { label: 'Learnings', href: '/learnings', isRoute: true },
   ...(publicTalks.length > 0 ? [{ label: 'Talks', href: '/talks', isRoute: true }] : []),
   {
     label: 'Contact',

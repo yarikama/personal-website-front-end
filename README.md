@@ -16,7 +16,7 @@ Built with React 19, TypeScript, Vite and Tailwind CSS v4, and deployed on Verce
 - **Notes.** Markdown notes with GitHub-flavored tables, KaTeX math and syntax highlighting, filterable by tag.
 - **Contact form**, plus links to email, LinkedIn, GitHub and the resume.
 - **Talks.** Interactive slides at `/talks/<slug>`, for talks and lessons, in the site's type and colours, on a 16:9 canvas that scales to any screen. Arrow keys, Space or a clicker move through slides and their reveal steps; the URL keeps the position. `P` opens a presenter window at `/talks/<slug>/presenter` with notes, the next slide, an outline and a clock against each part's time budget; the two windows stay in step. Public talks are listed at `/talks` and in the header. Private ones open only from their link and are marked `noindex`, but their slides ship in the bundle like the rest of the site, so nothing secret goes in a talk. The old `/talk` link goes to the interview talk.
-- **Learnings.** A full-screen 3D knowledge graph at `/learnings`, to turn, zoom and drag. Each node is a topic, a concept that gathers others, or a paper elsewhere; arrows run from what to learn first. Picking a topic flies to it and lights up its road: every prerequisite, in an order to learn them. The graph comes from the API (`GET /learnings/graph`); each topic's page is code in `src/learnings/<slug>`, at `/learnings/<slug>`. Until a node is published, a sample graph stands in. three.js loads only on this page.
+- **Learnings.** A full-screen 3D knowledge graph at `/learnings`, to turn, zoom and drag. Each node is a topic, a concept that gathers others, or a paper elsewhere; arrows run from what to learn first. Picking a topic flies to it and lights up its road: every prerequisite, in an order to learn them. Tags along the top light up every topic that has one, each in a soft glow; where those topics sit close, the glows run into one region. The chosen topic and tag are in the URL (`?node=`, `?tag=`). The graph comes from the API (`GET /learnings/graph`); each topic's page is code in `src/learnings/<slug>`, at `/learnings/<slug>`. Until a node is published, a sample graph stands in. three.js loads only on this page. Each learning page is an interactive explainer: the gist in a sentence, figures to play with (simulations in SVG, animated with Motion), then the arithmetic and what it changes; the `add-learning` skill says how to write one.
 - Dark and light themes, with no flash of the wrong one on load.
 
 **For the author** (`/admin`, behind a login)
@@ -86,6 +86,7 @@ src/
 │   ├── ask/              The chat: provider, chat view, floating widget, select-to-ask
 │   ├── talk/             The deck engine: stage, presenter view, navigation, slide building blocks
 │   ├── learnings/        The 3D graph and the chosen topic's card
+│   ├── explain/          Building blocks for learning pages: article layout, figures, sliders, seeded randomness
 │   ├── layout/           Header (with dropdown menus), footer, section wrappers
 │   ├── ui/               Shared pieces: Markdown renderers, project card, images, theme toggle
 │   └── admin/            Admin navigation and the login guard

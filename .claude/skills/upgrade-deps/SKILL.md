@@ -67,4 +67,18 @@ npm ci
 
 ## Holds
 
-None yet.
+- **typescript `~6.0.3`, not 7.** typescript-eslint (8.72.1, the newest)
+  declares `typescript >=4.8.4 <6.1.0`, so npm refuses TypeScript 7. Lifts
+  when a typescript-eslint release supports 7: check its `peerDependencies`.
+  The tsconfig already avoids what 7 drops (`moduleResolution: "bundler"`,
+  no `esModuleInterop: false`).
+
+Not holds, but worth knowing:
+
+- **`overrides` in package.json** push two packages *up* past advisories, past
+  the ranges their parents declare: `katex` (rehype-katex and remark-math ask
+  for `^0.16`; the fix is in 0.18.2+) and `postcss-selector-parser` (pinned to
+  6.0.10 by @tailwindcss/typography; fixed in 6.1.5). Drop each once its parent
+  allows the fixed version, and check a note with math still renders.
+- **lucide-react 1.0 dropped brand icons.** GitHub and LinkedIn live in
+  `src/components/ui/brandIcons.ts`, drawn as Lucide drew them before.
