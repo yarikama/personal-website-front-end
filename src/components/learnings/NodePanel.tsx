@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { ArrowRight, ArrowUpRight } from 'lucide-react'
-import { destination, learnFirst, linksOf } from '../../lib/learningGraph'
+import { destination, learnFirst, linksOf, places } from '../../lib/learningGraph'
 import type { LearningGraph, LearningNode } from '../../types'
 
 interface NodePanelProps {
@@ -12,7 +12,7 @@ interface NodePanelProps {
   hasPage: (slug: string) => boolean
 }
 
-const KIND_LABEL = { learning: 'Learning', concept: 'Concept', external: 'Elsewhere' } as const
+const LEVEL_LABEL = { 1: 'Field', 2: 'Topic', 3: 'Idea' } as const
 
 function NodeList({ title, nodes, onSelect, ordered = false }: {
   title: string
@@ -46,13 +46,14 @@ function NodeList({ title, nodes, onSelect, ordered = false }: {
 // before it
 export default function NodePanel({ graph, node, onSelect, onTag, hasPage }: NodePanelProps) {
   const links = linksOf(graph, node.slug)
+  const place = places(graph).get(node.slug)
   const road = learnFirst(graph, node.slug)
   const to = destination(node, hasPage)
 
   return (
     <div key={node.slug} className="flex flex-col gap-8 animate-slide-enter">
       <div>
-        <span className="font-mono text-[0.8rem] uppercase tracking-widest text-sage">{KIND_LABEL[node.kind]}</span>
+        <span className="font-mono text-[0.8rem] uppercase tracking-widest text-sage">{place ? LEVEL_LABEL[place.level] : 'Elsewhere'}</span>
         <h2 className="font-serif text-3xl font-light tracking-tight mt-2 mb-3">{node.title}</h2>
         <p className="text-sm text-zinc-faded leading-relaxed">{node.summary}</p>
         {node.tags.length > 0 && (
@@ -96,7 +97,8 @@ export default function NodePanel({ graph, node, onSelect, onTag, hasPage }: Nod
 
       <NodeList title="Learn first" nodes={road} onSelect={onSelect} ordered />
       <NodeList title="Then" nodes={links.next} onSelect={onSelect} />
-      <NodeList title="Part of" nodes={links.partOf} onSelect={onSelect} />
+      <NodeList title="Lives in" nodes={links.home ? [links.home] : []} onSelect={onSelect} />
+      <NodeList title="Also part of" nodes={links.partOf.filter((n) => n !== links.home)} onSelect={onSelect} />
       <NodeList title="Inside" nodes={links.parts} onSelect={onSelect} />
       <NodeList title="Related" nodes={links.related} onSelect={onSelect} />
     </div>

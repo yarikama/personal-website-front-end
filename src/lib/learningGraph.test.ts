@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import type { LearningEdgeType, LearningGraph, LearningNode } from '../types'
-import { destination, layers, learnFirst, linksOf, neighbours, tagCounts } from './learningGraph'
+import { areaColours, destination, homes, layers, learnFirst, linksOf, neighbours, places, tagCounts } from './learningGraph'
 
 const node = (slug: string, overrides: Partial<LearningNode> = {}): LearningNode => ({
   slug,
@@ -85,6 +85,58 @@ describe('the layers of the graph', () => {
   it('end even on a cycle', () => {
     const loop = graph(['a', 'b'], [['a', 'prerequisite', 'b'], ['b', 'prerequisite', 'a']])
     expect([...layers(loop).keys()].sort()).toEqual(['a', 'b'])
+  })
+})
+
+describe('homes and places', () => {
+  // A field with two topics; an idea in both topics, at home in the second
+  const g: LearningGraph = {
+    nodes: [node('field'), node('one'), node('two'), node('idea'), node('paper', { kind: 'external' })],
+    edges: [
+      { source: 'one', target: 'field', type: 'part_of' },
+      { source: 'two', target: 'field', type: 'part_of' },
+      { source: 'idea', target: 'one', type: 'part_of' },
+      { source: 'idea', target: 'two', type: 'part_of', home: true },
+      { source: 'idea', target: 'paper', type: 'related' },
+    ],
+  }
+
+  it('give a node the home marked, or else its first parent', () => {
+    expect(Object.fromEntries(homes(g))).toEqual({ one: 'field', two: 'field', idea: 'two' })
+  })
+
+  it('list a node’s home first among what it is part of', () => {
+    const idea = linksOf(g, 'idea')
+    expect(idea.home?.slug).toBe('two')
+    expect(slugs(idea.partOf)).toEqual(['two', 'one'])
+    expect(slugs(linksOf(g, 'one').parts)).toEqual(['idea'])
+  })
+
+  it('set each node’s level and area by following homes up', () => {
+    const at = places(g)
+    expect(at.get('field')).toEqual({ level: 1, area: null })
+    expect(at.get('one')).toEqual({ level: 2, area: 'one' })
+    expect(at.get('idea')).toEqual({ level: 3, area: 'two' })
+    expect(at.has('paper')).toBe(false)
+  })
+
+  it('stop at a cycle of homes', () => {
+    const loop: LearningGraph = {
+      nodes: [node('a'), node('b')],
+      edges: [
+        { source: 'a', target: 'b', type: 'part_of' },
+        { source: 'b', target: 'a', type: 'part_of' },
+      ],
+    }
+    expect(places(loop).get('a')?.level).toBe(2)
+  })
+
+  it('give every area its own colour, the same each time', () => {
+    const light = areaColours(g, false)
+    expect([...light.keys()]).toEqual(['one', 'two'])
+    expect(light.get('one')).not.toBe(light.get('two'))
+    expect(areaColours(g, false)).toEqual(light)
+    expect(areaColours(g, true).get('one')).not.toBe(light.get('one'))
   })
 })
 

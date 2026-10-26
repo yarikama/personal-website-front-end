@@ -1,13 +1,14 @@
 import { Component, useEffect, useMemo, useState, type ReactNode } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
-import { ArrowLeft, List, Loader2, X } from 'lucide-react'
+import { ArrowLeft, List, Loader2, RotateCcw, X } from 'lucide-react'
 import Graph3D from '../components/learnings/Graph3D'
 import NodePanel from '../components/learnings/NodePanel'
 import ThemeToggle from '../components/ui/ThemeToggle'
 import { usePrefersReducedMotion } from '../hooks'
 import { useLearningGraph } from '../hooks/useLearningGraph'
 import { findLearningPage } from '../learnings'
-import { linksOf, tagCounts } from '../lib/learningGraph'
+import { areaColours, homes, linksOf, places, tagCounts } from '../lib/learningGraph'
+import { useIsDark } from '../lib/theme'
 import type { LearningGraph, LearningNode } from '../types'
 
 const hasPage = (slug: string) => findLearningPage(slug) !== undefined
@@ -37,27 +38,58 @@ class GraphBoundary extends Component<{ fallback: ReactNode; children: ReactNode
   }
 }
 
-function Legend() {
-  const item = 'inline-flex items-center gap-2'
+// A node's shape: a regular polygon of `sides`, or a circle for 0
+function Shape({ sides, size, colour }: { sides: number; size: number; colour: string }) {
+  const half = size / 2
+  const points = Array.from({ length: sides }, (_, i) => {
+    const angle = (i / sides) * Math.PI * 2 - Math.PI / 2 + Math.PI / sides
+    return `${half + Math.cos(angle) * half},${half + Math.sin(angle) * half}`
+  }).join(' ')
   return (
-    <div className="flex flex-wrap gap-x-5 gap-y-1.5 font-mono text-[0.8rem] uppercase tracking-widest text-zinc-faded">
-      <span className={item}>
-        <span className="h-2.5 w-2.5 rounded-full bg-sage" />
-        Learning
-      </span>
-      <span className={item}>
-        <span className="h-3.5 w-3.5 rounded-full border-[1.5px] border-ink" />
-        Concept
-      </span>
-      <span className={item}>
-        <span className="h-2 w-2 rounded-full bg-zinc-faded" />
-        Elsewhere
-      </span>
-      <span className={item}>
-        <span className="h-px w-5 bg-zinc-400" />
-        <span aria-hidden>›</span>
-        Learn before
-      </span>
+    <svg width={size} height={size} aria-hidden className="shrink-0">
+      {sides ? <polygon points={points} fill={colour} /> : <circle cx={half} cy={half} r={half} fill={colour} />}
+    </svg>
+  )
+}
+
+// What the shapes and colours mean: a shape per level, a colour per area
+function Legend({ graph }: { graph: LearningGraph }) {
+  const dark = useIsDark()
+  const colours = useMemo(() => areaColours(graph, dark), [graph, dark])
+  const titles = useMemo(() => new Map(graph.nodes.map((node) => [node.slug, node.title])), [graph])
+  const item = 'inline-flex items-center gap-2'
+  const ink = 'var(--color-ink)'
+  return (
+    <div className="flex flex-col gap-2 font-mono text-[0.8rem] uppercase tracking-widest text-zinc-faded">
+      <div className="flex flex-wrap gap-x-5 gap-y-1.5">
+        <span className={item}>
+          <Shape sides={6} size={14} colour={ink} />
+          Field
+        </span>
+        <span className={item}>
+          <Shape sides={8} size={12} colour={ink} />
+          Topic
+        </span>
+        <span className={item}>
+          <Shape sides={0} size={9} colour={ink} />
+          Idea
+        </span>
+        <span className={item}>
+          <span className="h-px w-5 bg-zinc-400" />
+          <span aria-hidden>›</span>
+          Learn before
+        </span>
+      </div>
+      {colours.size > 1 && colours.size <= 8 && (
+        <div className="flex flex-wrap gap-x-5 gap-y-1.5">
+          {[...colours].map(([area, colour]) => (
+            <span key={area} className={item}>
+              <Shape sides={0} size={9} colour={colour} />
+              {titles.get(area)}
+            </span>
+          ))}
+        </div>
+      )}
     </div>
   )
 }
@@ -90,44 +122,65 @@ function TagBar({ graph, tag, onTag }: { graph: LearningGraph; tag: string | nul
   )
 }
 
-// Every node as a list, by the concept it is part of: the graph's text
-// version, for screen readers, small screens and browsers without WebGL
+// Every node as a list: each field, the topics in it and the ideas in each
+// topic, an idea listed under every topic it is part of. The graph's text
+// version, for screen readers, small screens and browsers without WebGL.
 function Topics({ graph, onSelect }: { graph: LearningGraph; onSelect: (slug: string) => void }) {
-  const groups = useMemo(() => {
-    const grouped = new Set<string>()
-    const byConcept = graph.nodes
-      .filter((node) => node.kind === 'concept')
-      .map((concept) => {
-        const parts = linksOf(graph, concept.slug).parts
-        for (const part of parts) grouped.add(part.slug)
-        return { concept, parts }
-      })
-    const loose = graph.nodes.filter((node) => node.kind !== 'concept' && !grouped.has(node.slug))
-    return { byConcept, loose }
-  }, [graph])
+  const dark = useIsDark()
+  const { fields, elsewhere, home, colours } = useMemo(() => {
+    const at = places(graph)
+    const parts = (slug: string) => linksOf(graph, slug).parts
+    return {
+      fields: graph.nodes
+        .filter((node) => at.get(node.slug)?.level === 1)
+        .map((field) => ({ field, topics: parts(field.slug).map((topic) => ({ topic, ideas: parts(topic.slug) })) })),
+      elsewhere: graph.nodes.filter((node) => !at.has(node.slug)),
+      home: homes(graph),
+      colours: areaColours(graph, dark),
+    }
+  }, [graph, dark])
 
-  const item = (node: LearningNode) => (
-    <li key={node.slug}>
-      <button onClick={() => onSelect(node.slug)} className="text-left text-sm text-zinc-faded hover:text-ink transition-colors">
-        {node.title}
-      </button>
-    </li>
+  const pick = (node: LearningNode, className: string) => (
+    <button onClick={() => onSelect(node.slug)} className={`text-left transition-colors ${className}`}>
+      {node.title}
+    </button>
   )
 
   return (
-    <div className="flex flex-col gap-7">
-      {groups.byConcept.map(({ concept, parts }) => (
-        <div key={concept.slug}>
-          <button onClick={() => onSelect(concept.slug)} className="font-serif text-xl italic mb-2 hover:text-sage transition-colors">
-            {concept.title}
-          </button>
-          <ul className="flex flex-col gap-1">{parts.map(item)}</ul>
+    <div className="flex flex-col gap-8">
+      {fields.map(({ field, topics }) => (
+        <div key={field.slug}>
+          {pick(field, 'font-serif text-2xl hover:text-sage')}
+          <div className="mt-4 flex flex-col gap-5">
+            {topics.map(({ topic, ideas }) => (
+              <div key={topic.slug}>
+                <div className="flex items-center gap-2">
+                  <Shape sides={8} size={10} colour={colours.get(topic.slug) ?? 'var(--color-ink)'} />
+                  {pick(topic, 'font-serif text-lg italic hover:text-sage')}
+                </div>
+                <ul className="mt-1 ml-[18px] flex flex-col gap-1">
+                  {ideas.map((idea) => (
+                    <li key={idea.slug} className="text-sm">
+                      {pick(idea, 'text-zinc-faded hover:text-ink')}
+                      {home.get(idea.slug) !== topic.slug && <span className="ml-2 text-xs text-zinc-400">also here</span>}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
         </div>
       ))}
-      {groups.loose.length > 0 && (
+      {elsewhere.length > 0 && (
         <div>
           <p className="font-serif text-xl italic mb-2">Elsewhere</p>
-          <ul className="flex flex-col gap-1">{groups.loose.map(item)}</ul>
+          <ul className="flex flex-col gap-1">
+            {elsewhere.map((node) => (
+              <li key={node.slug} className="text-sm">
+                {pick(node, 'text-zinc-faded hover:text-ink')}
+              </li>
+            ))}
+          </ul>
         </div>
       )}
     </div>
@@ -142,6 +195,14 @@ export default function LearningsPage() {
   const { width, height } = useWindowSize()
   const [params, setParams] = useSearchParams()
   const [showTopics, setShowTopics] = useState(false)
+  // Each reset draws the graph afresh: laid out, framed and turning as when
+  // the page was opened
+  const [drawing, setDrawing] = useState(0)
+  const reset = () => {
+    setParams({}, { replace: true })
+    setShowTopics(false)
+    setDrawing((n) => n + 1)
+  }
 
   // The selected node and tag are in the address, so a link can open the
   // map on them
@@ -189,6 +250,7 @@ export default function LearningsPage() {
           }
         >
           <Graph3D
+            key={drawing}
             graph={graph}
             width={width}
             height={height}
@@ -222,6 +284,14 @@ export default function LearningsPage() {
 
       {/* Controls, top right */}
       <div className="absolute right-4 top-4 md:right-8 md:top-6 flex items-center gap-2">
+        <button
+          onClick={reset}
+          className={`inline-flex items-center gap-2 px-3 py-2 font-mono text-xs uppercase tracking-widest text-zinc-faded hover:text-ink ${overlay}`}
+          aria-label="Reset the map"
+        >
+          <RotateCcw size={14} />
+          <span className="hidden sm:inline">Reset</span>
+        </button>
         <button
           onClick={() => setShowTopics((open) => !open)}
           className={`inline-flex items-center gap-2 px-3 py-2 font-mono text-xs uppercase tracking-widest text-zinc-faded hover:text-ink ${overlay}`}
@@ -265,7 +335,7 @@ export default function LearningsPage() {
       {/* Legend and how to move it, bottom left */}
       {!selected && (
         <div className="pointer-events-none absolute bottom-4 left-4 right-4 md:bottom-6 md:left-8 flex flex-col gap-2">
-          <Legend />
+          {graph && <Legend graph={graph} />}
           <p className="font-mono text-[0.8rem] uppercase tracking-widest text-zinc-400">
             Drag to turn · scroll to zoom · drag a node to move it
           </p>

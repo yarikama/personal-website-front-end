@@ -23,6 +23,7 @@ const TAGS: Record<string, string[]> = {
 }
 
 const nodes: LearningNode[] = [
+  node('data-intensive', 'concept', 'Data systems', 'Storing, moving and processing data at scale: the subject of DDIA.'),
   node('reliability', 'concept', 'Reliability', 'Working correctly even when things go wrong.'),
   node('scalability', 'concept', 'Scalability', 'Staying fast as the load grows.'),
 
@@ -57,10 +58,12 @@ export const demoGraph: LearningGraph = {
       `data-systems>faults-and-failures data-systems>describing-load data-systems>maintainability
        describing-load>percentiles percentiles>tail-latency-amplification describing-load>scaling-up-and-out`
     ),
+    // The field, its topics (two of them pages), and the ideas in each topic
     ...edges(
       'part_of',
-      `faults-and-failures>reliability describing-load>scalability percentiles>scalability
-       tail-latency-amplification>scalability scaling-up-and-out>scalability`
+      `data-systems>data-intensive reliability>data-intensive scalability>data-intensive
+       maintainability>data-intensive faults-and-failures>reliability describing-load>scalability
+       percentiles>scalability tail-latency-amplification>scalability scaling-up-and-out>scalability`
     ),
     ...edges(
       'related',
