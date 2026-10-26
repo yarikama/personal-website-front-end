@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { ArrowRight, ArrowUpRight } from 'lucide-react'
+import { ArrowLeft, ArrowRight, ArrowUpRight } from 'lucide-react'
 import { destination, learnFirst, linksOf, places } from '../../lib/learningGraph'
 import type { LearningGraph, LearningNode } from '../../types'
 
@@ -10,6 +10,8 @@ interface NodePanelProps {
   // Lights up every node with this tag
   onTag: (tag: string) => void
   hasPage: (slug: string) => boolean
+  // Opens the node's page in the panel, for a page on the site's map
+  onExpand: () => void
 }
 
 const LEVEL_LABEL = { 1: 'Field', 2: 'Topic', 3: 'Idea' } as const
@@ -44,7 +46,7 @@ function NodeList({ title, nodes, onSelect, ordered = false }: {
 
 // The selected node's card: what it is, where it leads, and what to learn
 // before it
-export default function NodePanel({ graph, node, onSelect, onTag, hasPage }: NodePanelProps) {
+export default function NodePanel({ graph, node, onSelect, onTag, hasPage, onExpand }: NodePanelProps) {
   const links = linksOf(graph, node.slug)
   const place = places(graph).get(node.slug)
   const road = learnFirst(graph, node.slug)
@@ -71,7 +73,16 @@ export default function NodePanel({ graph, node, onSelect, onTag, hasPage }: Nod
         )}
 
         <div className="mt-5">
-          {to.kind === 'page' && (
+          {to.kind === 'page' && to.to === `/learnings/${node.slug}` && (
+            <button
+              onClick={onExpand}
+              className="inline-flex items-center gap-2 border border-ink px-3 py-1.5 font-mono text-xs uppercase tracking-widest text-ink hover:bg-ink hover:text-paper transition-colors"
+            >
+              <ArrowLeft size={14} /> Expand
+            </button>
+          )}
+          {/* A page elsewhere on the site opens there */}
+          {to.kind === 'page' && to.to !== `/learnings/${node.slug}` && (
             <Link
               to={to.to}
               className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-ink hover:text-sage transition-colors"
