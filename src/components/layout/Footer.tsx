@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import Container from './Container'
-import { Github, Linkedin, Mail } from 'lucide-react'
+import { Mail } from 'lucide-react'
+import { Github, Linkedin } from '../ui/brandIcons'
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
