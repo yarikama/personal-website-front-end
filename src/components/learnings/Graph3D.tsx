@@ -1,20 +1,21 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import ForceGraph3D, { type ForceGraphMethods, type LinkObject, type NodeObject } from 'react-force-graph-3d'
 import {
+  CanvasTexture,
   Group,
-  Mesh,
-  MeshLambertMaterial,
-  OctahedronGeometry,
-  SphereGeometry,
+  Sprite,
+  SpriteMaterial,
+  SRGBColorSpace,
   type Material,
+  type Texture,
 } from 'three'
 import SpriteText from 'three-spritetext'
-import { layers, learnFirst, neighbours } from '../../lib/learningGraph'
+import { areaColours, homes, layers, learnFirst, neighbours, places, type Level } from '../../lib/learningGraph'
 import { useIsDark } from '../../lib/theme'
 import type { LearningEdgeType, LearningGraph, LearningNode } from '../../types'
 
 type GraphNode = NodeObject<{ id: string; node: LearningNode }>
-type GraphLink = LinkObject<GraphNode, { type: LearningEdgeType }>
+type GraphLink = LinkObject<GraphNode, { type: LearningEdgeType; home: boolean }>
 
 interface Graph3DProps {
   graph: LearningGraph
@@ -22,7 +23,9 @@ interface Graph3DProps {
   height: number
   selected: string | null
   onSelect: (slug: string | null) => void
-  hasPage: (slug: string) => boolean
+  // The tag whose nodes to bring forward, each in a glow: close together,
+  // the glows run into one region
+  tag: string | null
   reducedMotion: boolean
 }
 
@@ -34,7 +37,14 @@ interface Palette {
   faded: string
 }
 
-const RADIUS = { concept: 9, learning: 4, external: 3 } as const
+// Each node is a flat shape that always faces the camera, rounder and
+// smaller the deeper it sits: a field is a hexagon, a topic an octagon, an
+// idea a circle; a link elsewhere a small grey dot
+const SHAPE: Record<Level, Shape> = { 1: 'hexagon', 2: 'octagon', 3: 'dot' }
+const SIZE: Record<Level | 'elsewhere', number> = { 1: 14, 2: 10, 3: 6, elsewhere: 4 }
+const LABEL: Record<Level | 'elsewhere', number> = { 1: 6, 2: 4.4, 3: 3.4, elsewhere: 3.2 }
+// How wide the glow around a tagged node is
+const GLOW_SIZE = 40
 // How far apart the layers of a road of prerequisites sit, left to right
 const LAYER_SPACING = 46
 
@@ -77,16 +87,82 @@ function layerForce(layer: Map<string, number>) {
   return force
 }
 
+// A dot, a polygon or a soft glow, drawn white once and tinted by each
+// sprite's colour
+type Shape = 'dot' | 'hexagon' | 'octagon' | 'glow'
+let discs: Record<Shape, Texture> | null = null
+function disc(shape: Shape): Texture {
+  const draw = (paint: (context: CanvasRenderingContext2D, half: number) => void) => {
+    const size = 128
+    const canvas = document.createElement('canvas')
+    canvas.width = canvas.height = size
+    paint(canvas.getContext('2d')!, size / 2)
+    const texture = new CanvasTexture(canvas)
+    texture.colorSpace = SRGBColorSpace
+    return texture
+  }
+  discs ??= {
+    dot: draw((context, half) => {
+      context.arc(half, half, half - 2, 0, Math.PI * 2)
+      context.fillStyle = '#fff'
+      context.fill()
+    }),
+    hexagon: draw((context, half) => polygon(context, half, 6)),
+    octagon: draw((context, half) => polygon(context, half, 8)),
+    glow: draw((context, half) => {
+      const fade = context.createRadialGradient(half, half, 0, half, half, half)
+      fade.addColorStop(0, 'rgba(255,255,255,1)')
+      fade.addColorStop(0.5, 'rgba(255,255,255,0.45)')
+      fade.addColorStop(1, 'rgba(255,255,255,0)')
+      context.fillStyle = fade
+      context.fillRect(0, 0, half * 2, half * 2)
+    }),
+  }
+  return discs[shape]
+}
+
+// A link's two slugs: before the layout starts its ends are slugs, after it
+// they are the nodes themselves
+function ends(link: GraphLink) {
+  const end = (end: GraphLink['source']) => (typeof end === 'object' ? end.id : String(end))
+  return [end(link.source), end(link.target)] as const
+}
+
+// Whether a link is one of the other things a node is part of, besides its
+// home: drawn faintly, and pulling only a little, so the node sits at home
+const alsoPartOf = (link: GraphLink) => link.type === 'part_of' && !link.home
+
+// A filled regular polygon of `sides`, a point at the top
+function polygon(context: CanvasRenderingContext2D, half: number, sides: number) {
+  context.beginPath()
+  for (let i = 0; i < sides; i++) {
+    const angle = (i / sides) * Math.PI * 2 - Math.PI / 2 + (sides % 2 === 0 ? Math.PI / sides : 0)
+    context.lineTo(half + Math.cos(angle) * (half - 2), half + Math.sin(angle) * (half - 2))
+  }
+  context.closePath()
+  context.fillStyle = '#fff'
+  context.fill()
+}
+
 interface Body {
   object: Group
   materials: Material[]
   label: SpriteText
   labelColor: string
+  glow: Sprite
 }
 
-// Fades the bodies out of focus, and marks the selected one
-function paint(bodies: Map<string, Body>, lit: (slug: string) => boolean, selected: string | null, accent: string) {
+// Fades the bodies out of focus, marks the selected one, and lights the
+// glows of the tagged ones
+function paint(
+  bodies: Map<string, Body>,
+  lit: (slug: string) => boolean,
+  selected: string | null,
+  tagged: Set<string> | null,
+  accent: string
+) {
   for (const [slug, body] of bodies) {
+    body.glow.visible = tagged?.has(slug) ?? false
     for (const material of body.materials) {
       material.userData.opacity ??= material.opacity
       material.opacity = material.userData.opacity * (lit(slug) ? 1 : 0.12)
@@ -98,19 +174,37 @@ function paint(bodies: Map<string, Body>, lit: (slug: string) => boolean, select
 
 // The knowledge graph in 3D: drag to turn it, scroll or pinch to zoom, drag
 // a node to move it, click one to fly to it
-export default function Graph3D({ graph, width, height, selected, onSelect, hasPage, reducedMotion }: Graph3DProps) {
+export default function Graph3D({
+  graph,
+  width,
+  height,
+  selected,
+  onSelect,
+  tag,
+  reducedMotion,
+}: Graph3DProps) {
   const fg = useRef<ForceGraphMethods<GraphNode, GraphLink> | undefined>(undefined)
   const palette = usePalette()
+  const dark = useIsDark()
+  const placed = useMemo(() => places(graph), [graph])
+  const colours = useMemo(() => areaColours(graph, dark), [graph, dark])
   const [hovered, setHovered] = useState<string | null>(null)
   const fitted = useRef(false)
 
-  const data = useMemo(
-    () => ({
+  const data = useMemo(() => {
+    const home = homes(graph)
+    return {
       nodes: graph.nodes.map((node): GraphNode => ({ id: node.slug, node })),
-      links: graph.edges.map((edge): GraphLink => ({ source: edge.source, target: edge.target, type: edge.type })),
-    }),
-    [graph]
-  )
+      links: graph.edges.map(
+        (edge): GraphLink => ({
+          source: edge.source,
+          target: edge.target,
+          type: edge.type,
+          home: edge.type === 'part_of' && home.get(edge.source) === edge.target,
+        })
+      ),
+    }
+  }, [graph])
 
   // One body per node, made again only for a new graph or theme; a change
   // of focus only changes their opacity (below). three.js changes them in
@@ -120,44 +214,45 @@ export default function Graph3D({ graph, width, height, selected, onSelect, hasP
   useEffect(() => {
     const made = new Map<string, Body>()
     for (const node of graph.nodes) {
-      const r = RADIUS[node.kind]
-      const live = node.kind !== 'learning' || hasPage(node.slug)
-      const material = new MeshLambertMaterial({
-        color: node.kind === 'concept' ? palette.ink : node.kind === 'external' ? palette.faded : palette.sage,
+      const place = placed.get(node.slug)
+      const level = place?.level ?? 'elsewhere'
+      const size = SIZE[level]
+      // Coloured by its area; a field in ink, a link elsewhere in grey
+      const colour = !place ? palette.faded : place.area ? (colours.get(place.area) ?? palette.sage) : palette.ink
+      const material = new SpriteMaterial({
+        map: disc(place ? SHAPE[place.level] : 'dot'),
+        color: colour,
         transparent: true,
-        opacity: node.kind === 'concept' ? 0.18 : 0.95,
-        wireframe: node.kind === 'learning' && !live,
+        opacity: 1,
+        depthWrite: false,
       })
-      const shape =
-        node.kind === 'external' ? new OctahedronGeometry(r) : new SphereGeometry(r, node.kind === 'concept' ? 24 : 16, 12)
+      const dot = new Sprite(material)
+      dot.scale.setScalar(size)
+      const glow = new Sprite(
+        new SpriteMaterial({ map: disc('glow'), color: palette.sage, transparent: true, opacity: 0.32, depthWrite: false })
+      )
+      glow.scale.setScalar(GLOW_SIZE)
+      glow.visible = false
       const object = new Group()
-      object.add(new Mesh(shape, material))
-      const materials: Material[] = [material]
-      if (node.kind === 'concept') {
-        // A faint shell around a concept, with its edges drawn
-        const edge = new MeshLambertMaterial({ color: palette.ink, transparent: true, opacity: 0.25, wireframe: true })
-        object.add(new Mesh(new SphereGeometry(r, 12, 8), edge))
-        materials.push(edge)
-      }
-      const labelColor = node.kind === 'external' ? palette.faded : palette.ink
-      const label = new SpriteText(node.title, node.kind === 'concept' ? 6 : 4, labelColor)
-      label.fontFace = node.kind === 'concept' ? 'Cormorant Garamond, serif' : 'Inter, system-ui, sans-serif'
-      label.fontWeight = node.kind === 'concept' ? '500' : '400'
-      label.position.y = -(r + (node.kind === 'concept' ? 5 : 4))
+      object.add(glow, dot)
+      const labelColor = place ? palette.ink : palette.faded
+      const label = new SpriteText(node.title, LABEL[level], labelColor)
+      const serif = level === 1 || level === 2
+      label.fontFace = serif ? 'Cormorant Garamond, serif' : 'Inter, system-ui, sans-serif'
+      label.fontWeight = serif ? '500' : '400'
+      label.position.y = -(size / 2 + LABEL[level] * 0.9)
       object.add(label)
-      materials.push(label.material)
-      made.set(node.slug, { object, materials, label, labelColor })
+      made.set(node.slug, { object, materials: [material, glow.material, label.material], label, labelColor, glow })
     }
     bodies.current = made
     setMade((count) => count + 1)
     return () => {
-      for (const { object } of made.values()) {
-        object.traverse((part) => {
-          if (part instanceof Mesh) part.geometry.dispose()
-        })
+      for (const { materials, label } of made.values()) {
+        label.material.map?.dispose()
+        for (const material of materials) material.dispose()
       }
     }
-  }, [graph, palette, hasPage])
+  }, [graph, palette, placed, colours])
   const nodeObject = useCallback(
     (n: GraphNode) => bodies.current.get(n.id)?.object ?? new Group(),
     // A new function makes the graph ask for every node's body again
@@ -173,15 +268,20 @@ export default function Graph3D({ graph, width, height, selected, onSelect, hasP
   )
   const focus = hovered ?? selected
   const near = useMemo(() => (focus ? neighbours(graph, focus) : null), [graph, focus])
+  // A chosen node leads; without one, the tag does
+  const tagged = useMemo(
+    () => (tag ? new Set(graph.nodes.filter((node) => node.tags.includes(tag)).map((node) => node.slug)) : null),
+    [graph, tag]
+  )
+  const lit = useCallback(
+    (slug: string) => (near ? near.has(slug) || path.has(slug) : tagged ? tagged.has(slug) : true),
+    [near, path, tagged]
+  )
 
   useEffect(() => {
-    paint(bodies.current, (slug) => !near || near.has(slug) || path.has(slug), selected, palette.sage)
-  }, [made, near, path, selected, palette.sage])
+    paint(bodies.current, lit, selected, tagged, palette.sage)
+  }, [made, lit, selected, tagged, palette.sage])
 
-  const ends = (link: GraphLink) => {
-    const end = (end: GraphLink['source']) => (typeof end === 'object' ? end.id : String(end))
-    return [end(link.source), end(link.target)] as const
-  }
   const onPath = useCallback(
     (link: GraphLink) => {
       const [source, target] = ends(link)
@@ -191,17 +291,19 @@ export default function Graph3D({ graph, width, height, selected, onSelect, hasP
   )
   const linkLit = useCallback(
     (link: GraphLink) => {
-      if (!near || onPath(link)) return true
       const [source, target] = ends(link)
+      if (!near) return !tagged || (tagged.has(source) && tagged.has(target))
+      if (onPath(link)) return true
       return (source === focus || target === focus) && near.has(source) && near.has(target)
     },
-    [near, focus, onPath]
+    [near, focus, onPath, tagged]
   )
 
   const linkColor = useCallback(
     (link: GraphLink) => {
       if (onPath(link)) return palette.sage
-      const strength = link.type === 'prerequisite' ? 0.75 : link.type === 'part_of' ? 0.35 : 0.5
+      const strength =
+        link.type === 'prerequisite' ? 0.75 : alsoPartOf(link) ? 0.14 : link.type === 'part_of' ? 0.35 : 0.5
       return withAlpha(palette.faint, linkLit(link) ? strength : 0.06)
     },
     [palette, onPath, linkLit]
@@ -212,7 +314,22 @@ export default function Graph3D({ graph, width, height, selected, onSelect, hasP
     const graph3d = fg.current
     if (!graph3d) return
     graph3d.d3Force('layer', layerForce(layers(graph)))
-    graph3d.d3Force('charge')?.strength?.(-90)
+    // Bigger shapes push harder, so fields and topics keep room round them
+    // and their labels
+    const at = places(graph)
+    const PUSH: Record<Level | 'elsewhere', number> = { 1: -260, 2: -170, 3: -90, elsewhere: -60 }
+    graph3d.d3Force('charge')?.strength?.((n: GraphNode) => PUSH[at.get(n.id)?.level ?? 'elsewhere'])
+    // d3's own strength (one over the busier end's links), except that a
+    // node's other parents barely pull it away from its home
+    const links = new Map<string, number>()
+    for (const edge of graph.edges) {
+      for (const end of [edge.source, edge.target]) links.set(end, (links.get(end) ?? 0) + 1)
+    }
+    graph3d.d3Force('link')?.strength?.((link: GraphLink) => {
+      if (alsoPartOf(link)) return 0.05
+      const [source, target] = ends(link)
+      return 1 / Math.min(links.get(source) ?? 1, links.get(target) ?? 1)
+    })
     graph3d.d3ReheatSimulation()
   }, [graph])
 

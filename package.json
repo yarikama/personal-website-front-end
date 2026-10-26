@@ -21,6 +21,7 @@
     "@vercel/analytics": "^2.0.1",
     "katex": "^0.16.27",
     "lucide-react": "^0.562.0",
+    "motion": "^14.1.0",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
     "react-force-graph-3d": "^1.29.2",

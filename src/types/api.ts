@@ -189,6 +189,9 @@ export interface LearningEdge {
   source: string
   target: string
   type: LearningEdgeType
+  // A part_of edge that is the source's home, where it sits on the map. A
+  // node can be part of several others; the rest are "also part of".
+  home?: boolean
 }
 
 export interface LearningGraph {
