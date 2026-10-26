@@ -314,7 +314,11 @@ export default function Graph3D({
     const graph3d = fg.current
     if (!graph3d) return
     graph3d.d3Force('layer', layerForce(layers(graph)))
-    graph3d.d3Force('charge')?.strength?.(-90)
+    // Bigger shapes push harder, so fields and topics keep room round them
+    // and their labels
+    const at = places(graph)
+    const PUSH: Record<Level | 'elsewhere', number> = { 1: -260, 2: -170, 3: -90, elsewhere: -60 }
+    graph3d.d3Force('charge')?.strength?.((n: GraphNode) => PUSH[at.get(n.id)?.level ?? 'elsewhere'])
     // d3's own strength (one over the busier end's links), except that a
     // node's other parents barely pull it away from its home
     const links = new Map<string, number>()

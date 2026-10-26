@@ -80,8 +80,9 @@ function Legend({ graph }: { graph: LearningGraph }) {
           Learn before
         </span>
       </div>
+      {/* On a phone the graph needs the room; the Topics list shows the areas */}
       {colours.size > 1 && colours.size <= 8 && (
-        <div className="flex flex-wrap gap-x-5 gap-y-1.5">
+        <div className="hidden md:flex flex-wrap gap-x-5 gap-y-1.5">
           {[...colours].map(([area, colour]) => (
             <span key={area} className={item}>
               <Shape sides={0} size={9} colour={colour} />
