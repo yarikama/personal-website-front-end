@@ -1,4 +1,5 @@
 import type { LearningGraph, LearningNode } from '../types'
+import type { Stage } from './progress'
 
 export interface NodeLinks {
   // Learned right before it, and right after
@@ -206,4 +207,37 @@ export function destination(node: LearningNode, hasPage: (slug: string) => boole
   const page = node.ref.match(/^\/learnings\/([a-z0-9-]+)$/)
   if (page && !hasPage(page[1])) return { kind: 'soon' }
   return { kind: 'page', to: node.ref }
+}
+
+// How far along each node is. A page is as far as it has been read; a node
+// with no page of its own, only what is inside it, is as far as the least
+// read of those. One with nothing to read inside it has no stage.
+export function stagesOf(graph: LearningGraph, read: Map<string, Stage>, hasPage: (slug: string) => boolean): Map<string, Stage> {
+  const parts = new Map<string, string[]>()
+  for (const edge of graph.edges) {
+    if (edge.type === 'part_of') parts.set(edge.target, [...(parts.get(edge.target) ?? []), edge.source])
+  }
+  const reached = new Map<string, Stage | null>()
+  const inside = new Set<string>()
+  const reach = (slug: string): Stage | null => {
+    if (reached.has(slug)) return reached.get(slug)!
+    // A loop of part_of edges
+    if (inside.has(slug)) return null
+    let stage: Stage | null = null
+    if (hasPage(slug)) stage = read.get(slug) ?? 0
+    else {
+      inside.add(slug)
+      const below = (parts.get(slug) ?? []).map(reach).filter((part) => part !== null)
+      inside.delete(slug)
+      if (below.length > 0) stage = Math.min(...below) as Stage
+    }
+    reached.set(slug, stage)
+    return stage
+  }
+  const stages = new Map<string, Stage>()
+  for (const node of graph.nodes) {
+    const stage = reach(node.slug)
+    if (stage !== null) stages.set(node.slug, stage)
+  }
+  return stages
 }
