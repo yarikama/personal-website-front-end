@@ -370,6 +370,40 @@ export default function Graph3D({
     flyTo(selected)
   }, [selected, flyTo])
 
+  // Frame a tag's nodes together: the camera looks at the group's middle,
+  // from the side it is on, far enough back to see all of it in what the
+  // panel leaves of the screen. A tag of one node is flown to as a chosen
+  // one is; one chosen before the layout has placed them is framed once it
+  // settles.
+  const frame = useCallback(() => {
+    const graph3d = fg.current
+    const members = data.nodes.filter((n) => tagged?.has(n.id))
+    if (!graph3d || members.length === 0 || members[0].x === undefined) return false
+    if (members.length === 1) return flyTo(members[0].id)
+    const at = (n: GraphNode) => ({ x: n.x ?? 0, y: n.y ?? 0, z: n.z ?? 0 })
+    const middle = members.map(at).reduce((sum, p) => ({ x: sum.x + p.x, y: sum.y + p.y, z: sum.z + p.z }))
+    const [cx, cy, cz] = [middle.x, middle.y, middle.z].map((v) => v / members.length)
+    // Room for the furthest one's body and label
+    const radius = 20 + Math.max(...members.map(at).map((p) => Math.hypot(p.x - cx, p.y - cy, p.z - cz)))
+    const camera = graph3d.camera() as PerspectiveCamera
+    const half = (camera.fov * Math.PI) / 360
+    const across = Math.atan(Math.tan(half) * (Math.max(1, width - 2 * shift) / height))
+    const distance = radius / Math.sin(Math.min(half, across))
+    const { x, y, z } = camera.position
+    const away = Math.max(1, Math.hypot(x - cx, y - cy, z - cz))
+    graph3d.cameraPosition(
+      { x: cx + ((x - cx) / away) * distance, y: cy + ((y - cy) / away) * distance, z: cz + ((z - cz) / away) * distance },
+      { x: cx, y: cy, z: cz },
+      reducedMotion ? 0 : 1200
+    )
+    return true
+  }, [tagged, data, flyTo, reducedMotion, width, height, shift])
+  // Only as the tag is chosen: the camera is the visitor's again after
+  useEffect(() => {
+    frame()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tagged])
+
   // Slide the picture left by `shift`, as the panel widens: the camera's
   // view is offset, so it still turns round the same point. In step with
   // the panel's own half second.
@@ -422,7 +456,7 @@ export default function Graph3D({
       onEngineStop={() => {
         if (fitted.current) return
         fitted.current = true
-        if (!flyTo(selected)) fg.current?.zoomToFit(reducedMotion ? 0 : 800, 40)
+        if (!flyTo(selected) && !frame()) fg.current?.zoomToFit(reducedMotion ? 0 : 800, 40)
       }}
       onNodeHover={(n: GraphNode | null) => setHovered(n?.id ?? null)}
       onNodeClick={(n: GraphNode) => onSelect(n.id === selected ? null : n.id)}
