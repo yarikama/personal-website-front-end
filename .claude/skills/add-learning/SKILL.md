@@ -76,6 +76,10 @@ The site is public. Pages are **our own explanation**, not the book's:
   with the source in `sources`.
 - A short quotation (a sentence) is fine when the exact words matter, marked and credited.
 - Every page lists what it draws on in `sources`, with the chapter or section.
+- The book or paper itself (a PDF, its extracted text) never goes into the repo or onto
+  the site: read it from where the owner keeps it, and keep extracts in a scratch folder.
+- Check the words against the source before the page goes out (`overlap.py`, under
+  "Check it"): a run of eight or more words shared with the source is rewritten.
 
 The site's audience reads English: pages are in English.
 
@@ -235,3 +239,17 @@ npx tsc --noEmit -p . && npm run lint && npx vitest run && npm run build
 
 Then `npm run dev` and open `/learnings/<slug>` in both themes, on a phone width too. Play
 with every control, including changing a setting while a simulation is running.
+
+Then check the page's words against its source, the same PDF the page was written from,
+with the chapter's pages:
+
+```bash
+python3 -I .claude/skills/add-learning/overlap.py <source.pdf> <slug> [<slug> ...] --pages 23-48
+```
+
+It prints every run of six or more words a page shares with the source, longest first,
+and exits 1 if one is eight or more: that is a sentence taken or closely paraphrased, so
+rewrite it in your own words and run it again. Shorter runs are usually common phrases
+("a fraction of the way toward the"); read them, and leave them if they are. A page's
+`sources` list is skipped, since it names titles and chapters on purpose. Needs
+`pdftotext` (poppler) for a PDF.
