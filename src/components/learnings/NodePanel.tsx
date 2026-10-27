@@ -1,12 +1,15 @@
 import { Link } from 'react-router-dom'
 import { ArrowLeft, ArrowRight, ArrowUpRight } from 'lucide-react'
 import { destination, learnFirst, linksOf, places } from '../../lib/learningGraph'
+import ReadOn from './ReadOn'
 import type { LearningGraph, LearningNode } from '../../types'
 
 interface NodePanelProps {
   graph: LearningGraph
   node: LearningNode
   onSelect: (slug: string) => void
+  // Moves along the reading order
+  onGo: (slug: string) => void
   // Lights up every node with this tag
   onTag: (tag: string) => void
   hasPage: (slug: string) => boolean
@@ -46,7 +49,7 @@ function NodeList({ title, nodes, onSelect, ordered = false }: {
 
 // The selected node's card: what it is, where it leads, and what to learn
 // before it
-export default function NodePanel({ graph, node, onSelect, onTag, hasPage, onExpand }: NodePanelProps) {
+export default function NodePanel({ graph, node, onSelect, onGo, onTag, hasPage, onExpand }: NodePanelProps) {
   const links = linksOf(graph, node.slug)
   const place = places(graph).get(node.slug)
   const road = learnFirst(graph, node.slug)
@@ -106,8 +109,11 @@ export default function NodePanel({ graph, node, onSelect, onTag, hasPage, onExp
         </div>
       </div>
 
+      {/* Along the reading order: the map flies there */}
+      <ReadOn before={links.readBefore} next={links.readNext} onGo={onGo} hasPage={hasPage} />
+
       <NodeList title="Learn first" nodes={road} onSelect={onSelect} ordered />
-      <NodeList title="Then" nodes={links.next} onSelect={onSelect} />
+      <NodeList title="Then" nodes={links.leadsTo} onSelect={onSelect} />
       <NodeList title="Lives in" nodes={links.home ? [links.home] : []} onSelect={onSelect} />
       <NodeList title="Also part of" nodes={links.partOf.filter((n) => n !== links.home)} onSelect={onSelect} />
       <NodeList title="Inside" nodes={links.parts} onSelect={onSelect} />

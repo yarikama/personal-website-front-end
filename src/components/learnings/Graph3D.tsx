@@ -133,6 +133,9 @@ function ends(link: GraphLink) {
 // Whether a link is one of the other things a node is part of, besides its
 // home: drawn faintly, and pulling only a little, so the node sits at home
 const alsoPartOf = (link: GraphLink) => link.type === 'part_of' && !link.home
+// The reading order: shown only from the selected node, as where Next goes,
+// and no pull on the layout
+const readOn = (link: GraphLink) => link.type === 'next'
 
 interface Body {
   object: Group
@@ -299,6 +302,8 @@ export default function Graph3D({
   const linkColor = useCallback(
     (link: GraphLink) => {
       if (onPath(link)) return palette.sage
+      // Apart from the road in sage: a fine line with sage running along it
+      if (readOn(link)) return withAlpha(palette.ink, 0.7)
       const strength =
         link.type === 'prerequisite' ? 0.75 : alsoPartOf(link) ? 0.14 : link.type === 'part_of' ? 0.35 : 0.5
       return withAlpha(palette.faint, linkLit(link) ? strength : 0.06)
@@ -320,9 +325,11 @@ export default function Graph3D({
     // node's other parents barely pull it away from its home
     const links = new Map<string, number>()
     for (const edge of graph.edges) {
+      if (edge.type === 'next') continue
       for (const end of [edge.source, edge.target]) links.set(end, (links.get(end) ?? 0) + 1)
     }
     graph3d.d3Force('link')?.strength?.((link: GraphLink) => {
+      if (readOn(link)) return 0
       if (alsoPartOf(link)) return 0.05
       const [source, target] = ends(link)
       return 1 / Math.min(links.get(source) ?? 1, links.get(target) ?? 1)
@@ -370,12 +377,13 @@ export default function Graph3D({
       nodeLabel={() => ''}
       nodeThreeObject={nodeObject}
       linkColor={linkColor}
-      linkWidth={(link: GraphLink) => (onPath(link) ? 1.2 : link.type === 'prerequisite' ? 0.4 : 0)}
+      linkVisibility={(link: GraphLink) => !readOn(link) || ends(link)[0] === selected}
+      linkWidth={(link: GraphLink) => (onPath(link) ? 1.2 : readOn(link) ? 0.3 : link.type === 'prerequisite' ? 0.4 : 0)}
       linkOpacity={1}
-      linkDirectionalArrowLength={(link: GraphLink) => (link.type === 'prerequisite' ? 3.5 : 0)}
+      linkDirectionalArrowLength={(link: GraphLink) => (link.type === 'prerequisite' ? 3.5 : readOn(link) ? 5 : 0)}
       linkDirectionalArrowRelPos={1}
       linkDirectionalArrowColor={linkColor}
-      linkDirectionalParticles={(link: GraphLink) => (onPath(link) && !reducedMotion ? 3 : 0)}
+      linkDirectionalParticles={(link: GraphLink) => ((onPath(link) || readOn(link)) && !reducedMotion ? 3 : 0)}
       linkDirectionalParticleWidth={1.6}
       linkDirectionalParticleSpeed={0.006}
       linkDirectionalParticleColor={() => palette.sage}

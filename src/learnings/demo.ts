@@ -91,6 +91,15 @@ export const demoGraph: LearningGraph = {
        exploration-and-exploitation>rl-problem reward-and-value>values temporal-difference-learning>values
        learning-from-every-move>values`
     ),
+    // The reading order: each chapter's pages, one after another
+    ...edges(
+      'next',
+      `data-systems>faults-and-failures faults-and-failures>describing-load describing-load>percentiles
+       percentiles>tail-latency-amplification tail-latency-amplification>scaling-up-and-out
+       scaling-up-and-out>maintainability
+       learning-from-reward>exploration-and-exploitation exploration-and-exploitation>reward-and-value
+       reward-and-value>temporal-difference-learning temporal-difference-learning>learning-from-every-move`
+    ),
     ...edges(
       'related',
       `data-systems>ddia tail-latency-amplification>tail-at-scale describing-load>timelines-at-scale

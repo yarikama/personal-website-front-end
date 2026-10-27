@@ -41,6 +41,24 @@ describe('the sample graph', () => {
     }
   })
 
+  it('reads in a line: one page next and one before, every one a page, and no way round', () => {
+    const next = demoGraph.edges.filter((edge) => edge.type === 'next')
+    const after = new Map(next.map((edge) => [edge.source, edge.target]))
+    expect(after.size).toBe(next.length)
+    expect(new Set(next.map((edge) => edge.target)).size).toBe(next.length)
+    for (const edge of next) {
+      expect(findLearningPage(edge.source), edge.source).toBeDefined()
+      expect(findLearningPage(edge.target), edge.target).toBeDefined()
+    }
+    for (const start of after.keys()) {
+      const seen = new Set<string>()
+      for (let at: string | undefined = start; at; at = after.get(at)) {
+        expect(seen.has(at), `${start} comes round again`).toBe(false)
+        seen.add(at)
+      }
+    }
+  })
+
   it('has a page on the site for every learning', () => {
     for (const node of demoGraph.nodes.filter((n) => n.kind === 'learning')) {
       expect(findLearningPage(node.slug), node.slug).toBeDefined()
