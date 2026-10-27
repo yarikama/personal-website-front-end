@@ -23,6 +23,11 @@ export const learningPages: LearningPage[] = [
   { slug: 'reward-and-value', load: () => import('./reward-and-value') },
   { slug: 'temporal-difference-learning', load: () => import('./temporal-difference-learning') },
   { slug: 'learning-from-every-move', load: () => import('./learning-from-every-move') },
+  { slug: 'tracking-change', load: () => import('./tracking-change') },
+  { slug: 'optimistic-initial-values', load: () => import('./optimistic-initial-values') },
+  { slug: 'upper-confidence-bound', load: () => import('./upper-confidence-bound') },
+  { slug: 'gradient-bandits', load: () => import('./gradient-bandits') },
+  { slug: 'contextual-bandits', load: () => import('./contextual-bandits') },
 ]
 
 export const findLearningPage = (slug: string | undefined) => learningPages.find((page) => page.slug === slug)
