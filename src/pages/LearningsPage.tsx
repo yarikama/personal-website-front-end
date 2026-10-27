@@ -278,10 +278,12 @@ export default function LearningsPage() {
   const tag = params.get('tag')
   // The page being read in the panel: also in the address (read=1)
   const reading = params.get('read') === '1' && selected !== null && hasPage(selected.slug)
-  // Reading, the panel covers the right of a wide screen (md:w-[48rem],
-  // md:right-8): the map centres in what is left of it. On a phone the
-  // page takes the screen, and the map stays put.
-  const shift = reading && width >= 768 ? (Math.min(768, width - 64) + 32) / 2 : 0
+  // On a wide screen the card (md:w-80) or the page being read
+  // (md:w-[48rem]) covers the right, at md:right-8: the map centres in what
+  // is left of it. On a phone the panel sits below or takes the screen, and
+  // the map stays put.
+  const panel = reading ? Math.min(768, width - 64) : 320
+  const shift = selected && width >= 768 ? (panel + 32) / 2 : 0
   const change = (values: Partial<Record<'node' | 'tag' | 'read', string | null>>) =>
     setParams(
       (current) => {
