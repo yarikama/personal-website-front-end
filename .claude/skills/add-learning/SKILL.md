@@ -17,7 +17,7 @@ src/components/explain/   The building blocks every page shares: Article, figure
 src/learnings/index.ts    The registry: every page's slug and a lazy load()
 src/learnings/<slug>/     One page: index.tsx, its figures, model.ts and model.test.ts
 manim/scenes/<slug>.py    The page's ManimGL clips (slug with underscores), if it has any
-public/learnings/<slug>/  The rendered clips, light and dark, with their posters
+public/learnings/<slug>/  The rendered clips, with their posters
 ```
 
 `src/learnings/tail-latency-amplification/` is a complete example to copy from.
@@ -120,8 +120,9 @@ scenes and simulations.
 - One clip per idea, 15 to 25 seconds, ending on a held frame that shows the whole
   result: that frame becomes the poster, which is all a reader with reduced motion sees.
 - Extend `Clip` from `manim/style.py` and draw only with its colours (`INK`, `FADED`,
-  `SAGE` for the thing to watch, `RULE` for scaffolding): every clip is rendered once
-  per theme. `formula()` and `words()` set maths and words in Garamond, like the page.
+  `SAGE` for the thing to watch, `RULE` for scaffolding). Clips are dark in both of the
+  site's themes (the owner's choice): one render each. `formula()` and `words()` set
+  maths and words in Garamond, like the page.
 - To move one term at a time, build with `split_formula(*pieces)` / `split_words(*pieces)`,
   which return the whole and its pieces in order. Index the pieces, never the Tex itself
   (that gives glyphs). Turn words into symbols with `FadeTransform`, not `Transform`.
@@ -129,11 +130,11 @@ scenes and simulations.
   is about 360 pixels wide.
 - `manim/scenes/temporal_difference_learning.py` is the example to copy from.
 
-Render both themes, then look at the frames before using a clip:
+Render, then look at the frames before using a clip:
 
 ```bash
 manim/render.sh <slug>              # every clip in the file, or name some after the slug
-f=public/learnings/<slug>/<clip>-light
+f=public/learnings/<slug>/<clip>
 ffmpeg -i $f.mp4 -vf "fps=8/$(ffprobe -v error -show_entries format=duration -of csv=p=0 $f.mp4),scale=640:-1,tile=2x4" -frames:v 1 sheet.png
 ```
 
@@ -142,7 +143,7 @@ it runs ManimGL 1.7.2 through `uvx`, so there is nothing to install. On the page
 
 ```tsx
 <Clip
-  src="<slug>/<clip>"                       // public/learnings/<slug>/<clip>-{light,dark}.mp4
+  src="<slug>/<clip>"                       // public/learnings/<slug>/<clip>.mp4
   label="What it shows, in words, for a screen reader"
   caption="What to notice."
 />
@@ -197,7 +198,7 @@ Hold settings that several figures share in the page, and pass them down.
 | `Slider`, `Choice` | A number in a range; one of a few options |
 | `Button` | An action: run, reset, send |
 | `Readout` | A measured number with its label; `accent` for the one that matters |
-| `Clip` | A ManimGL animation of a formula or derivation, light or dark with the theme |
+| `Clip` | A ManimGL animation of a formula or derivation, dark in both themes |
 
 When a second page needs something a page built for itself (a request simulator, a
 histogram), move it into `components/explain/` then, not before.
