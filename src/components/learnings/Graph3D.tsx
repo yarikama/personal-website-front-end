@@ -11,6 +11,7 @@ import {
   Sprite,
   SpriteMaterial,
   SRGBColorSpace,
+  TetrahedronGeometry,
   type BufferGeometry,
   type Material,
   type PerspectiveCamera,
@@ -18,7 +19,7 @@ import {
 } from 'three'
 import SpriteText from 'three-spritetext'
 import { areaColours, homes, layers, learnFirst, neighbours, places, type Level } from '../../lib/learningGraph'
-import type { Stage } from '../../lib/progress'
+import { markSeen, readSeen, type Stage } from '../../lib/progress'
 import { useIsDark } from '../../lib/theme'
 import type { LearningEdgeType, LearningGraph, LearningNode } from '../../types'
 
@@ -201,6 +202,32 @@ function turnOf(slug: string) {
   return ((hash >>> 0) % 360) * (Math.PI / 180)
 }
 
+// The sun's face: white-hot in the middle, gold to its soft edge
+let sunTexture: Texture | null = null
+function sunFace(): Texture {
+  if (!sunTexture) {
+    const size = 128
+    const half = size / 2
+    const canvas = document.createElement('canvas')
+    canvas.width = canvas.height = size
+    const context = canvas.getContext('2d')!
+    const face = context.createRadialGradient(half, half, 0, half, half, half)
+    face.addColorStop(0, '#fffaf0')
+    face.addColorStop(0.35, '#ffe2a0')
+    face.addColorStop(0.75, SUN)
+    face.addColorStop(0.9, 'rgba(255,170,60,0.9)')
+    face.addColorStop(1, 'rgba(255,170,60,0)')
+    context.fillStyle = face
+    context.fillRect(0, 0, size, size)
+    sunTexture = new CanvasTexture(canvas)
+    sunTexture.colorSpace = SRGBColorSpace
+  }
+  return sunTexture
+}
+
+// The pieces a node breaks into, as it opens into a sun
+const shard = new TetrahedronGeometry(1)
+
 // A link's two slugs: before the layout starts its ends are slugs, after it
 // they are the nodes themselves
 function ends(link: GraphLink) {
@@ -224,19 +251,116 @@ interface Body {
   // What each stage shows, over or instead of the solid
   solid: Mesh
   cracked: Mesh[]
-  sun: Mesh
+  sun: Sprite
   light: Sprite[]
+  // The size each of these is at rest, which a change scales from
+  rest: Map<Sprite, number>
+  // Playing a change, so the sun doesn't also pulse
+  busy: boolean
 }
 
-// Shows how far the visitor has come with each node: cracked, light
-// through the cracks, or a sun in place of the solid
-function grow(bodies: Map<string, Body>, stages: Map<string, Stage>) {
-  for (const [slug, body] of bodies) {
-    const stage = stages.get(slug) ?? 0
-    body.solid.visible = stage < 3
-    body.cracked.forEach((mesh, i) => (mesh.visible = stage === i + 1))
-    body.light.forEach((sprite, i) => (sprite.visible = stage === i + 2))
-    body.sun.visible = stage === 3
+// Shows a node at a stage: cracked, light through the cracks, or a sun in
+// place of the solid
+function look(body: Body, stage: Stage) {
+  body.solid.visible = stage < 3
+  body.cracked.forEach((mesh, i) => (mesh.visible = stage === i + 1))
+  body.light.forEach((sprite, i) => (sprite.visible = stage === i + 2))
+  body.sun.visible = stage === 3
+}
+
+// Something playing out over time: true while it goes on
+type Effect = (now: number) => boolean
+
+const easeOut = (t: number) => 1 - (1 - t) ** 3
+// Past its size and back, as the sun bursts out
+const easeOutBack = (t: number) => 1 + 2.7 * (t - 1) ** 3 + 1.7 * (t - 1) ** 2
+
+// A node going from one stage up to another, from `startAt()`: it shakes as
+// it cracks; going to a sun, it shakes harder, breaks into pieces that fly
+// off and fade, and the sun bursts out from inside. The node is looked up
+// each frame, as the graph may make its bodies again meanwhile.
+function rise(bodyOf: () => Body | undefined, from: Stage, to: Stage, startAt: () => number): Effect {
+  const CRACK = 700
+  const BURST = 1300
+  let pieces: { holder: Group; mesh: Mesh; way: [number, number, number]; spin: [number, number] }[] | null = null
+  const sized = (body: Body, sprite: Sprite, share: number) => sprite.scale.setScalar(body.rest.get(sprite)! * share)
+  // The solid and its cracks together, so the cracks stay on its surface
+  const shake = (body: Body, amount: number) => {
+    const [x, y, z] = [0, 0, 0].map(() => (Math.random() - 0.5) * amount)
+    for (const mesh of [body.solid, ...body.cracked]) mesh.position.set(x, y, z)
+  }
+
+  return (now) => {
+    const body = bodyOf()
+    if (!body) return false
+    body.busy = true
+    const radius = body.solid.scale.x
+    const [leak, corona] = body.light
+    const t = now - startAt()
+    // Waiting, it still shows as it was
+    if (t < 0) {
+      look(body, from)
+      return true
+    }
+
+    // Cracking: to its own stage, or the most cracked one before a sun
+    if (t < CRACK) {
+      const cracking = Math.min(to, 2) as Stage
+      look(body, cracking)
+      const p = t / CRACK
+      shake(body, radius * (to === 3 ? 0.06 + 0.12 * p : 0.12 * (1 - p)))
+      if (cracking === 2 && from < 2) sized(body, leak, easeOut(p))
+      return true
+    }
+    shake(body, 0)
+    if (to < 3) {
+      look(body, to)
+      sized(body, leak, 1)
+      body.busy = false
+      return false
+    }
+
+    // Opening into a sun
+    if (!pieces) {
+      look(body, 3)
+      const colour = (body.solid.material as MeshStandardMaterial).color
+      pieces = Array.from({ length: 16 }, () => {
+        const mesh = new Mesh(
+          shard,
+          new MeshStandardMaterial({ color: colour, emissive: colour, emissiveIntensity: 0.3, flatShading: true, transparent: true })
+        )
+        // Somewhere on the surface, flying straight out
+        const z = Math.random() * 2 - 1
+        const around = Math.random() * Math.PI * 2
+        const across = Math.sqrt(1 - z * z)
+        const way: [number, number, number] = [across * Math.cos(around), across * Math.sin(around), z]
+        mesh.scale.setScalar(radius * (0.25 + Math.random() * 0.2))
+        mesh.rotation.set(Math.random() * 6, Math.random() * 6, 0)
+        body.object.add(mesh)
+        return { holder: body.object, mesh, way, spin: [(Math.random() - 0.5) * 8, (Math.random() - 0.5) * 8] }
+      })
+    }
+    const p = Math.min(1, (t - CRACK) / BURST)
+    const out = easeOut(p)
+    for (const { mesh, way, spin } of pieces) {
+      const reach = radius * (0.8 + 3.2 * out)
+      mesh.position.set(way[0] * reach, way[1] * reach, way[2] * reach)
+      mesh.rotation.x += spin[0] * 0.016
+      mesh.rotation.y += spin[1] * 0.016
+      ;(mesh.material as MeshStandardMaterial).opacity = 1 - p * p
+    }
+    sized(body, body.sun, easeOutBack(Math.min(1, p * 1.6)))
+    // A flash past its size, settling back
+    sized(body, corona, 1 + 0.8 * Math.sin(Math.PI * Math.min(1, p * 1.3)) * (1 - p))
+    if (p < 1) return true
+    for (const { holder, mesh } of pieces) {
+      holder.remove(mesh)
+      ;(mesh.material as Material).dispose()
+    }
+    sized(body, body.sun, 1)
+    sized(body, corona, 1)
+    body.busy = false
+    return false
   }
 }
 
@@ -340,8 +464,8 @@ export default function Graph3D({
         mesh.visible = false
         return mesh
       })
-      const sun = new Mesh(geometry[3], new MeshBasicMaterial({ color: SUN, transparent: true, opacity: 1 }))
-      sun.scale.setScalar(size / 2)
+      const sun = new Sprite(new SpriteMaterial({ map: sunFace(), transparent: true, opacity: 1, depthWrite: false }))
+      sun.scale.setScalar(size * 1.25)
       sun.visible = false
       const light = [
         { opacity: 0.3, across: 2.6 },
@@ -380,6 +504,8 @@ export default function Graph3D({
         cracked,
         sun,
         light,
+        rest: new Map([sun, ...light].map((sprite) => [sprite, sprite.scale.x])),
+        busy: false,
       })
     }
     bodies.current = made
@@ -420,9 +546,43 @@ export default function Graph3D({
   useEffect(() => {
     paint(bodies.current, lit, selected, tagged, palette.sage)
   }, [made, lit, selected, tagged, palette.sage])
+  // What is playing out, and the suns' slow pulse, every frame
+  const effects = useRef<Effect[]>([])
   useEffect(() => {
-    grow(bodies.current, stages ?? new Map())
-  }, [made, stages])
+    let frame = 0
+    const tick = (now: number) => {
+      effects.current = effects.current.filter((effect) => effect(now))
+      if (!reducedMotion) {
+        for (const [slug, body] of bodies.current) {
+          if (!body.sun.visible || body.busy) continue
+          const [, corona] = body.light
+          const beat = 1 + 0.06 * Math.sin(now / 900 + turnOf(slug))
+          corona.scale.setScalar(body.rest.get(corona)! * beat)
+        }
+      }
+      frame = requestAnimationFrame(tick)
+    }
+    frame = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(frame)
+  }, [reducedMotion])
+
+  // Each node at its stage. One that has risen since the map last showed
+  // it plays the change: as it happens, or, read elsewhere, once the map
+  // has opened, settled and flown to it.
+  const settledAt = useRef(Infinity)
+  useEffect(() => {
+    const now = stages ?? new Map<string, Stage>()
+    const seen = readSeen()
+    const asked = performance.now()
+    const startAt = () => Math.max(asked + 300, settledAt.current + 1400)
+    for (const [slug, body] of bodies.current) {
+      const stage = now.get(slug) ?? 0
+      const before = seen[slug] ?? 0
+      if (stage > before && !reducedMotion) effects.current.push(rise(() => bodies.current.get(slug), before, stage, startAt))
+      else if (!body.busy) look(body, stage)
+    }
+    markSeen(now)
+  }, [made, stages, reducedMotion])
 
   const onPath = useCallback(
     (link: GraphLink) => {
@@ -594,6 +754,9 @@ export default function Graph3D({
         if (fitted.current) return
         fitted.current = true
         if (!flyTo(selected) && !frame()) fg.current?.zoomToFit(reducedMotion ? 0 : 800, 40)
+        // What changed since the map last showed it plays once it has
+        // flown there
+        settledAt.current = performance.now()
       }}
       onNodeHover={(n: GraphNode | null) => setHovered(n?.id ?? null)}
       onNodeClick={(n: GraphNode) => onSelect(n.id === selected ? null : n.id)}

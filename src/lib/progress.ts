@@ -85,6 +85,33 @@ export function recordReading(slug: string, now = Date.now(), storage: Pick<Stor
   return progresses[slug]
 }
 
+// The stage each node had when the map last showed it, so that a change
+// made elsewhere (a page read on its own) plays out when the map opens
+const SEEN = 'learnings-seen'
+
+export function readSeen(storage: Pick<Storage, 'getItem'> | null = safeStorage()): Record<string, Stage> {
+  try {
+    const kept: unknown = JSON.parse(storage?.getItem(SEEN) ?? '{}')
+    if (!kept || typeof kept !== 'object') return {}
+    const seen: Record<string, Stage> = {}
+    for (const [slug, stage] of Object.entries(kept)) {
+      if (stage === 1 || stage === 2 || stage === 3) seen[slug] = stage
+    }
+    return seen
+  } catch {
+    return {}
+  }
+}
+
+export function markSeen(stages: Map<string, Stage>, storage: Pick<Storage, 'setItem'> | null = safeStorage()) {
+  const seen = Object.fromEntries([...stages].filter(([, stage]) => stage > 0))
+  try {
+    storage?.setItem(SEEN, JSON.stringify(seen))
+  } catch {
+    // Unkept, it plays again next time
+  }
+}
+
 function safeStorage(): Storage | null {
   try {
     return window.localStorage
