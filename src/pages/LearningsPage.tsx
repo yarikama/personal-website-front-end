@@ -279,14 +279,14 @@ export default function LearningsPage() {
   // The page being read in the panel: also in the address (read=1)
   const reading = params.get('read') === '1' && selected !== null && hasPage(selected.slug)
   // A wide screen keeps the card beside the page being read, to its left:
-  // the page narrows, to 40rem at the least, to leave the title its room
-  const pageWidth = Math.min(768, width - 32 - 16 - 320 - 384)
-  const beside = reading && pageWidth >= 640
+  // the page narrows, to 45rem at the least, to leave the title its room
+  const pageWidth = Math.min(896, width - 32 - 16 - 320 - 256)
+  const beside = reading && pageWidth >= 720
   // On a wide screen the card (md:w-80) or the page being read
-  // (md:w-[48rem]) covers the right, at md:right-8: the map centres in what
+  // (md:w-[56rem]) covers the right, at md:right-8: the map centres in what
   // is left of it. On a phone the panel sits below or takes the screen, and
   // the map stays put.
-  const panel = !reading ? 320 : beside ? pageWidth + 16 + 320 : Math.min(768, width - 64)
+  const panel = !reading ? 320 : beside ? pageWidth + 16 + 320 : Math.min(896, width - 64)
   const shift = selected && width >= 768 ? (panel + 32) / 2 : 0
   const change = (values: Partial<Record<'node' | 'tag' | 'read', string | null>>) =>
     setParams(
@@ -372,7 +372,8 @@ export default function LearningsPage() {
           Home
         </Link>
         <h1 className="font-serif text-3xl md:text-4xl font-light tracking-tight mt-3">Learnings</h1>
-        <p className="mt-1 text-sm text-zinc-faded max-w-xs">A map of what I learn. Turn it, zoom in, pick a topic.</p>
+        {/* Narrower beside a page and its card, which leave it less room */}
+        <p className={`mt-1 text-sm text-zinc-faded ${beside ? 'max-w-[13rem]' : 'max-w-xs'}`}>A map of what I learn. Turn it, zoom in, pick a topic.</p>
         {isDemo && (
           <p className={`mt-3 inline-flex items-center gap-2 px-2.5 py-1 font-mono text-[0.8rem] uppercase tracking-widest text-zinc-faded ${overlay}`}>
             <span className="h-1.5 w-1.5 rounded-full bg-sage" />
@@ -444,7 +445,7 @@ export default function LearningsPage() {
           // width would jump instead of growing to the left
           style={{ transitionProperty: 'width, background-color, border-color', width: beside ? pageWidth : undefined }}
           className={`absolute inset-x-4 bottom-4 md:inset-x-auto md:right-8 md:top-20 md:bottom-6 md:max-h-none md:max-w-[calc(100vw-4rem)] overflow-y-auto overscroll-contain duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${overlay} ${
-            reading ? 'top-20 md:w-[48rem]' : 'max-h-[45dvh] p-6 md:w-80'
+            reading ? 'top-20 md:w-[56rem]' : 'max-h-[45dvh] p-6 md:w-80'
           }`}
         >
           {reading ? (
