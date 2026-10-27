@@ -4,6 +4,9 @@ import { Analytics } from '@vercel/analytics/react'
 import './index.css'
 import App from './App'
 import { beforeSend } from './lib/analytics'
+import { reloadAfterDeploy } from './lib/reloadAfterDeploy'
+
+reloadAfterDeploy()
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
