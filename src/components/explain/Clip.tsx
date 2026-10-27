@@ -3,6 +3,9 @@ import { Pause, Play, RotateCcw } from 'lucide-react'
 import { usePrefersReducedMotion } from '../../hooks'
 import { Figure } from './figure'
 
+// Where clips live: R2, behind the CDN (manim/upload.sh puts them there)
+const CLIPS = 'https://assets.yarikama.com/learnings'
+
 type State = 'waiting' | 'playing' | 'paused' | 'ended'
 
 const ACTION: Record<State, { icon: typeof Play; label: string }> = {
@@ -15,15 +18,14 @@ const ACTION: Record<State, { icon: typeof Play; label: string }> = {
 // A short animation rendered with ManimGL (manim/scenes/<slug>.py, by
 // manim/render.sh): a formula built a piece at a time, or a derivation, which
 // a still figure could only show finished. `src` is "<slug>/<clip>", served
-// from public/learnings/ with a poster of its last frame; clips are dark in
-// both themes. It plays once when it scrolls into view; with reduced motion
+// from R2 with a poster of its last frame; clips are dark in both themes. It plays once when it scrolls into view; with reduced motion
 // it shows the poster, the whole result, until asked to play.
 // `label` says in words what it shows, for screen readers.
 export function Clip({ src, label, caption }: { src: string; label: string; caption: ReactNode }) {
   const reducedMotion = usePrefersReducedMotion()
   const video = useRef<HTMLVideoElement>(null)
   const [state, setState] = useState<State>('waiting')
-  const file = `/learnings/${src}`
+  const file = `${CLIPS}/${src}`
 
   // Play the first time it is mostly on screen
   useEffect(() => {

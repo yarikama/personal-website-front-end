@@ -17,7 +17,7 @@ src/components/explain/   The building blocks every page shares: Article, figure
 src/learnings/index.ts    The registry: every page's slug and a lazy load()
 src/learnings/<slug>/     One page: index.tsx, its figures, model.ts and model.test.ts
 manim/scenes/<slug>.py    The page's ManimGL clips (slug with underscores), if it has any
-public/learnings/<slug>/  The rendered clips, with their posters
+manim/out/<slug>/         The rendered clips (not in git: they go to R2)
 ```
 
 `src/learnings/tail-latency-amplification/` is a complete example to copy from.
@@ -130,20 +130,28 @@ scenes and simulations.
   is about 360 pixels wide.
 - `manim/scenes/temporal_difference_learning.py` is the example to copy from.
 
-Render, then look at the frames before using a clip:
+Render, look at the frames, then upload: clips live on R2, not in git.
 
 ```bash
 manim/render.sh <slug>              # every clip in the file, or name some after the slug
-f=public/learnings/<slug>/<clip>
+f=manim/out/<slug>/<clip>
 ffmpeg -i $f.mp4 -vf "fps=8/$(ffprobe -v error -show_entries format=duration -of csv=p=0 $f.mp4),scale=640:-1,tile=2x4" -frames:v 1 sheet.png
 ```
 
+Then, once they look right:
+
+```bash
+manim/upload.sh <slug>              # to https://assets.yarikama.com/learnings/<slug>/
+```
+
 `render.sh` needs uv, ffmpeg and a TeX distribution with `ebgaramond` (MacTeX has it);
-it runs ManimGL 1.7.2 through `uvx`, so there is nothing to install. On the page:
+it runs ManimGL 1.7.2 through `uvx`, so there is nothing to install. `upload.sh` needs
+`npx wrangler login` once. Uploading again replaces a clip, but the CDN may serve the old
+one for up to a day. On the page:
 
 ```tsx
 <Clip
-  src="<slug>/<clip>"                       // public/learnings/<slug>/<clip>.mp4
+  src="<slug>/<clip>"                       // assets.yarikama.com/learnings/<slug>/<clip>.mp4
   label="What it shows, in words, for a screen reader"
   caption="What to notice."
 />

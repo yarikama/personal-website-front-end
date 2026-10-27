@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
-# Renders a learning page's ManimGL clips into public/learnings/<slug>/ as
+# Renders a learning page's ManimGL clips into manim/out/<slug>/ as
 # <clip>.mp4, each with a .jpg of its last frame for a poster. Clips are dark
-# in both of the site's themes.
+# in both of the site's themes. Look at them, then put them on R2, where the
+# site plays them from, with upload.sh.
 #
 #   manim/render.sh temporal-difference-learning            # every clip
 #   manim/render.sh temporal-difference-learning TdUpdate   # one of them
@@ -19,7 +20,7 @@ if [ ${#scenes[@]} -eq 0 ]; then
   while IFS= read -r scene; do scenes+=("$scene"); done < <(sed -nE 's/^class ([A-Za-z0-9]+)\(Clip\):.*/\1/p' "$file")
 fi
 
-out="../public/learnings/$slug"
+out="out/$slug"
 work=$(mktemp -d)
 trap 'rm -rf "$work"' EXIT
 mkdir -p "$out"

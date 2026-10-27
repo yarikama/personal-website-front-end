@@ -48,7 +48,7 @@
         },
         {
           "key": "Content-Security-Policy-Report-Only",
-          "value": "default-src 'self'; script-src 'self' 'sha256-Wk6t6eaMRvCdcP5ezmiLutCTfrH4jxOBhLpRQYtGCKY='; style-src 'self' https://fonts.googleapis.com; style-src-attr 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' https://assets.yarikama.com data:; connect-src 'self' https://api.yarikama.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; report-uri https://api.yarikama.com/api/v1/csp-report; report-to csp"
+          "value": "default-src 'self'; script-src 'self' 'sha256-Wk6t6eaMRvCdcP5ezmiLutCTfrH4jxOBhLpRQYtGCKY='; style-src 'self' https://fonts.googleapis.com; style-src-attr 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' https://assets.yarikama.com data:; media-src 'self' https://assets.yarikama.com; connect-src 'self' https://api.yarikama.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; report-uri https://api.yarikama.com/api/v1/csp-report; report-to csp"
         }
       ]
     },
