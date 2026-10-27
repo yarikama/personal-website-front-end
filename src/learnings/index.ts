@@ -18,6 +18,11 @@ export const learningPages: LearningPage[] = [
   { slug: 'tail-latency-amplification', load: () => import('./tail-latency-amplification') },
   { slug: 'scaling-up-and-out', load: () => import('./scaling-up-and-out') },
   { slug: 'maintainability', load: () => import('./maintainability') },
+  { slug: 'learning-from-reward', load: () => import('./learning-from-reward') },
+  { slug: 'exploration-and-exploitation', load: () => import('./exploration-and-exploitation') },
+  { slug: 'reward-and-value', load: () => import('./reward-and-value') },
+  { slug: 'temporal-difference-learning', load: () => import('./temporal-difference-learning') },
+  { slug: 'learning-from-every-move', load: () => import('./learning-from-every-move') },
 ]
 
 export const findLearningPage = (slug: string | undefined) => learningPages.find((page) => page.slug === slug)

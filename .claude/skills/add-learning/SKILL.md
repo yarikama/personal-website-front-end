@@ -13,9 +13,11 @@ around them. It is code, like a talk. The Learnings map (`/learnings`) shows its
 node, and the backend keeps the node's card and links (see the end).
 
 ```
-src/components/explain/   The building blocks every page shares: Article, figure.tsx, random.ts
+src/components/explain/   The building blocks every page shares: Article, figure.tsx, Clip.tsx, random.ts
 src/learnings/index.ts    The registry: every page's slug and a lazy load()
 src/learnings/<slug>/     One page: index.tsx, its figures, model.ts and model.test.ts
+manim/scenes/<slug>.py    The page's ManimGL clips (slug with underscores), if it has any
+public/learnings/<slug>/  The rendered clips, light and dark, with their posters
 ```
 
 `src/learnings/tail-latency-amplification/` is a complete example to copy from.
@@ -107,6 +109,47 @@ opens the same way every time and tests are stable.
 - Guard against state from before a setting changed: a figure renders once with the old
   data before an effect resets it.
 
+### 2b. Clips: `manim/scenes/<slug>.py`
+
+The owner's rule: **when a formula or a derivation would be clearer built up step by
+step, animate it with ManimGL.** A formula appearing a term at a time, words turning
+into symbols, a bracket opened and its terms gathered, numbers dropped into the symbols
+they replace: that is what a clip is for. A still figure (SVG) stays the tool for
+scenes and simulations.
+
+- One clip per idea, 15 to 25 seconds, ending on a held frame that shows the whole
+  result: that frame becomes the poster, which is all a reader with reduced motion sees.
+- Extend `Clip` from `manim/style.py` and draw only with its colours (`INK`, `FADED`,
+  `SAGE` for the thing to watch, `RULE` for scaffolding): every clip is rendered once
+  per theme. `formula()` and `words()` set maths and words in Garamond, like the page.
+- To move one term at a time, build with `split_formula(*pieces)` / `split_words(*pieces)`,
+  which return the whole and its pieces in order. Index the pieces, never the Tex itself
+  (that gives glyphs). Turn words into symbols with `FadeTransform`, not `Transform`.
+- Large type: words at `font_size` 34 or more, formulas 52 or more. On a phone the clip
+  is about 360 pixels wide.
+- `manim/scenes/temporal_difference_learning.py` is the example to copy from.
+
+Render both themes, then look at the frames before using a clip:
+
+```bash
+manim/render.sh <slug>              # every clip in the file, or name some after the slug
+f=public/learnings/<slug>/<clip>-light
+ffmpeg -i $f.mp4 -vf "fps=8/$(ffprobe -v error -show_entries format=duration -of csv=p=0 $f.mp4),scale=640:-1,tile=2x4" -frames:v 1 sheet.png
+```
+
+`render.sh` needs uv, ffmpeg and a TeX distribution with `ebgaramond` (MacTeX has it);
+it runs ManimGL 1.7.2 through `uvx`, so there is nothing to install. On the page:
+
+```tsx
+<Clip
+  src="<slug>/<clip>"                       // public/learnings/<slug>/<clip>-{light,dark}.mp4
+  label="What it shows, in words, for a screen reader"
+  caption="What to notice."
+/>
+```
+
+It plays once when it scrolls into view, and has a Replay button.
+
 ### 3. The page: `src/learnings/<slug>/index.tsx`
 
 ```tsx
@@ -154,6 +197,7 @@ Hold settings that several figures share in the page, and pass them down.
 | `Slider`, `Choice` | A number in a range; one of a few options |
 | `Button` | An action: run, reset, send |
 | `Readout` | A measured number with its label; `accent` for the one that matters |
+| `Clip` | A ManimGL animation of a formula or derivation, light or dark with the theme |
 
 When a second page needs something a page built for itself (a request simulator, a
 histogram), move it into `components/explain/` then, not before.
