@@ -1,7 +1,8 @@
 import type { LearningEdge, LearningEdgeType, LearningGraph, LearningNode, LearningNodeKind } from '../types'
 
 // The map shown while the real one has no published nodes yet: chapter 1
-// of Designing Data-Intensive Applications, whose pages are on the site.
+// of Designing Data-Intensive Applications and of Sutton and Barto's
+// Reinforcement Learning, whose pages are on the site.
 const node = (
   slug: string,
   kind: LearningNodeKind,
@@ -20,6 +21,12 @@ const TAGS: Record<string, string[]> = {
   'scaling-up-and-out': ['ddia', 'architecture'],
   maintainability: ['ddia', 'operations', 'architecture'],
   ddia: ['ddia'],
+  'learning-from-reward': ['rl', 'foundations'],
+  'exploration-and-exploitation': ['rl', 'decisions'],
+  'reward-and-value': ['rl', 'foundations', 'values'],
+  'temporal-difference-learning': ['rl', 'values', 'algorithms'],
+  'learning-from-every-move': ['rl', 'values', 'algorithms'],
+  'sutton-barto': ['rl'],
 }
 
 const nodes: LearningNode[] = [
@@ -39,6 +46,19 @@ const nodes: LearningNode[] = [
   node('tail-at-scale', 'external', 'The Tail at Scale', 'Dean and Barroso, 2013.', 'https://research.google/pubs/the-tail-at-scale/'),
   node('timelines-at-scale', 'external', 'Timelines at Scale', 'Raffi Krikorian, 2012.', 'https://www.infoq.com/presentations/Twitter-Timeline-Scalability/'),
   node('tar-pit', 'external', 'Out of the Tar Pit', 'Moseley and Marks, 2006.', 'https://curtclifton.net/papers/MoseleyMarks06a.pdf'),
+
+  node('reinforcement-learning', 'concept', 'Reinforcement learning', 'Learning what to do from reward, by trial and error.'),
+  node('rl-problem', 'concept', 'The problem', 'An agent acts, the world answers with a score, and the agent has to find what earns the most.'),
+  node('values', 'concept', 'Values', 'How good it is to be somewhere, counting everything likely to follow.'),
+
+  node('learning-from-reward', 'learning', 'Learning from reward', 'Learning from a score, not from answers: try, see how it went, do more of what worked.'),
+  node('exploration-and-exploitation', 'learning', 'Explore or exploit', 'Use what you know, or find out more: an agent that only does one does badly.'),
+  node('reward-and-value', 'learning', 'Reward versus value', 'Reward is what’s good now; value is all the reward still to come. Choose by value.'),
+  node('temporal-difference-learning', 'learning', 'Temporal-difference learning', 'Nudge each guess toward the next one, and learn during the game, not after it.'),
+  node('learning-from-every-move', 'learning', 'Learning from every move', 'Scoring each position teaches far faster than keeping the strategies that won.'),
+
+  node('sutton-barto', 'external', 'Reinforcement Learning: An Introduction', 'Sutton and Barto, 2nd edition.', 'https://mitpress.mit.edu/9780262039246/reinforcement-learning/'),
+  node('td-gammon', 'external', 'Temporal Difference Learning and TD-Gammon', 'Gerald Tesauro, 1995.', 'https://dl.acm.org/doi/10.1145/203330.203343'),
 ]
 
 const edges = (type: LearningEdgeType, pairs: string): LearningEdge[] =>
@@ -56,19 +76,25 @@ export const demoGraph: LearningGraph = {
     ...edges(
       'prerequisite',
       `data-systems>faults-and-failures data-systems>describing-load data-systems>maintainability
-       describing-load>percentiles percentiles>tail-latency-amplification describing-load>scaling-up-and-out`
+       describing-load>percentiles percentiles>tail-latency-amplification describing-load>scaling-up-and-out
+       learning-from-reward>exploration-and-exploitation learning-from-reward>reward-and-value
+       reward-and-value>temporal-difference-learning exploration-and-exploitation>temporal-difference-learning
+       temporal-difference-learning>learning-from-every-move`
     ),
     // The field, its topics (two of them pages), and the ideas in each topic
     ...edges(
       'part_of',
       `data-systems>data-intensive reliability>data-intensive scalability>data-intensive
        maintainability>data-intensive faults-and-failures>reliability describing-load>scalability
-       percentiles>scalability tail-latency-amplification>scalability scaling-up-and-out>scalability`
+       percentiles>scalability tail-latency-amplification>scalability scaling-up-and-out>scalability
+       rl-problem>reinforcement-learning values>reinforcement-learning learning-from-reward>rl-problem
+       exploration-and-exploitation>rl-problem reward-and-value>values temporal-difference-learning>values
+       learning-from-every-move>values`
     ),
     ...edges(
       'related',
       `data-systems>ddia tail-latency-amplification>tail-at-scale describing-load>timelines-at-scale
-       maintainability>tar-pit`
+       maintainability>tar-pit learning-from-reward>sutton-barto temporal-difference-learning>td-gammon`
     ),
   ],
 }
