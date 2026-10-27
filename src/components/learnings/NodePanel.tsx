@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { ArrowLeft, ArrowRight, ArrowUpRight } from 'lucide-react'
 import { destination, learnFirst, linksOf, places } from '../../lib/learningGraph'
+import { countsFrom, fadesOn, type Progress } from '../../lib/progress'
 import type { LearningGraph, LearningNode } from '../../types'
 
 interface NodePanelProps {
@@ -12,12 +13,34 @@ interface NodePanelProps {
   // Lights up every node with this tag
   onTag: (tag: string) => void
   hasPage: (slug: string) => boolean
+  // How far the visitor has come with its page
+  progress?: Progress
   // Opens the node's page in the panel, for a page on the site's map.
   // Without it, as beside the page already open, there is no Expand.
   onExpand?: () => void
 }
 
 const LEVEL_LABEL = { 1: 'Field', 2: 'Topic', 3: 'Idea' } as const
+
+const day = (time: number) => new Date(time).toLocaleDateString('en', { month: 'short', day: 'numeric' })
+
+// What reading its page does to the node, and when it fades back
+function Growth({ progress }: { progress?: Progress }) {
+  if (!progress) {
+    return <>Read it and answer its checks, and its node cracks open.</>
+  }
+  const next = countsFrom(progress)
+  const now = {
+    1: `Cracked. Read it again from ${day(next ?? 0)}, getting its checks right, and it cracks further.`,
+    2: `Light shows through. Once more from ${day(next ?? 0)}, its checks right, and it opens into a sun.`,
+    3: 'A sun.',
+  }[progress.stage]
+  return (
+    <>
+      {now} Unread, it fades back on {day(fadesOn(progress))}.
+    </>
+  )
+}
 
 function NodeList({ title, nodes, onSelect, ordered = false }: {
   title: string
@@ -49,7 +72,7 @@ function NodeList({ title, nodes, onSelect, ordered = false }: {
 
 // The selected node's card: what it is, where it leads, what to learn
 // before it, and what to read next
-export default function NodePanel({ graph, node, onSelect, onGo, onTag, hasPage, onExpand }: NodePanelProps) {
+export default function NodePanel({ graph, node, onSelect, onGo, onTag, hasPage, progress, onExpand }: NodePanelProps) {
   const links = linksOf(graph, node.slug)
   const place = places(graph).get(node.slug)
   const road = learnFirst(graph, node.slug)
@@ -107,6 +130,11 @@ export default function NodePanel({ graph, node, onSelect, onGo, onTag, hasPage,
             <span className="font-mono text-xs uppercase tracking-widest text-zinc-400">Page coming soon</span>
           )}
         </div>
+        {to.kind === 'page' && to.to === `/learnings/${node.slug}` && (
+          <p className="mt-4 text-xs leading-relaxed text-zinc-400">
+            <Growth progress={progress} />
+          </p>
+        )}
       </div>
 
       <NodeList title="Learn first" nodes={road} onSelect={onSelect} ordered />

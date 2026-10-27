@@ -5,6 +5,7 @@ import {
   Group,
   IcosahedronGeometry,
   Mesh,
+  MeshBasicMaterial,
   MeshStandardMaterial,
   SphereGeometry,
   Sprite,
@@ -17,6 +18,7 @@ import {
 } from 'three'
 import SpriteText from 'three-spritetext'
 import { areaColours, homes, layers, learnFirst, neighbours, places, type Level } from '../../lib/learningGraph'
+import type { Stage } from '../../lib/progress'
 import { useIsDark } from '../../lib/theme'
 import type { LearningEdgeType, LearningGraph, LearningNode } from '../../types'
 
@@ -36,6 +38,9 @@ interface Graph3DProps {
   // Pixels to move the view's centre left, so what is in the middle sits
   // in the middle of what a panel on the right leaves showing
   shift?: number
+  // How far the visitor has come with each page: its node cracks, lets
+  // light through, and opens into a sun
+  stages?: Map<string, Stage>
 }
 
 interface Palette {
@@ -127,6 +132,75 @@ function glow(): Texture {
   return glowTexture
 }
 
+// The sun a node opens into, read through three times
+const SUN = '#ffc457'
+
+// Cracks over a node, drawn once for each stage and wrapped round it: a few
+// dark ones at first, then more, with the sun's light in them
+const crackTextures = new Map<1 | 2, Texture>()
+function cracks(stage: 1 | 2): Texture {
+  let texture = crackTextures.get(stage)
+  if (!texture) {
+    const width = 1024
+    const height = 512
+    const canvas = document.createElement('canvas')
+    canvas.width = width
+    canvas.height = height
+    const context = canvas.getContext('2d')!
+    // The same cracks each time
+    let seed = stage * 9973
+    const random = () => {
+      seed = (seed * 16807) % 2147483647
+      return seed / 2147483647
+    }
+    const lines: [number, number][][] = []
+    const walk = (x: number, y: number, angle: number, steps: number) => {
+      const line: [number, number][] = [[x, y]]
+      for (let i = 0; i < steps; i++) {
+        angle += (random() - 0.5) * 1.1
+        x += Math.cos(angle) * (18 + random() * 30)
+        y += Math.sin(angle) * (10 + random() * 18)
+        line.push([x, y])
+        if (random() < 0.25) walk(x, y, angle + (random() < 0.5 ? 1 : -1) * (0.6 + random() * 0.6), Math.floor(steps / 2))
+      }
+      lines.push(line)
+    }
+    // Spread evenly round it, so each side shows some
+    const count = stage === 1 ? 6 : 14
+    for (let i = 0; i < count; i++) {
+      walk(((i + random() * 0.6) / count) * width, height * (0.25 + random() * 0.5), random() * Math.PI * 2, stage === 1 ? 8 : 11)
+    }
+    const stroke = (style: string, lineWidth: number, blur = 0) => {
+      context.strokeStyle = style
+      context.lineWidth = lineWidth
+      context.lineJoin = context.lineCap = 'round'
+      context.shadowColor = style
+      context.shadowBlur = blur
+      // Drawn again a turn either way, so a crack runs on round the back
+      for (const offset of [-width, 0, width]) {
+        for (const line of lines) {
+          context.beginPath()
+          line.forEach(([x, y], i) => (i ? context.lineTo(x + offset, y) : context.moveTo(x + offset, y)))
+          context.stroke()
+        }
+      }
+    }
+    stroke('rgba(8,8,8,0.9)', stage === 1 ? 7 : 11)
+    if (stage === 2) stroke(SUN, 4.5, 14)
+    texture = new CanvasTexture(canvas)
+    texture.colorSpace = SRGBColorSpace
+    crackTextures.set(stage, texture)
+  }
+  return texture
+}
+
+// A different turn of the same cracks for each node
+function turnOf(slug: string) {
+  let hash = 0
+  for (const char of slug) hash = (hash * 31 + char.charCodeAt(0)) | 0
+  return ((hash >>> 0) % 360) * (Math.PI / 180)
+}
+
 // A link's two slugs: before the layout starts its ends are slugs, after it
 // they are the nodes themselves
 function ends(link: GraphLink) {
@@ -147,6 +221,23 @@ interface Body {
   label: SpriteText
   labelColor: string
   glow: Sprite
+  // What each stage shows, over or instead of the solid
+  solid: Mesh
+  cracked: Mesh[]
+  sun: Mesh
+  light: Sprite[]
+}
+
+// Shows how far the visitor has come with each node: cracked, light
+// through the cracks, or a sun in place of the solid
+function grow(bodies: Map<string, Body>, stages: Map<string, Stage>) {
+  for (const [slug, body] of bodies) {
+    const stage = stages.get(slug) ?? 0
+    body.solid.visible = stage < 3
+    body.cracked.forEach((mesh, i) => (mesh.visible = stage === i + 1))
+    body.light.forEach((sprite, i) => (sprite.visible = stage === i + 2))
+    body.sun.visible = stage === 3
+  }
 }
 
 // Fades the bodies out of focus, marks the selected one, and lights the
@@ -180,6 +271,7 @@ export default function Graph3D({
   tag,
   reducedMotion,
   shift = 0,
+  stages,
 }: Graph3DProps) {
   const fg = useRef<ForceGraphMethods<GraphNode, GraphLink> | undefined>(undefined)
   const palette = usePalette()
@@ -237,8 +329,33 @@ export default function Graph3D({
       )
       halo.scale.setScalar(GLOW_SIZE)
       halo.visible = false
+      // Cracked once, then more and lit from within; a sun at last
+      const cracked = ([1, 2] as const).map((stage) => {
+        const mesh = new Mesh(
+          geometry[level],
+          new MeshBasicMaterial({ map: cracks(stage), transparent: true, opacity: 1, depthWrite: false })
+        )
+        mesh.scale.setScalar((size / 2) * 1.02)
+        mesh.rotation.y = turnOf(node.slug)
+        mesh.visible = false
+        return mesh
+      })
+      const sun = new Mesh(geometry[3], new MeshBasicMaterial({ color: SUN, transparent: true, opacity: 1 }))
+      sun.scale.setScalar(size / 2)
+      sun.visible = false
+      const light = [
+        { opacity: 0.3, across: 2.6 },
+        { opacity: 0.75, across: 5 },
+      ].map(({ opacity, across }) => {
+        const sprite = new Sprite(
+          new SpriteMaterial({ map: glow(), color: SUN, transparent: true, opacity, depthWrite: false })
+        )
+        sprite.scale.setScalar(size * across)
+        sprite.visible = false
+        return sprite
+      })
       const object = new Group()
-      object.add(halo, solid)
+      object.add(halo, ...light, solid, ...cracked, sun)
       const labelColor = place ? palette.ink : palette.faded
       const label = new SpriteText(node.title, LABEL[level], labelColor)
       const serif = level === 1 || level === 2
@@ -246,7 +363,24 @@ export default function Graph3D({
       label.fontWeight = serif ? '500' : '400'
       label.position.y = -(size / 2 + LABEL[level] * 0.9)
       object.add(label)
-      made.set(node.slug, { object, materials: [material, halo.material, label.material], label, labelColor, glow: halo })
+      made.set(node.slug, {
+        object,
+        materials: [
+          material,
+          halo.material,
+          label.material,
+          ...cracked.map((mesh) => mesh.material as Material),
+          sun.material,
+          ...light.map((sprite) => sprite.material),
+        ],
+        label,
+        labelColor,
+        glow: halo,
+        solid,
+        cracked,
+        sun,
+        light,
+      })
     }
     bodies.current = made
     setMade((count) => count + 1)
@@ -286,6 +420,9 @@ export default function Graph3D({
   useEffect(() => {
     paint(bodies.current, lit, selected, tagged, palette.sage)
   }, [made, lit, selected, tagged, palette.sage])
+  useEffect(() => {
+    grow(bodies.current, stages ?? new Map())
+  }, [made, stages])
 
   const onPath = useCallback(
     (link: GraphLink) => {

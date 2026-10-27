@@ -5,12 +5,14 @@ import { motion } from 'motion/react'
 import Graph3D from '../components/learnings/Graph3D'
 import NodePanel from '../components/learnings/NodePanel'
 import ReadOn from '../components/learnings/ReadOn'
+import { Reading } from '../components/explain/Reading'
 import ThemeToggle from '../components/ui/ThemeToggle'
 import { usePrefersReducedMotion } from '../hooks'
 import { useLearningGraph } from '../hooks/useLearningGraph'
 import { findLearningPage } from '../learnings'
 import { useLearningPage } from '../learnings/useLearningPage'
 import { areaColours, homes, linksOf, places, tagCounts } from '../lib/learningGraph'
+import { useProgress } from '../lib/progress'
 import { useIsDark } from '../lib/theme'
 import type { LearningGraph, LearningNode } from '../types'
 
@@ -241,7 +243,9 @@ function Reader({
           <p className="font-serif text-xl text-zinc-faded italic">This page did not load. Try opening it on its own.</p>
         ) : Page ? (
           <>
-            <Page />
+            <Reading slug={slug}>
+              <Page />
+            </Reading>
             <div className="mt-16">
               <ReadOn before={links.readBefore} next={links.readNext} onGo={onGo} hasPage={hasPage} />
             </div>
@@ -260,6 +264,12 @@ export default function LearningsPage() {
   const { graph, isDemo, isLoading } = useLearningGraph()
   const reducedMotion = usePrefersReducedMotion()
   const { width, height } = useWindowSize()
+  // How far the visitor has come with each page, which the map shows
+  const progress = useProgress()
+  const stages = useMemo(
+    () => new Map(Object.entries(progress).map(([slug, { stage }]) => [slug, stage])),
+    [progress]
+  )
   const [params, setParams] = useSearchParams()
   const [showTopics, setShowTopics] = useState(false)
   // Each reset draws the graph afresh: laid out, framed and turning as when
@@ -358,6 +368,7 @@ export default function LearningsPage() {
             tag={tag}
             reducedMotion={reducedMotion}
             shift={shift}
+            stages={stages}
           />
         </GraphBoundary>
       )}
@@ -430,6 +441,7 @@ export default function LearningsPage() {
             onGo={readOn}
             onTag={highlight}
             hasPage={hasPage}
+            progress={progress[selected.slug]}
           />
         </aside>
       )}
@@ -471,6 +483,7 @@ export default function LearningsPage() {
                 onGo={readOn}
                 onTag={highlight}
                 hasPage={hasPage}
+                progress={progress[selected.slug]}
                 onExpand={expand}
               />
             </>
