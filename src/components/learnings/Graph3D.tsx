@@ -448,6 +448,10 @@ export default function Graph3D({
       })
       const solid = new Mesh(geometry[level], material)
       solid.scale.setScalar(size / 2)
+      // Turned like its cracks below: a field's or topic's faces are flat,
+      // and cracks turned apart from them would sink into the solid in
+      // places, flickering as the map turns
+      solid.rotation.y = turnOf(node.slug)
       const halo = new Sprite(
         new SpriteMaterial({ map: glow(), color: palette.sage, transparent: true, opacity: 0.32, depthWrite: false })
       )
@@ -546,6 +550,18 @@ export default function Graph3D({
   useEffect(() => {
     paint(bodies.current, lit, selected, tagged, palette.sage)
   }, [made, lit, selected, tagged, palette.sage])
+  // Ending a node's drag (a click is one too), the graph sends the camera
+  // controls a made-up touch pointerup before the real one arrives, and the
+  // controls, still holding the mouse, throw on it. The real one does the
+  // work, so the made-up one is dropped before it reaches them.
+  useEffect(() => {
+    const drop = (event: PointerEvent) => {
+      if (!event.isTrusted && event.pointerType === 'touch') event.stopImmediatePropagation()
+    }
+    window.addEventListener('pointerup', drop, { capture: true })
+    return () => window.removeEventListener('pointerup', drop, { capture: true })
+  }, [])
+
   // What is playing out, and the suns' slow pulse, every frame
   const effects = useRef<Effect[]>([])
   useEffect(() => {
