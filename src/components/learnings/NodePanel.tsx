@@ -12,8 +12,9 @@ interface NodePanelProps {
   // Lights up every node with this tag
   onTag: (tag: string) => void
   hasPage: (slug: string) => boolean
-  // Opens the node's page in the panel, for a page on the site's map
-  onExpand: () => void
+  // Opens the node's page in the panel, for a page on the site's map.
+  // Without it, as beside the page already open, there is no Expand.
+  onExpand?: () => void
 }
 
 const LEVEL_LABEL = { 1: 'Field', 2: 'Topic', 3: 'Idea' } as const
@@ -75,7 +76,7 @@ export default function NodePanel({ graph, node, onSelect, onGo, onTag, hasPage,
         )}
 
         <div className="mt-5">
-          {to.kind === 'page' && to.to === `/learnings/${node.slug}` && (
+          {to.kind === 'page' && to.to === `/learnings/${node.slug}` && onExpand && (
             <button
               onClick={onExpand}
               className="inline-flex items-center gap-2 border border-ink px-3 py-1.5 font-mono text-xs uppercase tracking-widest text-ink hover:bg-ink hover:text-paper transition-colors"

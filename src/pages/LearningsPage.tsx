@@ -278,11 +278,15 @@ export default function LearningsPage() {
   const tag = params.get('tag')
   // The page being read in the panel: also in the address (read=1)
   const reading = params.get('read') === '1' && selected !== null && hasPage(selected.slug)
+  // A wide screen keeps the card beside the page being read, to its left:
+  // the page narrows, to 40rem at the least, to leave the title its room
+  const pageWidth = Math.min(768, width - 32 - 16 - 320 - 384)
+  const beside = reading && pageWidth >= 640
   // On a wide screen the card (md:w-80) or the page being read
   // (md:w-[48rem]) covers the right, at md:right-8: the map centres in what
   // is left of it. On a phone the panel sits below or takes the screen, and
   // the map stays put.
-  const panel = reading ? Math.min(768, width - 64) : 320
+  const panel = !reading ? 320 : beside ? pageWidth + 16 + 320 : Math.min(768, width - 64)
   const shift = selected && width >= 768 ? (panel + 32) / 2 : 0
   const change = (values: Partial<Record<'node' | 'tag' | 'read', string | null>>) =>
     setParams(
@@ -411,6 +415,25 @@ export default function LearningsPage() {
         </nav>
       )}
 
+      {/* Beside the page being read, its card: choosing a node there reads
+          on, as the reading order does */}
+      {beside && selected && graph && !showTopics && (
+        <aside
+          aria-label="About this page"
+          style={{ right: 32 + pageWidth + 16 }}
+          className={`absolute top-20 bottom-6 w-80 overflow-y-auto overscroll-contain p-6 animate-slide-enter ${overlay}`}
+        >
+          <NodePanel
+            graph={graph}
+            node={selected}
+            onSelect={readOn}
+            onGo={readOn}
+            onTag={highlight}
+            hasPage={hasPage}
+          />
+        </aside>
+      )}
+
       {/* The chosen topic: right on a wide screen, a sheet at the bottom on a
           phone. Expanded, the same panel widens to the left with the page in
           it; on a phone it takes the screen below the title. */}
@@ -419,7 +442,7 @@ export default function LearningsPage() {
           aria-live="polite"
           // The overlay's own transition-colors would otherwise win, and the
           // width would jump instead of growing to the left
-          style={{ transitionProperty: 'width, background-color, border-color' }}
+          style={{ transitionProperty: 'width, background-color, border-color', width: beside ? pageWidth : undefined }}
           className={`absolute inset-x-4 bottom-4 md:inset-x-auto md:right-8 md:top-20 md:bottom-6 md:max-h-none md:max-w-[calc(100vw-4rem)] overflow-y-auto overscroll-contain duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${overlay} ${
             reading ? 'top-20 md:w-[48rem]' : 'max-h-[45dvh] p-6 md:w-80'
           }`}
