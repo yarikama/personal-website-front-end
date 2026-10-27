@@ -98,6 +98,8 @@ opens the same way every time and tests are stable.
 ### 2. Figures: `src/learnings/<slug>/<Name>.tsx`
 
 - Inline SVG with a fixed `viewBox` and `className="w-full"`, so it scales to a phone.
+  The page column is at most 56rem (896px), on its own and expanded on the map; on a
+  wide screen with the node's card beside it, it narrows to about 720px.
 - Colours only from the site's tokens, so both themes work: `fill-sage` / `stroke-sage`
   for the thing to watch, `fill-ink` for what goes wrong, `stroke-zinc-300` and
   `fill-zinc-400` for scaffolding, `fill-paper` for empty shapes. `dark:` variants only
@@ -212,6 +214,25 @@ Hold settings that several figures share in the page, and pass them down.
 | `Readout` | A measured number with its label; `accent` for the one that matters |
 | `Clip` | A ManimGL animation of a formula or derivation, dark in both themes |
 
+### 3b. Checks grow its node
+
+Reading a page cracks its node on the map, then cracks it further, then opens it into
+a sun (`lib/progress.ts`). What counts as a reading is answering the page's **checks**,
+so they need care:
+
+- A check is a `Predict` whose `kicker` is anything but `"Guess first"`, which is also
+  the default. The match is exact: "Guess First" would count as a check.
+- Every page needs at least one check ("Quick check", "Check yourself"), or its node
+  never cracks.
+- Put checks at the top level of the `Article`, always rendered: never inside `Steps`
+  or behind a condition. A check joins the reading when it mounts, so one that appears
+  later lets the reading count before it is answered, and one that unmounts drops out.
+- Exactly one option `right`. The first reading counts once every check is answered;
+  later ones only with every check right, so a check should test a judgement the page
+  taught, fairly, and its reveal say why.
+- Keep the slug once the page is live: readers' progress is kept by slug in their
+  browser, and a new slug starts them over.
+
 When a second page needs something a page built for itself (a request simulator, a
 histogram), move it into `components/explain/` then, not before.
 
@@ -227,9 +248,21 @@ histogram), move it into `components/explain/` then, not before.
 
 The node is data in the backend, written through the writing MCP server (`yarikama-writing`):
 `create_learning_node` with kind `learning` (its ref defaults to `/learnings/<slug>`), a one
-to three sentence summary and tags, then `link_learning_nodes` to its topic (`part_of`) and
-to what comes before it (`prerequisite`). Publish it with `set_learning_node_published`
-**only once the page is live** on the site, and only when the owner asks.
+to three sentence summary and tags, then `link_learning_nodes`:
+
+- `part_of` its topic. The first `part_of` link is its home, where it sits on the map;
+  to file it under another topic it is also part of, `set_learning_node_home`.
+- `prerequisite` from what it builds on.
+- `next` from the page read before it, in the reading order, and to the one after: the
+  page's Next / Before and the card's follow it.
+
+A topic or field that only gathers pages is a `concept` node, with no page. On the map
+it grows with the pages inside it, as far as the least read of them; a page whose node
+is on the map but not on the site yet ("coming soon") is left out. Give a topic its own
+page and it grows with that page's reading instead.
+
+Publish it with `set_learning_node_published` **only once the page is live** on the site,
+and only when the owner asks.
 
 ## Check it
 
@@ -237,8 +270,10 @@ to what comes before it (`prerequisite`). Publish it with `set_learning_node_pub
 npx tsc --noEmit -p . && npm run lint && npx vitest run && npm run build
 ```
 
-Then `npm run dev` and open `/learnings/<slug>` in both themes, on a phone width too. Play
-with every control, including changing a setting while a simulation is running.
+Then `npm run dev` and open `/learnings/<slug>` in both themes, on a phone width too, and
+expanded on the map at `/learnings?node=<slug>&read=1` on a wide screen (the card beside
+it). Play with every control, including changing a setting while a simulation is running.
+Answer every check and watch its node crack beside the page.
 
 Then check the page's words against its source, the same PDF the page was written from,
 with the chapter's pages:
