@@ -1,5 +1,6 @@
 import { useState, type ReactNode } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
+import { useCheck } from './checks'
 
 interface Option {
   label: string
@@ -22,6 +23,9 @@ export function Predict({
   kicker?: string
 }) {
   const [picked, setPicked] = useState<number | null>(null)
+  // A guess before the lesson is only a guess; a check after it counts
+  // towards the reading
+  const answer = useCheck(kicker !== 'Guess first')
   const answered = picked !== null
   return (
     <div className="not-prose my-12 border border-zinc-200 dark:border-zinc-200/20 p-5 sm:p-7">
@@ -40,7 +44,10 @@ export function Predict({
           return (
             <button
               key={option.label}
-              onClick={() => setPicked(i)}
+              onClick={() => {
+                setPicked(i)
+                answer(option.right ?? false)
+              }}
               disabled={answered}
               className={`border px-3 py-3 font-mono text-sm tabular-nums transition-colors ${tone}`}
             >

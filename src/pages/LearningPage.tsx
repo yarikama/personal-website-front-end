@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { ArrowLeft } from 'lucide-react'
+import { Reading } from '../components/explain/Reading'
 import ReadOn from '../components/learnings/ReadOn'
 import Section from '../components/layout/Section'
 import { useLearningGraph } from '../hooks/useLearningGraph'
@@ -49,7 +50,11 @@ export default function LearningPage() {
     <div className="pt-24">
       <Section narrow>
         {back}
-        {Page && <Page />}
+        {Page && slug && (
+          <Reading slug={slug}>
+            <Page />
+          </Reading>
+        )}
         {Page && links && (
           <div className="mt-16">
             <ReadOn
