@@ -36,7 +36,7 @@ export default function LearningPage() {
   if (!entry || failed) {
     return (
       <div className="pt-24">
-        <Section narrow>
+        <Section reading>
           {back}
           <p className="font-serif text-2xl text-zinc-faded italic">
             {entry ? 'This page did not load. Try reloading it.' : 'This page is not written yet.'}
@@ -48,7 +48,7 @@ export default function LearningPage() {
 
   return (
     <div className="pt-24">
-      <Section narrow>
+      <Section reading>
         {back}
         {Page && slug && (
           <Reading slug={slug}>

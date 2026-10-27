@@ -6,6 +6,7 @@ interface SectionProps {
   id?: string
   className?: string
   narrow?: boolean
+  reading?: boolean
   fullWidth?: boolean
 }
 
@@ -14,6 +15,7 @@ export default function Section({
   id,
   className = '',
   narrow = false,
+  reading = false,
   fullWidth = false,
 }: SectionProps) {
   const sectionClass = `py-[var(--section-spacing)] ${className}`
@@ -28,7 +30,7 @@ export default function Section({
 
   return (
     <section id={id} className={sectionClass}>
-      <Container narrow={narrow}>{children}</Container>
+      <Container narrow={narrow} reading={reading}>{children}</Container>
     </section>
   )
 }
