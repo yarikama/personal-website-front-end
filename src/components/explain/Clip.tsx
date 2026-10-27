@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { Pause, Play, RotateCcw } from 'lucide-react'
 import { usePrefersReducedMotion } from '../../hooks'
-import { useIsDark } from '../../lib/theme'
 import { Figure } from './figure'
+
+// Where clips live: R2, behind the CDN (manim/upload.sh puts them there)
+const CLIPS = 'https://assets.yarikama.com/learnings'
 
 type State = 'waiting' | 'playing' | 'paused' | 'ended'
 
@@ -16,19 +18,16 @@ const ACTION: Record<State, { icon: typeof Play; label: string }> = {
 // A short animation rendered with ManimGL (manim/scenes/<slug>.py, by
 // manim/render.sh): a formula built a piece at a time, or a derivation, which
 // a still figure could only show finished. `src` is "<slug>/<clip>", served
-// from public/learnings/ in a light and a dark version, each with a poster
-// of its last frame. It plays once when it scrolls into view; with reduced
-// motion it shows the poster, the whole result, until asked to play.
+// from R2 with a poster of its last frame; clips are dark in both themes. It plays once when it scrolls into view; with reduced motion
+// it shows the poster, the whole result, until asked to play.
 // `label` says in words what it shows, for screen readers.
 export function Clip({ src, label, caption }: { src: string; label: string; caption: ReactNode }) {
-  const dark = useIsDark()
   const reducedMotion = usePrefersReducedMotion()
   const video = useRef<HTMLVideoElement>(null)
   const [state, setState] = useState<State>('waiting')
-  const file = `/learnings/${src}-${dark ? 'dark' : 'light'}`
+  const file = `${CLIPS}/${src}`
 
-  // Play the first time it is mostly on screen; again after the theme
-  // changes, since that swaps the video
+  // Play the first time it is mostly on screen
   useEffect(() => {
     const element = video.current
     if (!element || reducedMotion) return
@@ -76,7 +75,7 @@ export function Clip({ src, label, caption }: { src: string; label: string; capt
         />
         <button
           onClick={toggle}
-          className="absolute bottom-2 right-2 inline-flex items-center gap-1.5 border border-zinc-300 dark:border-zinc-200/20 bg-paper/80 px-2.5 py-1 font-mono text-[0.7rem] uppercase tracking-widest text-zinc-faded backdrop-blur-sm transition-colors hover:text-ink"
+          className="absolute bottom-2 right-2 inline-flex items-center gap-1.5 border border-white/15 bg-black/50 px-2.5 py-1 font-mono text-[0.7rem] uppercase tracking-widest text-zinc-300 backdrop-blur-sm transition-colors hover:text-white"
         >
           <Icon size={12} aria-hidden /> {action}
         </button>
