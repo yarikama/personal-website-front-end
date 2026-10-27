@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { checksOf } from '../components/explain/checks'
-import { afterReading, countsFrom, fadesOn, HOLD, readProgress, recordReading, settle, stageOf, WAIT } from './progress'
+import { afterReading, countsFrom, fadesOn, HOLD, markSeen, readProgress, readSeen, recordReading, settle, stageOf, WAIT } from './progress'
 
 const DAY = 86_400_000
 const memory = () => {
@@ -70,6 +70,21 @@ describe('keeping progress', () => {
     const kept = memory()
     kept.setItem('learnings-progress', '{not json')
     expect(readProgress(kept)).toEqual({})
+  })
+})
+
+describe('what the map last showed', () => {
+  it('keeps each node’s stage, leaving out the uncracked', () => {
+    const kept = memory()
+    markSeen(new Map([['percentiles', 3], ['describing-load', 0]] as const), kept)
+    expect(readSeen(kept)).toEqual({ percentiles: 3 })
+  })
+
+  it('reads nothing from storage that is missing or broken', () => {
+    expect(readSeen(null)).toEqual({})
+    const kept = memory()
+    kept.setItem('learnings-seen', '{"percentiles": 9')
+    expect(readSeen(kept)).toEqual({})
   })
 })
 
