@@ -136,8 +136,10 @@ function glow(): Texture {
 // The sun a node opens into, read through three times
 const SUN = '#ffc457'
 
-// Cracks over a node, drawn once for each stage and wrapped round it: a few
-// dark ones at first, then more, with the sun's light in them
+// Cracks over a node, drawn once for each stage and wrapped round it: the
+// shell breaks into plates, like an eggshell, a few large ones at first,
+// then smaller ones with the sun's light in the seams. The plates are worked
+// out on the sphere, so the seams are as wide at the poles as round the middle.
 const crackTextures = new Map<1 | 2, Texture>()
 function cracks(stage: 1 | 2): Texture {
   let texture = crackTextures.get(stage)
@@ -148,46 +150,62 @@ function cracks(stage: 1 | 2): Texture {
     canvas.width = width
     canvas.height = height
     const context = canvas.getContext('2d')!
-    // The same cracks each time
+    // The same plates each time: their middles spread evenly round it, a
+    // little off a regular pattern
     let seed = stage * 9973
     const random = () => {
       seed = (seed * 16807) % 2147483647
       return seed / 2147483647
     }
-    const lines: [number, number][][] = []
-    const walk = (x: number, y: number, angle: number, steps: number) => {
-      const line: [number, number][] = [[x, y]]
-      for (let i = 0; i < steps; i++) {
-        angle += (random() - 0.5) * 1.1
-        x += Math.cos(angle) * (18 + random() * 30)
-        y += Math.sin(angle) * (10 + random() * 18)
-        line.push([x, y])
-        if (random() < 0.25) walk(x, y, angle + (random() < 0.5 ? 1 : -1) * (0.6 + random() * 0.6), Math.floor(steps / 2))
-      }
-      lines.push(line)
-    }
-    // Spread evenly round it, so each side shows some
-    const count = stage === 1 ? 6 : 14
-    for (let i = 0; i < count; i++) {
-      walk(((i + random() * 0.6) / count) * width, height * (0.25 + random() * 0.5), random() * Math.PI * 2, stage === 1 ? 8 : 11)
-    }
-    const stroke = (style: string, lineWidth: number, blur = 0) => {
-      context.strokeStyle = style
-      context.lineWidth = lineWidth
-      context.lineJoin = context.lineCap = 'round'
-      context.shadowColor = style
-      context.shadowBlur = blur
-      // Drawn again a turn either way, so a crack runs on round the back
-      for (const offset of [-width, 0, width]) {
-        for (const line of lines) {
-          context.beginPath()
-          line.forEach(([x, y], i) => (i ? context.lineTo(x + offset, y) : context.moveTo(x + offset, y)))
-          context.stroke()
+    const count = stage === 1 ? 11 : 26
+    const middles = Array.from({ length: count }, (_, i) => {
+      const y = 1 - (2 * (i + 0.5)) / count
+      const across = Math.sqrt(1 - y * y)
+      const around = i * 2.39996 + random() * 0.6
+      const point = [Math.cos(around) * across, y, Math.sin(around) * across].map((v) => v + (random() - 0.5) * 0.18)
+      const length = Math.hypot(...point)
+      return point.map((v) => v / length)
+    })
+    // A pixel is on a seam when its two nearest middles are about as near
+    // as each other; the sun shows in the middle of a seam, once read twice
+    const seam = stage === 1 ? 0.016 : 0.022
+    const lit = stage === 1 ? 0 : 0.011
+    const [r, g, b] = [1, 3, 5].map((i) => parseInt(SUN.slice(i, i + 2), 16))
+    const image = context.createImageData(width, height)
+    for (let row = 0; row < height; row++) {
+      const down = ((row + 0.5) / height) * Math.PI
+      for (let column = 0; column < width; column++) {
+        // Where the pixel sits on the sphere, as three wraps the texture
+        const around = ((column + 0.5) / width) * Math.PI * 2
+        const point = [-Math.cos(around) * Math.sin(down), Math.cos(down), Math.sin(around) * Math.sin(down)]
+        // Squared, which keeps the order, until the two nearest are known
+        let nearest = 9
+        let next = 9
+        for (const middle of middles) {
+          const dx = point[0] - middle[0]
+          const dy = point[1] - middle[1]
+          const dz = point[2] - middle[2]
+          const squared = dx * dx + dy * dy + dz * dz
+          if (squared < nearest) [nearest, next] = [squared, nearest]
+          else if (squared < next) next = squared
+        }
+        const edge = Math.sqrt(next) - Math.sqrt(nearest)
+        const at = (row * width + column) * 4
+        if (edge < lit) {
+          image.data.set([r, g, b, 255], at)
+        } else if (edge < seam) {
+          image.data.set([12, 12, 12, Math.round(235 * Math.min(1, (seam - edge) / 0.004))], at)
         }
       }
     }
-    stroke('rgba(8,8,8,0.9)', stage === 1 ? 7 : 11)
-    if (stage === 2) stroke(SUN, 4.5, 14)
+    context.putImageData(image, 0, 0)
+    if (stage === 2) {
+      // The light glows a little past the seams
+      context.filter = 'blur(5px)'
+      context.globalCompositeOperation = 'lighter'
+      context.globalAlpha = 0.55
+      context.drawImage(canvas, 0, 0)
+    }
     texture = new CanvasTexture(canvas)
     texture.colorSpace = SRGBColorSpace
     crackTextures.set(stage, texture)
