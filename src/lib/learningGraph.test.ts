@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import type { LearningEdgeType, LearningGraph, LearningNode } from '../types'
-import { areaColours, destination, homes, layers, learnFirst, linksOf, neighbours, places, tagCounts } from './learningGraph'
+import { areaColours, destination, homes, layers, learnFirst, linksOf, neighbours, places, stagesOf, tagCounts } from './learningGraph'
 
 const node = (slug: string, overrides: Partial<LearningNode> = {}): LearningNode => ({
   slug,
@@ -179,5 +179,46 @@ describe('where a node leads', () => {
     const paper = node('paper', { kind: 'external', ref: 'https://arxiv.org/abs/1706.03762' })
     expect(destination(paper, hasPage)).toEqual({ kind: 'link', href: 'https://arxiv.org/abs/1706.03762' })
     expect(destination(node('hub', { kind: 'concept', ref: null }), hasPage)).toEqual({ kind: 'none' })
+  })
+})
+
+describe('how far along a node is', () => {
+  // A field of two topics: one gathers two pages, the other a page and a
+  // draft not on the site yet
+  const map = graph(
+    ['field', 'topic', 'other', 'a', 'b', 'c', 'draft'],
+    [
+      ['topic', 'part_of', 'field'],
+      ['other', 'part_of', 'field'],
+      ['a', 'part_of', 'topic'],
+      ['b', 'part_of', 'topic'],
+      ['c', 'part_of', 'other'],
+      ['draft', 'part_of', 'other'],
+    ]
+  )
+  const hasPage = (slug: string) => ['a', 'b', 'c'].includes(slug)
+
+  it('is, for a page, how far it has been read', () => {
+    const stages = stagesOf(map, new Map([['a', 2]]), hasPage)
+    expect(stages.get('a')).toBe(2)
+    expect(stages.get('b')).toBe(0)
+  })
+
+  it('is, for a node that only gathers others, the least read inside it', () => {
+    const stages = stagesOf(map, new Map([['a', 3], ['b', 2], ['c', 1]]), hasPage)
+    expect(stages.get('topic')).toBe(2)
+    expect(stages.get('other')).toBe(1)
+    expect(stages.get('field')).toBe(1)
+  })
+
+  it('leaves out what has nothing to read', () => {
+    const stages = stagesOf(map, new Map([['c', 3]]), hasPage)
+    expect(stages.get('other')).toBe(3)
+    expect(stages.has('draft')).toBe(false)
+  })
+
+  it('survives a loop of part_of edges', () => {
+    const loop = graph(['x', 'y', 'a'], [['x', 'part_of', 'y'], ['y', 'part_of', 'x'], ['a', 'part_of', 'x']])
+    expect(stagesOf(loop, new Map([['a', 2]]), hasPage).get('x')).toBe(2)
   })
 })

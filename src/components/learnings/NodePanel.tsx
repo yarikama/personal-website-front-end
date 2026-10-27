@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
-import { ArrowLeft, ArrowRight, ArrowUpRight } from 'lucide-react'
+import { ArrowLeft, ArrowRight, ArrowUpRight, Check } from 'lucide-react'
 import { destination, learnFirst, linksOf, places } from '../../lib/learningGraph'
-import { countsFrom, fadesOn, type Progress } from '../../lib/progress'
+import { countsFrom, fadesOn, type Progress, type Stage } from '../../lib/progress'
 import type { LearningGraph, LearningNode } from '../../types'
 
 interface NodePanelProps {
@@ -15,6 +15,8 @@ interface NodePanelProps {
   hasPage: (slug: string) => boolean
   // How far the visitor has come with its page
   progress?: Progress
+  // And how far along each node is, the ones that only gather others too
+  stages: Map<string, Stage>
   // Opens the node's page in the panel, for a page on the site's map.
   // Without it, as beside the page already open, there is no Expand.
   onExpand?: () => void
@@ -42,10 +44,26 @@ function Growth({ progress }: { progress?: Progress }) {
   )
 }
 
-function NodeList({ title, nodes, onSelect, ordered = false }: {
+const READ = { 1: 'read once', 2: 'read twice', 3: 'a sun' } as const
+
+// A green check for each stage a node's page has reached
+function Checks({ stage }: { stage?: Stage }) {
+  if (!stage) return null
+  return (
+    <span className="inline-flex shrink-0 self-center align-middle text-emerald-500" title={READ[stage]}>
+      {Array.from({ length: stage }, (_, i) => (
+        <Check key={i} size={13} strokeWidth={3} className={i > 0 ? '-ml-1' : undefined} aria-hidden />
+      ))}
+      <span className="sr-only">{READ[stage]}</span>
+    </span>
+  )
+}
+
+function NodeList({ title, nodes, onSelect, stages, ordered = false }: {
   title: string
   nodes: LearningNode[]
   onSelect: (slug: string) => void
+  stages: Map<string, Stage>
   ordered?: boolean
 }) {
   if (nodes.length === 0) return null
@@ -62,6 +80,7 @@ function NodeList({ title, nodes, onSelect, ordered = false }: {
             >
               {ordered && <span className="font-mono text-[0.8rem] text-sage w-5 shrink-0">{index + 1}</span>}
               <span className="border-b border-transparent group-hover:border-zinc-300">{node.title}</span>
+              <Checks stage={stages.get(node.slug)} />
             </button>
           </li>
         ))}
@@ -72,7 +91,7 @@ function NodeList({ title, nodes, onSelect, ordered = false }: {
 
 // The selected node's card: what it is, where it leads, what to learn
 // before it, and what to read next
-export default function NodePanel({ graph, node, onSelect, onGo, onTag, hasPage, progress, onExpand }: NodePanelProps) {
+export default function NodePanel({ graph, node, onSelect, onGo, onTag, hasPage, progress, stages, onExpand }: NodePanelProps) {
   const links = linksOf(graph, node.slug)
   const place = places(graph).get(node.slug)
   const road = learnFirst(graph, node.slug)
@@ -135,17 +154,23 @@ export default function NodePanel({ graph, node, onSelect, onGo, onTag, hasPage,
             <Growth progress={progress} />
           </p>
         )}
+        {!hasPage(node.slug) && stages.has(node.slug) && (
+          <p className="mt-4 text-xs leading-relaxed text-zinc-400">
+            It grows with the pages inside it, as far as the least read of them.{' '}
+            <Checks stage={stages.get(node.slug)} />
+          </p>
+        )}
       </div>
 
-      <NodeList title="Learn first" nodes={road} onSelect={onSelect} ordered />
-      <NodeList title="Then" nodes={links.leadsTo} onSelect={onSelect} />
-      <NodeList title="Lives in" nodes={links.home ? [links.home] : []} onSelect={onSelect} />
-      <NodeList title="Also part of" nodes={links.partOf.filter((n) => n !== links.home)} onSelect={onSelect} />
-      <NodeList title="Inside" nodes={links.parts} onSelect={onSelect} />
-      <NodeList title="Related" nodes={links.related} onSelect={onSelect} />
+      <NodeList title="Learn first" nodes={road} onSelect={onSelect} stages={stages} ordered />
+      <NodeList title="Then" nodes={links.leadsTo} onSelect={onSelect} stages={stages} />
+      <NodeList title="Lives in" nodes={links.home ? [links.home] : []} onSelect={onSelect} stages={stages} />
+      <NodeList title="Also part of" nodes={links.partOf.filter((n) => n !== links.home)} onSelect={onSelect} stages={stages} />
+      <NodeList title="Inside" nodes={links.parts} onSelect={onSelect} stages={stages} />
+      <NodeList title="Related" nodes={links.related} onSelect={onSelect} stages={stages} />
       {/* Along the reading order, last: the map flies there */}
-      <NodeList title="Before" nodes={links.readBefore ? [links.readBefore] : []} onSelect={onGo} />
-      <NodeList title="Next" nodes={links.readNext ? [links.readNext] : []} onSelect={onGo} />
+      <NodeList title="Before" nodes={links.readBefore ? [links.readBefore] : []} onSelect={onGo} stages={stages} />
+      <NodeList title="Next" nodes={links.readNext ? [links.readNext] : []} onSelect={onGo} stages={stages} />
     </div>
   )
 }

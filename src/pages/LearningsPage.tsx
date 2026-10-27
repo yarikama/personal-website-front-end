@@ -11,7 +11,7 @@ import { usePrefersReducedMotion } from '../hooks'
 import { useLearningGraph } from '../hooks/useLearningGraph'
 import { findLearningPage } from '../learnings'
 import { useLearningPage } from '../learnings/useLearningPage'
-import { areaColours, homes, linksOf, places, tagCounts } from '../lib/learningGraph'
+import { areaColours, homes, linksOf, places, stagesOf, tagCounts } from '../lib/learningGraph'
 import { useProgress } from '../lib/progress'
 import { useIsDark } from '../lib/theme'
 import type { LearningGraph, LearningNode } from '../types'
@@ -266,10 +266,11 @@ export default function LearningsPage() {
   const { width, height } = useWindowSize()
   // How far the visitor has come with each page, which the map shows
   const progress = useProgress()
-  const stages = useMemo(
-    () => new Map(Object.entries(progress).map(([slug, { stage }]) => [slug, stage])),
-    [progress]
-  )
+  // A node that only gathers others grows with the least read inside it
+  const stages = useMemo(() => {
+    const read = new Map(Object.entries(progress).map(([slug, { stage }]) => [slug, stage]))
+    return graph ? stagesOf(graph, read, hasPage) : read
+  }, [graph, progress])
   const [params, setParams] = useSearchParams()
   const [showTopics, setShowTopics] = useState(false)
   // Each reset draws the graph afresh: laid out, framed and turning as when
@@ -443,6 +444,7 @@ export default function LearningsPage() {
             onTag={highlight}
             hasPage={hasPage}
             progress={progress[selected.slug]}
+            stages={stages}
           />
         </aside>
       )}
@@ -485,6 +487,7 @@ export default function LearningsPage() {
                 onTag={highlight}
                 hasPage={hasPage}
                 progress={progress[selected.slug]}
+                stages={stages}
                 onExpand={expand}
               />
             </>
