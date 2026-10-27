@@ -3,13 +3,16 @@ import type { LearningGraph, LearningNode } from '../types'
 export interface NodeLinks {
   // Learned right before it, and right after
   prerequisites: LearningNode[]
-  next: LearningNode[]
+  leadsTo: LearningNode[]
   // What it is part of, its home first, and what is part of it
   partOf: LearningNode[]
   parts: LearningNode[]
   related: LearningNode[]
   // The one it lives in, if it is part of anything
   home: LearningNode | null
+  // In the reading order: the page to read after it, and the one before
+  readNext: LearningNode | null
+  readBefore: LearningNode | null
 }
 
 const byTitle = (a: LearningNode, b: LearningNode) => a.title.localeCompare(b.title)
@@ -20,17 +23,27 @@ function nodesBySlug(graph: LearningGraph) {
 
 export function linksOf(graph: LearningGraph, slug: string): NodeLinks {
   const nodes = nodesBySlug(graph)
-  const links: NodeLinks = { prerequisites: [], next: [], partOf: [], parts: [], related: [], home: null }
+  const links: NodeLinks = {
+    prerequisites: [],
+    leadsTo: [],
+    partOf: [],
+    parts: [],
+    related: [],
+    home: null,
+    readNext: null,
+    readBefore: null,
+  }
   for (const edge of graph.edges) {
     const out = edge.source === slug
     if (!out && edge.target !== slug) continue
     const other = nodes.get(out ? edge.target : edge.source)
     if (!other) continue
-    if (edge.type === 'prerequisite') links[out ? 'next' : 'prerequisites'].push(other)
+    if (edge.type === 'next') links[out ? 'readNext' : 'readBefore'] = other
+    else if (edge.type === 'prerequisite') links[out ? 'leadsTo' : 'prerequisites'].push(other)
     else if (edge.type === 'part_of') links[out ? 'partOf' : 'parts'].push(other)
     else links.related.push(other)
   }
-  for (const list of [links.prerequisites, links.next, links.partOf, links.parts, links.related]) list.sort(byTitle)
+  for (const list of [links.prerequisites, links.leadsTo, links.partOf, links.parts, links.related]) list.sort(byTitle)
   const home = homes(graph).get(slug)
   links.home = home ? (nodes.get(home) ?? null) : null
   if (links.home) links.partOf = [links.home, ...links.partOf.filter((node) => node !== links.home)]

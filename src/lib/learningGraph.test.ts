@@ -39,9 +39,21 @@ describe('a node in the learning graph', () => {
     expect(slugs(d.prerequisites)).toEqual(['c'])
     expect(slugs(d.partOf)).toEqual(['hub'])
     expect(slugs(d.related)).toEqual(['e'])
-    expect(slugs(linksOf(g, 'c').next)).toEqual(['d'])
+    expect(slugs(linksOf(g, 'c').leadsTo)).toEqual(['d'])
     expect(slugs(linksOf(g, 'hub').parts)).toEqual(['d'])
     expect(slugs(linksOf(g, 'e').related)).toEqual(['d'])
+  })
+
+  it('has the pages before and after it in the reading order, apart from prerequisites', () => {
+    const read = graph(['one', 'two', 'three'], [
+      ['one', 'next', 'two'],
+      ['two', 'next', 'three'],
+    ])
+    expect(linksOf(read, 'two').readBefore?.slug).toBe('one')
+    expect(linksOf(read, 'two').readNext?.slug).toBe('three')
+    expect(linksOf(read, 'one').readBefore).toBeNull()
+    expect(linksOf(read, 'two').prerequisites).toEqual([])
+    expect(learnFirst(read, 'three')).toEqual([])
   })
 
   it('has every node one edge away as a neighbour', () => {

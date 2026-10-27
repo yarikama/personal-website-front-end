@@ -1,9 +1,10 @@
-import { Component, useEffect, useMemo, useState, type ReactNode } from 'react'
+import { Component, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { ArrowLeft, ArrowRight, ArrowUpRight, List, Loader2, RotateCcw, X } from 'lucide-react'
 import { motion } from 'motion/react'
 import Graph3D from '../components/learnings/Graph3D'
 import NodePanel from '../components/learnings/NodePanel'
+import ReadOn from '../components/learnings/ReadOn'
 import ThemeToggle from '../components/ui/ThemeToggle'
 import { usePrefersReducedMotion } from '../hooks'
 import { useLearningGraph } from '../hooks/useLearningGraph'
@@ -191,12 +192,31 @@ function Topics({ graph, onSelect }: { graph: LearningGraph; onSelect: (slug: st
 }
 
 // A learning page read inside the map's panel: a bar to fold it back into
-// the card, open it on its own, or close it, and the page under it
-function Reader({ slug, onCollapse, onClose }: { slug: string; onCollapse: () => void; onClose: () => void }) {
+// the card, open it on its own, or close it, the page under it, and the
+// pages before and after it, which `onGo` moves the map to
+function Reader({
+  graph,
+  slug,
+  onCollapse,
+  onClose,
+  onGo,
+}: {
+  graph: LearningGraph
+  slug: string
+  onCollapse: () => void
+  onClose: () => void
+  onGo: (slug: string) => void
+}) {
   const { Page, failed } = useLearningPage(slug)
+  const links = linksOf(graph, slug)
+  // The panel scrolls, not the window: a new page starts at its top
+  const top = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    top.current?.parentElement?.scrollTo({ top: 0 })
+  }, [slug])
   const control = 'inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-zinc-faded hover:text-ink transition-colors'
   return (
-    <div>
+    <div ref={top}>
       <div className="sticky top-0 z-10 flex items-center justify-between gap-4 border-b border-zinc-200 dark:border-zinc-200/20 bg-paper/90 backdrop-blur-md px-6 py-3">
         <button onClick={onCollapse} className={control} aria-label="Collapse into the card">
           <ArrowRight size={14} /> Collapse
@@ -220,7 +240,12 @@ function Reader({ slug, onCollapse, onClose }: { slug: string; onCollapse: () =>
         {failed ? (
           <p className="font-serif text-xl text-zinc-faded italic">This page did not load. Try opening it on its own.</p>
         ) : Page ? (
-          <Page />
+          <>
+            <Page />
+            <div className="mt-16">
+              <ReadOn before={links.readBefore} next={links.readNext} onGo={onGo} hasPage={hasPage} />
+            </div>
+          </>
         ) : (
           <Loader2 className="mx-auto my-16 h-6 w-6 animate-spin text-zinc-400" />
         )}
@@ -270,6 +295,9 @@ export default function LearningsPage() {
   const highlight = (name: string | null) => change({ tag: name })
   const expand = () => change({ read: '1' })
   const collapse = () => change({ read: null })
+  // Along the reading order: the map flies to the node, and a page being
+  // read goes on to the next page
+  const readOn = (slug: string) => change({ node: slug, read: reading && hasPage(slug) ? '1' : null })
 
   // Escape folds the page back into the card
   useEffect(() => {
@@ -390,7 +418,13 @@ export default function LearningsPage() {
           }`}
         >
           {reading ? (
-            <Reader slug={selected.slug} onCollapse={collapse} onClose={() => select(null)} />
+            <Reader
+              graph={graph}
+              slug={selected.slug}
+              onCollapse={collapse}
+              onClose={() => select(null)}
+              onGo={readOn}
+            />
           ) : (
             <>
               <button
@@ -404,6 +438,7 @@ export default function LearningsPage() {
                 graph={graph}
                 node={selected}
                 onSelect={select}
+                onGo={readOn}
                 onTag={highlight}
                 hasPage={hasPage}
                 onExpand={expand}

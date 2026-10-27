@@ -171,7 +171,9 @@ export type LearningNodeKind = 'learning' | 'concept' | 'external'
 
 // prerequisite: source is learned before target; part_of: source is part
 // of target; related: either way round
-export type LearningEdgeType = 'prerequisite' | 'part_of' | 'related'
+// next: the target is the page to read after the source (the reading
+// order the owner lays out, a line: one each way)
+export type LearningEdgeType = 'prerequisite' | 'part_of' | 'related' | 'next'
 
 export interface LearningNode {
   slug: string
