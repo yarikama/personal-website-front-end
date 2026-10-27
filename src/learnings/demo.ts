@@ -1,8 +1,8 @@
 import type { LearningEdge, LearningEdgeType, LearningGraph, LearningNode, LearningNodeKind } from '../types'
 
 // The map shown while the real one has no published nodes yet: chapter 1
-// of Designing Data-Intensive Applications and of Sutton and Barto's
-// Reinforcement Learning, whose pages are on the site.
+// of Designing Data-Intensive Applications and chapters 1 and 2 of Sutton
+// and Barto's Reinforcement Learning, whose pages are on the site.
 const node = (
   slug: string,
   kind: LearningNodeKind,
@@ -26,6 +26,11 @@ const TAGS: Record<string, string[]> = {
   'reward-and-value': ['rl', 'foundations', 'values'],
   'temporal-difference-learning': ['rl', 'values', 'algorithms'],
   'learning-from-every-move': ['rl', 'values', 'algorithms'],
+  'tracking-change': ['rl', 'decisions'],
+  'optimistic-initial-values': ['rl', 'decisions'],
+  'upper-confidence-bound': ['rl', 'decisions', 'algorithms'],
+  'gradient-bandits': ['rl', 'algorithms'],
+  'contextual-bandits': ['rl', 'decisions'],
   'sutton-barto': ['rl'],
 }
 
@@ -50,12 +55,18 @@ const nodes: LearningNode[] = [
   node('reinforcement-learning', 'concept', 'Reinforcement learning', 'Learning what to do from reward, by trial and error.'),
   node('rl-problem', 'concept', 'The problem', 'An agent acts, the world answers with a score, and the agent has to find what earns the most.'),
   node('values', 'concept', 'Values', 'How good it is to be somewhere, counting everything likely to follow.'),
+  node('bandits', 'concept', 'Bandits', 'Choosing among the same few options again and again, learning only from what each choice paid.'),
 
   node('learning-from-reward', 'learning', 'Learning from reward', 'Learning from a score, not from answers: try, see how it went, do more of what worked.'),
   node('exploration-and-exploitation', 'learning', 'Explore or exploit', 'Use what you know, or find out more: an agent that only does one does badly.'),
   node('reward-and-value', 'learning', 'Reward versus value', 'Reward is what’s good now; value is all the reward still to come. Choose by value.'),
   node('temporal-difference-learning', 'learning', 'Temporal-difference learning', 'Nudge each guess toward the next one, and learn during the game, not after it.'),
   node('learning-from-every-move', 'learning', 'Learning from every move', 'Scoring each position teaches far faster than keeping the strategies that won.'),
+  node('tracking-change', 'learning', 'When the world changes', 'A plain average never forgets; a fixed step trusts recent rewards more, and keeps up when things change.'),
+  node('optimistic-initial-values', 'learning', 'Optimism explores', 'Expect the best of everything untried, and even a learner that never gambles tries it all.'),
+  node('upper-confidence-bound', 'learning', 'The benefit of the doubt', 'Pick by how good an option looks plus how unsure you still are about it.'),
+  node('gradient-bandits', 'learning', 'Preferences, not values', 'Learn how much to favour each option, and compare every reward with what you usually get.'),
+  node('contextual-bandits', 'learning', 'Reading the situation', 'When a clue tells you which situation you are in, learn a rule from situation to choice.'),
 
   node('sutton-barto', 'external', 'Reinforcement Learning: An Introduction', 'Sutton and Barto, 2nd edition.', 'https://mitpress.mit.edu/9780262039246/reinforcement-learning/'),
   node('td-gammon', 'external', 'Temporal Difference Learning and TD-Gammon', 'Gerald Tesauro, 1995.', 'https://dl.acm.org/doi/10.1145/203330.203343'),
@@ -79,7 +90,10 @@ export const demoGraph: LearningGraph = {
        describing-load>percentiles percentiles>tail-latency-amplification describing-load>scaling-up-and-out
        learning-from-reward>exploration-and-exploitation learning-from-reward>reward-and-value
        reward-and-value>temporal-difference-learning exploration-and-exploitation>temporal-difference-learning
-       temporal-difference-learning>learning-from-every-move`
+       temporal-difference-learning>learning-from-every-move
+       exploration-and-exploitation>tracking-change tracking-change>optimistic-initial-values
+       exploration-and-exploitation>upper-confidence-bound exploration-and-exploitation>gradient-bandits
+       exploration-and-exploitation>contextual-bandits`
     ),
     // The field, its topics (two of them pages), and the ideas in each topic
     ...edges(
@@ -89,7 +103,9 @@ export const demoGraph: LearningGraph = {
        percentiles>scalability tail-latency-amplification>scalability scaling-up-and-out>scalability
        rl-problem>reinforcement-learning values>reinforcement-learning learning-from-reward>rl-problem
        exploration-and-exploitation>rl-problem reward-and-value>values temporal-difference-learning>values
-       learning-from-every-move>values`
+       learning-from-every-move>values bandits>reinforcement-learning tracking-change>bandits
+       optimistic-initial-values>bandits upper-confidence-bound>bandits gradient-bandits>bandits
+       contextual-bandits>bandits`
     ),
     // The reading order: each chapter's pages, one after another
     ...edges(
@@ -98,7 +114,10 @@ export const demoGraph: LearningGraph = {
        percentiles>tail-latency-amplification tail-latency-amplification>scaling-up-and-out
        scaling-up-and-out>maintainability
        learning-from-reward>exploration-and-exploitation exploration-and-exploitation>reward-and-value
-       reward-and-value>temporal-difference-learning temporal-difference-learning>learning-from-every-move`
+       reward-and-value>temporal-difference-learning temporal-difference-learning>learning-from-every-move
+       learning-from-every-move>tracking-change tracking-change>optimistic-initial-values
+       optimistic-initial-values>upper-confidence-bound upper-confidence-bound>gradient-bandits
+       gradient-bandits>contextual-bandits`
     ),
     ...edges(
       'related',
