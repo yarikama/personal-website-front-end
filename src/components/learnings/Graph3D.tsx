@@ -12,6 +12,7 @@ import {
   SRGBColorSpace,
   type BufferGeometry,
   type Material,
+  type PerspectiveCamera,
   type Texture,
 } from 'three'
 import SpriteText from 'three-spritetext'
@@ -32,6 +33,9 @@ interface Graph3DProps {
   // the glows run into one region
   tag: string | null
   reducedMotion: boolean
+  // Pixels to move the view's centre left, so what is in the middle sits
+  // in the middle of what a panel on the right leaves showing
+  shift?: number
 }
 
 interface Palette {
@@ -175,6 +179,7 @@ export default function Graph3D({
   onSelect,
   tag,
   reducedMotion,
+  shift = 0,
 }: Graph3DProps) {
   const fg = useRef<ForceGraphMethods<GraphNode, GraphLink> | undefined>(undefined)
   const palette = usePalette()
@@ -364,6 +369,31 @@ export default function Graph3D({
   useEffect(() => {
     flyTo(selected)
   }, [selected, flyTo])
+
+  // Slide the picture left by `shift`, as the panel widens: the camera's
+  // view is offset, so it still turns round the same point. In step with
+  // the panel's own half second.
+  const shown = useRef(0)
+  useEffect(() => {
+    const camera = fg.current?.camera() as PerspectiveCamera | undefined
+    if (!camera) return
+    const from = shown.current
+    const start = performance.now()
+    const duration = reducedMotion ? 0 : 500
+    let frame = 0
+    const step = (now: number) => {
+      const t = duration ? Math.min(1, (now - start) / duration) : 1
+      // The panel's ease: fast, then settling
+      const at = from + (shift - from) * (1 - (1 - t) ** 4)
+      shown.current = at
+      if (Math.abs(at) < 0.5) camera.clearViewOffset()
+      else camera.setViewOffset(width, height, at, 0, width, height)
+      camera.updateProjectionMatrix()
+      if (t < 1) frame = requestAnimationFrame(step)
+    }
+    frame = requestAnimationFrame(step)
+    return () => cancelAnimationFrame(frame)
+  }, [shift, width, height, reducedMotion])
 
   return (
     <ForceGraph3D<GraphNode, GraphLink>
