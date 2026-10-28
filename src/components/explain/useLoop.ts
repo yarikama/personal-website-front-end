@@ -26,3 +26,18 @@ export function within(phase: number, start: number, end: number): number | null
   const length = (end - start + 1) % 1 || 1
   return at <= length ? at / length : null
 }
+
+// Where a one-off animation is, from 0 up to `span`, at `pace` ms a unit:
+// it starts when the figure mounts and stops at the end. With reduced
+// motion it starts at the end. Give the figure a `key` to play it again.
+export function usePlay(span: number, pace: number): number {
+  const reducedMotion = usePrefersReducedMotion()
+  const started = useRef<number | null>(null)
+  const [played, setPlayed] = useState(reducedMotion ? span : 0)
+  useAnimationFrame((time) => {
+    if (reducedMotion || played >= span) return
+    started.current ??= time
+    setPlayed(Math.min(span, (time - started.current) / pace))
+  })
+  return reducedMotion ? span : played
+}
