@@ -44,11 +44,61 @@ export function linksOf(graph: LearningGraph, slug: string): NodeLinks {
     else if (edge.type === 'part_of') links[out ? 'partOf' : 'parts'].push(other)
     else links.related.push(other)
   }
-  for (const list of [links.prerequisites, links.leadsTo, links.partOf, links.parts, links.related]) list.sort(byTitle)
+  for (const list of [links.prerequisites, links.leadsTo, links.partOf, links.related]) list.sort(byTitle)
+  // What is inside it in the order to read it
+  links.parts.sort(inReadingOrder(graph))
   const home = homes(graph).get(slug)
   links.home = home ? (nodes.get(home) ?? null) : null
   if (links.home) links.partOf = [links.home, ...links.partOf.filter((node) => node !== links.home)]
   return links
+}
+
+// Sorts nodes in the order to read them. A page goes by its place along
+// the reading order (the next edges, chain after chain); a node with no
+// page of its own by the earliest of the nodes that live in it, so a topic
+// comes where its first page does. What the reading order leaves out goes
+// after, by how deep it sits on the road of prerequisites, then by title.
+export function inReadingOrder(graph: LearningGraph): (a: LearningNode, b: LearningNode) => number {
+  const nodes = nodesBySlug(graph)
+  const after = new Map<string, string>()
+  const hasBefore = new Set<string>()
+  for (const edge of graph.edges) {
+    if (edge.type !== 'next') continue
+    after.set(edge.source, edge.target)
+    hasBefore.add(edge.target)
+  }
+  const step = new Map<string, number>()
+  // The chains in the order their first pages sit on the road, then by title
+  const layer = layers(graph)
+  const starts = [...after.keys()]
+    .filter((slug) => !hasBefore.has(slug))
+    .sort((a, b) => (layer.get(a) ?? 0) - (layer.get(b) ?? 0) || (nodes.get(a)?.title ?? a).localeCompare(nodes.get(b)?.title ?? b))
+  for (const start of starts) {
+    for (let at: string | undefined = start; at !== undefined && !step.has(at); at = after.get(at)) step.set(at, step.size)
+  }
+  // A node off the reading order takes the earliest place inside it
+  const inside = new Map<string, string[]>()
+  for (const [child, parent] of homes(graph)) inside.set(parent, [...(inside.get(parent) ?? []), child])
+  const visiting = new Set<string>()
+  const place = new Map<string, number>()
+  const placeOf = (slug: string): number => {
+    const known = place.get(slug)
+    if (known !== undefined) return known
+    if (visiting.has(slug)) return Infinity
+    visiting.add(slug)
+    const value = step.get(slug) ?? Math.min(Infinity, ...(inside.get(slug) ?? []).map(placeOf))
+    visiting.delete(slug)
+    place.set(slug, value)
+    return value
+  }
+  const depth = (slug: string) => layer.get(slug) ?? Infinity
+  return (a, b) => {
+    const [pa, pb] = [placeOf(a.slug), placeOf(b.slug)]
+    if (pa !== pb) return pa < pb ? -1 : 1
+    const [da, db] = [depth(a.slug), depth(b.slug)]
+    if (da !== db) return da < db ? -1 : 1
+    return byTitle(a, b)
+  }
 }
 
 // Each node's home: the part_of edge marked home, or, where none is (a

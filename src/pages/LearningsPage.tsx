@@ -12,7 +12,7 @@ import { usePrefersReducedMotion } from '../hooks'
 import { useLearningGraph } from '../hooks/useLearningGraph'
 import { findLearningPage } from '../learnings'
 import { useLearningPage } from '../learnings/useLearningPage'
-import { areaColours, homes, linksOf, places, stagesOf } from '../lib/learningGraph'
+import { areaColours, homes, inReadingOrder, linksOf, places, stagesOf } from '../lib/learningGraph'
 import { useProgress } from '../lib/progress'
 import { useIsDark } from '../lib/theme'
 import type { LearningGraph, LearningNode } from '../types'
@@ -132,6 +132,7 @@ function Topics({ graph, onSelect }: { graph: LearningGraph; onSelect: (slug: st
     return {
       fields: graph.nodes
         .filter((node) => at.get(node.slug)?.level === 1)
+        .sort(inReadingOrder(graph))
         .map((field) => ({ field, topics: parts(field.slug).map((topic) => ({ topic, ideas: parts(topic.slug) })) })),
       elsewhere: graph.nodes.filter((node) => !at.has(node.slug)),
       home: homes(graph),

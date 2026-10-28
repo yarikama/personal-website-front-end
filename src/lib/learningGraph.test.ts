@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import type { LearningEdgeType, LearningGraph, LearningNode } from '../types'
-import { areaColours, destination, homes, layers, learnFirst, linksOf, neighbours, places, search, stagesOf, tagCounts } from './learningGraph'
+import { areaColours, destination, homes, inReadingOrder, layers, learnFirst, linksOf, neighbours, places, search, stagesOf, tagCounts } from './learningGraph'
 
 const node = (slug: string, overrides: Partial<LearningNode> = {}): LearningNode => ({
   slug,
@@ -77,6 +77,46 @@ describe('a node in the learning graph', () => {
       ]
     )
     expect(slugs(learnFirst(diamond, 'top'))).toEqual(['root', 'left', 'right'])
+  })
+})
+
+describe('the order to read what is inside a node', () => {
+  it('follows the reading order, then the road of prerequisites, then the title', () => {
+    // Read zebra, then apple; mango is not in the reading order but is
+    // learned after zebra; kiwi is neither
+    const g = graph(
+      ['topic', 'apple', 'zebra', 'mango', 'kiwi'],
+      [
+        ['zebra', 'next', 'apple'],
+        ['zebra', 'prerequisite', 'mango'],
+        ['apple', 'part_of', 'topic'],
+        ['zebra', 'part_of', 'topic'],
+        ['mango', 'part_of', 'topic'],
+        ['kiwi', 'part_of', 'topic'],
+      ]
+    )
+    expect(slugs(linksOf(g, 'topic').parts)).toEqual(['zebra', 'apple', 'mango', 'kiwi'])
+  })
+
+  it('puts a topic where its first page is read', () => {
+    // `sooner` holds the first page, `later` the next one, `loose` none
+    const g = graph(
+      ['field', 'later', 'sooner', 'loose', 'one', 'two'],
+      [
+        ['one', 'next', 'two'],
+        ['one', 'part_of', 'sooner'],
+        ['two', 'part_of', 'later'],
+        ['later', 'part_of', 'field'],
+        ['loose', 'part_of', 'field'],
+        ['sooner', 'part_of', 'field'],
+      ]
+    )
+    expect(slugs(linksOf(g, 'field').parts)).toEqual(['sooner', 'later', 'loose'])
+  })
+
+  it('is a comparator that leaves ties to the title', () => {
+    const plain = graph(['b', 'a'], [])
+    expect(slugs([...plain.nodes].sort(inReadingOrder(plain)))).toEqual(['a', 'b'])
   })
 })
 
