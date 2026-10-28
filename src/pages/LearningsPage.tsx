@@ -5,13 +5,14 @@ import { motion } from 'motion/react'
 import Graph3D from '../components/learnings/Graph3D'
 import NodePanel from '../components/learnings/NodePanel'
 import ReadOn from '../components/learnings/ReadOn'
+import Search from '../components/learnings/Search'
 import { Reading } from '../components/explain/Reading'
 import ThemeToggle from '../components/ui/ThemeToggle'
 import { usePrefersReducedMotion } from '../hooks'
 import { useLearningGraph } from '../hooks/useLearningGraph'
 import { findLearningPage } from '../learnings'
 import { useLearningPage } from '../learnings/useLearningPage'
-import { areaColours, homes, linksOf, places, stagesOf, tagCounts } from '../lib/learningGraph'
+import { areaColours, homes, linksOf, places, stagesOf } from '../lib/learningGraph'
 import { useProgress } from '../lib/progress'
 import { useIsDark } from '../lib/theme'
 import type { LearningGraph, LearningNode } from '../types'
@@ -57,26 +58,41 @@ function Shape({ sides, size, colour }: { sides: number; size: number; colour: s
   )
 }
 
-// What the shapes and colours mean: a shape per level, a colour per area
+// What the shapes and colours mean: a shape per level, and a colour per
+// area, each beside the field it is in
 function Legend({ graph }: { graph: LearningGraph }) {
   const dark = useIsDark()
-  const colours = useMemo(() => areaColours(graph, dark), [graph, dark])
-  const titles = useMemo(() => new Map(graph.nodes.map((node) => [node.slug, node.title])), [graph])
+  const fields = useMemo(() => {
+    const colours = areaColours(graph, dark)
+    const home = homes(graph)
+    const titles = new Map(graph.nodes.map((node) => [node.slug, node.title]))
+    const byField = new Map<string, { area: string; title: string; colour: string }[]>()
+    for (const [area, colour] of colours) {
+      const field = home.get(area) ?? ''
+      byField.set(field, [...(byField.get(field) ?? []), { area, title: titles.get(area) ?? area, colour }])
+    }
+    return {
+      count: colours.size,
+      list: [...byField]
+        .map(([field, areas]) => ({ field, title: titles.get(field) ?? '', areas }))
+        .sort((a, b) => a.title.localeCompare(b.title)),
+    }
+  }, [graph, dark])
   const item = 'inline-flex items-center gap-2'
   const ink = 'var(--color-ink)'
   return (
     <div className="flex flex-col gap-2 font-mono text-[0.8rem] uppercase tracking-widest text-zinc-faded">
-      <div className="flex flex-wrap gap-x-5 gap-y-1.5">
+      <div className="flex flex-wrap items-center gap-x-5 gap-y-1.5">
         <span className={item}>
-          <Shape sides={6} size={14} colour={ink} />
+          <Shape sides={6} size={16} colour={ink} />
           Field
         </span>
         <span className={item}>
-          <Shape sides={8} size={12} colour={ink} />
+          <Shape sides={8} size={11} colour={ink} />
           Topic
         </span>
         <span className={item}>
-          <Shape sides={0} size={9} colour={ink} />
+          <Shape sides={0} size={6} colour={ink} />
           Idea
         </span>
         <span className={item}>
@@ -86,44 +102,21 @@ function Legend({ graph }: { graph: LearningGraph }) {
         </span>
       </div>
       {/* On a phone the graph needs the room; the Topics list shows the areas */}
-      {colours.size > 1 && colours.size <= 8 && (
-        <div className="hidden md:flex flex-wrap gap-x-5 gap-y-1.5">
-          {[...colours].map(([area, colour]) => (
-            <span key={area} className={item}>
-              <Shape sides={0} size={9} colour={colour} />
-              {titles.get(area)}
-            </span>
+      {fields.count > 1 && fields.count <= 8 && (
+        <div className="hidden md:flex flex-col gap-1.5">
+          {fields.list.map(({ field, title, areas }) => (
+            <div key={field} className="flex flex-wrap items-center gap-x-5 gap-y-1.5">
+              {title && <span className="text-ink">{title}</span>}
+              {areas.map(({ area, title: name, colour }) => (
+                <span key={area} className={item}>
+                  <Shape sides={0} size={9} colour={colour} />
+                  {name}
+                </span>
+              ))}
+            </div>
           ))}
         </div>
       )}
-    </div>
-  )
-}
-
-// The tags to light up a region of the graph by, most used first
-function TagBar({ graph, tag, onTag }: { graph: LearningGraph; tag: string | null; onTag: (tag: string | null) => void }) {
-  const tags = useMemo(() => tagCounts(graph), [graph])
-  if (tags.length === 0) return null
-  return (
-    <div className="pointer-events-auto mt-4 flex gap-2 overflow-x-auto pb-1 md:flex-wrap md:overflow-visible">
-      {tags.map(({ tag: name, count }) => {
-        const active = name === tag
-        return (
-          <button
-            key={name}
-            onClick={() => onTag(active ? null : name)}
-            aria-pressed={active}
-            className={`shrink-0 px-2.5 py-1 font-mono text-[0.8rem] uppercase tracking-widest transition-colors ${
-              active
-                ? 'border border-sage bg-sage/15 text-sage'
-                : `text-zinc-faded hover:text-ink ${overlay}`
-            }`}
-          >
-            {name}
-            <span className="ml-1.5 opacity-60">{count}</span>
-          </button>
-        )
-      })}
     </div>
   )
 }
@@ -375,7 +368,7 @@ export default function LearningsPage() {
       )}
 
       {/* Title, top left */}
-      <header className="pointer-events-none absolute left-4 top-4 md:left-8 md:top-6 max-w-[calc(100%-7rem)]">
+      <header className="pointer-events-none absolute z-10 left-4 top-4 md:left-8 md:top-6 max-w-[calc(100%-7rem)]">
         <Link
           to="/"
           className="pointer-events-auto inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-zinc-faded hover:text-ink transition-colors"
@@ -384,15 +377,23 @@ export default function LearningsPage() {
           Home
         </Link>
         <h1 className="font-serif text-3xl md:text-4xl font-light tracking-tight mt-3">Learnings</h1>
-        {/* Narrower beside a page and its card, which leave it less room */}
-        <p className={`mt-1 text-sm text-zinc-faded ${beside ? 'max-w-[13rem]' : 'max-w-xs'}`}>A map of what I learn. Turn it, zoom in, pick a topic.</p>
+        <p className="mt-1 text-sm text-zinc-faded">A map of what I learn.</p>
         {isDemo && (
           <p className={`mt-3 inline-flex items-center gap-2 px-2.5 py-1 font-mono text-[0.8rem] uppercase tracking-widest text-zinc-faded ${overlay}`}>
             <span className="h-1.5 w-1.5 rounded-full bg-sage" />
             Sample map
           </p>
         )}
-        {graph && <TagBar graph={graph} tag={tag} onTag={highlight} />}
+        {/* Narrower beside a page and its card, which leave it less room */}
+        {graph && (
+          <Search
+            graph={graph}
+            tag={tag}
+            onTag={highlight}
+            onSelect={pick}
+            className={beside ? 'mt-4 w-[13rem]' : 'mt-4 w-[min(18rem,calc(100vw-8rem))]'}
+          />
+        )}
       </header>
 
       {/* Controls, top right */}
@@ -495,13 +496,10 @@ export default function LearningsPage() {
         </aside>
       )}
 
-      {/* Legend and how to move it, bottom left */}
-      {!selected && (
-        <div className="pointer-events-none absolute bottom-4 left-4 right-4 md:bottom-6 md:left-8 flex flex-col gap-2">
-          {graph && <Legend graph={graph} />}
-          <p className="font-mono text-[0.8rem] uppercase tracking-widest text-zinc-400">
-            Drag to turn · scroll to zoom · drag a node to move it
-          </p>
+      {/* Legend, bottom left */}
+      {!selected && graph && (
+        <div className="pointer-events-none absolute bottom-4 left-4 right-4 md:bottom-6 md:left-8">
+          <Legend graph={graph} />
         </div>
       )}
     </div>

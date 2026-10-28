@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import type { LearningEdgeType, LearningGraph, LearningNode } from '../types'
-import { areaColours, destination, homes, layers, learnFirst, linksOf, neighbours, places, stagesOf, tagCounts } from './learningGraph'
+import { areaColours, destination, homes, layers, learnFirst, linksOf, neighbours, places, search, stagesOf, tagCounts } from './learningGraph'
 
 const node = (slug: string, overrides: Partial<LearningNode> = {}): LearningNode => ({
   slug,
@@ -163,6 +163,39 @@ describe('the tags of the graph', () => {
       { tag: 'llm', count: 1 },
       { tag: 'math', count: 1 },
     ])
+  })
+})
+
+describe('searching the graph', () => {
+  const g: LearningGraph = {
+    nodes: [
+      node('ucb', { title: 'The benefit of the doubt', tags: ['rl', 'decisions'] }),
+      node('values', { title: 'Values', summary: 'What a state is worth' }),
+      node('td', { title: 'Learning from every move', tags: ['rl', 'values'] }),
+      node('load', { title: 'Describing load', tags: ['ddia'] }),
+    ],
+    edges: [],
+  }
+  const found = (typed: string) => slugs(search(g, typed).nodes)
+
+  it('finds every tag and no node when nothing is typed', () => {
+    expect(search(g, '  ')).toEqual({ tags: tagCounts(g), nodes: [] })
+  })
+
+  it('ranks a title that starts with it, then a word, then a tag, then the summary', () => {
+    expect(found('val')).toEqual(['values', 'td'])
+    expect(found('doubt')).toEqual(['ucb'])
+    expect(found('worth')).toEqual(['values'])
+    expect(found('Describ')).toEqual(['load'])
+  })
+
+  it('finds tags with it in them, those starting with it first', () => {
+    expect(search(g, 'd').tags.map(({ tag }) => tag)).toEqual(['ddia', 'decisions'])
+    expect(search(g, 'is').tags.map(({ tag }) => tag)).toEqual(['decisions'])
+  })
+
+  it('looks for tags alone after a #', () => {
+    expect(search(g, '#rl')).toEqual({ tags: [{ tag: 'rl', count: 2 }], nodes: [] })
   })
 })
 
