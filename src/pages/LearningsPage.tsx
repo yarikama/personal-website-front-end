@@ -102,7 +102,7 @@ function Legend({ graph }: { graph: LearningGraph }) {
         </span>
       </div>
       {/* On a phone the graph needs the room; the Topics list shows the areas */}
-      {fields.count > 1 && fields.count <= 8 && (
+      {fields.count > 1 && (
         <div className="hidden md:flex flex-col gap-1.5">
           {fields.list.map(({ field, title, areas }) => (
             <div key={field} className="flex flex-wrap items-center gap-x-5 gap-y-1.5">

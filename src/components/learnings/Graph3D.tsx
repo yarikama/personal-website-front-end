@@ -18,7 +18,7 @@ import {
   type Texture,
 } from 'three'
 import SpriteText from 'three-spritetext'
-import { areaColours, homes, layers, learnFirst, neighbours, places, type Level } from '../../lib/learningGraph'
+import { areaColours, homes, learnFirst, neighbours, orbits, places, type Level, type Orbit } from '../../lib/learningGraph'
 import { markSeen, readSeen, type Stage } from '../../lib/progress'
 import { useIsDark } from '../../lib/theme'
 import type { LearningEdgeType, LearningGraph, LearningNode } from '../../types'
@@ -69,12 +69,22 @@ const SIZE: Record<Level | 'elsewhere', number> = { 1: 28, 2: 14, 3: 6, elsewher
 const LABEL: Record<Level | 'elsewhere', number> = { 1: 8, 2: 4.8, 3: 3.2, elsewhere: 3 }
 // How wide the glow around a tagged node is
 const GLOW_SIZE = 40
-// How far apart the layers of a road of prerequisites sit, left to right
-const LAYER_SPACING = 46
-// How hard each node is drawn to the middle, and how far a node's push
-// reaches
-const GATHER = 0.06
-const PUSH_REACH = 130
+// How the map is spread out: each field a disc, one above the other, its
+// topics on a ring round it and their ideas on a wider one
+const ORBIT = { gap: 260, topic: 72, idea: 132, stagger: 22 }
+// How hard each level is drawn to its place there, and a link elsewhere,
+// with no place of its own, to the middle
+const PULL: Record<Level | 'elsewhere', number> = { 1: 0.4, 2: 0.2, 3: 0.12, elsewhere: 0.02 }
+// How far a node's push reaches: only its neighbours on the ring
+const PUSH_REACH = 60
+// How far down the camera looks at the map, so the discs show as discs
+const TILT = (28 * Math.PI) / 180
+// Pixels kept clear above and below the whole map as it is framed
+const FIT_MARGIN = 72
+// How far back the camera stands from a chosen node, by its level, and how
+// far it steps round to one side
+const FLY: Record<Level | 'elsewhere', number> = { 1: 300, 2: 170, 3: 130, elsewhere: 120 }
+const ASIDE = (35 * Math.PI) / 180
 
 // The site's colours, which the dark theme redefines: read again when the
 // theme changes
@@ -96,36 +106,17 @@ function withAlpha(hex: string, alpha: number) {
   return `rgba(${(value >> 16) & 255},${(value >> 8) & 255},${value & 255},${alpha})`
 }
 
-// Pulls each node on a road of prerequisites to its layer along x, so that
-// roads read left to right however the graph is turned
-function layerForce(layer: Map<string, number>) {
-  const deepest = Math.max(0, ...layer.values())
+// Draws each node to its place on the spread-out map, and a node with no
+// place gently to the middle, near the pages it is linked from
+function orbitForce(places: Map<string, Orbit>, levels: Map<string, Level>) {
   let nodes: GraphNode[] = []
   const force = (alpha: number) => {
     for (const n of nodes) {
-      const at = layer.get(n.id)
-      if (at === undefined) continue
-      const goal = (at - deepest / 2) * LAYER_SPACING
-      n.vx = (n.vx ?? 0) + (goal - (n.x ?? 0)) * 0.12 * alpha
-    }
-  }
-  force.initialize = (initial: GraphNode[]) => {
-    nodes = initial
-  }
-  return force
-}
-
-// Pulls every node gently to the middle, so that fields with nothing
-// between them stay in sight of each other instead of drifting apart. The
-// layer force places the road's nodes along x; this one leaves them there.
-function gatherForce(layer: Map<string, number>) {
-  let nodes: GraphNode[] = []
-  const force = (alpha: number) => {
-    const pull = GATHER * alpha
-    for (const n of nodes) {
-      if (!layer.has(n.id)) n.vx = (n.vx ?? 0) - (n.x ?? 0) * pull
-      n.vy = (n.vy ?? 0) - (n.y ?? 0) * pull
-      n.vz = (n.vz ?? 0) - (n.z ?? 0) * pull
+      const goal = places.get(n.id) ?? { x: 0, y: 0, z: 0 }
+      const pull = PULL[levels.get(n.id) ?? 'elsewhere'] * alpha
+      n.vx = (n.vx ?? 0) + (goal.x - (n.x ?? 0)) * pull
+      n.vy = (n.vy ?? 0) + (goal.y - (n.y ?? 0)) * pull
+      n.vz = (n.vz ?? 0) + (goal.z - (n.z ?? 0)) * pull
     }
   }
   force.initialize = (initial: GraphNode[]) => {
@@ -666,38 +657,30 @@ export default function Graph3D({
       // Apart from the road in sage: a fine line with sage running along it
       if (readOn(link)) return withAlpha(palette.ink, 0.7)
       const strength =
-        link.type === 'prerequisite' ? 0.75 : alsoPartOf(link) ? 0.14 : link.type === 'part_of' ? 0.35 : 0.5
+        link.type === 'prerequisite' ? 0.35 : alsoPartOf(link) ? 0.14 : link.type === 'part_of' ? 0.35 : 0.5
       return withAlpha(palette.faint, linkLit(link) ? strength : 0.06)
     },
     [palette, onPath, linkLit]
   )
 
-  // Lay the roads out left to right, and spread the rest
+  // Spread the map out by level, and keep near neighbours apart
   useEffect(() => {
     const graph3d = fg.current
     if (!graph3d) return
-    const layer = layers(graph)
-    graph3d.d3Force('layer', layerForce(layer))
-    graph3d.d3Force('gather', gatherForce(layer))
-    // Bigger shapes push harder, so fields and topics keep room round them
-    // and their labels; only near by, so that one field does not push
-    // another, with nothing between them, off to the edge of the screen
     const at = places(graph)
+    const levels = new Map([...at].map(([slug, place]) => [slug, place.level]))
+    graph3d.d3Force('orbit', orbitForce(orbits(graph, ORBIT), levels))
+    // Bigger shapes push harder, so fields and topics keep room round them
+    // and their labels; only near by, so the rings keep their shape
     const PUSH: Record<Level | 'elsewhere', number> = { 1: -360, 2: -180, 3: -80, elsewhere: -60 }
     graph3d.d3Force('charge')?.strength?.((n: GraphNode) => PUSH[at.get(n.id)?.level ?? 'elsewhere'])
     graph3d.d3Force('charge')?.distanceMax?.(PUSH_REACH)
-    // d3's own strength (one over the busier end's links), except that a
-    // node's other parents barely pull it away from its home
-    const links = new Map<string, number>()
-    for (const edge of graph.edges) {
-      if (edge.type === 'next') continue
-      for (const end of [edge.source, edge.target]) links.set(end, (links.get(end) ?? 0) + 1)
-    }
+    // The places hold the map's shape; a link only draws a link elsewhere
+    // to the page it belongs with, and pulls the rest a little
     graph3d.d3Force('link')?.strength?.((link: GraphLink) => {
       if (readOn(link)) return 0
-      if (alsoPartOf(link)) return 0.05
       const [source, target] = ends(link)
-      return 1 / Math.min(links.get(source) ?? 1, links.get(target) ?? 1)
+      return at.has(source) && at.has(target) ? 0.01 : 0.3
     })
     graph3d.d3ReheatSimulation()
   }, [graph])
@@ -718,13 +701,32 @@ export default function Graph3D({
       const target = data.nodes.find((n) => n.id === slug)
       if (!graph3d || !target || target.x === undefined) return false
       const { x = 0, y = 0, z = 0 } = target
-      // Further back on a tall, narrow screen, which sees less across
-      const distance = 90 * Math.max(1, (1.2 * height) / width)
-      const ratio = 1 + distance / Math.max(1, Math.hypot(x, y, z))
-      graph3d.cameraPosition({ x: x * ratio, y: y * ratio, z: z * ratio }, { x, y, z }, reducedMotion ? 0 : 1200)
+      // Far enough to see round it: a field with its ring, a topic with its
+      // ideas. Further back on a tall, narrow screen, which sees less across.
+      const distance = FLY[placed.get(target.id)?.level ?? 'elsewhere'] * Math.max(1, (1.2 * height) / width)
+      // From outside its ring and a little to the side, so its field stands
+      // beside it rather than behind; looking down at it as at the whole map.
+      // A field, in the middle of its ring, from where the camera already is.
+      const camera = graph3d.camera() as PerspectiveCamera
+      const [ox, oz] = Math.hypot(x, z) > 1 ? [x, z] : [camera.position.x - x, camera.position.z - z]
+      const out = Math.max(1e-6, Math.hypot(ox, oz))
+      const side = Math.hypot(x, z) > 1 ? ASIDE : 0
+      const [dx, dz] = [
+        (ox / out) * Math.cos(side) - (oz / out) * Math.sin(side),
+        (ox / out) * Math.sin(side) + (oz / out) * Math.cos(side),
+      ]
+      graph3d.cameraPosition(
+        {
+          x: x + dx * distance * Math.cos(TILT),
+          y: y + distance * Math.sin(TILT),
+          z: z + dz * distance * Math.cos(TILT),
+        },
+        { x, y, z },
+        reducedMotion ? 0 : 1200
+      )
       return true
     },
-    [data, reducedMotion, width, height]
+    [data, placed, reducedMotion, width, height]
   )
   useEffect(() => {
     flyTo(selected)
@@ -758,32 +760,47 @@ export default function Graph3D({
     )
     return true
   }, [tagged, data, flyTo, reducedMotion, width, height, shift])
-  // Frame the whole graph, from the side the camera is on and at its
-  // height: far enough back that all of it stays in what the panel leaves
-  // of the screen however far it has turned round its middle (it turns
-  // about the vertical, so its widest reach round that, and its height)
+  // Frame the whole graph from the side the camera is on, looking down at
+  // TILT: far enough back that all of it stays in what the panel leaves of
+  // the screen however far it has turned round its middle. It turns about
+  // the vertical, so each node is tried at every turn.
   const fitAll = useCallback(
     (duration: number) => {
       const graph3d = fg.current
       const nodes = data.nodes.filter((n) => n.x !== undefined)
       if (!graph3d || nodes.length === 0) return
-      const at = (n: GraphNode) => ({ x: n.x ?? 0, y: n.y ?? 0, z: n.z ?? 0 })
-      const span = (axis: 'x' | 'y' | 'z') => {
-        const values = nodes.map((n) => at(n)[axis])
+      const span = (value: (n: GraphNode) => number) => {
+        const values = nodes.map(value)
         return (Math.min(...values) + Math.max(...values)) / 2
       }
-      const [cx, cy, cz] = [span('x'), span('y'), span('z')]
-      // Room for the outermost bodies and their labels
-      const round = 16 + Math.max(...nodes.map(at).map((p) => Math.hypot(p.x - cx, p.z - cz)))
-      const tall = 16 + Math.max(...nodes.map(at).map((p) => Math.abs(p.y - cy)))
+      const [cx, cy, cz] = [span((n) => n.x ?? 0), span((n) => n.y ?? 0), span((n) => n.z ?? 0)]
       const camera = graph3d.camera() as PerspectiveCamera
-      const half = (camera.fov * Math.PI) / 360
-      const across = Math.atan(Math.tan(half) * (Math.max(1, width - 2 * shift) / height))
-      const distance = Math.max(round / Math.sin(across), round + tall / Math.tan(half))
+      // Clear of the title above and the legend below
+      const clear = Math.max(1, height - 2 * FIT_MARGIN) / height
+      const tall = Math.tan((camera.fov * Math.PI) / 360) * clear
+      const wide = (tall / clear) * (Math.max(1, width - 2 * shift) / height)
+      const [cos, sin] = [Math.cos(TILT), Math.sin(TILT)]
+      let distance = 0
+      for (const n of nodes) {
+        // Room for its body and label
+        const round = 16 + Math.hypot((n.x ?? 0) - cx, (n.z ?? 0) - cz)
+        const up = (n.y ?? 0) - cy
+        for (let k = 0; k < 24; k++) {
+          const turn = (k / 24) * 2 * Math.PI
+          const across = Math.abs(round * Math.sin(turn))
+          const high = Math.abs(-round * Math.cos(turn) * sin + up * cos) + 12
+          const nearer = round * Math.cos(turn) * cos + up * sin
+          distance = Math.max(distance, nearer + Math.max(across / wide, high / tall))
+        }
+      }
       const { x, z } = camera.position
-      const away = Math.max(1, Math.hypot(x - cx, z - cz))
+      const away = Math.max(1e-6, Math.hypot(x - cx, z - cz))
       graph3d.cameraPosition(
-        { x: cx + ((x - cx) / away) * distance, y: cy, z: cz + ((z - cz) / away) * distance },
+        {
+          x: cx + ((x - cx) / away) * distance * cos,
+          y: cy + distance * sin,
+          z: cz + ((z - cz) / away) * distance * cos,
+        },
         { x: cx, y: cy, z: cz },
         duration
       )
