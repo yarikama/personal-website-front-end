@@ -73,8 +73,8 @@ const GLOW_SIZE = 40
 const LAYER_SPACING = 46
 // How hard each node is drawn to the middle, and how far a node's push
 // reaches
-const GATHER = 0.08
-const PUSH_REACH = 110
+const GATHER = 0.06
+const PUSH_REACH = 130
 
 // The site's colours, which the dark theme redefines: read again when the
 // theme changes
@@ -446,6 +446,7 @@ export default function Graph3D({
   const colours = useMemo(() => areaColours(graph, dark), [graph, dark])
   const [hovered, setHovered] = useState<string | null>(null)
   const fitted = useRef(false)
+  const framed = useRef(false)
 
   const data = useMemo(() => {
     const home = homes(graph)
@@ -757,6 +758,39 @@ export default function Graph3D({
     )
     return true
   }, [tagged, data, flyTo, reducedMotion, width, height, shift])
+  // Frame the whole graph, from the side the camera is on and at its
+  // height: far enough back that all of it stays in what the panel leaves
+  // of the screen however far it has turned round its middle (it turns
+  // about the vertical, so its widest reach round that, and its height)
+  const fitAll = useCallback(
+    (duration: number) => {
+      const graph3d = fg.current
+      const nodes = data.nodes.filter((n) => n.x !== undefined)
+      if (!graph3d || nodes.length === 0) return
+      const at = (n: GraphNode) => ({ x: n.x ?? 0, y: n.y ?? 0, z: n.z ?? 0 })
+      const span = (axis: 'x' | 'y' | 'z') => {
+        const values = nodes.map((n) => at(n)[axis])
+        return (Math.min(...values) + Math.max(...values)) / 2
+      }
+      const [cx, cy, cz] = [span('x'), span('y'), span('z')]
+      // Room for the outermost bodies and their labels
+      const round = 16 + Math.max(...nodes.map(at).map((p) => Math.hypot(p.x - cx, p.z - cz)))
+      const tall = 16 + Math.max(...nodes.map(at).map((p) => Math.abs(p.y - cy)))
+      const camera = graph3d.camera() as PerspectiveCamera
+      const half = (camera.fov * Math.PI) / 360
+      const across = Math.atan(Math.tan(half) * (Math.max(1, width - 2 * shift) / height))
+      const distance = Math.max(round / Math.sin(across), round + tall / Math.tan(half))
+      const { x, z } = camera.position
+      const away = Math.max(1, Math.hypot(x - cx, z - cz))
+      graph3d.cameraPosition(
+        { x: cx + ((x - cx) / away) * distance, y: cy, z: cz + ((z - cz) / away) * distance },
+        { x: cx, y: cy, z: cz },
+        duration
+      )
+    },
+    [data, width, height, shift]
+  )
+
   // Only as the tag is chosen: the camera is the visitor's again after
   useEffect(() => {
     frame()
@@ -810,12 +844,19 @@ export default function Graph3D({
       linkDirectionalParticleWidth={1.6}
       linkDirectionalParticleSpeed={0.006}
       linkDirectionalParticleColor={() => palette.sage}
-      warmupTicks={reducedMotion ? 300 : 0}
-      cooldownTicks={reducedMotion ? 0 : 200}
+      // Most of the layout is worked out before the first frame, so that
+      // the whole of it is framed from the start and only settles after
+      warmupTicks={reducedMotion ? 300 : 80}
+      cooldownTicks={reducedMotion ? 0 : 160}
+      onEngineTick={() => {
+        if (framed.current) return
+        framed.current = true
+        if (!selected && !tagged) fitAll(0)
+      }}
       onEngineStop={() => {
         if (fitted.current) return
         fitted.current = true
-        if (!flyTo(selected) && !frame()) fg.current?.zoomToFit(reducedMotion ? 0 : 800, 40)
+        if (!flyTo(selected) && !frame()) fitAll(reducedMotion ? 0 : 800)
         // What changed since the map last showed it plays once it has
         // flown there
         settledAt.current = performance.now()
