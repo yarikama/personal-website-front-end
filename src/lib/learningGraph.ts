@@ -193,6 +193,39 @@ export function tagCounts(graph: LearningGraph): { tag: string; count: number }[
     .sort((a, b) => b.count - a.count || a.tag.localeCompare(b.tag))
 }
 
+// What a search finds: the tags and the nodes it matches, best first. A
+// node matches by its title, best where the title starts with the words
+// typed, then by a tag, then by its summary. Nothing typed finds every tag
+// and no node; a leading # looks for tags alone.
+export function search(graph: LearningGraph, typed: string): { tags: { tag: string; count: number }[]; nodes: LearningNode[] } {
+  const tagsOnly = typed.trim().startsWith('#')
+  const query = typed.trim().replace(/^#/, '').trim().toLowerCase()
+  const tags = tagCounts(graph)
+  if (!query) return { tags, nodes: [] }
+  const rank = (node: LearningNode) => {
+    const title = node.title.toLowerCase()
+    if (title.startsWith(query)) return 0
+    if (title.split(/[^a-z0-9]+/).some((word) => word.startsWith(query))) return 1
+    if (title.includes(query)) return 2
+    if (node.tags.some((tag) => tag.startsWith(query))) return 3
+    if (node.summary.toLowerCase().includes(query)) return 4
+    return null
+  }
+  return {
+    // Stable: those starting with it first, each lot most used first
+    tags: tags.filter(({ tag }) => tag.includes(query)).sort((a, b) => Number(!a.tag.startsWith(query)) - Number(!b.tag.startsWith(query))),
+    nodes: tagsOnly
+      ? []
+      : graph.nodes
+          .flatMap((node) => {
+            const at = rank(node)
+            return at === null ? [] : [{ node, at }]
+          })
+          .sort((a, b) => a.at - b.at || byTitle(a.node, b.node))
+          .map(({ node }) => node),
+  }
+}
+
 export type Destination =
   | { kind: 'page'; to: string }
   | { kind: 'link'; href: string }

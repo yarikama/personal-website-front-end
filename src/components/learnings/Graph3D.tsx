@@ -65,12 +65,16 @@ function shapes(): Record<Level | 'elsewhere', BufferGeometry> {
   }
 }
 // How wide each is, across
-const SIZE: Record<Level | 'elsewhere', number> = { 1: 18, 2: 13, 3: 8, elsewhere: 5 }
-const LABEL: Record<Level | 'elsewhere', number> = { 1: 6, 2: 4.4, 3: 3.4, elsewhere: 3.2 }
+const SIZE: Record<Level | 'elsewhere', number> = { 1: 28, 2: 14, 3: 6, elsewhere: 4.5 }
+const LABEL: Record<Level | 'elsewhere', number> = { 1: 8, 2: 4.8, 3: 3.2, elsewhere: 3 }
 // How wide the glow around a tagged node is
 const GLOW_SIZE = 40
 // How far apart the layers of a road of prerequisites sit, left to right
 const LAYER_SPACING = 46
+// How hard each node is drawn to the middle, and how far a node's push
+// reaches
+const GATHER = 0.08
+const PUSH_REACH = 110
 
 // The site's colours, which the dark theme redefines: read again when the
 // theme changes
@@ -103,6 +107,25 @@ function layerForce(layer: Map<string, number>) {
       if (at === undefined) continue
       const goal = (at - deepest / 2) * LAYER_SPACING
       n.vx = (n.vx ?? 0) + (goal - (n.x ?? 0)) * 0.12 * alpha
+    }
+  }
+  force.initialize = (initial: GraphNode[]) => {
+    nodes = initial
+  }
+  return force
+}
+
+// Pulls every node gently to the middle, so that fields with nothing
+// between them stay in sight of each other instead of drifting apart. The
+// layer force places the road's nodes along x; this one leaves them there.
+function gatherForce(layer: Map<string, number>) {
+  let nodes: GraphNode[] = []
+  const force = (alpha: number) => {
+    const pull = GATHER * alpha
+    for (const n of nodes) {
+      if (!layer.has(n.id)) n.vx = (n.vx ?? 0) - (n.x ?? 0) * pull
+      n.vy = (n.vy ?? 0) - (n.y ?? 0) * pull
+      n.vz = (n.vz ?? 0) - (n.z ?? 0) * pull
     }
   }
   force.initialize = (initial: GraphNode[]) => {
@@ -403,7 +426,8 @@ function paint(
 }
 
 // The knowledge graph in 3D: drag to turn it, scroll or pinch to zoom, drag
-// a node to move it, click one to fly to it
+// a node to move it, click one to fly to it. None of it is spelled out on
+// the page: the cursor and the slow turn show it.
 export default function Graph3D({
   graph,
   width,
@@ -651,12 +675,16 @@ export default function Graph3D({
   useEffect(() => {
     const graph3d = fg.current
     if (!graph3d) return
-    graph3d.d3Force('layer', layerForce(layers(graph)))
+    const layer = layers(graph)
+    graph3d.d3Force('layer', layerForce(layer))
+    graph3d.d3Force('gather', gatherForce(layer))
     // Bigger shapes push harder, so fields and topics keep room round them
-    // and their labels
+    // and their labels; only near by, so that one field does not push
+    // another, with nothing between them, off to the edge of the screen
     const at = places(graph)
-    const PUSH: Record<Level | 'elsewhere', number> = { 1: -260, 2: -170, 3: -90, elsewhere: -60 }
+    const PUSH: Record<Level | 'elsewhere', number> = { 1: -360, 2: -180, 3: -80, elsewhere: -60 }
     graph3d.d3Force('charge')?.strength?.((n: GraphNode) => PUSH[at.get(n.id)?.level ?? 'elsewhere'])
+    graph3d.d3Force('charge')?.distanceMax?.(PUSH_REACH)
     // d3's own strength (one over the busier end's links), except that a
     // node's other parents barely pull it away from its home
     const links = new Map<string, number>()
