@@ -107,20 +107,32 @@ function withAlpha(hex: string, alpha: number) {
 }
 
 // Draws each node to its place on the spread-out map, and a node with no
-// place gently to the middle, near the pages it is linked from
-function orbitForce(places: Map<string, Orbit>, levels: Map<string, Level>) {
+// place gently to the middle, near the pages it is linked from. A node's
+// place is kept from where its home is now, not where its home began, so
+// moving a field carries its disc along, and moving a topic its ideas.
+function orbitForce(places: Map<string, Orbit>, levels: Map<string, Level>, home: Map<string, string>) {
   let nodes: GraphNode[] = []
+  let byId = new Map<string, GraphNode>()
   const force = (alpha: number) => {
     for (const n of nodes) {
-      const goal = places.get(n.id) ?? { x: 0, y: 0, z: 0 }
+      const place = places.get(n.id) ?? { x: 0, y: 0, z: 0 }
+      const up = home.get(n.id)
+      const from = up !== undefined ? places.get(up) : undefined
+      const parent = up !== undefined ? byId.get(up) : undefined
+      // Where its home has been moved to since, if anywhere
+      const moved =
+        from && parent?.x !== undefined
+          ? { x: (parent.x ?? 0) - from.x, y: (parent.y ?? 0) - from.y, z: (parent.z ?? 0) - from.z }
+          : { x: 0, y: 0, z: 0 }
       const pull = PULL[levels.get(n.id) ?? 'elsewhere'] * alpha
-      n.vx = (n.vx ?? 0) + (goal.x - (n.x ?? 0)) * pull
-      n.vy = (n.vy ?? 0) + (goal.y - (n.y ?? 0)) * pull
-      n.vz = (n.vz ?? 0) + (goal.z - (n.z ?? 0)) * pull
+      n.vx = (n.vx ?? 0) + (place.x + moved.x - (n.x ?? 0)) * pull
+      n.vy = (n.vy ?? 0) + (place.y + moved.y - (n.y ?? 0)) * pull
+      n.vz = (n.vz ?? 0) + (place.z + moved.z - (n.z ?? 0)) * pull
     }
   }
   force.initialize = (initial: GraphNode[]) => {
     nodes = initial
+    byId = new Map(initial.map((n) => [n.id, n]))
   }
   return force
 }
@@ -669,7 +681,7 @@ export default function Graph3D({
     if (!graph3d) return
     const at = places(graph)
     const levels = new Map([...at].map(([slug, place]) => [slug, place.level]))
-    graph3d.d3Force('orbit', orbitForce(orbits(graph, ORBIT), levels))
+    graph3d.d3Force('orbit', orbitForce(orbits(graph, ORBIT), levels, homes(graph)))
     // Bigger shapes push harder, so fields and topics keep room round them
     // and their labels; only near by, so the rings keep their shape
     const PUSH: Record<Level | 'elsewhere', number> = { 1: -360, 2: -180, 3: -80, elsewhere: -60 }
