@@ -1,12 +1,19 @@
-import { useId, type ReactNode } from 'react'
+import { useId, useRef, type ReactNode } from 'react'
+import { useReadableText } from './useReadableText'
 
 // A figure in a learning page: the drawing, the controls that change it,
 // and a caption saying what to notice. Outside the prose styling, so its
 // text keeps the sizes set here.
-export function Figure({ children, caption }: { children: ReactNode; caption: ReactNode }) {
+// `readable` keeps its drawing's labels readable on a phone (see
+// useReadableText).
+export function Figure({ children, caption, readable = false }: { children: ReactNode; caption: ReactNode; readable?: boolean }) {
+  const drawing = useRef<HTMLDivElement>(null)
+  useReadableText(drawing, readable)
   return (
     <figure className="not-prose my-12 -mx-4 sm:mx-0 border-y sm:border border-zinc-200 dark:border-zinc-200/20 bg-paper-dark/40">
-      <div className="p-4 sm:p-6">{children}</div>
+      <div ref={drawing} className="p-4 sm:p-6">
+        {children}
+      </div>
       <figcaption className="border-t border-zinc-200 dark:border-zinc-200/20 px-4 sm:px-6 py-3 text-sm text-zinc-faded leading-relaxed">
         {caption}
       </figcaption>

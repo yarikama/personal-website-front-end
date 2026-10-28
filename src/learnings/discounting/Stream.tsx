@@ -8,8 +8,8 @@ const slot = (RIGHT - LEFT) / DAYS
 // The top panel: each day's coin; the bottom: the pile so far
 const BARS_TOP = 34
 const BARS_BOTTOM = 140
-const PILE_TOP = 192
-const PILE_BOTTOM = 312
+const PILE_TOP = 212
+const PILE_BOTTOM = 332
 
 interface StreamProps {
   // How much a day later counts; 1 adds up plainly
@@ -45,7 +45,7 @@ export default function Stream({ gamma, from, appear = false, labels = false, na
 
   return (
     <div>
-      <svg viewBox={`0 0 ${WIDTH} 340`} className="w-full" role="img" aria-label="A coin a day: what each is worth today, and the pile of them so far">
+      <svg viewBox={`0 0 ${WIDTH} 344`} className="w-full" role="img" aria-label="A coin a day: what each is worth today, and the pile of them so far">
         <text x={LEFT} y={BARS_TOP - 14} className="fill-zinc-faded font-mono text-[15px] uppercase tracking-widest">
           {named ? (
             <>
