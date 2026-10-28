@@ -261,6 +261,12 @@ it grows with the pages inside it, as far as the least read of them; a page whos
 is on the map but not on the site yet ("coming soon") is left out. Give a topic its own
 page and it grows with that page's reading instead.
 
+Every node in a field carries the field's tag (`rl`, `ddia`): pages, topic and field
+concepts, and external links alike, so that searching or picking the tag lights up the
+whole field, its topics included. A page adds its topical tags after it (`decisions`,
+`algorithms`); reuse the tags already on the map before making a new one. A new field
+gets a short tag of its own, given to its field node first.
+
 Publish it with `set_learning_node_published` **only once the page is live** on the site,
 and only when the owner asks.
 
