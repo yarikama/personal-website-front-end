@@ -48,6 +48,7 @@ export default function Discounting() {
       <h2>A coin a day</h2>
 
       <Steps
+        readable
         say={[
           <>Someone offers you a coin every day, starting today and never stopping.</>,
           <>Added up plainly, the pile never stops growing: 40 coins after 40 days, 365 after a year, and on without end.</>,
@@ -110,7 +111,7 @@ export default function Discounting() {
       </p>
 
       <h2>How far ahead you care</h2>
-      <Figure caption="The bars are each step’s reward of 1, as it is worth now; the line is their running total. A small γ cares about the next few steps and little else. Close to 1, a reward 40 steps away still counts for most of a reward now, and the total takes much longer to settle.">
+      <Figure readable caption="The bars are each step’s reward of 1, as it is worth now; the line is their running total. A small γ cares about the next few steps and little else. Close to 1, a reward 40 steps away still counts for most of a reward now, and the total takes much longer to settle.">
         <Stream key={gamma} gamma={gamma} />
         <Controls>
           <Choice label="A step later counts" options={GAMMAS} value={gamma} onChange={setGamma} />

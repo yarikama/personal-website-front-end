@@ -1,12 +1,23 @@
-import { useState, type KeyboardEvent, type ReactNode } from 'react'
+import { useRef, useState, type KeyboardEvent, type ReactNode } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
+import { useReadableText } from './useReadableText'
 
 // A figure told as a story: one sentence at a time, each with what the
 // figure shows at that step. `children` draws step `step` (from 0). Next and
-// back, or the arrow keys once it has focus.
-export function Steps({ say, children }: { say: ReactNode[]; children: (step: number) => ReactNode }) {
+// back, or the arrow keys once it has focus. `readable` as for a Figure.
+export function Steps({
+  say,
+  children,
+  readable = false,
+}: {
+  say: ReactNode[]
+  children: (step: number) => ReactNode
+  readable?: boolean
+}) {
   const [step, setStep] = useState(0)
+  const drawing = useRef<HTMLDivElement>(null)
+  useReadableText(drawing, readable)
   const last = say.length - 1
   const go = (to: number) => setStep(Math.max(0, Math.min(last, to)))
   const keys = (event: KeyboardEvent) => {
@@ -23,7 +34,9 @@ export function Steps({ say, children }: { say: ReactNode[]; children: (step: nu
       onKeyDown={keys}
       aria-roledescription="story"
     >
-      <div className="p-4 sm:p-6">{children(step)}</div>
+      <div ref={drawing} className="p-4 sm:p-6">
+        {children(step)}
+      </div>
       <div className="border-t border-zinc-200 dark:border-zinc-200/20 px-4 sm:px-6 py-5">
         <div className="min-h-[4.5rem]" aria-live="polite">
           <AnimatePresence mode="wait">

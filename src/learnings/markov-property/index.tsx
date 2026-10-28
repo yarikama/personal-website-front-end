@@ -51,6 +51,7 @@ export default function MarkovProperty() {
       <h2>A photo of a swing</h2>
 
       <Steps
+        readable
         say={[
           <>A friend sends you a photo of their child on a swing, the seat right at the bottom.</>,
           <>
@@ -121,7 +122,7 @@ export default function MarkovProperty() {
         Here the swing goes on by itself. The solid seat is now; the dashed ones are where it could be a second later,
         given only what you know.
       </p>
-      <Figure caption="With one photo you nearly always face two futures, which meet only at the very top of the arc, where the seat stops for an instant before turning. Add a second photo and there is always one. The whole afternoon gives the same single answer as two photos: once the state is Markov, more history is wasted memory.">
+      <Figure readable caption="With one photo you nearly always face two futures, which meet only at the very top of the arc, where the seat stops for an instant before turning. Add a second photo and there is always one. The whole afternoon gives the same single answer as two photos: once the state is Markov, more history is wasted memory.">
         <Swing key={knowing} t="live" knowing={knowing} ghosts />
         <Controls>
           <Choice label="What you know" options={KNOWINGS} value={knowing} onChange={setKnowing} />

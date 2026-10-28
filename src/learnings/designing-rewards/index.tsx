@@ -55,6 +55,7 @@ export default function DesigningRewards() {
       <h2>A coin per toy</h2>
 
       <Steps
+        readable
         say={[
           <>You promise your little brother a coin for every toy he puts back on the shelf.</>,
           <>By bedtime the floor is clear, and he has earned 6 coins. It works.</>,
@@ -114,6 +115,7 @@ export default function DesigningRewards() {
         <Link to="/learnings/discounting">why, on the next page</Link>), and the arrows are its best moves.
       </p>
       <Figure
+        readable
         caption={
           <>
             Delivery only: every arrow leads to the goal. Add the checkpoint, and the squares near it point back to it:
