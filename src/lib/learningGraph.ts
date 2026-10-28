@@ -145,17 +145,114 @@ export function places(graph: LearningGraph): Map<string, Place> {
   return found
 }
 
-// A colour per area, in a fixed order so an area keeps its colour as the map
-// grows. Muted tones that sit beside the site's sage, lighter in the dark.
-const AREA_COLOURS = {
-  light: ['#6b8f8b', '#b07a5b', '#5b7aa0', '#a8925a', '#8a6b93', '#a8687a', '#5f8a6a', '#7f7a6e'],
-  dark: ['#7fa8a3', '#c99577', '#7d9cc2', '#c4ad72', '#a88bb1', '#c48596', '#7fac8b', '#a39e91'],
+// A family of colours per field, a hue of its own, and a shade of it per
+// area in the field: lighter along the reading order, the hue turning a
+// little, so the areas of one field read as one and still apart. Muted, to
+// sit beside the site's sage, which marks what is chosen; lighter in the
+// dark. A new area changes only its own field's shades.
+const FAMILY_HUES = [22, 212, 292, 44, 345, 160]
+const FAMILY = {
+  light: { saturation: 40, lightness: [38, 62] },
+  dark: { saturation: 42, lightness: [56, 78] },
+}
+// How far the hue turns across a field's areas, in degrees
+const HUE_TURN = 60
+
+function hsl(hue: number, saturation: number, lightness: number) {
+  const s = saturation / 100
+  const l = lightness / 100
+  const a = s * Math.min(l, 1 - l)
+  const channel = (n: number) => {
+    const k = (n + hue / 30) % 12
+    const value = l - a * Math.max(-1, Math.min(k - 3, 9 - k, 1))
+    return Math.round(value * 255)
+      .toString(16)
+      .padStart(2, '0')
+  }
+  return `#${channel(0)}${channel(8)}${channel(4)}`
 }
 
+// Each area's colour, field by field in reading order and, in a field, its
+// areas in reading order. An area outside any field gets a family of its own.
 export function areaColours(graph: LearningGraph, dark: boolean): Map<string, string> {
-  const areas = [...new Set([...places(graph).values()].flatMap((place) => (place.area ? [place.area] : [])))].sort()
-  const colours = AREA_COLOURS[dark ? 'dark' : 'light']
-  return new Map(areas.map((area, i) => [area, colours[i % colours.length]]))
+  const at = places(graph)
+  const home = homes(graph)
+  const order = inReadingOrder(graph)
+  const nodes = nodesBySlug(graph)
+  const byField = new Map<string, LearningNode[]>()
+  for (const area of new Set([...at.values()].flatMap((place) => (place.area ? [place.area] : [])))) {
+    const node = nodes.get(area)
+    if (!node) continue
+    const field = home.get(area) ?? area
+    byField.set(field, [...(byField.get(field) ?? []), node])
+  }
+  const fields = [...byField.keys()].map((slug) => nodes.get(slug)!).sort(order)
+  const { saturation, lightness } = FAMILY[dark ? 'dark' : 'light']
+  const colours = new Map<string, string>()
+  fields.forEach((field, f) => {
+    const areas = byField.get(field.slug)!.sort(order)
+    areas.forEach((area, i) => {
+      const t = areas.length > 1 ? i / (areas.length - 1) : 0.5
+      const hue = FAMILY_HUES[f % FAMILY_HUES.length] + (t - 0.5) * HUE_TURN
+      colours.set(area.slug, hsl((hue + 360) % 360, saturation, lightness[0] + t * (lightness[1] - lightness[0])))
+    })
+  })
+  return colours
+}
+
+export interface Orbit {
+  x: number
+  y: number
+  z: number
+}
+
+// How the map is spread out: each field a disc, one above the other in
+// reading order; its topics on a ring round it, in reading order like a
+// clock; each topic's ideas on a wider ring, fanned out behind it. Sizes in
+// the map's units.
+export interface OrbitSizes {
+  // Between one field's disc and the next
+  gap: number
+  // From a field to its topics, and to their ideas
+  topic: number
+  idea: number
+  // How much further out every other idea sits, so neighbours' labels clear
+  stagger: number
+}
+
+// Where each node sits on the spread-out map; a node in no field (a link
+// elsewhere) has no place of its own
+export function orbits(graph: LearningGraph, size: OrbitSizes): Map<string, Orbit> {
+  const at = places(graph)
+  const home = homes(graph)
+  const order = inReadingOrder(graph)
+  const inside = new Map<string, LearningNode[]>()
+  for (const node of graph.nodes) {
+    const up = home.get(node.slug)
+    if (up && at.has(node.slug)) inside.set(up, [...(inside.get(up) ?? []), node])
+  }
+  const fields = graph.nodes.filter((node) => at.get(node.slug)?.level === 1).sort(order)
+  const placed = new Map<string, Orbit>()
+  fields.forEach((field, f) => {
+    const y = ((fields.length - 1) / 2 - f) * size.gap
+    placed.set(field.slug, { x: 0, y, z: 0 })
+    const topics = (inside.get(field.slug) ?? []).sort(order)
+    topics.forEach((topic, t) => {
+      // Half a step round, so no topic stands right in front of its field
+      const angle = Math.PI / 2 + (2 * Math.PI * (t + 0.5)) / topics.length
+      placed.set(topic.slug, { x: size.topic * Math.cos(angle), y, z: size.topic * Math.sin(angle) })
+      // Its ideas fan out over most of its share of the ring
+      const ideas = (inside.get(topic.slug) ?? []).sort(order)
+      const share = (2 * Math.PI) / topics.length
+      const step = Math.min(0.45, (share * 0.8) / Math.max(1, ideas.length))
+      ideas.forEach((idea, i) => {
+        const turn = angle + (i - (ideas.length - 1) / 2) * step
+        const out = size.idea + (ideas.length > 2 && i % 2 === 1 ? size.stagger : 0)
+        placed.set(idea.slug, { x: out * Math.cos(turn), y, z: out * Math.sin(turn) })
+      })
+    })
+  })
+  return placed
 }
 
 // The node and every node one edge away, either way

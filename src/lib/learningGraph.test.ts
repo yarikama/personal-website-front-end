@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import type { LearningEdgeType, LearningGraph, LearningNode } from '../types'
-import { areaColours, destination, homes, inReadingOrder, layers, learnFirst, linksOf, neighbours, places, search, stagesOf, tagCounts } from './learningGraph'
+import type { Orbit } from './learningGraph'
+import { areaColours, destination, homes, inReadingOrder, layers, orbits, learnFirst, linksOf, neighbours, places, search, stagesOf, tagCounts } from './learningGraph'
 
 const node = (slug: string, overrides: Partial<LearningNode> = {}): LearningNode => ({
   slug,
@@ -189,6 +190,95 @@ describe('homes and places', () => {
     expect(light.get('one')).not.toBe(light.get('two'))
     expect(areaColours(g, false)).toEqual(light)
     expect(areaColours(g, true).get('one')).not.toBe(light.get('one'))
+  })
+})
+
+describe('the colours of a field', () => {
+  // Two fields: one with three topics, read in order, and one with one
+  const g = graph(
+    ['first', 'a', 'b', 'c', 'second', 'd', 'pa', 'pb', 'pc', 'pd'],
+    [
+      ...(['a', 'b', 'c'] as const).map((slug): [string, LearningEdgeType, string] => [slug, 'part_of', 'first']),
+      ['d', 'part_of', 'second'],
+      ['pa', 'part_of', 'a'],
+      ['pb', 'part_of', 'b'],
+      ['pc', 'part_of', 'c'],
+      ['pd', 'part_of', 'd'],
+      ['pa', 'next', 'pb'],
+      ['pb', 'next', 'pc'],
+      ['pc', 'next', 'pd'],
+    ]
+  )
+  const hueOf = (hex: string) => {
+    const [r, gr, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255)
+    const max = Math.max(r, gr, b)
+    const d = max - Math.min(r, gr, b)
+    const h = max === r ? ((gr - b) / d) % 6 : max === gr ? (b - r) / d + 2 : (r - gr) / d + 4
+    return (h * 60 + 360) % 360
+  }
+  const lightness = (hex: string) => {
+    const channels = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16))
+    return (Math.max(...channels) + Math.min(...channels)) / 2
+  }
+
+  it('share a hue, lighter along the reading order', () => {
+    const colours = areaColours(g, false)
+    expect([...colours.keys()]).toEqual(['a', 'b', 'c', 'd'])
+    const [a, b, c] = (['a', 'b', 'c'] as const).map((slug) => colours.get(slug)!)
+    const turn = Math.abs(hueOf(a) - hueOf(c))
+    expect(Math.min(turn, 360 - turn)).toBeLessThanOrEqual(62)
+    expect(lightness(a)).toBeLessThan(lightness(b))
+    expect(lightness(b)).toBeLessThan(lightness(c))
+  })
+
+  it('differ from another field’s', () => {
+    const colours = areaColours(g, true)
+    const apart = Math.abs(hueOf(colours.get('b')!) - hueOf(colours.get('d')!))
+    expect(Math.min(apart, 360 - apart)).toBeGreaterThan(90)
+  })
+})
+
+describe('the map spread out', () => {
+  const size = { gap: 200, topic: 70, idea: 120, stagger: 20 }
+  const g = graph(
+    ['top', 'bottom', 'one', 'two', 'x', 'y', 'z', 'lone', 'paper'],
+    [
+      ['one', 'part_of', 'top'],
+      ['two', 'part_of', 'top'],
+      ['lone', 'part_of', 'bottom'],
+      ['x', 'part_of', 'one'],
+      ['y', 'part_of', 'one'],
+      ['z', 'part_of', 'one'],
+      ['x', 'next', 'lone'],
+    ]
+  )
+  g.nodes.find((n) => n.slug === 'paper')!.kind = 'external'
+  const at = orbits(g, size)
+  const round = (v: number) => Math.round(v * 1000) / 1000
+
+  it('stacks the fields in reading order, their topics on a ring round them', () => {
+    expect(at.get('top')).toEqual({ x: 0, y: 100, z: 0 })
+    expect(at.get('bottom')).toEqual({ x: 0, y: -100, z: 0 })
+    for (const slug of ['one', 'two']) {
+      const p = at.get(slug)!
+      expect(round(Math.hypot(p.x, p.z))).toBe(70)
+      expect(p.y).toBe(100)
+    }
+    // Two topics: opposite each other
+    expect(round(at.get('one')!.z)).toBe(-round(at.get('two')!.z))
+  })
+
+  it('fans a topic’s ideas out beyond it, every other one further', () => {
+    // The first and last ideas lie either side of the topic, evenly
+    const [one, first, last] = ['one', 'x', 'z'].map((slug) => at.get(slug)!)
+    const turn = (p: Orbit) => Math.atan2(one.x * p.z - one.z * p.x, one.x * p.x + one.z * p.z)
+    expect(round(turn(first))).toBe(-round(turn(last)))
+    expect(turn(first)).not.toBe(0)
+    expect(['x', 'y', 'z'].map((slug) => round(Math.hypot(at.get(slug)!.x, at.get(slug)!.z)))).toEqual([120, 140, 120])
+  })
+
+  it('leaves a node in no field to find its own place', () => {
+    expect(at.has('paper')).toBe(false)
   })
 })
 
