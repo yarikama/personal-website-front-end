@@ -1,7 +1,7 @@
 import type { LearningEdge, LearningEdgeType, LearningGraph, LearningNode, LearningNodeKind } from '../types'
 
 // The map shown while the real one has no published nodes yet: chapter 1
-// of Designing Data-Intensive Applications and chapters 1 and 2 of Sutton
+// of Designing Data-Intensive Applications and chapters 1 to 3 of Sutton
 // and Barto's Reinforcement Learning, whose pages are on the site.
 const node = (
   slug: string,
@@ -31,7 +31,18 @@ const TAGS: Record<string, string[]> = {
   'upper-confidence-bound': ['rl', 'decisions', 'algorithms'],
   'gradient-bandits': ['rl', 'algorithms'],
   'contextual-bandits': ['rl', 'decisions'],
+  'markov-property': ['rl', 'foundations'],
+  'designing-rewards': ['rl', 'foundations'],
+  discounting: ['rl', 'values'],
+  'bellman-equation': ['rl', 'values'],
+  'optimal-policies': ['rl', 'values', 'decisions'],
   'sutton-barto': ['rl'],
+  'td-gammon': ['rl'],
+  'reinforcement-learning': ['rl'],
+  'rl-problem': ['rl'],
+  values: ['rl'],
+  bandits: ['rl'],
+  mdps: ['rl'],
 }
 
 const nodes: LearningNode[] = [
@@ -56,6 +67,7 @@ const nodes: LearningNode[] = [
   node('rl-problem', 'concept', 'The problem', 'An agent acts, the world answers with a score, and the agent has to find what earns the most.'),
   node('values', 'concept', 'Values', 'How good it is to be somewhere, counting everything likely to follow.'),
   node('bandits', 'concept', 'Bandits', 'Choosing among the same few options again and again, learning only from what each choice paid.'),
+  node('mdps', 'concept', 'Markov decision processes', 'The full problem written down: states, actions, rewards, and the chances that link one step to the next.'),
 
   node('learning-from-reward', 'learning', 'Learning from reward', 'Learning from a score, not from answers: try, see how it went, do more of what worked.'),
   node('exploration-and-exploitation', 'learning', 'Explore or exploit', 'Use what you know, or find out more: an agent that only does one does badly.'),
@@ -67,6 +79,11 @@ const nodes: LearningNode[] = [
   node('upper-confidence-bound', 'learning', 'The benefit of the doubt', 'Pick by how good an option looks plus how unsure you still are about it.'),
   node('gradient-bandits', 'learning', 'Preferences, not values', 'Learn how much to favour each option, and compare every reward with what you usually get.'),
   node('contextual-bandits', 'learning', 'Reading the situation', 'When a clue tells you which situation you are in, learn a rule from situation to choice.'),
+  node('markov-property', 'learning', 'Now is enough', 'A good state keeps whatever about the past still matters, so what happens next depends on now alone.'),
+  node('designing-rewards', 'learning', 'Reward what you want', 'An agent chases exactly the reward it is given: reward the outcome, never the steps you expect.'),
+  node('discounting', 'learning', 'Sooner is worth more', 'Count each reward further off for less, and even a task that never ends has a finite return.'),
+  node('bellman-equation', 'learning', 'A square is worth its neighbours', 'A state is worth the average of reward plus the discounted worth of where you land: the Bellman equation.'),
+  node('optimal-policies', 'learning', 'The best from here', 'The best values take the best move instead of the average, and with them one step ahead is all the planning you need.'),
 
   node('sutton-barto', 'external', 'Reinforcement Learning: An Introduction', 'Sutton and Barto, 2nd edition.', 'https://mitpress.mit.edu/9780262039246/reinforcement-learning/'),
   node('td-gammon', 'external', 'Temporal Difference Learning and TD-Gammon', 'Gerald Tesauro, 1995.', 'https://dl.acm.org/doi/10.1145/203330.203343'),
@@ -93,7 +110,11 @@ export const demoGraph: LearningGraph = {
        temporal-difference-learning>learning-from-every-move
        exploration-and-exploitation>tracking-change tracking-change>optimistic-initial-values
        exploration-and-exploitation>upper-confidence-bound exploration-and-exploitation>gradient-bandits
-       exploration-and-exploitation>contextual-bandits`
+       exploration-and-exploitation>contextual-bandits
+       learning-from-reward>markov-property contextual-bandits>markov-property
+       reward-and-value>designing-rewards reward-and-value>discounting
+       discounting>bellman-equation markov-property>bellman-equation reward-and-value>bellman-equation
+       bellman-equation>optimal-policies`
     ),
     // The field, its topics (two of them pages), and the ideas in each topic
     ...edges(
@@ -105,7 +126,8 @@ export const demoGraph: LearningGraph = {
        exploration-and-exploitation>rl-problem reward-and-value>values temporal-difference-learning>values
        learning-from-every-move>values bandits>reinforcement-learning tracking-change>bandits
        optimistic-initial-values>bandits upper-confidence-bound>bandits gradient-bandits>bandits
-       contextual-bandits>bandits`
+       contextual-bandits>bandits mdps>reinforcement-learning markov-property>mdps
+       designing-rewards>mdps discounting>mdps bellman-equation>mdps optimal-policies>mdps`
     ),
     // The reading order: each chapter's pages, one after another
     ...edges(
@@ -117,7 +139,9 @@ export const demoGraph: LearningGraph = {
        reward-and-value>temporal-difference-learning temporal-difference-learning>learning-from-every-move
        learning-from-every-move>tracking-change tracking-change>optimistic-initial-values
        optimistic-initial-values>upper-confidence-bound upper-confidence-bound>gradient-bandits
-       gradient-bandits>contextual-bandits`
+       gradient-bandits>contextual-bandits contextual-bandits>markov-property
+       markov-property>designing-rewards designing-rewards>discounting discounting>bellman-equation
+       bellman-equation>optimal-policies`
     ),
     ...edges(
       'related',

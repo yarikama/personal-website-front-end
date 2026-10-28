@@ -28,6 +28,11 @@ export const learningPages: LearningPage[] = [
   { slug: 'upper-confidence-bound', load: () => import('./upper-confidence-bound') },
   { slug: 'gradient-bandits', load: () => import('./gradient-bandits') },
   { slug: 'contextual-bandits', load: () => import('./contextual-bandits') },
+  { slug: 'markov-property', load: () => import('./markov-property') },
+  { slug: 'designing-rewards', load: () => import('./designing-rewards') },
+  { slug: 'discounting', load: () => import('./discounting') },
+  { slug: 'bellman-equation', load: () => import('./bellman-equation') },
+  { slug: 'optimal-policies', load: () => import('./optimal-policies') },
 ]
 
 export const findLearningPage = (slug: string | undefined) => learningPages.find((page) => page.slug === slug)
