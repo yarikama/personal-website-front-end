@@ -253,8 +253,9 @@ export default function PolicyIteration() {
         </li>
         <li>
           <strong>Judge just enough.</strong> A few sweeps between improvements reach the same best play for less work.
-          Letting judging and improving take turns at any grain is <strong>generalized policy iteration</strong>, and
-          almost every method in reinforcement learning is a version of it.
+          Letting judging and improving take turns at any grain is{' '}
+          <Link to="/learnings/generalized-policy-iteration">generalized policy iteration</Link>, and almost every
+          method in reinforcement learning is a version of it.
         </li>
       </ul>
 

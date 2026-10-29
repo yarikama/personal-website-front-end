@@ -26,7 +26,7 @@ const FAMILY: Member[] = [
     improve: 'Inside the same sweep: each backup uses the best move.',
   },
   {
-    slug: 'monte-carlo-prediction',
+    slug: 'monte-carlo-control',
     name: 'Monte Carlo',
     grain: 'one episode',
     judge: 'Average the returns that followed each move.',
