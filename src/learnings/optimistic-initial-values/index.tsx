@@ -1,7 +1,6 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Article from '../../components/explain/Article'
-import { Clip } from '../../components/explain/Clip'
 import { Choice, Controls, Figure, Numbers } from '../../components/explain/figure'
 import { Predict } from '../../components/explain/Predict'
 import { Steps } from '../../components/explain/Steps'
@@ -135,22 +134,10 @@ export default function OptimisticInitialValues() {
 
       <h2>How long the hope lasts</h2>
       <p>
-        Each taste moved a rating a fixed share of the way toward what you tasted: the{' '}
-        <Link to="/learnings/exploration-and-exploitation">running update</Link>{' '}
-        <strong>new = old + step × (latest − old)</strong>, with a step that stays the same. You used a half; learning
-        programs often use a tenth, written α. Every reward then closes the same share of the gap between the estimate
-        and the truth:
+        Each taste moved a rating a fixed share of the way toward what you tasted: you used a half; learning programs
+        often use a tenth, written α. With a <Link to="/learnings/tracking-change">fixed step</Link> like that, the hope
+        drains a share at a time. Start at 5 with α = 0.1 and rewards of about 1:
       </p>
-      <Clip
-        src="optimistic-initial-values/optimism-drains"
-        label="The update, new estimate equals old plus alpha times reward minus old, rewritten as: the new gap to the reward is one minus alpha times the old gap. So after k rewards, one minus alpha to the k of the starting gap is left. Starting at 5 with alpha 0.1 and rewards of 1: 5, 4.6, 4.24, 3.92."
-        caption={
-          <>
-            After k rewards, <strong>(1 − α)<sup>k</sup></strong> of the starting gap is left. Start at 5 with α = 0.1
-            and rewards of about 1, and the estimate goes 5, 4.6, 4.24, 3.92: down by less each time.
-          </>
-        }
-      />
       <Numbers
         items={[1, 10, 30].map((k) => ({
           label: `After ${k} ${k === 1 ? 'try' : 'tries'}`,
@@ -159,11 +146,10 @@ export default function OptimisticInitialValues() {
         }))}
       />
       <p>
-        A starting value that leans the estimates like this is called a <strong>bias</strong>. With a plain average
-        the first reward counts in full, so the bias is gone after one try and the hope buys a single round. With a
-        fixed step it fades but never quite leaves: the shop still rates Mint {final[MINT].toFixed(1)}, though it’s
-        usually a 4.5, because you never went back. The bias is also useful: the start is where you can put what you
-        already know, such as how big rewards usually are.
+        A starting value that leans the estimates like this is called a <strong>bias</strong>. It fades but never quite
+        leaves: the shop still rates Mint {final[MINT].toFixed(1)}, though it’s usually a 4.5, because you never went
+        back. The bias is also useful: the start is where you can put what you already know, such as how big rewards
+        usually are.
       </p>
 
       <h2>Ten arms, {MACHINES} machines</h2>
@@ -279,13 +265,13 @@ export default function OptimisticInitialValues() {
 
       <Predict
         kicker="Check yourself"
-        question="A learner keeps a plain average of each arm’s rewards and starts every estimate at 100. Rewards are around 1. How many pulls of an arm before the 100 stops mattering?"
-        options={[{ label: 'One', right: true }, { label: 'About 10' }, { label: 'About 100' }, { label: 'It never fully goes' }]}
+        question="A learner never picks at random and moves a tenth of the way each time. Its arms pay between 1 and 3 on average. Which starting estimate makes it explore best?"
+        options={[{ label: '0' }, { label: '2' }, { label: '4', right: true }, { label: '1,000' }]}
         reveal={
           <>
-            A plain average counts the first reward in full (its step is 1/1), so the estimate jumps straight to that
-            reward and the 100 is gone. This learner tries each arm once and is then simply greedy. For optimism to
-            last longer, the step has to stay fixed, so the hope drains a share at a time.
+            At 4, every arm lets it down a little, so it tries them all and soon settles. At 0 its first pull beats every
+            untried arm and it never moves on; at 2 the first arm paying more than 2 traps it the same way. At 1,000 it
+            does try everything, but spends dozens of pulls on every arm draining hope before it earns much.
           </>
         }
       />

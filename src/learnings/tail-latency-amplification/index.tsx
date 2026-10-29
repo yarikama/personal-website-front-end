@@ -122,18 +122,18 @@ export default function TailLatencyAmplification() {
 
       <Predict
         kicker="Quick check"
-        question="A teammate says: “Our servers answer in 30 ms on average, so our pages are fast.” What should you ask to see?"
+        question="A page asks 50 servers, each slow 1 time in 100, and too many pages are slow. Which change helps most?"
         options={[
-          { label: 'Nothing, 30 ms is fast' },
-          { label: 'The fastest answers' },
-          { label: 'The slowest 1% of answers', right: true },
-          { label: 'How many servers there are' },
+          { label: 'Make every server’s usual answer twice as fast' },
+          { label: 'Ask 5 servers per page instead of 50', right: true },
+          { label: 'Split each call across two smaller servers' },
+          { label: 'Nothing: each server is rarely slow' },
         ]}
         reveal={
           <>
-            A page waits on its slowest server, so what matters is how slow each server’s worst 1% is. Engineers call
-            that number the <strong className="text-ink font-medium">p99</strong>: 99% of answers are faster than it.
-            An average of 30 ms can hide a p99 of a full second.
+            Fewer calls. With 50 calls, about 40 pages in 100 meet a slow server; with 5, about 5 in 100. A faster usual
+            answer leaves each server’s rare bad moments where they were, and the page still waits for them. Splitting
+            each call doubles the chances to wait.
           </>
         }
       />

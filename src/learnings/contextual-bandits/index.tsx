@@ -164,8 +164,8 @@ export default function ContextualBandits() {
         Contextual bandits sit halfway. Like the full problem, what you learn is a policy, not one best action. Like
         a bandit, an action decides only the reward that comes back: your route today doesn’t change tomorrow’s
         weather. Once an action also changes the situation you face next, as a chess move changes the board, you
-        have the whole problem from <Link to="/learnings/learning-from-reward">Learning from reward</Link>, where a
-        move can be worth more for what it sets up than for what it pays now.
+        have the whole problem of reinforcement learning, where a move can be{' '}
+        <Link to="/learnings/reward-and-value">worth more for what it sets up than for what it pays now</Link>.
       </p>
       <Numbers
         words
