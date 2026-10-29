@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { ArrowLeft, ArrowRight, ArrowUpRight, Check } from 'lucide-react'
-import { destination, learnFirst, linksOf, paragraphs, places } from '../../lib/learningGraph'
+import { destination, hasOverview, learnFirst, linksOf, places } from '../../lib/learningGraph'
 import { countsFrom, fadesOn, type Progress, type Stage } from '../../lib/progress'
 import type { LearningGraph, LearningNode } from '../../types'
 
@@ -47,7 +47,7 @@ function Growth({ progress }: { progress?: Progress }) {
 const READ = { 1: 'read once', 2: 'read twice', 3: 'a sun' } as const
 
 // A green check for each stage a node's page has reached
-function Checks({ stage }: { stage?: Stage }) {
+export function Checks({ stage }: { stage?: Stage }) {
   if (!stage) return null
   return (
     <span className="inline-flex shrink-0 self-center align-middle text-emerald-500" title={READ[stage]}>
@@ -103,14 +103,6 @@ export default function NodePanel({ graph, node, onSelect, onGo, onTag, hasPage,
         <span className="font-mono text-[0.8rem] uppercase tracking-widest text-sage">{place ? LEVEL_LABEL[place.level] : 'Elsewhere'}</span>
         <h2 className="font-serif text-3xl font-light tracking-tight mt-2 mb-3">{node.title}</h2>
         <p className="text-sm text-zinc-faded leading-relaxed">{node.summary}</p>
-        {/* A field or topic readies the reader for what is inside */}
-        {paragraphs(node.overview).length > 0 && (
-          <div className="mt-4 flex flex-col gap-3 text-sm leading-relaxed text-ink">
-            {paragraphs(node.overview).map((paragraph, i) => (
-              <p key={i}>{paragraph}</p>
-            ))}
-          </div>
-        )}
         {node.tags.length > 0 && (
           <div className="flex flex-wrap gap-2 mt-4">
             {node.tags.map((tag) => (
@@ -126,7 +118,8 @@ export default function NodePanel({ graph, node, onSelect, onGo, onTag, hasPage,
         )}
 
         <div className="mt-5">
-          {to.kind === 'page' && to.to === `/learnings/${node.slug}` && onExpand && (
+          {/* A page, or a field or topic's overview, opens beside the map */}
+          {((to.kind === 'page' && to.to === `/learnings/${node.slug}`) || hasOverview(node)) && onExpand && (
             <button
               onClick={onExpand}
               className="inline-flex items-center gap-2 border border-ink px-3 py-1.5 font-mono text-xs uppercase tracking-widest text-ink hover:bg-ink hover:text-paper transition-colors"

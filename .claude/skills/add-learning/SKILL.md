@@ -319,9 +319,10 @@ whole field, its topics included. A page adds its topical tags after it (`decisi
 gets a short tag of its own, given to its field node first.
 
 Every field and topic also has an **overview** (`overview` on `create_learning_node` /
-`update_learning_node`), shown on its card under the summary. It is where a reader decides
-to go in, so it readies them for what is inside, in two to four short paragraphs (blank
-lines between them, about 70 to 140 words):
+`update_learning_node`): it is the concept's page, opened like any node's with Expand
+on its card and at `/learnings/<slug>`, above the list of what is inside in reading
+order. It is written in the graph, not in code. It readies a reader for what is inside,
+in two to four short paragraphs (blank lines between them, about 70 to 140 words):
 
 1. What the topic is about and the question it answers, in plain words.
 2. Why it matters, and why it sits here: what it adds to the topic before it, or what
