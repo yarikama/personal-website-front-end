@@ -52,6 +52,7 @@ export const learningPages: LearningPage[] = [
   { slug: 'deep-q-networks', load: () => import('./deep-q-networks') },
   { slug: 'reinforce', load: () => import('./reinforce') },
   { slug: 'actor-critic', load: () => import('./actor-critic') },
+  { slug: 'gaussian-policies', load: () => import('./gaussian-policies') },
   { slug: 'ddpg', load: () => import('./ddpg') },
 ]
 
