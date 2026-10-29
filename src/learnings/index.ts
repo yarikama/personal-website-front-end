@@ -27,6 +27,7 @@ export const learningPages: LearningPage[] = [
   { slug: 'tracking-change', load: () => import('./tracking-change') },
   { slug: 'optimistic-initial-values', load: () => import('./optimistic-initial-values') },
   { slug: 'upper-confidence-bound', load: () => import('./upper-confidence-bound') },
+  { slug: 'regret', load: () => import('./regret') },
   { slug: 'gradient-bandits', load: () => import('./gradient-bandits') },
   { slug: 'contextual-bandits', load: () => import('./contextual-bandits') },
   { slug: 'markov-property', load: () => import('./markov-property') },
@@ -34,6 +35,18 @@ export const learningPages: LearningPage[] = [
   { slug: 'discounting', load: () => import('./discounting') },
   { slug: 'bellman-equation', load: () => import('./bellman-equation') },
   { slug: 'optimal-policies', load: () => import('./optimal-policies') },
+  { slug: 'policy-evaluation', load: () => import('./policy-evaluation') },
+  { slug: 'policy-iteration', load: () => import('./policy-iteration') },
+  { slug: 'value-iteration', load: () => import('./value-iteration') },
+  { slug: 'monte-carlo-prediction', load: () => import('./monte-carlo-prediction') },
+  { slug: 'n-step-returns', load: () => import('./n-step-returns') },
+  { slug: 'sarsa', load: () => import('./sarsa') },
+  { slug: 'q-learning', load: () => import('./q-learning') },
+  { slug: 'maximization-bias', load: () => import('./maximization-bias') },
+  { slug: 'deep-q-networks', load: () => import('./deep-q-networks') },
+  { slug: 'reinforce', load: () => import('./reinforce') },
+  { slug: 'actor-critic', load: () => import('./actor-critic') },
+  { slug: 'ddpg', load: () => import('./ddpg') },
 ]
 
 export const findLearningPage = (slug: string | undefined) => learningPages.find((page) => page.slug === slug)
