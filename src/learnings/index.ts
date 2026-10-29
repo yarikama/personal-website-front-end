@@ -38,6 +38,7 @@ export const learningPages: LearningPage[] = [
   { slug: 'policy-evaluation', load: () => import('./policy-evaluation') },
   { slug: 'policy-iteration', load: () => import('./policy-iteration') },
   { slug: 'value-iteration', load: () => import('./value-iteration') },
+  { slug: 'asynchronous-dynamic-programming', load: () => import('./asynchronous-dynamic-programming') },
   { slug: 'generalized-policy-iteration', load: () => import('./generalized-policy-iteration') },
   { slug: 'monte-carlo-prediction', load: () => import('./monte-carlo-prediction') },
   { slug: 'monte-carlo-control', load: () => import('./monte-carlo-control') },
