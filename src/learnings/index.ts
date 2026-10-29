@@ -39,6 +39,9 @@ export const learningPages: LearningPage[] = [
   { slug: 'value-iteration', load: () => import('./value-iteration') },
   { slug: 'monte-carlo-prediction', load: () => import('./monte-carlo-prediction') },
   { slug: 'n-step-returns', load: () => import('./n-step-returns') },
+  { slug: 'sarsa', load: () => import('./sarsa') },
+  { slug: 'q-learning', load: () => import('./q-learning') },
+  { slug: 'maximization-bias', load: () => import('./maximization-bias') },
 ]
 
 export const findLearningPage = (slug: string | undefined) => learningPages.find((page) => page.slug === slug)
