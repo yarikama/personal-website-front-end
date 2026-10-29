@@ -28,9 +28,12 @@ export default function RaceChart({ run }: { run: Race }) {
   const [shown, setShown] = useState(last)
   const started = useRef<number | null>(null)
 
+  // Playing: started.current is when it started, on the animation clock
+  // (-1 until the first frame after Play reads that clock)
   useAnimationFrame((time) => {
     if (started.current === null) return
-    const at = Math.min(last, Math.floor((time - started.current) / PLAYBACK))
+    if (started.current < 0) started.current = time
+    const at = Math.max(0, Math.min(last, Math.floor((time - started.current) / PLAYBACK)))
     setShown(at)
     if (at === last) started.current = null
   })
@@ -38,7 +41,7 @@ export default function RaceChart({ run }: { run: Race }) {
   const play = () => {
     if (reducedMotion) return setShown(last)
     setShown(0)
-    started.current = performance.now()
+    started.current = -1
   }
 
   const x = (games: number) => LEFT + (games / budget) * (RIGHT - LEFT)
