@@ -381,6 +381,14 @@ export type Destination =
   // A concept, which only gathers others
   | { kind: 'none' }
 
+// An overview's paragraphs: split by blank lines, each one's lines joined
+export function paragraphs(text: string | null | undefined): string[] {
+  return (text ?? '')
+    .split(/\n\s*\n/)
+    .map((paragraph) => paragraph.trim().replace(/\s*\n\s*/g, ' '))
+    .filter(Boolean)
+}
+
 export function destination(node: LearningNode, hasPage: (slug: string) => boolean): Destination {
   if (node.kind === 'concept' || !node.ref) return { kind: 'none' }
   if (node.kind === 'external') return { kind: 'link', href: node.ref }

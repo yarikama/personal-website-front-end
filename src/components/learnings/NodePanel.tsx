@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { ArrowLeft, ArrowRight, ArrowUpRight, Check } from 'lucide-react'
-import { destination, learnFirst, linksOf, places } from '../../lib/learningGraph'
+import { destination, learnFirst, linksOf, paragraphs, places } from '../../lib/learningGraph'
 import { countsFrom, fadesOn, type Progress, type Stage } from '../../lib/progress'
 import type { LearningGraph, LearningNode } from '../../types'
 
@@ -103,6 +103,14 @@ export default function NodePanel({ graph, node, onSelect, onGo, onTag, hasPage,
         <span className="font-mono text-[0.8rem] uppercase tracking-widest text-sage">{place ? LEVEL_LABEL[place.level] : 'Elsewhere'}</span>
         <h2 className="font-serif text-3xl font-light tracking-tight mt-2 mb-3">{node.title}</h2>
         <p className="text-sm text-zinc-faded leading-relaxed">{node.summary}</p>
+        {/* A field or topic readies the reader for what is inside */}
+        {paragraphs(node.overview).length > 0 && (
+          <div className="mt-4 flex flex-col gap-3 text-sm leading-relaxed text-ink">
+            {paragraphs(node.overview).map((paragraph, i) => (
+              <p key={i}>{paragraph}</p>
+            ))}
+          </div>
+        )}
         {node.tags.length > 0 && (
           <div className="flex flex-wrap gap-2 mt-4">
             {node.tags.map((tag) => (

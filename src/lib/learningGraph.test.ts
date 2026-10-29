@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import type { LearningEdgeType, LearningGraph, LearningNode } from '../types'
 import type { Orbit } from './learningGraph'
-import { areaColours, destination, homes, inReadingOrder, layers, orbits, learnFirst, linksOf, neighbours, places, search, stagesOf, tagCounts } from './learningGraph'
+import { areaColours, destination, paragraphs, homes, inReadingOrder, layers, orbits, learnFirst, linksOf, neighbours, places, search, stagesOf, tagCounts } from './learningGraph'
 
 const node = (slug: string, overrides: Partial<LearningNode> = {}): LearningNode => ({
   slug,
@@ -383,5 +383,21 @@ describe('how far along a node is', () => {
   it('survives a loop of part_of edges', () => {
     const loop = graph(['x', 'y', 'a'], [['x', 'part_of', 'y'], ['y', 'part_of', 'x'], ['a', 'part_of', 'x']])
     expect(stagesOf(loop, new Map([['a', 2]]), hasPage).get('x')).toBe(2)
+  })
+})
+
+describe("a topic's overview", () => {
+  it('is its paragraphs, split by blank lines, with lines inside one joined', () => {
+    expect(paragraphs('What it is.\n\nWhy it matters,\nand how.\n \n\nThe way through.\n')).toEqual([
+      'What it is.',
+      'Why it matters, and how.',
+      'The way through.',
+    ])
+  })
+
+  it('is nothing when there is none', () => {
+    expect(paragraphs(undefined)).toEqual([])
+    expect(paragraphs(null)).toEqual([])
+    expect(paragraphs('  \n\n ')).toEqual([])
   })
 })
