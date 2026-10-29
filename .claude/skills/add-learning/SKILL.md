@@ -267,6 +267,23 @@ whole field, its topics included. A page adds its topical tags after it (`decisi
 `algorithms`); reuse the tags already on the map before making a new one. A new field
 gets a short tag of its own, given to its field node first.
 
+Every field and topic also has an **overview** (`overview` on `create_learning_node` /
+`update_learning_node`), shown on its card under the summary. It is where a reader decides
+to go in, so it readies them for what is inside, in two to four short paragraphs (blank
+lines between them, about 70 to 140 words):
+
+1. What the topic is about and the question it answers, in plain words.
+2. Why it matters, and why it sits here: what it adds to the topic before it, or what
+   needs it after.
+3. The way through: the pages inside in reading order, by their titles, a clause each
+   on what each one adds.
+4. What to read first, by title ("Nothing comes first" for a way in).
+
+**When you publish a node into a topic, or remove one, rewrite that topic's overview
+in the same step**, and the field's too when a topic is published into it or removed,
+so an overview always covers what is on the map inside it and names nothing that is not.
+A new topic or field is published with its overview written.
+
 Publish it with `set_learning_node_published` **only once the page is live** on the site,
 and only when the owner asks.
 

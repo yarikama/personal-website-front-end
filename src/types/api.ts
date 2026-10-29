@@ -180,6 +180,9 @@ export interface LearningNode {
   kind: LearningNodeKind
   title: string
   summary: string
+  // A field or topic's introduction to what is inside: what it is about, why
+  // it matters, the way through. Paragraphs split by blank lines.
+  overview?: string | null
   // A learning's path on the site, an external node's URL, a concept's null
   ref: string | null
   tags: string[]
