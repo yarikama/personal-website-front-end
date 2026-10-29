@@ -48,6 +48,7 @@ export const learningPages: LearningPage[] = [
   { slug: 'sarsa', load: () => import('./sarsa') },
   { slug: 'q-learning', load: () => import('./q-learning') },
   { slug: 'maximization-bias', load: () => import('./maximization-bias') },
+  { slug: 'afterstates', load: () => import('./afterstates') },
   { slug: 'deep-q-networks', load: () => import('./deep-q-networks') },
   { slug: 'reinforce', load: () => import('./reinforce') },
   { slug: 'actor-critic', load: () => import('./actor-critic') },
