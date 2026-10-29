@@ -1,16 +1,14 @@
-import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Article from '../../components/explain/Article'
 import { Clip } from '../../components/explain/Clip'
-import { Choice, Controls, Figure, Numbers } from '../../components/explain/figure'
+import { Numbers } from '../../components/explain/figure'
 import { Predict } from '../../components/explain/Predict'
 import { Steps } from '../../components/explain/Steps'
 import { ALWAYS_ROLL, signed, SPOTS, state, STEP, WAYS } from '../../components/explain/ladders'
 import Labelled from '../../components/explain/Labelled'
 import Sweeping from '../../components/explain/Sweeping'
 import Track from '../../components/explain/LaddersTrack'
-import { judged, JUDGE, options, ROUNDS, type Judge } from '../../components/explain/planning'
-import Rounds from './Rounds'
+import { options, ROUNDS } from '../../components/explain/planning'
 
 const list = (squares: number[]) =>
   squares.length === 1 ? String(squares[0]) : `${squares.slice(0, -1).join(', ')} and ${squares.at(-1)}`
@@ -29,9 +27,6 @@ export default function PolicyIteration() {
   const start = signed(first.values[state(1)], 2)
   const end = signed(final.values[state(1)], 2)
   const ways = WAYS.toLocaleString('en')
-  const quick = judged(3)
-
-  const [judge, setJudge] = useState<Judge>('settled')
 
   return (
     <Article
@@ -48,7 +43,7 @@ export default function PolicyIteration() {
         {
           title: 'Reinforcement Learning: An Introduction',
           by: 'Richard S. Sutton and Andrew G. Barto, 2nd edition',
-          part: 'Chapter 4, “Dynamic Programming”, §4.2 “Policy Improvement”, §4.3 “Policy Iteration” and §4.6 “Generalized Policy Iteration”',
+          part: 'Chapter 4, “Dynamic Programming”, §4.2 “Policy Improvement” and §4.3 “Policy Iteration”',
           url: 'http://incompleteideas.net/book/the-book-2nd.html',
         },
         {
@@ -84,8 +79,11 @@ export default function PolicyIteration() {
             square.
           </>,
           <>
-            Start from your habit, always rolling, and work out its values by sweeping, as on the last page: square 1 is
-            worth {start}.
+            Start from your habit, always rolling, and work out its values by sweeping, as on{' '}
+            <Link to="/learnings/policy-evaluation" className="text-sage hover:underline">
+              the last page
+            </Link>
+            : square 1 is worth {start}.
           </>,
           <>
             Now ask on each square: if I stepped just this once, and rolled after, would I do better? On square {focus},
@@ -191,34 +189,6 @@ export default function PolicyIteration() {
         satisfy the <Link to="/learnings/optimal-policies">optimality equation</Link>, so the play is the best.
       </p>
 
-      <h2>Judging less</h2>
-      <p>
-        Most of the work is the judging: {judging.join(' + ')} = {total} sweeps, against {rounds.length} improvements.
-        But a switch only needs the values to rank the moves, not to be exact. Here is square 1’s value through the
-        whole run, judging until settled, for 3 sweeps, or for just 1 between improvements.
-      </p>
-      <Figure
-        readable
-        caption={
-          <>
-            Every way ends on the same best play. Judging until settled spends {total} sweeps; 3 sweeps between
-            improvements gets there in {quick.sweeps}. The values never have to be right for a policy that is about to
-            change. Dots mark the improvements that switched a square.
-          </>
-        }
-      >
-        <Rounds judge={judge} />
-        <Controls>
-          <Choice
-            label="Judge between improvements"
-            options={JUDGE}
-            value={judge}
-            onChange={setJudge}
-            format={(way) => (way === 'settled' ? 'until settled' : `${way} sweep${way === 1 ? '' : 's'}`)}
-          />
-        </Controls>
-      </Figure>
-
       <Predict
         kicker="Quick check"
         question="Judging each way of playing until it settles, could a later round leave some square worse off than an earlier one?"
@@ -237,6 +207,13 @@ export default function PolicyIteration() {
         }
       />
 
+      <h2>Judging less</h2>
+      <p>
+        Most of the work here is the judging: {judging.join(' + ')} = {total} sweeps, against {rounds.length}{' '}
+        improvements. How much of that judging you can skip is the question of{' '}
+        <Link to="/learnings/value-iteration">Improve as you go</Link>.
+      </p>
+
       <h2>Using it</h2>
       <ul>
         <li>
@@ -252,27 +229,25 @@ export default function PolicyIteration() {
           values are a good first guess: the rounds here took {judging.join(', ')} sweeps.
         </li>
         <li>
-          <strong>Judge just enough.</strong> A few sweeps between improvements reach the same best play for less work.
-          Letting judging and improving take turns at any grain is{' '}
-          <Link to="/learnings/generalized-policy-iteration">generalized policy iteration</Link>, and almost every
-          method in reinforcement learning is a version of it.
+          <strong>Judge just enough.</strong> Judging and improving can also take turns at a finer grain, which is{' '}
+          <Link to="/learnings/generalized-policy-iteration">generalized policy iteration</Link>.
         </li>
       </ul>
 
       <Predict
         kicker="Check yourself"
-        question="A warehouse planner improves its picking rule after only two sweeps of judging each time, so the values never settle in between. What happens?"
+        question="A thermostat follows a schedule of settings, hour by hour. You judge the schedule, then look one step ahead at every hour: no other setting would do strictly better than the one already there. What do you know?"
         options={[
-          { label: 'It ends on a worse rule' },
-          { label: 'It still reaches the best rule, often for less work', right: true },
-          { label: 'It never stops switching' },
-          { label: 'It must try every rule' },
+          { label: 'Only that it beats the schedules next to it' },
+          { label: 'Nothing yet: run a few more rounds to be sure' },
+          { label: 'It is the best schedule there is', right: true },
+          { label: 'You must still try every other schedule' },
         ]}
         reveal={
           <>
-            It still gets there. The values keep moving towards the current rule’s, and the rule keeps moving towards
-            what the values favour; once neither moves, the rule is the best. Stopping judging early only skips
-            precision that the next switch would have thrown away.
+            It is the best. When no move looks better one step ahead by the schedule’s own values, those values already
+            satisfy the optimality equation, and no other schedule can beat them anywhere. Another round would switch
+            nothing, and nothing else needs trying: this is how policy iteration knows it has finished.
           </>
         }
       />

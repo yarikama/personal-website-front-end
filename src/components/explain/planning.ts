@@ -63,8 +63,8 @@ export const options = (round: Round, sq: number) => both(round.values, sq)
 
 // ——— Judging less: a few sweeps between improvements ———
 
-export const JUDGE = [1, 3, 'settled'] as const
-export type Judge = (typeof JUDGE)[number]
+// Sweeps of evaluation between improvements, or until settled
+export type Judge = number | 'settled'
 
 export interface Point {
   // Sweeps done so far, square 1's value then, the plan that sweep judged,
@@ -111,16 +111,6 @@ export function generalized(judge: Judge, theta = THETA): Run {
     } else if (delta < theta) break
   }
   return { points, plan, sweeps: points.length - 1, switches }
-}
-
-const runs = new Map<Judge, Run>()
-export function judged(judge: Judge): Run {
-  let run = runs.get(judge)
-  if (!run) {
-    run = generalized(judge)
-    runs.set(judge, run)
-  }
-  return run
 }
 
 // The squares where two plans agree, out of all you can stand on

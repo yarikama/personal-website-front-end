@@ -5,11 +5,10 @@ import Board from '../../components/explain/Board'
 import { Clip } from '../../components/explain/Clip'
 import { Choice, Controls, Figure, Numbers } from '../../components/explain/figure'
 import { Predict } from '../../components/explain/Predict'
-import Settle from '../../components/explain/Settle'
 import Walk from '../../components/explain/Walk'
 import { Steps } from '../../components/explain/Steps'
 import Lean from './Lean'
-import { firstBump, firstJump, GAMMA, GAMMAS, PASSES, signed, SQUARE, story, WORLD, worth } from './model'
+import { firstBump, firstJump, GAMMA, GAMMAS, signed, SQUARE, story, WORLD, worth } from './model'
 
 export default function BellmanEquation() {
   const visits = useMemo(() => story(), [])
@@ -78,11 +77,10 @@ export default function BellmanEquation() {
             pays, plus 0.9 of where it lands.
           </>,
           <>
-            Every square leans on its neighbours like that. Start them all at 0, keep replacing each with the average of
-            its moves, and the numbers settle.
+            Every square leans on its neighbours like that, and just one set of numbers fits them all at once.
           </>,
           <>
-            A settles at {a}, short of its 10 coins, because A′ sits on the bottom edge and is worth {a_}. B pays only 5,
+            A is worth {a}, short of its 10 coins, because A′ sits on the bottom edge and is worth {a_}. B pays only 5,
             yet is worth {b}: B′ is worth {b_}, near both gold squares.
           </>,
           <>
@@ -101,11 +99,9 @@ export default function BellmanEquation() {
             <Board key="a" world={WORLD} label="Square A, and A′ where its move lands" focus={SQUARE.a} jumps />
           ) : step === 3 ? (
             <Board key="a-" world={WORLD} label="Square A′ and its four moves" focus={SQUARE.a_} />
-          ) : step === 4 ? (
-            <Settle key="settle" world={WORLD} passes={PASSES} label="Every square’s worth, settling pass by pass" />
           ) : (
             <Board
-              key={step === 5 ? 'values' : 'named'}
+              key={step === 4 ? 'fit' : step === 5 ? 'values' : 'named'}
               world={WORLD}
               label="What every square is worth with the spinner"
               values={values}
@@ -142,8 +138,8 @@ export default function BellmanEquation() {
       />
       <p>
         The equation doesn’t say how to find the values; it says how they must fit together. There is just one set of
-        numbers, one per square, that fits for this spinner, and replacing each with the average of its moves, pass after
-        pass, homes in on it.
+        numbers, one per square, that fits for this spinner. Finding it is{' '}
+        <Link to="/learnings/policy-evaluation">Judging a way of playing</Link>.
       </p>
 
       <h2>Check any square</h2>

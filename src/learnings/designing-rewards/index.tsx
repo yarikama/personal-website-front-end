@@ -111,7 +111,8 @@ export default function DesigningRewards() {
       <p>
         A courier robot crosses a yard. Delivering the parcel at the far corner pays 10 and ends the trip. To help it
         along, you add a checkpoint near the start that pays 1 each time the robot rolls onto it. Below, each square
-        shows what it is worth when the robot plays as well as it can, with a reward one move later counted at 0.9 (
+        shows what it is worth when the robot{' '}
+        <Link to="/learnings/optimal-policies">plays as well as it can</Link>, with a reward one move later counted at 0.9 (
         <Link to="/learnings/discounting">why, on the next page</Link>), and the arrows are its best moves.
       </p>
       <Figure
