@@ -60,6 +60,7 @@ Keep the reader's effort low:
   except its parent, fold it into the parent.
 - Show, then tell. Every claim the reader should believe, they should first see happen.
 - One sentence per story step, short words, second person ("You're having dinner").
+  Seven steps at most: the step markers no longer fit a phone at eight.
 - Plain words before terms: introduce a term only after the thing it names is on screen,
   and define it in the same sentence.
 - Nothing to configure before the point lands: figures play themselves; sliders come after.
@@ -82,6 +83,50 @@ The site is public. Pages are **our own explanation**, not the book's:
   "Check it"): a run of eight or more words shared with the source is rewritten.
 
 The site's audience reads English: pages are in English.
+
+## Algorithms pages
+
+The Algorithms field (tag `dsa`) teaches the patterns behind solving problems with code,
+in general: the idea, when to reach for it, and why it is right. It is not tied to any
+problem list. Each pattern is a topic (Greedy, Sliding window, ...); each idea in it is a
+page, kicker "Algorithms · <Pattern>". `src/learnings/greedy-choice/` is the example.
+
+The teaching order above holds, with three changes:
+
+- **The real system is a lab for breaking rules.** The reader picks a rule and an input
+  (a few made for the point, a random one, and one they edit), and sees the rule's answer
+  beside the best answer, found by brute force. Hit rates over many seeded random inputs
+  go under it: a rule that never lost on 1,000 random inputs can still be wrong, which
+  makes a good check.
+- **Then the template**, after the lab: the pattern's code in Python, written by us, in a
+  `Code` panel inside a stepping figure that runs it on a small example and lights the
+  running line (`highlight`), with a sentence for what each line does. Its cost (time and
+  space, and which line pays it) goes in the prose under it.
+- **Then Variations**, before Check yourself: the same pattern in other clothes, one plain
+  line each, never a problem statement copied from LeetCode, NeetCode or a book. Include
+  at least one contrast case where the pattern fails and say what to use instead
+  (weighted intervals need DP, not greedy). Check yourself must ask about a situation
+  the Variations list does not already answer.
+
+In `model.ts`, write the brute-force answer for small inputs as the referee: test that the
+pattern matches it on a few hundred seeded inputs, and that each wrong rule fails on its
+counterexample whichever way ties are broken.
+
+Sources, all used as references and listed in `sources` when drawn on:
+
+- Kleinberg and Tardos, *Algorithm Design* (Pearson, 2005). The owner's PDF is
+  `~/Desktop/Projects/2026Spring/582-DSA/Algorithm Design.pdf`; chapter 4, Greedy, is PDF
+  pages 141 to 158.
+- Cormen, Leiserson, Rivest and Stein, *Introduction to Algorithms*, 4th edition (MIT
+  Press, 2022), by chapter and section.
+- Jeff Erickson, *Algorithms* (2019), free at https://jeffe.cs.illinois.edu/teaching/algorithms/.
+- The owner's course, COMP 582 Graduate Design and Analysis of Algorithms (Rice, Spring
+  2026): lecture notes in `~/Desktop/Projects/2026Spring/582-DSA/docs/class_materials/` and
+  the owner's own notes in `docs/notes_midterm1/` and `docs/notes_midterm2/`. Source entry:
+  title 'COMP 582: Graduate Design and Analysis of Algorithms', by 'Rice University,
+  Spring 2026', part the lecture, no url.
+
+Run `overlap.py` against the book's chapter and the lecture notes, as for any page.
 
 ## Steps
 
@@ -114,6 +159,11 @@ opens the same way every time and tests are stable.
   narration from the run, not by hand.
 - Guard against state from before a setting changed: a figure renders once with the old
   data before an effect resets it.
+- Work that a figure would memoize with `useMemo` can trip the
+  `react-hooks/preserve-manual-memoization` lint; compute it once at module level in
+  `model.ts` instead.
+- Name a helper apart from the component it serves, not only by case: `code.ts` beside
+  `Code.tsx` is one file to macOS, and TypeScript refuses it.
 
 ### 2b. Clips: `manim/scenes/<slug>.py`
 
@@ -213,6 +263,7 @@ Hold settings that several figures share in the page, and pass them down.
 | `Button` | An action: run, reset, send |
 | `Readout` | A measured number with its label; `accent` for the one that matters |
 | `Clip` | A ManimGL animation of a formula or derivation, dark in both themes |
+| `Code` | Read-only code with line numbers and light colouring: `code` a template literal, `highlight` the running lines (1-based), `caption` to stand alone as a figure, `label` for a screen reader. Scrolls sideways inside itself on a phone |
 
 ### 3b. Checks grow its node
 
