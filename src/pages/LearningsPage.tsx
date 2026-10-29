@@ -4,6 +4,7 @@ import { ArrowLeft, ArrowRight, ArrowUpRight, List, Loader2, RotateCcw, X } from
 import { motion } from 'motion/react'
 import Graph3D from '../components/learnings/Graph3D'
 import NodePanel from '../components/learnings/NodePanel'
+import Overview from '../components/learnings/Overview'
 import ReadOn from '../components/learnings/ReadOn'
 import Search from '../components/learnings/Search'
 import { Reading } from '../components/explain/Reading'
@@ -12,8 +13,8 @@ import { usePrefersReducedMotion } from '../hooks'
 import { useLearningGraph } from '../hooks/useLearningGraph'
 import { findLearningPage } from '../learnings'
 import { useLearningPage } from '../learnings/useLearningPage'
-import { areaColours, homes, inReadingOrder, linksOf, places, stagesOf } from '../lib/learningGraph'
-import { useProgress } from '../lib/progress'
+import { areaColours, hasOverview, homes, inReadingOrder, linksOf, places, stagesOf } from '../lib/learningGraph'
+import { useProgress, type Stage } from '../lib/progress'
 import { useIsDark } from '../lib/theme'
 import type { LearningGraph, LearningNode } from '../types'
 
@@ -189,20 +190,24 @@ function Topics({ graph, onSelect }: { graph: LearningGraph; onSelect: (slug: st
 
 // A learning page read inside the map's panel: a bar to fold it back into
 // the card, open it on its own, or close it, the page under it, and the
-// pages before and after it, which `onGo` moves the map to
+// pages before and after it, which `onGo` moves the map to. A field or
+// topic's page is its overview, with what is inside it to open.
 function Reader({
   graph,
-  slug,
+  node,
+  stages,
   onCollapse,
   onClose,
   onGo,
 }: {
   graph: LearningGraph
-  slug: string
+  node: LearningNode
+  stages: Map<string, Stage>
   onCollapse: () => void
   onClose: () => void
   onGo: (slug: string) => void
 }) {
+  const slug = node.slug
   const { Page, failed } = useLearningPage(slug)
   const links = linksOf(graph, slug)
   // The panel scrolls, not the window: a new page starts at its top
@@ -233,7 +238,9 @@ function Reader({
         transition={{ delay: 0.15, duration: 0.4 }}
         className="px-6 py-8 md:px-10"
       >
-        {failed ? (
+        {hasOverview(node) ? (
+          <Overview graph={graph} node={node} stages={stages} hasPage={hasPage} onOpen={onGo} />
+        ) : failed ? (
           <p className="font-serif text-xl text-zinc-faded italic">This page did not load. Try opening it on its own.</p>
         ) : Page ? (
           <>
@@ -282,7 +289,9 @@ export default function LearningsPage() {
   const selected = graph?.nodes.find((node) => node.slug === selectedSlug) ?? null
   const tag = params.get('tag')
   // The page being read in the panel: also in the address (read=1)
-  const reading = params.get('read') === '1' && selected !== null && hasPage(selected.slug)
+  // A page, or a field or topic's overview, opens in the panel
+  const opens = (slug: string) => hasPage(slug) || (graph?.nodes.some((node) => node.slug === slug && hasOverview(node)) ?? false)
+  const reading = params.get('read') === '1' && selected !== null && opens(selected.slug)
   // A wide screen keeps the card beside the page being read, to its left:
   // the page narrows, to 45rem at the least, to leave the title its room
   const pageWidth = Math.min(896, width - 32 - 16 - 320 - 256)
@@ -312,7 +321,7 @@ export default function LearningsPage() {
   const collapse = () => change({ read: null })
   // Along the reading order: the map flies to the node, and a page being
   // read goes on to the next page
-  const readOn = (slug: string) => change({ node: slug, read: reading && hasPage(slug) ? '1' : null })
+  const readOn = (slug: string) => change({ node: slug, read: reading && opens(slug) ? '1' : null })
 
   // Escape folds the page back into the card
   useEffect(() => {
@@ -467,7 +476,8 @@ export default function LearningsPage() {
           {reading ? (
             <Reader
               graph={graph}
-              slug={selected.slug}
+              node={selected}
+              stages={stages}
               onCollapse={collapse}
               onClose={() => select(null)}
               onGo={readOn}

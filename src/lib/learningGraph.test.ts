@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import type { LearningEdgeType, LearningGraph, LearningNode } from '../types'
 import type { Orbit } from './learningGraph'
-import { areaColours, destination, paragraphs, homes, inReadingOrder, layers, orbits, learnFirst, linksOf, neighbours, places, search, stagesOf, tagCounts } from './learningGraph'
+import { areaColours, destination, hasOverview, paragraphs, homes, inReadingOrder, layers, orbits, learnFirst, linksOf, neighbours, places, search, stagesOf, tagCounts } from './learningGraph'
 
 const node = (slug: string, overrides: Partial<LearningNode> = {}): LearningNode => ({
   slug,
@@ -393,6 +393,14 @@ describe("a topic's overview", () => {
       'Why it matters, and how.',
       'The way through.',
     ])
+  })
+
+  it("is a field or topic's page, opened like any other", () => {
+    const topic = { slug: 't', kind: 'concept', title: 'T', summary: 's', ref: null, tags: [], previewImage: null, published: true } as const
+    expect(hasOverview({ ...topic, overview: 'What it is about.' })).toBe(true)
+    expect(hasOverview({ ...topic, overview: ' \n ' })).toBe(false)
+    expect(hasOverview(topic)).toBe(false)
+    expect(hasOverview({ ...topic, kind: 'learning', ref: '/learnings/t', overview: 'Text.' })).toBe(false)
   })
 
   it('is nothing when there is none', () => {

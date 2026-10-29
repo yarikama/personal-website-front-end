@@ -381,6 +381,11 @@ export type Destination =
   // A concept, which only gathers others
   | { kind: 'none' }
 
+// A field or topic with an overview: its page, opened like any other
+export function hasOverview(node: LearningNode): boolean {
+  return node.kind === 'concept' && paragraphs(node.overview).length > 0
+}
+
 // An overview's paragraphs: split by blank lines, each one's lines joined
 export function paragraphs(text: string | null | undefined): string[] {
   return (text ?? '')
