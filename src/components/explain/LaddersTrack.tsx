@@ -9,7 +9,7 @@ import { CELL, centre, corner, HEIGHT, WIDTH } from './laddersLayout'
 const fmt = (value: number) => (Math.abs(value) < 0.05 ? '0.0' : value.toFixed(1)).replace('-', '−')
 
 // A ladder: two rails and rungs between them
-function Ladder({ foot, top, faint }: { foot: number; top: number; faint: boolean }) {
+export function Ladder({ foot, top, faint }: { foot: number; top: number; faint: boolean }) {
   const a = centre(foot)
   const b = centre(top)
   const length = Math.hypot(b.x - a.x, b.y - a.y)
@@ -34,7 +34,7 @@ function Ladder({ foot, top, faint }: { foot: number; top: number; faint: boolea
 }
 
 // A snake: a wavy body from its head down to its tail
-function Snake({ head, tail, faint }: { head: number; tail: number; faint: boolean }) {
+export function Snake({ head, tail, faint }: { head: number; tail: number; faint: boolean }) {
   const a = centre(head)
   const b = centre(tail)
   const length = Math.hypot(b.x - a.x, b.y - a.y)
