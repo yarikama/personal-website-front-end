@@ -396,7 +396,7 @@ describe("a topic's overview", () => {
   })
 
   it("is a field or topic's page, opened like any other", () => {
-    const topic = { slug: 't', kind: 'concept', title: 'T', summary: 's', ref: null, tags: [], previewImage: null, published: true } as const
+    const topic: LearningNode = { slug: 't', kind: 'concept', title: 'T', summary: 's', ref: null, tags: [], previewImage: null, published: true }
     expect(hasOverview({ ...topic, overview: 'What it is about.' })).toBe(true)
     expect(hasOverview({ ...topic, overview: ' \n ' })).toBe(false)
     expect(hasOverview(topic)).toBe(false)
