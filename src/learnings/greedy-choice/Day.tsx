@@ -144,8 +144,10 @@ export default function Day({ day, rule, pace = 900, named = false, cancelled = 
             const end = day[pick.take].end
             return (
               <g key={pick.take}>
-                <line x1={x(end)} x2={x(end)} y1={axis - 6} y2={axis + 22} className="stroke-sage" strokeWidth={1.5} />
-                <text x={x(end) - 3} y={axis + 34} textAnchor="end" className="fill-sage font-mono text-[11px]">
+                {/* Broken around the hour's label, so a finish on the hour leaves it readable */}
+                <line x1={x(end)} x2={x(end)} y1={axis - 6} y2={axis + 2} className="stroke-sage" strokeWidth={1.5} />
+                <line x1={x(end)} x2={x(end)} y1={axis + 19} y2={axis + 25} className="stroke-sage" strokeWidth={1.5} />
+                <text x={x(end)} y={axis + 37} textAnchor="middle" className="fill-sage font-mono text-[11px]">
                   f{k + 1}
                 </text>
               </g>
