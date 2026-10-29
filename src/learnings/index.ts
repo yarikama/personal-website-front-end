@@ -44,6 +44,8 @@ export const learningPages: LearningPage[] = [
   { slug: 'maximization-bias', load: () => import('./maximization-bias') },
   { slug: 'deep-q-networks', load: () => import('./deep-q-networks') },
   { slug: 'ddpg', load: () => import('./ddpg') },
+  { slug: 'reinforce', load: () => import('./reinforce') },
+  { slug: 'actor-critic', load: () => import('./actor-critic') },
 ]
 
 export const findLearningPage = (slug: string | undefined) => learningPages.find((page) => page.slug === slug)
