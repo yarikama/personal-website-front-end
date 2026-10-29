@@ -6,7 +6,7 @@ import { Figure, Numbers } from '../../components/explain/figure'
 import { MOVES } from '../../components/explain/mdp'
 import { Predict } from '../../components/explain/Predict'
 import { Steps } from '../../components/explain/Steps'
-import { chances, firstWithin, minutes, nudge, onward, score, SHORTEST, story, STORY, zoomStep } from './model'
+import { chances, firstWithin, minutes, nudge, onward, score, SHORTEST, story, STORY, zoomStep } from '../../components/explain/gridLearning'
 import Mornings from './Mornings'
 import Trainer from './Trainer'
 

@@ -1,6 +1,6 @@
 import { usePlay } from '../../components/explain/useLoop'
-import type { Training } from '../sarsa/model'
-import Town from '../sarsa/Town'
+import type { Training } from '../../components/explain/gridLearning'
+import Town from '../../components/explain/Town'
 import { EDGE, FAR, HOME, MORNINGS, RIVERSIDE, STATION, settled, wetWhen } from './model'
 
 const at = (x: number, y: number) => RIVERSIDE.at({ x, y })

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { seeded } from '../../components/explain/random'
-import { chancesAt, FISH, fishChance, forkAt, fresh, LEFT, RIGHT, worth } from '../reinforce/model'
+import { chancesAt, FISH, fishChance, forkAt, fresh, LEFT, RIGHT, worth } from '../../components/explain/lunchHill'
 import { actorCritic, curve, evenFeel, pushes, startFeel, story, walkAndLearn } from './model'
 
 describe('the critic’s verdict', () => {

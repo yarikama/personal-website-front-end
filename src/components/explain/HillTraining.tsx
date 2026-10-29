@@ -1,5 +1,5 @@
-import { usePlay } from '../../components/explain/useLoop'
-import { percent } from './model'
+import { usePlay } from './useLoop'
+import { percent } from './lunchHill'
 
 const WIDTH = 560
 const HEIGHT = 240

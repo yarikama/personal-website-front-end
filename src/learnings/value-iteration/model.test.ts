@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { solve, SPOTS, state } from '../policy-evaluation/board'
-import { best } from '../policy-iteration/model'
+import { solve, SPOTS, state } from '../../components/explain/ladders'
+import { best } from '../../components/explain/planning'
 import {
   EVERY_MOVE,
   FINAL,

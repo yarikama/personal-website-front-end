@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { smooth } from '../sarsa/model'
+import { smooth } from '../../components/explain/gridLearning'
 import { detours, EVENINGS, FLOOR, percent, RUNS, STALL_MEAN } from './model'
 
 const WIDTH = 640

@@ -1,6 +1,6 @@
 import { gridworld, type Cell } from '../../components/explain/mdp'
 import { seeded } from '../../components/explain/random'
-import { averageTotals, route, smooth, train, type Method, type Settings, type Training } from '../sarsa/model'
+import { averageTotals, route, smooth, train, type Method, type Settings, type Training } from '../../components/explain/gridLearning'
 
 // The walk to the station along a river with no railing. The quickest way
 // runs right along the edge; a random step there can land you in the water.

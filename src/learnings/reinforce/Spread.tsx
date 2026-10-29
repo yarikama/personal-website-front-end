@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import { Readout } from '../../components/explain/figure'
 import { seeded } from '../../components/explain/random'
 import { usePlay } from '../../components/explain/useLoop'
-import { estimates, expected, fresh, gradient, mean, RIGHT, spread, SPREAD_SEED, TOP } from './model'
+import { estimates, expected, fresh, gradient, mean, RIGHT, spread, SPREAD_SEED, TOP } from '../../components/explain/lunchHill'
 
 const WIDTH = 560
 const HEIGHT = 170

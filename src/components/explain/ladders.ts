@@ -1,4 +1,4 @@
-import { actionValues, backup, type Mdp, type Outcome } from '../../components/explain/mdp'
+import { actionValues, backup, type Mdp, type Outcome } from './mdp'
 
 // The planning pages' world: snakes and ladders on 30 squares, where each
 // turn you may roll the die or step one square. Every turn costs 1, so a

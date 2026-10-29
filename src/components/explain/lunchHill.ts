@@ -1,5 +1,5 @@
-import { softmax } from '../../components/explain/bandit'
-import { seeded } from '../../components/explain/random'
+import { softmax } from './bandit'
+import { seeded } from './random'
 
 // The hill: from your office at the top, lanes fork four times on the way
 // down to the harbour, where five stalls sell lunch. At each fork you turn

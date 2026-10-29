@@ -1,5 +1,5 @@
 import { Readout } from '../../components/explain/figure'
-import Track from '../policy-evaluation/Track'
+import Track from '../../components/explain/LaddersTrack'
 import { EVERY_MOVE, PASSES, PLANS, switchedAt, wrongAt } from './model'
 
 // Value iteration stopped at one sweep: every square's value, the better

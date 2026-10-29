@@ -1,5 +1,5 @@
 import { seeded } from '../../components/explain/random'
-import { ALWAYS_ROLL, landing, play, ROLL, solve, SPOTS, state, sweeps, type Order, type Pass } from './board'
+import { ALWAYS_ROLL, landing, play, ROLL, solve, SPOTS, state, sweeps, type Order, type Pass } from '../../components/explain/ladders'
 
 // Policy evaluation on the board: you always roll, as everyone does, and
 // want each square's turns to the finish. Every square's value is −1 plus

@@ -5,13 +5,13 @@ import { Clip } from '../../components/explain/Clip'
 import { Choice, Controls, Figure, Numbers } from '../../components/explain/figure'
 import { Predict } from '../../components/explain/Predict'
 import { Steps } from '../../components/explain/Steps'
-import { LADDERS, ROLL, signed, SNAKES, SPOTS, state, type Order } from './board'
+import { LADDERS, ROLL, signed, SNAKES, SPOTS, state, type Order } from '../../components/explain/ladders'
 import Deltas from './Deltas'
 import Game from './Game'
-import Labelled from './Labelled'
+import Labelled from '../../components/explain/Labelled'
 import { evaluation, faces, FOCUS, ORDER_NAMES, ORDERS, PASSES, shrink, story, THETA, THETAS, truth } from './model'
-import Sweeping from './Sweeping'
-import Track from './Track'
+import Sweeping from '../../components/explain/Sweeping'
+import Track from '../../components/explain/LaddersTrack'
 
 export default function PolicyEvaluation() {
   // The story's game and sweeps, and the numbers they tell

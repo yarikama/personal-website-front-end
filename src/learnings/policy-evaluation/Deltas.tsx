@@ -1,5 +1,5 @@
 import { Readout } from '../../components/explain/figure'
-import type { Order } from './board'
+import type { Order } from '../../components/explain/ladders'
 import { evaluation, ORDER_NAMES, ORDERS } from './model'
 
 const WIDTH = 600

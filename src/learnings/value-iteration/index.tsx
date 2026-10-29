@@ -5,10 +5,10 @@ import { Clip } from '../../components/explain/Clip'
 import { Controls, Figure, Numbers, Slider } from '../../components/explain/figure'
 import { Predict } from '../../components/explain/Predict'
 import { Steps } from '../../components/explain/Steps'
-import { signed, SPOTS, steps } from '../policy-evaluation/board'
-import Labelled from '../policy-evaluation/Labelled'
-import Sweeping from '../policy-evaluation/Sweeping'
-import Track from '../policy-evaluation/Track'
+import { signed, SPOTS, steps } from '../../components/explain/ladders'
+import Labelled from '../../components/explain/Labelled'
+import Sweeping from '../../components/explain/Sweeping'
+import Track from '../../components/explain/LaddersTrack'
 import {
   EVERY_MOVE,
   FINAL,

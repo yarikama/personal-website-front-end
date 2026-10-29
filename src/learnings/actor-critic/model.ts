@@ -14,7 +14,7 @@ import {
   STALL_MEAN,
   worth,
   type Habits,
-} from '../reinforce/model'
+} from '../../components/explain/lunchHill'
 
 // The same hill as the REINFORCE page, learned another way. Beside the
 // habits (the actor) you keep a feel for each fork (the critic): the lunch

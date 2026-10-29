@@ -1,5 +1,5 @@
-import { BOARD, FINISH, LADDERS, SNAKES, SQUARES, standable, state, STEP, type Plan } from './board'
-import { CELL, centre, corner, HEIGHT, WIDTH } from './layout'
+import { BOARD, FINISH, LADDERS, SNAKES, SQUARES, standable, state, STEP, type Plan } from './ladders'
+import { CELL, centre, corner, HEIGHT, WIDTH } from './laddersLayout'
 
 // The snakes-and-ladders board drawn: 30 squares in five rows that wind
 // up from the bottom left, the ladders and snakes, what each square is
