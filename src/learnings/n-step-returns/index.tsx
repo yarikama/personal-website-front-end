@@ -30,7 +30,7 @@ export default function NStepReturns() {
         {
           title: 'Reinforcement Learning: An Introduction',
           by: 'Richard S. Sutton and Andrew G. Barto, 2nd edition',
-          part: 'Chapter 6, §6.3 “Optimality of TD(0)”; Chapter 7, “n-step Bootstrapping”, §7.1 “n-step TD Prediction”; Chapter 12, “Eligibility Traces”, §12.1 “The λ-return”',
+          part: 'Chapter 7, “n-step Bootstrapping”, §7.1 “n-step TD Prediction”; Chapter 12, “Eligibility Traces”, §12.1 “The λ-return”',
           url: 'http://incompleteideas.net/book/the-book-2nd.html',
         },
         {
@@ -183,18 +183,18 @@ export default function NStepReturns() {
 
       <Predict
         kicker="Check yourself"
-        question="A friend played a two-room escape game ten times. Nine times she started in room B and got out in 6 of them (worth 1; failing is 0). Once she started in room A, walked into room B, and failed. Replaying these games until the numbers settle, what is room A worth to a one-step learner, and to Monte Carlo?"
+        question="A courier learns how long the rest of her route takes from each stop, using 3-step returns. Her route began at stop 0, and she has just pulled up at stop 5. Which stop’s guess can she update right now?"
         options={[
-          { label: '0.6 and 0', right: true },
-          { label: '0 and 0.6' },
-          { label: '0 and 0' },
-          { label: '0.6 and 0.6' },
+          { label: 'Stop 5' },
+          { label: 'Stop 4' },
+          { label: 'Stop 2', right: true },
+          { label: 'Stop 0' },
         ]}
         reveal={
           <>
-            Monte Carlo averages room A’s only game: 0. The one-step learner says A leads to B, and B got her out 6
-            times in 10, so A is worth 0.6. If what happens in B doesn’t depend on how you got there, 0.6 is the better
-            bet: one step uses that structure, and Monte Carlo ignores it.
+            Stop 2. Its 3-step return needs the drives from 2 to 3, 3 to 4 and 4 to 5, all done now, plus the guess at
+            stop 5. Stop 4 still waits for two more drives, and stops 0 and 1 were updated when she reached stops 3
+            and 4.
           </>
         }
       />

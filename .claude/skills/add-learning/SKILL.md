@@ -58,6 +58,9 @@ Keep the reader's effort low:
 - One idea per page. If it needs sub-headings that could each stand alone, and something
   else would want to link to one of them, split it. If nothing would ever link to a page
   except its parent, fold it into the parent.
+- Teach each idea on one page. If a page needs an idea another page already teaches, name
+  it in a clause and link there; don't explain it again, and don't reuse it for a check.
+  When a new page takes over an idea an older page touched, cut it from the older one.
 - Show, then tell. Every claim the reader should believe, they should first see happen.
 - One sentence per story step, short words, second person ("You're having dinner").
   Seven steps at most: the step markers no longer fit a phone at eight.
