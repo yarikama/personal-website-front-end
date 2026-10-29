@@ -40,6 +40,7 @@ export const learningPages: LearningPage[] = [
   { slug: 'value-iteration', load: () => import('./value-iteration') },
   { slug: 'generalized-policy-iteration', load: () => import('./generalized-policy-iteration') },
   { slug: 'monte-carlo-prediction', load: () => import('./monte-carlo-prediction') },
+  { slug: 'monte-carlo-control', load: () => import('./monte-carlo-control') },
   { slug: 'n-step-returns', load: () => import('./n-step-returns') },
   { slug: 'sarsa', load: () => import('./sarsa') },
   { slug: 'q-learning', load: () => import('./q-learning') },
