@@ -51,8 +51,11 @@ export default function FanOut({ calls, slowness }: FanOutProps) {
   const slowest = page ? Math.max(...page) : 0
   const finished = page !== null && now >= slowest + REPLY_MS
 
+  // Sending: started.current is when it was sent, on the animation clock
+  // (-1 until the first frame after Send reads that clock)
   useAnimationFrame((time) => {
     if (started.current === null || !page) return
+    if (started.current < 0) started.current = time
     const elapsed = (time - started.current) / PLAYBACK
     setNow(elapsed)
     if (elapsed >= slowest + REPLY_MS) started.current = null
@@ -72,7 +75,7 @@ export default function FanOut({ calls, slowness }: FanOutProps) {
       setNow(Infinity)
     } else {
       setNow(0)
-      started.current = performance.now()
+      started.current = -1
     }
   }
 
