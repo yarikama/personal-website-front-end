@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { greedy, solve, SPOTS, state, steps, sweep } from '../policy-evaluation/board'
-import { agree, best, bestValues, judged, JUDGE, options, ROUNDS } from './model'
+import { greedy, solve, SPOTS, state, steps, sweep } from './ladders'
+import { agree, best, bestValues, judged, JUDGE, options, ROUNDS } from './planning'
 
 describe('policy iteration', () => {
   it('switches the squares below ladders, then the ones below those, then stops: 4 rounds', () => {

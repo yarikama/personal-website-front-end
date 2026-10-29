@@ -1,4 +1,4 @@
-import { after, placeOf } from './model'
+import { after, placeOf } from './lunchHill'
 
 // Where things sit in the hill's drawing (Hill.tsx), for it and for the
 // stories that move a walker over it

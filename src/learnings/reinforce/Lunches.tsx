@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react'
 import { usePlay } from '../../components/explain/useLoop'
-import { along, wayOf } from './geometry'
-import Hill, { type Mark } from './Hill'
-import { chancesAt, fresh, STALLS, type Day, type Habits } from './model'
+import { along, wayOf } from '../../components/explain/hillGeometry'
+import Hill, { type Mark } from '../../components/explain/Hill'
+import { chancesAt, fresh, STALLS, type Day, type Habits } from '../../components/explain/lunchHill'
 
 // Walk at this share of a lunch, then the rating, then the habits move
 const WALKED = 0.62

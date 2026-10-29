@@ -1,5 +1,5 @@
-import { endOf, forkPoint, HEIGHT, OFFICE, stallPoint, WIDTH, type Point } from './geometry'
-import { chancesAt, FORKS, STALLS, type Habits } from './model'
+import { endOf, forkPoint, HEIGHT, OFFICE, stallPoint, WIDTH, type Point } from './hillGeometry'
+import { chancesAt, FORKS, STALLS, type Habits } from './lunchHill'
 
 // The hill drawn: the office at the top, the four rows of forks, the five
 // stalls at the bottom. Each lane is as thick as the habit for taking it,

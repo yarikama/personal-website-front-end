@@ -3,8 +3,8 @@ import { useAnimationFrame } from 'motion/react'
 import { Button, Choice, Controls, Readout } from '../../components/explain/figure'
 import { seeded } from '../../components/explain/random'
 import { usePrefersReducedMotion } from '../../hooks'
-import { blank, cellsOf, HOME, minutes, SHORTEST, START, STATION, TOWN, walk, type Method, type Table, type Walk } from './model'
-import Town from './Town'
+import { blank, cellsOf, HOME, minutes, SHORTEST, START, STATION, TOWN, walk, type Method, type Table, type Walk } from '../../components/explain/gridLearning'
+import Town from '../../components/explain/Town'
 
 const ALPHA = 0.5
 const FIRST = 30

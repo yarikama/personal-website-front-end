@@ -1,7 +1,7 @@
-import { usePlay } from '../../components/explain/useLoop'
-import { signed, type Pass, type Plan } from './board'
+import { usePlay } from './useLoop'
+import { signed, type Pass, type Plan } from './ladders'
 import Labelled from './Labelled'
-import Track from './Track'
+import Track from './LaddersTrack'
 
 // Sweeps playing out on the board: every square starts at 0, and each
 // sweep gives each one −1 plus the average (or the better) of where its

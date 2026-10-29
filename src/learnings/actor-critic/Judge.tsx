@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react'
 import { usePlay } from '../../components/explain/useLoop'
-import { along, wayOf } from '../reinforce/geometry'
-import Hill, { type Mark } from '../reinforce/Hill'
-import { fresh, STALLS, TURNS } from '../reinforce/model'
+import { along, wayOf } from '../../components/explain/hillGeometry'
+import Hill, { type Mark } from '../../components/explain/Hill'
+import { fresh, STALLS, TURNS } from '../../components/explain/lunchHill'
 import { evenFeel, type Walk } from './model'
 
 // A walk is five legs: office to the first fork, then one per turn

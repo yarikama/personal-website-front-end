@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { seeded } from '../../components/explain/random'
+import { seeded } from './random'
 import {
   after,
   chancesAt,
@@ -28,7 +28,7 @@ import {
   walk,
   worth,
   type Habits,
-} from './model'
+} from './lunchHill'
 
 const randomHabits = (seed: number): Habits => {
   const random = seeded(seed)

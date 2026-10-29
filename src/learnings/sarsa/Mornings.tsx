@@ -1,7 +1,7 @@
 import { usePlay } from '../../components/explain/useLoop'
 import { MOVES } from '../../components/explain/mdp'
-import { cellsOf, HOME, minutes, onwardOf, score, STATION, STORY, tableAt, TOWN, type Training } from './model'
-import Town from './Town'
+import { cellsOf, HOME, minutes, onwardOf, score, STATION, STORY, tableAt, TOWN, type Training } from '../../components/explain/gridLearning'
+import Town from '../../components/explain/Town'
 
 const fmt = (value: number) => score(value, 1)
 const paren = (value: number) => (value < 0 ? `(${fmt(value)})` : fmt(value))

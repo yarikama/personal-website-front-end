@@ -1,8 +1,8 @@
 import { usePlay } from '../../components/explain/useLoop'
-import { ROLL, type Turn } from './board'
-import { centre } from './layout'
-import Labelled from './Labelled'
-import Track from './Track'
+import { ROLL, type Turn } from '../../components/explain/ladders'
+import { centre } from '../../components/explain/laddersLayout'
+import Labelled from '../../components/explain/Labelled'
+import Track from '../../components/explain/LaddersTrack'
 
 // A game on the board: the turns of `turns` from `from` to `to` (by index,
 // `to` left out), one every `pace` ms. The counter hops to where the die

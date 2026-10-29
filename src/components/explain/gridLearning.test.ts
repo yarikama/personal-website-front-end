@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { seeded } from '../../components/explain/random'
+import { seeded } from './random'
 import {
   blank,
   cellsOf,
@@ -21,7 +21,7 @@ import {
   train,
   walk,
   zoomStep,
-} from './model'
+} from './gridLearning'
 
 describe('choosing', () => {
   it('gives ε-greedy chances: the best most of the time, every way some of the time', () => {

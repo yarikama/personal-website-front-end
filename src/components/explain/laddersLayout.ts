@@ -1,4 +1,4 @@
-import { SQUARES } from './board'
+import { SQUARES } from './ladders'
 
 // Where the board's squares sit in its drawing: five rows of six that wind
 // up from the bottom left, as on a real board

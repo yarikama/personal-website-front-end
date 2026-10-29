@@ -1,6 +1,6 @@
 import { Readout } from '../../components/explain/figure'
-import { signed } from '../policy-evaluation/board'
-import { bestValues, judged, JUDGE, type Judge } from './model'
+import { signed } from '../../components/explain/ladders'
+import { bestValues, judged, JUDGE, type Judge } from '../../components/explain/planning'
 
 const WIDTH = 600
 const HEIGHT = 250

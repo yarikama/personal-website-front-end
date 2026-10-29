@@ -1,5 +1,5 @@
-import { STEP, type Cell, type Gridworld } from '../../components/explain/mdp'
-import { score, type Table } from './model'
+import { STEP, type Cell, type Gridworld } from './mdp'
+import { score, type Table } from './gridLearning'
 
 // A small town drawn as a grid of blocks: streets you can walk, buildings
 // you can't, maybe a river, home and the station. On it, what the learner

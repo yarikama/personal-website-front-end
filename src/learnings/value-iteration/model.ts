@@ -9,8 +9,8 @@ import {
   sweeps,
   type Pass,
   type Plan,
-} from '../policy-evaluation/board'
-import { generalized, ROUNDS, type Judge, type Round } from '../policy-iteration/model'
+} from '../../components/explain/ladders'
+import { generalized, ROUNDS, type Judge, type Round } from '../../components/explain/planning'
 
 // Value iteration on the board: no policy to judge. Each sweep gives every
 // square −1 plus the better of its two moves, which is one sweep of judging

@@ -1,6 +1,6 @@
-import { argmax } from '../../components/explain/bandit'
-import { gridworld, type Cell, type Gridworld } from '../../components/explain/mdp'
-import { seeded } from '../../components/explain/random'
+import { argmax } from './bandit'
+import { gridworld, type Cell, type Gridworld } from './mdp'
+import { seeded } from './random'
 
 // Learning to act from experience alone: a score for every move from every
 // place, Q(s, a), learned while walking, with no map of where moves lead.

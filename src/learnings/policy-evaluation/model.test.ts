@@ -15,7 +15,7 @@ import {
   sweeps,
   WAYS,
   zeros,
-} from './board'
+} from '../../components/explain/ladders'
 import { evaluation, faces, PASSES, shrink, story, THETA, truth } from './model'
 
 // Always rolling's values, from the equations solved outright (Gaussian

@@ -11,7 +11,7 @@ import {
   zeros,
   type Pass,
   type Plan,
-} from '../policy-evaluation/board'
+} from './ladders'
 
 // Policy iteration on the board: judge a way of playing (policy
 // evaluation), switch every square to the move that is best by those

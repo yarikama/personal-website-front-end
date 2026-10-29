@@ -6,9 +6,9 @@ import { Button, Choice, Controls, Figure, Numbers } from '../../components/expl
 import { Predict } from '../../components/explain/Predict'
 import { Steps } from '../../components/explain/Steps'
 import Lunches from './Lunches'
-import { curve, expected, FISH, fresh, gradient, percent, PLACES, RIGHT, SCRIPT, story, STORY_LUNCHES, TOP, TURNS, worth } from './model'
+import { curve, expected, FISH, fresh, gradient, percent, PLACES, RIGHT, SCRIPT, story, STORY_LUNCHES, TOP, TURNS, worth } from '../../components/explain/lunchHill'
 import Spread, { DOTS } from './Spread'
-import Train from './Train'
+import Train from '../../components/explain/HillTraining'
 
 const BASELINES = ['Your usual', 'None'] as const
 const EACH = [1, 10] as const
