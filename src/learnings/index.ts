@@ -26,6 +26,7 @@ export const learningPages: LearningPage[] = [
   { slug: 'tracking-change', load: () => import('./tracking-change') },
   { slug: 'optimistic-initial-values', load: () => import('./optimistic-initial-values') },
   { slug: 'upper-confidence-bound', load: () => import('./upper-confidence-bound') },
+  { slug: 'regret', load: () => import('./regret') },
   { slug: 'gradient-bandits', load: () => import('./gradient-bandits') },
   { slug: 'contextual-bandits', load: () => import('./contextual-bandits') },
   { slug: 'markov-property', load: () => import('./markov-property') },
@@ -33,6 +34,9 @@ export const learningPages: LearningPage[] = [
   { slug: 'discounting', load: () => import('./discounting') },
   { slug: 'bellman-equation', load: () => import('./bellman-equation') },
   { slug: 'optimal-policies', load: () => import('./optimal-policies') },
+  { slug: 'policy-evaluation', load: () => import('./policy-evaluation') },
+  { slug: 'policy-iteration', load: () => import('./policy-iteration') },
+  { slug: 'value-iteration', load: () => import('./value-iteration') },
 ]
 
 export const findLearningPage = (slug: string | undefined) => learningPages.find((page) => page.slug === slug)
