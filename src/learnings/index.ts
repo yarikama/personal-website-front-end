@@ -18,6 +18,7 @@ export const learningPages: LearningPage[] = [
   { slug: 'tail-latency-amplification', load: () => import('./tail-latency-amplification') },
   { slug: 'scaling-up-and-out', load: () => import('./scaling-up-and-out') },
   { slug: 'maintainability', load: () => import('./maintainability') },
+  { slug: 'greedy-choice', load: () => import('./greedy-choice') },
   { slug: 'learning-from-reward', load: () => import('./learning-from-reward') },
   { slug: 'exploration-and-exploitation', load: () => import('./exploration-and-exploitation') },
   { slug: 'reward-and-value', load: () => import('./reward-and-value') },
