@@ -170,9 +170,8 @@ export default function TemporalDifferenceLearning() {
       <h2>Making it work</h2>
       <ul>
         <li>
-          <strong>Pick the step with care.</strong> A big step lets one lucky game swing a guess; a small one is
-          steadier but takes longer to get there. Shrinking the step over time lets the guesses settle on the true
-          chances of winning.
+          <strong>Pick the step with care.</strong> How big to make it is the trade-off of{' '}
+          <Link to="/learnings/tracking-change">When the world changes</Link>.
         </li>
         <li>
           <strong>Keep exploring.</strong> Positions the learner never visits never get better guesses, so a few

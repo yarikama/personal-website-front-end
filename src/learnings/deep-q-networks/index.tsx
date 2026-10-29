@@ -190,8 +190,8 @@ export default function DeepQNetworks() {
         With no far-shore drives, even the copy ran away: each refresh carried the pier’s error into the target, and
         nothing pulled the far shore back. Three things were at work together. <strong>A rule shared between
         places</strong>, so fixing one moves another. <strong>Targets built from your own guesses</strong> (this is
-        called bootstrapping). And <strong>data that isn’t the trips being judged</strong>, which is called
-        off-policy learning, and Q-learning always is. Sutton and Barto call the three the <em>deadly triad</em>: any
+        called bootstrapping). And <strong>data that isn’t the trips being judged</strong>, which is called{' '}
+        <Link to="/learnings/importance-sampling">off-policy learning</Link>, and Q-learning always is. Sutton and Barto call the three the <em>deadly triad</em>: any
         two are safe, all three can diverge. Replay and a target network make that rare in practice; they don’t rule
         it out.
       </p>

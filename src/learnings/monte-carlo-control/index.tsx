@@ -154,8 +154,9 @@ export default function MonteCarloControl() {
         start a real robot halfway through a fall.
       </p>
       <p>
-        <strong>ε-greedy</strong> play keeps the starts as they are and makes a random move a fraction ε of the time, so
-        every action always has some chance. With two moves and ε = {epsilon}:
+        <strong>ε-greedy</strong> play keeps the starts as they are and{' '}
+        <Link to="/learnings/exploration-and-exploitation">makes a random move a fraction ε of the time</Link>, so every
+        action always has some chance. With two moves and ε = {epsilon}:
       </p>
       <Numbers
         items={[

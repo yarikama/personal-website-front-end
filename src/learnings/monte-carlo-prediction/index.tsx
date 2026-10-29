@@ -156,12 +156,13 @@ export default function MonteCarloPrediction() {
         </li>
         <li>
           <strong>Visit everything, many times.</strong> Each state is its own little average. Start some episodes in
-          rarely visited states, or keep exploring, or those values stay rough however well their neighbours are known.
+          rarely visited states, or <Link to="/learnings/monte-carlo-control">keep exploring</Link>, or those values
+          stay rough however well their neighbours are known.
         </li>
         <li>
-          <strong>To choose, average per move.</strong> With no model, a state’s value can’t tell you which move to
-          make, since you can’t see where a move leads. Average the return after each move in each state instead,
-          Q(s, a). Then every pair, not just every state, needs its own visits.
+          <strong>To choose, average per move.</strong> Choosing with no model takes an average for each move in each
+          state, Q(s, a), for the reason on <Link to="/learnings/monte-carlo-control">Average, switch, and keep
+          trying</Link>; then every pair needs its own visits.
         </li>
       </ul>
 

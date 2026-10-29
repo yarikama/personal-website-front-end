@@ -199,7 +199,8 @@ export default function Reinforce() {
       </Figure>
       <p>
         Why can the usual go in without moving the average? It doesn’t depend on which turn you took, and ∇ log π
-        averages to zero over the turns you might take: the same reason as on the bandit page. Any baseline that
+        averages to zero over the turns you might take: the same reason as on{' '}
+        <Link to="/learnings/gradient-bandits">the bandit page</Link>. Any baseline that
         ignores the action is fair. The best ones follow how good a lunch you can expect from the fork you’re at,
         v(s), which is where the next page picks up.
       </p>

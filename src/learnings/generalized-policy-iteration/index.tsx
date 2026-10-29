@@ -279,7 +279,8 @@ export default function GeneralizedPolicyIteration() {
         </li>
         <li>
           <strong>Keep touching every state.</strong> A state that judging never visits keeps a stale number, and
-          improving trusts it. Planning sweeps every state; a learner has to keep exploring for the same reason.
+          improving trusts it. Planning sweeps every state; a learner has to{' '}
+          <Link to="/learnings/monte-carlo-control">keep exploring</Link> for the same reason.
         </li>
         <li>
           <strong>Stop on both.</strong> Check that the values have stopped moving <em>and</em> that no move would switch.
@@ -289,18 +290,18 @@ export default function GeneralizedPolicyIteration() {
 
       <Predict
         kicker="Check yourself"
-        question="A delivery app, every night, re-estimates how long each road takes under its current routes, and every morning sends drivers down whatever looks fastest by those estimates. A new road opened with a cautious guess of an hour, and no driver has been sent down it since. What can happen?"
+        question="A warehouse robot plans its picking rule on the fly: it updates the value of one shelf, then at once switches that shelf to whichever pick looks best, then moves on to another shelf, round and round every shelf. After a while no value changes and no shelf would switch. Is its rule the best?"
         options={[
-          { label: 'Nothing: it ends on the best routes' },
-          { label: 'It can settle on routes that aren’t the fastest', right: true },
-          { label: 'It never settles' },
-          { label: 'It finds the best routes, only slower' },
+          { label: 'Not unless it judged each rule to the end' },
+          { label: 'Yes, it’s the best rule', right: true },
+          { label: 'Can’t tell: so fine a grain can rest on a worse rule' },
+          { label: 'Only if it started from a good rule' },
         ]}
         reveal={
           <>
-            It can settle short of the best. Judging only ever updates roads that drivers use, so the new road keeps its
-            hour, and improving never picks it. Both jobs come to rest, but on numbers that were never checked. Sending a
-            driver down it now and then, exploring, is what lets judging reach every state.
+            Yes. The grain only changes the road there. Values that no longer move fit the rule, and a rule that no
+            longer switches is the best move by those values; with both true at once, the optimality equation holds,
+            and nothing beats the rule.
           </>
         }
       />

@@ -7,7 +7,6 @@ import {
   evaluate,
   MOVES,
   run,
-  sweeps,
   uniform,
   type Policy,
   type Visit,
@@ -41,11 +40,6 @@ export function worth(gamma: number = GAMMA): number[] {
   }
   return values
 }
-
-// The passes of the equation from all zeros: each square becomes the
-// average of its four moves, given the last pass's numbers. They stop
-// once no square moves by a thousandth, and end on the exact answer.
-export const PASSES = [...sweeps(WORLD, GAMMA, FAIR, 0.001).slice(0, -1), worth()]
 
 export interface Branch {
   move: (typeof MOVES)[number]

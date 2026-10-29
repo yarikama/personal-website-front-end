@@ -197,9 +197,9 @@ export default function AsynchronousDynamicProgramming() {
       <p>
         Does it still end on the right numbers? With discounting, yes, provided no state is left out for ever: each
         must keep coming up, however rarely. Without discounting, as here, a few odd orders can fail, but they are easy
-        to avoid. The walker gets away with skipping most of the city because its guesses are
-        never gloomier than the truth: a corner left alone can only look better than it is, so if it were on a shorter
-        way, the numbers would send a walk there to find out.
+        to avoid. The walker can skip most of the city only because its guesses are never gloomier than the truth. Start
+        hopeful if you will skip; <Link to="/learnings/optimistic-initial-values">Optimism explores</Link> shows why
+        that works.
       </p>
 
       <h2>Walk by walk</h2>
@@ -260,10 +260,6 @@ export default function AsynchronousDynamicProgramming() {
           <strong>Order them so news travels.</strong> A backup is wasted if nothing it reads has changed. Working back
           from where the rewards are moves information furthest per backup; a later page,{' '}
           <em>prioritized sweeping</em>, picks states by how much their values are about to move.
-        </li>
-        <li>
-          <strong>Start hopeful if you will skip.</strong> Guesses that are never worse than the truth make leaving
-          states alone safe: a skipped state that mattered would look good enough to visit.
         </li>
         <li>
           <strong>Don’t starve the states you need.</strong> Values everywhere need backups everywhere, again and again.

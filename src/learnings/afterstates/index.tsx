@@ -128,9 +128,9 @@ export default function Afterstates() {
 
       <h2>Score where your move leaves you</h2>
       <p>
-        On <Link to="/learnings/sarsa">Learning the way by walking it</Link>, a score for each corner wasn’t enough:
-        without a map you couldn’t tell where each way out would take you, so you kept a score for every way out of
-        every corner instead. At the stall you have half a map. The day is a mystery, but where your choice leaves the
+        On <Link to="/learnings/monte-carlo-control">Average, switch, and keep trying</Link>, a score for each square
+        wasn’t enough: without the rules you couldn’t tell where each move would take you, so you kept a score for every
+        move on every square instead. At the stall you know half the rules. The day is a mystery, but where your choice leaves the
         fridge is plain arithmetic. So split each step in two, the part you know and the part you don’t, and learn only
         the second.
       </p>
@@ -169,8 +169,8 @@ export default function Afterstates() {
       <p>
         Here are {RUNS} stallholders of each kind, {DAYS} days each. Both stock a random amount one day in ten, and both
         learn the same way, toward the day’s losses plus the best score on offer tomorrow, as{' '}
-        <Link to="/learnings/q-learning">Q-learning</Link> does. Every score starts at 0, which is hopeful when a day can
-        only lose bottles, so each untried amount gets its turn.
+        <Link to="/learnings/q-learning">Q-learning</Link> does. Every score starts at 0, which is{' '}
+        <Link to="/learnings/optimistic-initial-values">hopeful</Link> when a day can only lose bottles, so each untried amount gets its turn.
       </p>
       <Figure
         readable

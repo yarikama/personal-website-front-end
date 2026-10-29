@@ -11,7 +11,6 @@ import {
   MOVES,
   optimal,
   run,
-  sweeps,
   uniform,
   type Visit,
 } from '../../components/explain/mdp'
@@ -47,9 +46,6 @@ export const spinnerA = () => evaluate(WORLD, uniform(WORLD), GAMMA)[SQUARE.a]
 
 // The best moves from every square, one step ahead on v*: ties all kept
 export const bestMoves = (gamma: number = GAMMA) => greedy(WORLD, best(gamma), gamma)
-
-// The passes of the optimality equation from all zeros, ending on v*
-export const PASSES = [...sweeps(WORLD, GAMMA, 'best', 0.001).slice(0, -1), best()]
 
 export interface Option {
   move: (typeof MOVES)[number]
