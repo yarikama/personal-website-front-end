@@ -33,6 +33,8 @@ export const learningPages: LearningPage[] = [
   { slug: 'discounting', load: () => import('./discounting') },
   { slug: 'bellman-equation', load: () => import('./bellman-equation') },
   { slug: 'optimal-policies', load: () => import('./optimal-policies') },
+  { slug: 'reinforce', load: () => import('./reinforce') },
+  { slug: 'actor-critic', load: () => import('./actor-critic') },
 ]
 
 export const findLearningPage = (slug: string | undefined) => learningPages.find((page) => page.slug === slug)
