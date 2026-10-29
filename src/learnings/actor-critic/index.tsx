@@ -71,7 +71,7 @@ export default function ActorCritic() {
         {
           title: 'COMP 442/552: Reinforcement Learning',
           by: 'Vaibhav Unhelkar, Rice University, Fall 2026',
-          part: 'Lecture “Hybrid (Value and Policy-based) Bandit Algorithms”',
+          part: 'Lectures “Hybrid (Value and Policy-based) Bandit Algorithms” and “Actor-Critic Methods”',
         },
       ]}
     >
@@ -176,7 +176,8 @@ export default function ActorCritic() {
         With more than one step, the critic scores places instead of options. The verdict on a move is{' '}
         <strong>what it paid + what you now expect − what you expected before</strong>: δ = r + γV(s′) − V(s), with γ
         the <Link to="/learnings/discounting">discount</Link> (1 on a four-turn walk). It stands in for REINFORCE’s
-        return minus baseline, and both halves learn from it.
+        return minus baseline, and both halves learn from it. Since V(s) is what you expect from here whatever you do,
+        δ guesses how much better this move did than that: its <em>advantage</em>, Q(s, a) − V(s).
       </p>
       <Clip
         src="actor-critic/return-to-td-error"
@@ -258,7 +259,7 @@ export default function ActorCritic() {
         </li>
         <li>
           <strong>Mix and match the halves.</strong> The critic can score actions instead of places, and the actor
-          can be a network that names one action outright: that is <Link to="/learnings/ddpg">DDPG</Link>, next.
+          can be a network that names one action outright: that is <Link to="/learnings/ddpg">DDPG</Link>.
         </li>
       </ul>
 
