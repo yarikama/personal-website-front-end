@@ -197,8 +197,9 @@ export default function GradientBandits() {
       <p>
         So the baseline never changes where the learner heads, only how noisy the way is. Without it, rewards near 4
         make every step a big push that is right only on average; subtract the usual and what’s left is the news. Later
-        in the book this grows into <em>policy-gradient</em> methods, which learn the chances directly, and{' '}
-        <em>actor–critic</em> methods, which learn the baseline as well.
+        in the book this grows into <Link to="/learnings/reinforce">policy-gradient</Link> methods, which learn the
+        chances directly, and <Link to="/learnings/actor-critic">actor–critic</Link> methods, which learn the baseline
+        as well.
       </p>
 
       <h2>Putting it to work</h2>

@@ -211,18 +211,19 @@ export default function Regret() {
 
       <Predict
         kicker="Quick check"
-        question="With every estimate starting at −5, pure greedy never recovers. Why?"
+        question="On the testbed, both ε = 0.1 and fading ε know their arms well after a few hundred pulls, yet only fading ε’s regret bends over. Why?"
         options={[
-          { label: 'Its estimates never settle' },
-          { label: 'The first arm it tries beats −5, so it never tries another', right: true },
-          { label: 'At −5 it explores for ever' },
-          { label: 'Its rewards are below −5' },
+          { label: 'Its estimates are more accurate' },
+          { label: 'It pulls worse arms less and less often', right: true },
+          { label: 'It stops pulling worse arms altogether' },
+          { label: 'It found the best arm sooner' },
         ]}
         reveal={
           <>
-            Every arm pays far more than −5, so whichever arm greedy happens to pull first now looks better than every
-            untried one, which still say −5. It never pulls another, and never learns otherwise. Random exploring
-            eventually tries the rest; UCB tries each arm once before trusting any estimate.
+            Regret is gap times pulls, so knowing the arms doesn’t lower it; pulling the worse ones less does. At pull
+            100, 10/t still explores 1 time in 10; by pull 1,000, 1 time in 100. Each stretch of pulls adds less regret
+            than the one before, while ε = 0.1 adds the same every stretch. Fading ε never stops exploring; it just
+            does so ever more rarely.
           </>
         }
       />

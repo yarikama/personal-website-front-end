@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { evaluate, greedyPolicy } from '../../components/explain/mdp'
-import { best, bestMoves, headsForB, loop, options, PASSES, signed, spinnerA, SQUARE, story, WORLD } from './model'
+import { best, bestMoves, headsForB, loop, options, signed, spinnerA, SQUARE, story, WORLD } from './model'
 
 describe('the best play on the board', () => {
   it('values A at 24.4, as 10 every five turns, and A′ at 16.0', () => {
@@ -35,12 +35,6 @@ describe('the best play on the board', () => {
     expect(headsForB(0.99).length).toBe(1)
     expect(headsForB(0.5).length).toBe(9)
     expect(headsForB(0.5).every((s) => WORLD.cell(s).x >= 3)).toBe(true)
-  })
-
-  it('settles in passes, ending on v*', () => {
-    expect(PASSES[0].every((v) => v === 0)).toBe(true)
-    PASSES.at(-1)!.forEach((v, s) => expect(v).toBe(best()[s]))
-    expect(PASSES.length).toBeLessThan(150)
   })
 
   it('draws two arrows where two moves tie, as in the bottom-left corner', () => {

@@ -111,7 +111,8 @@ export default function LearningFromReward() {
       />
       <p>
         Notice what the agent is after: the <em>total</em> of the rewards, over the whole run. A move that scores
-        nothing now can still be the best move, if it sets up rewards later.
+        nothing now can still be the best move, if it sets up rewards later: the difference between{' '}
+        <Link to="/learnings/reward-and-value">reward and value</Link>.
       </p>
 
       <Predict
@@ -136,7 +137,8 @@ export default function LearningFromReward() {
       <ul>
         <li>
           <strong>Nobody tells you the right action.</strong> You only learn what a flick is worth by making it, so
-          you have to try things, including ones that may go badly.
+          you have to <Link to="/learnings/exploration-and-exploitation">try things</Link>, including ones that may
+          go badly.
         </li>
         <li>
           <strong>Your actions change what you see next.</strong> The pancake you face depends on your last flick.
@@ -144,24 +146,25 @@ export default function LearningFromReward() {
         </li>
         <li>
           <strong>Consequences can arrive late.</strong> In chess, the move that lost the game may have come thirty
-          moves before the end. The reward shows up long after the action that earned it.
+          moves before the end. The reward shows up long after the action that earned it; sharing out the credit
+          is <Link to="/learnings/learning-from-every-move">Learning from every move</Link>.
         </li>
       </ul>
 
       <Predict
         kicker="Check yourself"
-        question="A chess program plays a 40-move game and is told only “lost” at the end. Which move gets the blame?"
+        question="A bookshop’s website learns from clicks. For a month it shows only cookbooks on its front page, and they get plenty of clicks. What can it conclude?"
         options={[
-          { label: 'The last move' },
-          { label: 'The first move' },
-          { label: 'Every move equally' },
-          { label: 'It has to work out which moves mattered', right: true },
+          { label: 'Cookbooks are what its readers like best' },
+          { label: 'Nothing yet about the books it never showed', right: true },
+          { label: 'Clicks are the wrong score for a bookshop' },
+          { label: 'A month is too short to count clicks' },
         ]}
         reveal={
           <>
-            The score arrived once, at the end, for 40 moves. Most were probably fine; one or two lost it. Working
-            out which is the hardest part of learning from reward, and the idea that cracks it, judging a position by
-            the rewards likely to follow, is <Link to="/learnings/reward-and-value">reward versus value</Link>.
+            Its scores are only for what it chose to show. Novels might have done better, but no click could ever
+            land on one. A labelled dataset holds every answer whatever you guess; a learner from reward sees only how
+            its own choices went, so what it does decides what it gets to learn.
           </>
         }
       />

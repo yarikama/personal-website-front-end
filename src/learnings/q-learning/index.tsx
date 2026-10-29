@@ -145,11 +145,10 @@ export default function QLearning() {
 
       <h2>Following one habit, learning another</h2>
       <p>
-        The habit you act by, random steps and all, is the <strong>behaviour policy</strong>. The habit whose values
-        you’re learning is the <strong>target policy</strong>. In Sarsa they are the same habit: on-policy. In
-        Q-learning they differ: the target is the greedy habit, always the best-scored way, while the behaviour keeps
-        exploring. That split is what lets an off-policy learner learn from experience it didn’t choose: old walks,
-        another person’s walks, a log of what some earlier program did.
+        In Sarsa, the habit you act by and the habit you score are one and the same: on-policy. In Q-learning they
+        differ: the scores belong to the greedy habit, always the best-scored way, while the walking keeps exploring.
+        Those are the <Link to="/learnings/importance-sampling">target and behaviour policies</Link>, met with whole
+        trips before.
       </p>
 
       <h2>Both, on average</h2>
@@ -195,8 +194,9 @@ export default function QLearning() {
           clear it.
         </li>
         <li>
-          <strong>Learn from anyone’s experience.</strong> Off-policy learning can reuse old walks, logs, or a person
-          showing the way, as long as every way is tried often enough.
+          <strong>Learn from anyone’s experience.</strong> Being off-policy, it can reuse{' '}
+          <Link to="/learnings/importance-sampling">walks it didn’t choose</Link>, as long as every way is tried often
+          enough.
         </li>
         <li>
           <strong>Watch the max.</strong> Taking the best of several scores that are still noisy tends to pick one

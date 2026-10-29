@@ -121,7 +121,8 @@ export default function RewardAndValue() {
 
       <p>
         The last line of the clip is the one to keep: <strong>the value here is the next reward plus the value of
-        where you land</strong>. So an agent doesn’t have to wait until the end to learn what a place is worth; it can
+        where you land</strong>, the seed of{' '}
+        <Link to="/learnings/bellman-equation">A square is worth its neighbours</Link>. So an agent doesn’t have to wait until the end to learn what a place is worth; it can
         check one step at a time. That is the trick behind{' '}
         <Link to="/learnings/temporal-difference-learning">temporal-difference learning</Link>.
       </p>

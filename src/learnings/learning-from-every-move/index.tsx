@@ -150,7 +150,8 @@ export default function LearningFromEveryMove() {
         </li>
         <li>
           <strong>In between: policy gradient methods.</strong> They also tune a strategy directly, but adjust it while it
-          plays, using each step rather than only how the game ended.
+          plays, using each step rather than only how the game ended, as in{' '}
+          <Link to="/learnings/actor-critic">A critic at every step</Link>.
         </li>
       </ul>
 

@@ -5,11 +5,10 @@ import Board from '../../components/explain/Board'
 import { Clip } from '../../components/explain/Clip'
 import { Choice, Controls, Figure, Numbers } from '../../components/explain/figure'
 import { Predict } from '../../components/explain/Predict'
-import Settle from '../../components/explain/Settle'
 import { Steps } from '../../components/explain/Steps'
 import Walk from '../../components/explain/Walk'
 import Best from './Best'
-import { best, bestMoves, GAMMA, GAMMAS, headsForB, loop, PASSES, signed, SIZES, spinnerA, SQUARE, story, WORLD } from './model'
+import { best, bestMoves, GAMMA, GAMMAS, headsForB, loop, signed, SIZES, spinnerA, SQUARE, story, WORLD } from './model'
 
 export default function OptimalPolicies() {
   const visits = useMemo(() => story(), [])
@@ -72,7 +71,11 @@ export default function OptimalPolicies() {
           </>,
           <>
             Every square gets its best worth the same way: the reward of its best move, plus 0.9 of the best worth of
-            where that move lands. Start at 0 and repeat until nothing changes.
+            where that move lands. Working the numbers out is{' '}
+            <Link to="/learnings/value-iteration" className="text-sage hover:underline">
+              Improve as you go
+            </Link>
+            .
           </>,
           <>
             With those numbers, choosing is easy. From any square, compare the four moves one step ahead, and take the
@@ -92,16 +95,14 @@ export default function OptimalPolicies() {
             <Walk key="back" world={WORLD} visits={visits} from={0} to={5} jumps says="you go" />
           ) : step === 2 ? (
             <Walk key="round" world={WORLD} visits={visits} from={5} to={15} jumps says="you go" pace={600} />
-          ) : step === 3 ? (
-            <Settle key="settle" world={WORLD} passes={PASSES} pace={60} label="Every square’s best worth, settling pass by pass" />
           ) : (
             <Board
-              key={step === 4 ? 'arrows' : 'named'}
+              key={step === 3 ? 'best' : step === 4 ? 'arrows' : 'named'}
               world={WORLD}
-              label="Every square’s best worth, with arrows for the best moves"
+              label={step === 3 ? 'Every square’s best worth' : 'Every square’s best worth, with arrows for the best moves'}
               values={values}
               shade
-              arrows={bestMoves()}
+              arrows={step === 3 ? null : bestMoves()}
             />
           )
         }

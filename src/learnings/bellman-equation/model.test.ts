@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { evaluate } from '../../components/explain/mdp'
-import { average, branches, firstBump, firstJump, PASSES, signed, SQUARE, story, towardA, WORLD, worth } from './model'
+import { average, branches, firstBump, firstJump, signed, SQUARE, story, towardA, WORLD, worth } from './model'
 
 describe('the board with a fair spinner', () => {
   it('values A, A′, B and B′ as the page says', () => {
@@ -23,13 +23,6 @@ describe('the board with a fair spinner', () => {
     expect(moves.map((m) => signed(m.total))).toEqual(['−0.4', '−1.1', '−2.2', '−1.7'])
     // South runs into the edge
     expect(moves[2].stay).toBe(true)
-  })
-
-  it('settles in passes, ending close to the answer', () => {
-    const last = PASSES.at(-1)!
-    worth().forEach((value, s) => expect(signed(last[s])).toBe(signed(value)))
-    expect(PASSES.length).toBeGreaterThan(20)
-    expect(PASSES.length).toBeLessThan(120)
   })
 
   it('raises A′ when the spinner leans towards A, as the last check says', () => {

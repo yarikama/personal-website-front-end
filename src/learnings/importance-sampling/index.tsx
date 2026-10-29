@@ -130,9 +130,8 @@ export default function ImportanceSampling() {
       </Steps>
 
       <p>
-        If you have met <Link to="/learnings/q-learning">Q-learning</Link>, the names are familiar: acting by one habit
-        while learning about another is <em>off-policy</em> learning. Here it is with whole trips, the way{' '}
-        <Link to="/learnings/monte-carlo-prediction">Monte Carlo</Link> learns, instead of one step at a time.
+        Acting by one habit while learning about another is called <em>off-policy</em> learning. Here it is done
+        with whole trips, the way <Link to="/learnings/monte-carlo-prediction">Monte Carlo</Link> learns.
       </p>
 
       <h2>The one line of math</h2>

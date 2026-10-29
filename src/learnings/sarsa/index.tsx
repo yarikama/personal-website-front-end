@@ -34,7 +34,7 @@ export default function Sarsa() {
     <Article
       kicker="Reinforcement learning · Learning to act"
       title="Learning the way by walking it"
-      promise="With no map, how do you learn the best way to go, and when should you start acting on what you’ve learned?"
+      promise="With no map, how do you learn the best way to go, one block at a time?"
       takeaway={
         <>
           Keep a score for every way out of every place, nudge it after each step toward what the step cost plus the
@@ -46,7 +46,7 @@ export default function Sarsa() {
         {
           title: 'Reinforcement Learning: An Introduction',
           by: 'Richard S. Sutton and Andrew G. Barto, 2nd edition',
-          part: 'Chapter 6, “Temporal-Difference Learning”, §6.4 “Sarsa: On-policy TD Control” and §6.6 “Expected Sarsa”; Chapter 4, §4.6 “Generalized Policy Iteration”',
+          part: 'Chapter 6, “Temporal-Difference Learning”, §6.4 “Sarsa: On-policy TD Control” and §6.6 “Expected Sarsa”',
           url: 'http://incompleteideas.net/book/the-book-2nd.html',
         },
         {
@@ -62,19 +62,19 @@ export default function Sarsa() {
       ]}
     >
       <Predict
-        question="Every morning you walk to the station in a new town, with no map, scoring each way out of each corner by how it went. How long should you keep one fixed way of choosing before you switch to using the new scores?"
+        question="Every morning you walk to the station in a new town, with no map, keeping a score for each way out of each corner. After a block, you nudge that way’s score toward the minute it cost plus a score for what comes next. At the next corner the best way scores −3, but this morning you turn at random, down a way scored −9. Which score goes into the nudge?"
         options={[
-          { label: 'A month, to judge it fairly' },
-          { label: 'Until the scores settle' },
-          { label: 'One morning' },
-          { label: 'Not at all: use each new score at the next corner', right: true },
+          { label: '−3, the best way from that corner' },
+          { label: '−9, the way you really take', right: true },
+          { label: 'Neither yet: wait until you reach the station' },
+          { label: 'Whichever way you took there yesterday' },
         ]}
         reveal={
           <>
-            Not at all. With a map, you could work out exactly what one fixed habit is worth, then improve it, then work
-            the new one out again. Learning from experience can do a sliver of both at every step: one score gets
-            corrected, and the very next choice already uses it. The choices and the scores improve together, and still
-            end up at the best way.
+            −9. These scores are meant to describe the walking you really do, random turns and all, so the nudge counts
+            the way you actually take next. One random turn drags the score down a little; over many mornings, such
+            turns weigh in exactly as often as they happen. Counting the best way instead, whatever you then do, is a
+            different method, <Link to="/learnings/q-learning">Q-learning</Link>.
           </>
         }
       />
@@ -113,13 +113,9 @@ export default function Sarsa() {
         {(step) => <Mornings key={step} step={step} training={training} zoom={zoom} shortest={shortest} />}
       </Steps>
 
-      <h2>Why a score for every way</h2>
       <p>
-        On <Link to="/learnings/optimal-policies">The best from here</Link>, a score for each place was enough to
-        choose by, as long as you could look one step ahead: you knew where every move would land. Without a map you
-        don’t. A corner’s score can’t tell you which way out leads to the better corner. A score for each way can, as it
-        already counts where that way goes. So learning without a model keeps Q(s, a), one number per state and action,
-        and the best way out is simply the one with the highest number.
+        A score for each way, not each corner, is what lets you choose with no map, for the reason given on{' '}
+        <Link to="/learnings/monte-carlo-control">Average, switch, and keep trying</Link>.
       </p>
 
       <h2>The one line of math</h2>
@@ -154,20 +150,17 @@ export default function Sarsa() {
         more is exactly the {Math.abs(OLD)} you expected, so nothing moves.
       </p>
 
-      <h2>Score a little, improve a little</h2>
+      <h2>Choosing while you learn</h2>
       <p>
-        With a map, finding the best habit takes two big jobs, done in turn: work out what your current habit is worth
-        everywhere, then switch to the best choices by those values, and repeat until nothing changes. Sarsa does both
-        jobs a sliver at a time. Each step corrects one score, and the next choice already follows the corrected scores.
-        The scores chase the habit and the habit chases the scores, and together they settle on the best. This pattern
-        is called <strong>generalized policy iteration</strong>, and almost every method in reinforcement learning is a
-        version of it.
+        Each corrected score is used at the very next corner, so judging the habit and improving it take turns step by
+        step: <Link to="/learnings/generalized-policy-iteration">generalized policy iteration</Link> at its finest grain.
       </p>
       <p>
         One catch: if you always took the best-scored way, you would stop trying the others, and a way that went badly
         once would never get another chance. So the choosing stays{' '}
         <Link to="/learnings/exploration-and-exploitation">mostly greedy, sometimes random</Link>. Because Sarsa scores
-        the ways you really take, random turns included, its scores describe that exploring habit. Usually that hardly
+        the ways you really take, random turns included, its scores describe that exploring habit, as the averages did
+        on <Link to="/learnings/monte-carlo-control">Average, switch, and keep trying</Link>. Usually that hardly
         matters; on the next page it decides the route.
       </p>
 
@@ -193,18 +186,19 @@ export default function Sarsa() {
 
       <Predict
         kicker="Quick check"
-        question="Without a map, why keep a score for each way out of a corner, instead of one score for each corner?"
+        question="A delivery robot learns its routes with Sarsa, turning at random now and then. Its scores swing: the same turn’s score goes up one evening and down the next, depending on which way the robot happened to pick after it. What steadies them without changing what they aim at?"
         options={[
-          { label: 'Ways are fewer than corners' },
-          { label: 'A corner’s score can’t pick a way without knowing where each way leads', right: true },
-          { label: 'Corner scores never settle' },
-          { label: 'It explores more' },
+          { label: 'Aim at the best next score instead' },
+          { label: 'Aim at the next scores, averaged by how likely the robot is to pick each', right: true },
+          { label: 'Never turn at random' },
+          { label: 'Take bigger steps' },
         ]}
         reveal={
           <>
-            To choose a way by corner scores, you’d compare the corners each way leads to, and knowing where ways lead
-            is the map you don’t have. A way’s own score has already counted where it goes, so the best way is just the
-            highest number.
+            Average them, as Expected Sarsa does. The swing is the luck of one random pick, and the weighted average is
+            what that pick comes to on average, so the target stays put with the luck taken out. The best next score
+            aims at a different habit, one that never turns at random; never turning stops the other ways being tried;
+            and bigger steps only make each swing bigger.
           </>
         }
       />
@@ -212,14 +206,14 @@ export default function Sarsa() {
       <h2>Making it work</h2>
       <ul>
         <li>
-          <strong>Scores of 0 are optimistic when every step costs.</strong> A way you have tried has gone negative, so
+          <strong>Scores of 0 are <Link to="/learnings/optimistic-initial-values">optimistic</Link> when every step costs.</strong> A way you have tried has gone negative, so
           the untried ones look better and get tried. That is why the second morning in the town can be even longer
           than the first.
         </li>
         <li>
           <strong>Explore less as you learn.</strong> Random turns found the shortest way, and then kept costing
-          minutes: in the story’s last ten mornings, one still took {worst}. Turning at random less and less often lets
-          the habit settle on the truly best way.
+          minutes: in the story’s last ten mornings, one still took {worst}. Turn them down slowly, as on{' '}
+          <Link to="/learnings/monte-carlo-control">Average, switch, and keep trying</Link>.
         </li>
         <li>
           <strong>Learn during the walk, not after it.</strong> Because Sarsa updates after every step, a walk going

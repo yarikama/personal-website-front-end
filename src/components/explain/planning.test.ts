@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { greedy, solve, SPOTS, state, steps, sweep } from './ladders'
-import { agree, best, bestValues, judged, JUDGE, options, ROUNDS } from './planning'
+import { agree, best, bestValues, generalized, options, ROUNDS } from './planning'
 
 describe('policy iteration', () => {
   it('switches the squares below ladders, then the ones below those, then stops: 4 rounds', () => {
@@ -38,13 +38,13 @@ describe('policy iteration', () => {
   })
 
   it('reaches the same best play however few sweeps judge between improvements', () => {
-    for (const judge of JUDGE) {
-      const run = judged(judge)
+    for (const judge of [1, 3, 'settled'] as const) {
+      const run = generalized(judge)
       expect(agree(run.plan, best())).toBe(true)
       expect(run.points.at(-1)!.start).toBeCloseTo(bestValues()[state(1)], 2)
     }
-    const settled = judged('settled')
+    const settled = generalized('settled')
     expect(settled.sweeps).toBe(ROUNDS().reduce((sum, round) => sum + round.passes.length - 1, 0))
-    expect(judged(3).sweeps).toBeLessThan(settled.sweeps / 3)
+    expect(generalized(3).sweeps).toBeLessThan(settled.sweeps / 3)
   })
 })
