@@ -33,6 +33,9 @@ export const learningPages: LearningPage[] = [
   { slug: 'discounting', load: () => import('./discounting') },
   { slug: 'bellman-equation', load: () => import('./bellman-equation') },
   { slug: 'optimal-policies', load: () => import('./optimal-policies') },
+  { slug: 'sarsa', load: () => import('./sarsa') },
+  { slug: 'q-learning', load: () => import('./q-learning') },
+  { slug: 'maximization-bias', load: () => import('./maximization-bias') },
 ]
 
 export const findLearningPage = (slug: string | undefined) => learningPages.find((page) => page.slug === slug)
