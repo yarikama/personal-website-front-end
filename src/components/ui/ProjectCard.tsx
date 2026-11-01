@@ -1,12 +1,14 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import ResponsiveImage from './ResponsiveImage'
-import { ArrowUpRight } from 'lucide-react'
+import { ArrowRight, ArrowUpRight } from 'lucide-react'
 import MagazineLine from './MagazineLine'
 import { descriptionBlocks } from '../../lib/descriptionBlocks'
 
 // Base project type that works with both API and local data
 interface ProjectCardData {
   id: string
+  slug?: string
   title: string
   description: string
   tags: string[]
@@ -20,9 +22,13 @@ interface ProjectCardProps {
   project: ProjectCardData
   index: number
   featured?: boolean
+  // Its story is written: say so on the card, not only by the link
+  story?: boolean
 }
 
-export default function ProjectCard({ project, index, featured = false }: ProjectCardProps) {
+export default function ProjectCard({ project, index, featured = false, story = false }: ProjectCardProps) {
+  // Each project has a page of its own at /works/<slug>
+  const page = project.slug ? `/works/${project.slug}` : null
   const formattedIndex = String(index + 1).padStart(2, '0')
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [isHovering, setIsHovering] = useState(false)
@@ -76,7 +82,11 @@ export default function ProjectCard({ project, index, featured = false }: Projec
                 ${featured ? 'text-3xl md:text-4xl' : 'text-xl md:text-2xl'}
               `}
             >
-              {project.link ? (
+              {page ? (
+                <Link to={page} className="hover:underline underline-offset-4">
+                  {project.title}
+                </Link>
+              ) : project.link ? (
                 <a
                   href={project.link}
                   target="_blank"
@@ -91,7 +101,13 @@ export default function ProjectCard({ project, index, featured = false }: Projec
             </h3>
           </div>
 
-          <div className="text-zinc-faded text-sm md:text-base leading-relaxed mb-4 max-w-2xl space-y-2">
+          {/* With a page of its own, the card is a preview: the first lines
+              of the description, the rest on the page */}
+          <div
+            className={`text-zinc-faded text-sm md:text-base leading-relaxed mb-4 max-w-2xl space-y-2 ${
+              page ? 'line-clamp-3' : ''
+            }`}
+          >
             {descriptionBlocks(project.description).map((block, i) =>
               block.kind === 'list' ? (
                 <ul key={i} className="list-disc pl-5 space-y-1">
@@ -124,8 +140,16 @@ export default function ProjectCard({ project, index, featured = false }: Projec
 
           {/* Always shown, not only on hover: the ask chat's citations land
               on this card, and these are where to go from it. */}
-          {(project.github || (project.link && project.link !== project.github)) && (
+          {(page || project.github || (project.link && project.link !== project.github)) && (
             <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2">
+              {page && (
+                <Link
+                  to={page}
+                  className="inline-flex items-center gap-1 font-mono text-xs uppercase tracking-widest text-ink hover:text-sage transition-colors"
+                >
+                  {story ? 'Read the story' : 'Open'} <ArrowRight size={14} aria-hidden="true" />
+                </Link>
+              )}
               {project.github && (
                 <a
                   href={project.github}
@@ -150,7 +174,7 @@ export default function ProjectCard({ project, index, featured = false }: Projec
           )}
         </div>
 
-        {project.link && (
+        {!page && project.link && (
           <a
             href={project.link}
             target="_blank"

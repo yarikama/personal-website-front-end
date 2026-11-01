@@ -3,6 +3,7 @@ import Section from '../layout/Section'
 import ProjectCard from '../ui/ProjectCard'
 import MagazineLine from '../ui/MagazineLine'
 import { useFeaturedProjects } from '../../hooks'
+import { findCaseStudy } from '../../projects'
 import { Loader2 } from 'lucide-react'
 
 export default function BriefSelection() {
@@ -39,7 +40,7 @@ export default function BriefSelection() {
       ) : (
         <div className="space-y-16">
           {projects.map((project, index) => (
-            <ProjectCard key={project.id} project={project} index={index} featured />
+            <ProjectCard key={project.id} project={project} index={index} featured story={!!findCaseStudy(project.slug)} />
           ))}
         </div>
       )}
