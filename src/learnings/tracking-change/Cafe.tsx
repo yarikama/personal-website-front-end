@@ -78,7 +78,7 @@ export default function Cafe({ ratings, yours, hers, from, to, pace, friend = fa
 
   return (
     <div>
-      <div className="flex flex-wrap items-baseline justify-between gap-x-4 font-mono text-[0.8rem] uppercase tracking-widest">
+      <div className="flex flex-wrap items-baseline justify-between gap-x-4 font-mono text-[0.875rem] uppercase tracking-widest">
         <span className="shrink-0 text-zinc-faded">
           {reveal ? 'Step' : 'Visit'} {Math.max(1, shown)}
         </span>

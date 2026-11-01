@@ -119,7 +119,7 @@ export default function Curves({ c }: { c: number }) {
 
       <table className="mt-4 w-full text-left">
         <thead>
-          <tr className="font-mono text-[0.8rem] uppercase tracking-widest">
+          <tr className="font-mono text-[0.875rem] uppercase tracking-widest">
             <th className="w-2/5 pb-1 font-normal" />
             <th className="pb-1 font-normal text-sage">UCB, c = {c}</th>
             <th className="pb-1 font-normal normal-case text-ink">ε = {EPSILON}</th>
@@ -127,14 +127,14 @@ export default function Curves({ c }: { c: number }) {
         </thead>
         <tbody className="font-serif text-3xl font-light tabular-nums">
           <tr>
-            <th className="py-1 pr-2 align-middle font-mono text-[0.8rem] font-normal uppercase tracking-widest text-zinc-faded">
+            <th className="py-1 pr-2 align-middle font-mono text-[0.875rem] font-normal uppercase tracking-widest text-zinc-faded">
               Average reward
             </th>
             <td className="py-1 text-sage">{meanOf(ucb.reward).toFixed(2)}</td>
             <td className="py-1 text-ink">{meanOf(random.reward).toFixed(2)}</td>
           </tr>
           <tr>
-            <th className="py-1 pr-2 align-middle font-mono text-[0.8rem] font-normal uppercase tracking-widest text-zinc-faded">
+            <th className="py-1 pr-2 align-middle font-mono text-[0.875rem] font-normal uppercase tracking-widest text-zinc-faded">
               Best arm, last 100
             </th>
             <td className="py-1 text-sage">{percent(meanOf(ucb.best, 900))}</td>

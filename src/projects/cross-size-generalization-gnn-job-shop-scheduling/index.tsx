@@ -266,13 +266,13 @@ function Factorial() {
       <div className="grid grid-cols-[minmax(6rem,9rem)_1fr_1fr] gap-2 text-center">
         <span />
         {['Add', 'Average'].map((col) => (
-          <span key={col} className="font-mono text-[0.8rem] uppercase tracking-widest text-zinc-faded">
+          <span key={col} className="font-mono text-[0.875rem] uppercase tracking-widest text-zinc-faded">
             {col}
           </span>
         ))}
         {['Rival links kept', 'Hubs only'].map((row, r) => (
           <div key={row} className="contents">
-            <span className="flex items-center justify-end pr-2 text-right font-mono text-[0.75rem] uppercase tracking-widest text-zinc-faded">
+            <span className="flex items-center justify-end pr-2 text-right font-mono text-[0.8125rem] uppercase tracking-widest text-zinc-faded">
               {row}
             </span>
             {CELLS.filter((cell) => cell.row === row).map((cell, c) => {
@@ -290,7 +290,7 @@ function Factorial() {
                   <span className={`font-serif text-4xl font-light tabular-nums ${worst ? 'text-ink' : 'text-sage'}`}>
                     {cell.value.toFixed(1)}%
                   </span>
-                  <span className="mt-1 font-mono text-[0.7rem] uppercase tracking-widest text-zinc-400">
+                  <span className="mt-1 font-mono text-[0.8rem] uppercase tracking-widest text-zinc-400">
                     {worst ? 'neither fix' : cell.row === 'Hubs only' && cell.col === 'Average' ? 'both' : 'one fix'}
                   </span>
                 </motion.div>

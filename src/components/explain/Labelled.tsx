@@ -14,7 +14,7 @@ export default function Labelled({
 }) {
   return (
     <div>
-      <p className="flex min-h-[1.25rem] justify-between gap-4 font-mono text-[0.8rem] uppercase tracking-widest text-zinc-faded">
+      <p className="flex min-h-[1.25rem] justify-between gap-4 font-mono text-[0.875rem] uppercase tracking-widest text-zinc-faded">
         <span>{left}</span>
         <span>{right}</span>
       </p>

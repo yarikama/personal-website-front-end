@@ -79,7 +79,7 @@ export default function ProjectPage() {
             className="group mt-16 flex w-full items-center justify-between gap-4 border border-ink px-5 py-4 text-left transition-colors hover:bg-ink hover:text-paper"
           >
             <span className="flex flex-col gap-1">
-              <span className="font-mono text-[0.8rem] uppercase tracking-widest text-sage group-hover:text-paper">
+              <span className="font-mono text-[0.875rem] uppercase tracking-widest text-sage group-hover:text-paper">
                 Next project
               </span>
               <span className="font-serif text-2xl font-light leading-tight">{next.title}</span>

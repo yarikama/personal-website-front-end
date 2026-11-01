@@ -136,7 +136,7 @@ export function Compare({
   return (
     <table className="mt-4 w-full text-left">
       <thead>
-        <tr className="font-mono text-[0.8rem] uppercase tracking-widest">
+        <tr className="font-mono text-[0.875rem] uppercase tracking-widest">
           <th className="w-2/5 pb-1 font-normal" />
           {columns.map((column) => (
             <th key={column.label} className={`pb-1 font-normal ${column.tone === 'sage' ? 'text-sage' : 'text-ink'}`}>
@@ -148,7 +148,7 @@ export function Compare({
       <tbody className="font-serif text-3xl font-light tabular-nums">
         {rows.map((row) => (
           <tr key={row.label}>
-            <th className="py-1 pr-2 align-middle font-mono text-[0.8rem] font-normal uppercase tracking-widest text-zinc-faded">
+            <th className="py-1 pr-2 align-middle font-mono text-[0.875rem] font-normal uppercase tracking-widest text-zinc-faded">
               {row.label}
             </th>
             {row.shares.map((share, i) => (

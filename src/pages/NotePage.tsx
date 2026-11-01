@@ -80,7 +80,7 @@ export default function NotePage() {
               {note.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="font-mono text-[0.75rem] text-zinc-400 uppercase tracking-widest px-2 py-1 border border-zinc-200 dark:border-zinc-700"
+                  className="font-mono text-[0.8125rem] text-zinc-400 uppercase tracking-widest px-2 py-1 border border-zinc-200 dark:border-zinc-700"
                 >
                   {tag}
                 </span>

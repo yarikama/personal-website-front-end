@@ -284,7 +284,7 @@ export default function Contact() {
       </div>
 
       <div className="mt-16 text-center">
-        <p className="font-mono text-[0.8rem] text-zinc-400 uppercase tracking-widest">
+        <p className="font-mono text-[0.875rem] text-zinc-400 uppercase tracking-widest">
           Houston, TX / Open to opportunities
         </p>
       </div>

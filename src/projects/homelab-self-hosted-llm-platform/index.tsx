@@ -36,7 +36,6 @@ export default function Homelab({ project }: { project: Project }) {
         from your browser to the laptop and back.
       </p>
       <Steps
-        readable
         say={[
           <>You ask the site a question. Your browser sends it to api.yarikama.com.</>,
           <>

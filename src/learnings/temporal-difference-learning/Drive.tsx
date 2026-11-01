@@ -82,7 +82,7 @@ export function Drive({ step }: { step: number }) {
 
   return (
     <div>
-      <p className="font-mono text-[0.8rem] uppercase tracking-widest text-zinc-faded">{status}</p>
+      <p className="font-mono text-[0.875rem] uppercase tracking-widest text-zinc-faded">{status}</p>
       <svg viewBox={`0 0 ${WIDTH} ${HEIGHT}`} className="mx-auto mt-2 w-full max-w-[30rem]" role="img" aria-label={status}>
         {/* The road, and where you are on it */}
         <line x1={30} y1={ROAD} x2={430} y2={ROAD} className="stroke-zinc-300 dark:stroke-zinc-200/25" strokeWidth={10} />

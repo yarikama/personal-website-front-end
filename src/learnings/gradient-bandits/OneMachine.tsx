@@ -41,7 +41,7 @@ export default function OneMachine({ alpha, baseline }: { alpha: number; baselin
 
   return (
     <div>
-      <div className="flex items-baseline justify-between gap-4 font-mono text-[0.8rem] uppercase tracking-widest">
+      <div className="flex items-baseline justify-between gap-4 font-mono text-[0.875rem] uppercase tracking-widest">
         <span className="shrink-0 text-zinc-faded">
           Pull <span className="text-ink tabular-nums">{pulls}</span> of {PULLS}
         </span>

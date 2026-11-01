@@ -25,7 +25,7 @@ export default function LoadCalculator({ posts, reads, followers, biggest }: Loa
       <div className="flex flex-col gap-4">
         {rows.map((row) => (
           <div key={row.name}>
-            <div className="flex justify-between font-mono text-[0.8rem] uppercase tracking-widest text-zinc-faded">
+            <div className="flex justify-between font-mono text-[0.875rem] uppercase tracking-widest text-zinc-faded">
               <span>{row.name}</span>
               <span className="text-ink tabular-nums">{short(row.value)} / s</span>
             </div>

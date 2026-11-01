@@ -125,7 +125,7 @@ export default function Trainer() {
         </svg>
 
         <div className="w-full max-w-[12rem] sm:max-w-none">
-          <p className="mb-2 font-mono text-[0.7rem] uppercase tracking-widest text-zinc-faded">Its guess per first move</p>
+          <p className="mb-2 font-mono text-[0.8rem] uppercase tracking-widest text-zinc-faded">Its guess per first move</p>
           <div className="grid grid-cols-3 border-l border-t border-zinc-300 dark:border-zinc-200/20">
             {run.opening.map((value, cell) => (
               <div
@@ -133,7 +133,7 @@ export default function Trainer() {
                 className="relative flex aspect-square items-center justify-center border-b border-r border-zinc-300 dark:border-zinc-200/20"
               >
                 <div className="absolute inset-0 bg-sage" style={{ opacity: Math.max(0, value - 0.3) * 0.9 }} />
-                <span className="relative font-mono text-[0.75rem] tabular-nums text-ink">{percent(value)}</span>
+                <span className="relative font-mono text-[0.8125rem] tabular-nums text-ink">{percent(value)}</span>
               </div>
             ))}
           </div>

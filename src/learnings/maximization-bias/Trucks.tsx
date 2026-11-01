@@ -16,7 +16,7 @@ const y = (score: number) => BOTTOM - ((Math.min(HIGH, Math.max(LOW, score)) - L
 const column = (truck: number) => LEFT + 24 + truck * ((RIGHT - LEFT - 24) / TRUCKS)
 
 function Status({ children }: { children: string }) {
-  return <p className="font-mono text-[0.8rem] uppercase tracking-widest text-zinc-faded">{children}</p>
+  return <p className="font-mono text-[0.875rem] uppercase tracking-widest text-zinc-faded">{children}</p>
 }
 
 function Axis({ named }: { named: boolean }) {

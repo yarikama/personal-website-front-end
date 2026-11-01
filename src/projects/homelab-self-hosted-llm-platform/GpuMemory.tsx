@@ -1,4 +1,5 @@
 import { motion } from 'motion/react'
+import { NARROW, useWidth } from '../../components/case/useWidth'
 import { usePrefersReducedMotion } from '../../hooks'
 
 // The 8 GB card's memory as one bar, filled a step at a time: the
@@ -38,11 +39,14 @@ const TONE: Record<Block['tone'], string> = {
 }
 
 const X0 = 10
-const X1 = 630
-const scale = (gib: number) => (gib / USABLE) * (X1 - X0)
 
+// Drawn at the width it is shown, so its labels keep their size on a phone
 export default function GpuMemory({ step }: { step: number }) {
   const reducedMotion = usePrefersReducedMotion()
+  const { ref, width } = useWidth<HTMLDivElement>()
+  const narrow = width < NARROW
+  const X1 = width - 10
+  const scale = (gib: number) => (gib / USABLE) * (X1 - X0)
   const blocks = MEMORY_STEPS[step]
   const fixed = step === 3
   const used = blocks.reduce((sum, block) => sum + block.gib, 0)
@@ -60,12 +64,13 @@ export default function GpuMemory({ step }: { step: number }) {
     return { x: mine[0].x, w: mine.reduce((sum, block) => sum + block.w, 0), gib: mine.reduce((s, b) => s + b.gib, 0) }
   }
   const spans = [
-    { name: 'Autocomplete ·', ...span('autocomplete') },
-    { name: 'Ask chat · 4B, 4-bit ·', ...span('ask') },
+    { name: 'Autocomplete', ...span('autocomplete') },
+    { name: narrow ? 'Ask chat' : 'Ask chat · 4B, 4-bit', ...span('ask') },
   ].filter((s) => s.w !== undefined) as { name: string; x: number; w: number; gib: number }[]
 
   return (
-    <svg viewBox="0 0 640 190" className="w-full" role="img" aria-label={`GPU memory: ${used.toFixed(1)} of ${USABLE} GiB in use`}>
+    <div ref={ref}>
+    <svg viewBox={`0 0 ${width} 190`} width={width} height={190} className="block max-w-full" role="img" aria-label={`GPU memory: ${used.toFixed(1)} of ${USABLE} GiB in use`}>
       {/* The card */}
       <rect x={X0} y={60} width={X1 - X0} height={64} rx={4} className="fill-zinc-200/40 stroke-zinc-400 dark:fill-zinc-300/30 dark:stroke-zinc-400/60" strokeDasharray="4 3" />
       {placed.map((block) => (
@@ -93,18 +98,20 @@ export default function GpuMemory({ step }: { step: number }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ ...transition, delay: reducedMotion ? 0 : 0.3 }}
-            className={`font-mono text-[11px] ${block.tone === 'batch' || block.tone === 'weights' ? 'fill-paper' : 'fill-ink'}`}
+            className={`font-mono text-[12px] ${block.tone === 'batch' || block.tone === 'weights' ? 'fill-paper' : 'fill-ink'}`}
           >
             {block.label} {block.tone === 'cache' && fixed ? '· fixed' : ''}
           </motion.text>
         ))}
 
       {/* Which model is which */}
-      {spans.map((s) => (
+      {/* One row each, so a narrow span's name can run over the next */}
+      {spans.map((s, k) => (
         <g key={s.name}>
           <line x1={s.x + 2} x2={s.x + s.w - 2} y1={48} y2={48} className="stroke-zinc-400" />
-          <text x={s.x + 2} y={38} className="fill-ink font-mono text-[11px]">
-            {s.name} <tspan className="fill-zinc-faded">{s.gib.toFixed(1)} GiB</tspan>
+          <line x1={s.x + 2} x2={s.x + 2} y1={24 + k * 18} y2={48} className="stroke-zinc-400" />
+          <text x={s.x + 7} y={20 + k * 18} className="fill-ink font-mono text-[12px]">
+            {s.name} · <tspan className="fill-zinc-faded">{s.gib.toFixed(1)} GiB</tspan>
           </text>
         </g>
       ))}
@@ -113,18 +120,19 @@ export default function GpuMemory({ step }: { step: number }) {
       {[0, 2, 4, 6].map((gib) => (
         <g key={gib}>
           <line x1={X0 + scale(gib)} x2={X0 + scale(gib)} y1={128} y2={134} className="stroke-zinc-400" />
-          <text x={X0 + scale(gib)} y={148} textAnchor={gib === 0 ? 'start' : 'middle'} className="fill-zinc-400 font-mono text-[10px]">
+          <text x={X0 + scale(gib)} y={148} textAnchor={gib === 0 ? 'start' : 'middle'} className="fill-zinc-400 font-mono text-[12px]">
             {gib} GiB
           </text>
         </g>
       ))}
-      <text x={X1} y={148} textAnchor="end" className="fill-zinc-400 font-mono text-[10px]">
-        {USABLE} usable
+      <text x={X1} y={148} textAnchor="end" className="fill-zinc-400 font-mono text-[12px]">
+        {narrow ? USABLE : `${USABLE} usable`}
       </text>
-      <text x={X0} y={178} className="fill-zinc-faded font-mono text-[11px]">
+      <text x={X0} y={178} className="fill-zinc-faded font-mono text-[12px]">
         In use: <tspan className="fill-ink">{used.toFixed(2)} GiB</tspan>
         {blocks.length > 0 && step !== 4 && <tspan> · free {(USABLE - used).toFixed(2)} GiB</tspan>}
       </text>
     </svg>
+    </div>
   )
 }

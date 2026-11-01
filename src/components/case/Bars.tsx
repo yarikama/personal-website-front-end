@@ -35,7 +35,7 @@ export function Bars({
   return (
     <div ref={ref} className="flex flex-col gap-4">
       {better && (
-        <p className="font-mono text-[0.75rem] uppercase tracking-widest text-zinc-400">
+        <p className="font-mono text-[0.8125rem] uppercase tracking-widest text-zinc-400">
           {better === 'lower' ? 'Shorter is better' : 'Longer is better'}
         </p>
       )}

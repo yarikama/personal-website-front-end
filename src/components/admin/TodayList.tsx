@@ -136,7 +136,7 @@ export default function TodayList({ date }: { date: Date }) {
           <span className={textClass}>{todo.text}</span>
         )}
         {older && !done && (
-          <span className="font-mono text-[10px] uppercase tracking-widest text-red-600/80 dark:text-red-400/80">
+          <span className="font-mono text-[11px] uppercase tracking-widest text-red-600/80 dark:text-red-400/80">
             {older}
           </span>
         )}

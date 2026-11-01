@@ -24,7 +24,7 @@ export default function Many() {
         : ''
   const panel = (which: 'ordinary' | 'weighted') => (
     <div>
-      <p className={`font-mono text-[0.8rem] uppercase tracking-widest ${which === 'ordinary' ? 'text-ink' : 'text-sage'}`}>
+      <p className={`font-mono text-[0.875rem] uppercase tracking-widest ${which === 'ordinary' ? 'text-ink' : 'text-sage'}`}>
         {which === 'ordinary' ? 'Ordinary · ÷ trips' : 'Weighted · ÷ weight'}
       </p>
       <Chart
@@ -44,7 +44,7 @@ export default function Many() {
         {panel('ordinary')}
         {panel('weighted')}
       </div>
-      <p className="mt-2 min-h-[1.25rem] font-mono text-[0.8rem] text-zinc-faded">{note}</p>
+      <p className="mt-2 min-h-[1.25rem] font-mono text-[0.875rem] text-zinc-faded">{note}</p>
       <Controls>
         <Slider
           label="Your friend takes the main road"

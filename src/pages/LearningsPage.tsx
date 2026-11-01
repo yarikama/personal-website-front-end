@@ -82,7 +82,7 @@ function Legend({ graph }: { graph: LearningGraph }) {
   const item = 'inline-flex items-center gap-2'
   const ink = 'var(--color-ink)'
   return (
-    <div className="flex flex-col gap-2 font-mono text-[0.8rem] uppercase tracking-widest text-zinc-faded">
+    <div className="flex flex-col gap-2 font-mono text-[0.875rem] uppercase tracking-widest text-zinc-faded">
       <div className="flex flex-wrap items-center gap-x-5 gap-y-1.5">
         <span className={item}>
           <Shape sides={6} size={16} colour={ink} />
@@ -389,7 +389,7 @@ export default function LearningsPage() {
         <h1 className="font-serif text-3xl md:text-4xl font-light tracking-tight mt-3">Learnings</h1>
         <p className="mt-1 text-sm text-zinc-faded">A map of what I learn.</p>
         {isDemo && (
-          <p className={`mt-3 inline-flex items-center gap-2 px-2.5 py-1 font-mono text-[0.8rem] uppercase tracking-widest text-zinc-faded ${overlay}`}>
+          <p className={`mt-3 inline-flex items-center gap-2 px-2.5 py-1 font-mono text-[0.875rem] uppercase tracking-widest text-zinc-faded ${overlay}`}>
             <span className="h-1.5 w-1.5 rounded-full bg-sage" />
             Sample map
           </p>

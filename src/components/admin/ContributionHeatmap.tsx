@@ -93,7 +93,7 @@ export default function ContributionHeatmap() {
       {/* Scrolls sideways on a phone rather than shrinking the squares. */}
       <div className="mt-4 overflow-x-auto pb-1">
         <div className="inline-flex flex-col gap-1">
-          <div className="flex gap-[3px] font-mono text-[10px] text-zinc-400" aria-hidden="true">
+          <div className="flex gap-[3px] font-mono text-[11px] text-zinc-400" aria-hidden="true">
             {months.map((month, i) => (
               <span key={i} className="w-[11px] overflow-visible whitespace-nowrap">
                 {month}
@@ -125,7 +125,7 @@ export default function ContributionHeatmap() {
       </div>
 
       <div
-        className="mt-2 flex items-center justify-end gap-1 font-mono text-[10px] text-zinc-400"
+        className="mt-2 flex items-center justify-end gap-1 font-mono text-[11px] text-zinc-400"
         aria-hidden="true"
       >
         Less

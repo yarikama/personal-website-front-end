@@ -165,7 +165,7 @@ export default function Commute({ run, from, to, pace, truth = false, named = fa
 
   return (
     <div>
-      <div className="flex items-baseline justify-between gap-4 font-mono text-[0.8rem] uppercase tracking-widest">
+      <div className="flex items-baseline justify-between gap-4 font-mono text-[0.875rem] uppercase tracking-widest">
         <span className="text-zinc-faded">
           {look ? 'Looking first' : 'Never looking'} · Morning {Math.max(1, counted)}
         </span>

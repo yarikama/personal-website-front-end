@@ -149,7 +149,7 @@ export default function Testbed({ start }: { start: Start }) {
 
       <table className="mt-4 w-full text-left">
         <thead>
-          <tr className="font-mono text-[0.8rem] uppercase tracking-widest text-zinc-faded">
+          <tr className="font-mono text-[0.875rem] uppercase tracking-widest text-zinc-faded">
             <th className="w-2/5 pb-1 font-normal" />
             <th className="pb-1 font-normal">Steps 1–1,000</th>
             <th className="pb-1 font-normal">1,001–2,000</th>
@@ -158,7 +158,7 @@ export default function Testbed({ start }: { start: Start }) {
         <tbody className="font-serif text-2xl font-light tabular-nums">
           {runs.map((run, i) => (
             <tr key={i} className={i === 3 ? 'text-sage' : 'text-ink'}>
-              <th className="py-0.5 pr-2 align-middle font-mono text-[0.8rem] font-normal normal-case tracking-widest text-zinc-faded">
+              <th className="py-0.5 pr-2 align-middle font-mono text-[0.875rem] font-normal normal-case tracking-widest text-zinc-faded">
                 {METHODS[i].name}
               </th>
               <td className="py-0.5">{Math.round(run.regret[999])}</td>

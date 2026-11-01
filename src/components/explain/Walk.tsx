@@ -42,7 +42,7 @@ export default function Walk({
 
   return (
     <div>
-      <p className="font-mono text-[0.8rem] uppercase tracking-widest text-zinc-faded">
+      <p className="font-mono text-[0.875rem] uppercase tracking-widest text-zinc-faded">
         Turn {index + 1} · <span className="text-sage">
           {says} {MOVES[visit.action]}
         </span>

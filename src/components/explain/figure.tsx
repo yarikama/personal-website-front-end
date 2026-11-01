@@ -26,7 +26,7 @@ export function Controls({ children }: { children: ReactNode }) {
   return <div className="mt-5 flex flex-wrap items-end gap-x-8 gap-y-4">{children}</div>
 }
 
-const label = 'font-mono text-[0.8rem] uppercase tracking-widest text-zinc-faded'
+const label = 'font-mono text-[0.875rem] uppercase tracking-widest text-zinc-faded'
 
 export function Slider({
   label: name,
@@ -90,7 +90,7 @@ export function Choice<T extends string | number>({
             role="radio"
             aria-checked={option === value}
             onClick={() => onChange(option)}
-            className={`-ml-px first:ml-0 border px-3 py-1.5 font-mono text-[0.8rem] tabular-nums transition-colors ${
+            className={`-ml-px first:ml-0 border px-3 py-1.5 font-mono text-[0.875rem] tabular-nums transition-colors ${
               option === value
                 ? 'relative border-sage bg-sage/15 text-sage'
                 : 'border-zinc-300 dark:border-zinc-200/20 text-zinc-faded hover:text-ink'
@@ -142,9 +142,9 @@ export function Numbers({
     >
       {items.map((item) => (
         <div key={item.label} className="px-2 py-5">
-          <p className="font-mono text-[0.8rem] uppercase tracking-widest text-zinc-faded">{item.label}</p>
+          <p className="font-mono text-[0.875rem] uppercase tracking-widest text-zinc-faded">{item.label}</p>
           <p className={`mt-2 font-serif font-light text-ink ${words ? 'text-2xl leading-tight' : 'text-4xl'}`}>{item.value}</p>
-          {item.note && <p className="font-mono text-[0.8rem] text-zinc-400">{item.note}</p>}
+          {item.note && <p className="font-mono text-[0.875rem] text-zinc-400">{item.note}</p>}
         </div>
       ))}
     </div>

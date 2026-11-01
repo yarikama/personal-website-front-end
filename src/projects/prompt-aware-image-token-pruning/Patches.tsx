@@ -64,7 +64,7 @@ export default function Patches({ step }: { step: number }) {
         <circle cx={150} cy={160} r={30} className="fill-[#1c2733]" />
         <circle cx={140} cy={150} r={8} className="fill-white/40" />
         <rect x={58} y={102} width={64} height={18} rx={2} className="fill-[#e9e4d6]" />
-        <text x={90} y={115.5} textAnchor="middle" className="fill-[#2b2b2b] font-mono text-[10px] font-bold tracking-widest">
+        <text x={90} y={115.5} textAnchor="middle" className="fill-[#2b2b2b] font-mono text-[12px] font-bold tracking-widest">
           DAKOTA
         </text>
         <rect x={212} y={104} width={16} height={10} rx={2} className="fill-[#c9a227]" />
@@ -98,12 +98,12 @@ export default function Patches({ step }: { step: number }) {
       </svg>
 
       <div className="flex w-full flex-col gap-3 sm:max-w-[14rem]">
-        <p className="font-mono text-[0.75rem] uppercase tracking-widest text-zinc-400">Question</p>
+        <p className="font-mono text-[0.8125rem] uppercase tracking-widest text-zinc-400">Question</p>
         <p className="font-serif text-xl leading-snug">“What is the brand of this camera?”</p>
-        <p className="mt-2 font-mono text-[0.75rem] uppercase tracking-widest text-zinc-400">
+        <p className="mt-2 font-mono text-[0.8125rem] uppercase tracking-widest text-zinc-400">
           Patches kept · <span className="text-ink">{keep.size}</span> of 576
         </p>
-        <p className="mt-2 font-mono text-[0.75rem] uppercase tracking-widest text-zinc-400">Model answers</p>
+        <p className="mt-2 font-mono text-[0.8125rem] uppercase tracking-widest text-zinc-400">Model answers</p>
         <motion.p
           key={answer}
           initial={reducedMotion ? false : { opacity: 0, y: 6 }}

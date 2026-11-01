@@ -92,7 +92,7 @@ export default function Story({ step }: { step: number }) {
 
   return (
     <div>
-      <p className="font-mono text-[0.8rem] uppercase tracking-widest text-zinc-faded">{status}</p>
+      <p className="font-mono text-[0.875rem] uppercase tracking-widest text-zinc-faded">{status}</p>
       <div className="mt-3">
         <Track label={status} notes={notes} token={token} trail={trail} named={step === 5} />
       </div>

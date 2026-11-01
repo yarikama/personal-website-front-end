@@ -52,7 +52,7 @@ export default function Drift({ world, step }: { world: World; step: Step }) {
   const current = shown.current
   if (!current) {
     return (
-      <div className="flex aspect-[640/250] items-center justify-center font-mono text-[0.8rem] uppercase tracking-widest text-zinc-faded">
+      <div className="flex aspect-[640/250] items-center justify-center font-mono text-[0.875rem] uppercase tracking-widest text-zinc-faded">
         Working out {MACHINES} machines…
       </div>
     )

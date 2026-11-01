@@ -85,7 +85,7 @@ function TurnView({ turn, anchor, owls }: { turn: Turn; anchor: string; owls: bo
         {...(owls && { [OWL_PERCH]: '' })}
         className="w-full max-w-[94%] rounded-xl border border-zinc-300 dark:border-white/70 overflow-hidden"
       >
-        <div className="flex items-center justify-between gap-4 px-4 py-2 bg-paper-dark border-b border-zinc-200 dark:border-zinc-700 font-mono text-[11px] uppercase tracking-[0.14em]">
+        <div className="flex items-center justify-between gap-4 px-4 py-2 bg-paper-dark border-b border-zinc-200 dark:border-zinc-700 font-mono text-[12px] uppercase tracking-[0.14em]">
           <span className="text-sage shrink-0">Answer</span>
           <span className="text-zinc-faded truncate">{MODEL}</span>
         </div>
@@ -122,7 +122,7 @@ function TurnView({ turn, anchor, owls }: { turn: Turn; anchor: string; owls: bo
                 className="grid grid-cols-[2.25rem_4.5rem_minmax(0,1fr)] items-baseline gap-2 px-4 py-2 border-t border-zinc-200 dark:border-zinc-700"
               >
                 <span className="font-mono text-[13px] text-sage">[{i + 1}]</span>
-                <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-zinc-faded">
+                <span className="font-mono text-[12px] uppercase tracking-[0.14em] text-zinc-faded">
                   {citation.kind}
                 </span>
                 <SourceLink citation={citation} />

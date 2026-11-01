@@ -50,7 +50,7 @@ export default function Kitchen({ run, spread }: { run: KitchenEvening[]; spread
 
   return (
     <div>
-      <p className="font-mono text-[0.8rem] uppercase tracking-widest text-zinc-faded">
+      <p className="font-mono text-[0.875rem] uppercase tracking-widest text-zinc-faded">
         Evening <span className="text-ink tabular-nums">{shown}</span> of {run.length}
       </p>
       <svg

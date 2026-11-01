@@ -80,7 +80,7 @@ function DailyChart({ days }: { days: VisitorDay[] }) {
                 {d === peak && d.visitors > 0 && (
                   <span
                     aria-hidden="true"
-                    className="absolute font-mono text-[10px] text-zinc-faded tabular-nums group-hover:hidden group-focus:hidden"
+                    className="absolute font-mono text-[11px] text-zinc-faded tabular-nums group-hover:hidden group-focus:hidden"
                     style={{ bottom: `calc(${(d.visitors / max) * 100}% + 4px)` }}
                   >
                     {d.visitors}
@@ -90,7 +90,7 @@ function DailyChart({ days }: { days: VisitorDay[] }) {
                   role="tooltip"
                   className={`pointer-events-none invisible absolute ${align} bottom-full z-10 mb-2 w-max rounded border border-zinc-200 dark:border-zinc-700 bg-paper px-3 py-2 text-left shadow-lg group-hover:visible group-focus:visible`}
                 >
-                  <span className="block font-mono text-[10px] uppercase tracking-widest text-zinc-400">
+                  <span className="block font-mono text-[11px] uppercase tracking-widest text-zinc-400">
                     {WEEKDAY.format(day(d.date))} {DAY.format(day(d.date))}
                   </span>
                   <span className="mt-1 block text-sm">
@@ -107,7 +107,7 @@ function DailyChart({ days }: { days: VisitorDay[] }) {
           })}
         </div>
       </div>
-      <div aria-hidden="true" className="mt-2 flex gap-[2px] font-mono text-[10px] text-zinc-400">
+      <div aria-hidden="true" className="mt-2 flex gap-[2px] font-mono text-[11px] text-zinc-400">
         {days.map((d, i) => (
           <span key={d.date} className="flex-1 text-center whitespace-nowrap">
             {ticks.includes(i) ? DAY.format(day(d.date)) : ''}
@@ -121,7 +121,7 @@ function DailyChart({ days }: { days: VisitorDay[] }) {
         </summary>
         <table className="mt-3 w-full max-w-md text-sm">
           <thead>
-            <tr className="text-left font-mono text-[10px] uppercase tracking-widest text-zinc-400">
+            <tr className="text-left font-mono text-[11px] uppercase tracking-widest text-zinc-400">
               <th className="py-1 font-normal">Day (UTC)</th>
               <th className="py-1 text-right font-normal">Visitors</th>
               <th className="py-1 text-right font-normal">Page views</th>
@@ -163,7 +163,7 @@ function TopList({
     <section className="min-w-0">
       <div className="flex items-baseline justify-between gap-4">
         <h2 className={LABEL}>{title}</h2>
-        {rows.length > 0 && <span className="font-mono text-[10px] text-zinc-400">Visitors · views</span>}
+        {rows.length > 0 && <span className="font-mono text-[11px] text-zinc-400">Visitors · views</span>}
       </div>
       {rows.length === 0 ? (
         <p className="mt-4 text-sm text-zinc-faded">{empty}</p>

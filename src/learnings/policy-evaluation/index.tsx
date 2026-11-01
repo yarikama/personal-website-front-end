@@ -125,7 +125,7 @@ export default function PolicyEvaluation() {
                 focus={{ square: FOCUS, move: ROLL }}
                 unknown
               />
-              <p className="mt-3 text-center font-mono text-[0.8rem] text-zinc-faded">
+              <p className="mt-3 text-center font-mono text-[0.875rem] text-zinc-faded">
                 v({FOCUS}) = −1 + ⅙ [ {landed.map((sq) => `v(${sq})`).join(' + ')} ]
               </p>
             </Labelled>

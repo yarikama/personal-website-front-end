@@ -16,14 +16,14 @@ export default function Routes({ gamma }: { gamma: number }) {
         const rewards = route(row.moves)
         return (
           <div key={row.name}>
-            <p className="font-mono text-[0.8rem] uppercase tracking-widest text-zinc-faded">
+            <p className="font-mono text-[0.875rem] uppercase tracking-widest text-zinc-faded">
               {row.name}: {row.moves} moves
             </p>
             <div className="mt-2 flex flex-wrap items-center gap-1">
               {rewards.map((reward, i) => (
                 <span
                   key={i}
-                  className={`flex h-6 w-6 items-center justify-center font-mono text-[0.75rem] ${
+                  className={`flex h-6 w-6 items-center justify-center font-mono text-[0.8125rem] ${
                     reward > 0 ? 'bg-sage text-paper' : 'border border-zinc-300 text-zinc-400 dark:border-zinc-200/25'
                   }`}
                   style={reward > 0 ? undefined : { opacity: 0.3 + 0.7 * gamma ** i }}
@@ -32,9 +32,9 @@ export default function Routes({ gamma }: { gamma: number }) {
                 </span>
               ))}
               <span className="h-6 w-6 bg-ink" title="The end of the episode" />
-              <span className="font-mono text-[0.75rem] text-zinc-400">0 0 0 …</span>
+              <span className="font-mono text-[0.8125rem] text-zinc-400">0 0 0 …</span>
             </div>
-            <p className="mt-2 font-mono text-[0.8rem] text-ink">
+            <p className="mt-2 font-mono text-[0.875rem] text-ink">
               {gamma === 1 ? (
                 '1'
               ) : (

@@ -34,7 +34,7 @@ export function Decision({
       ref={ref}
       className="not-prose my-12 -mx-4 sm:mx-0 border-y sm:border border-zinc-200 dark:border-zinc-200/20 p-5 sm:p-7"
     >
-      <span className="font-mono text-[0.8rem] uppercase tracking-widest text-sage">
+      <span className="font-mono text-[0.875rem] uppercase tracking-widest text-sage">
         Decision {String(n).padStart(2, '0')}
       </span>
       <p className="mt-3 font-serif text-2xl font-light leading-snug">{question}</p>
@@ -95,7 +95,7 @@ export function Decision({
         transition={{ duration: 0.5, delay: decided + 0.2, ease: EASE }}
         className="mt-6 flex flex-col gap-3 leading-relaxed text-zinc-faded [&_strong]:font-medium [&_strong]:text-ink"
       >
-        <span className="font-mono text-[0.8rem] uppercase tracking-widest text-zinc-400">Why</span>
+        <span className="font-mono text-[0.875rem] uppercase tracking-widest text-zinc-400">Why</span>
         {children}
       </motion.div>
     </div>

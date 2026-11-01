@@ -54,7 +54,7 @@ export default function Room({ run, from, to, explain = false }: { run: Run; fro
 
   return (
     <div>
-      <div className="flex items-baseline justify-between gap-4 font-mono text-[0.8rem] uppercase tracking-widest">
+      <div className="flex items-baseline justify-between gap-4 font-mono text-[0.875rem] uppercase tracking-widest">
         <span className="text-zinc-faded">
           Score <span className="font-serif text-2xl normal-case tracking-normal text-ink lining-nums tabular-nums">{frame.score}</span>
         </span>

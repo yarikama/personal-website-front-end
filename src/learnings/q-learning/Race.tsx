@@ -60,7 +60,7 @@ export default function Race({ epsilon }: { epsilon: number }) {
 
       <table className="mt-4 w-full text-left">
         <thead>
-          <tr className="font-mono text-[0.8rem] uppercase tracking-widest">
+          <tr className="font-mono text-[0.875rem] uppercase tracking-widest">
             <th className="w-2/5 pb-1 font-normal" />
             <th className="pb-1 font-normal text-ink">Sarsa</th>
             <th className="pb-1 font-normal text-sage">Q-learning</th>
@@ -68,14 +68,14 @@ export default function Race({ epsilon }: { epsilon: number }) {
         </thead>
         <tbody className="font-serif text-3xl font-light tabular-nums">
           <tr>
-            <th className="py-1 pr-2 align-middle font-mono text-[0.8rem] font-normal uppercase tracking-widest text-zinc-faded">
+            <th className="py-1 pr-2 align-middle font-mono text-[0.875rem] font-normal uppercase tracking-widest text-zinc-faded">
               Wet, last 100 mornings
             </th>
             <td className="py-1 text-ink">{percent(lateWet(sarsa.wet))}</td>
             <td className="py-1 text-sage">{percent(lateWet(q.wet))}</td>
           </tr>
           <tr>
-            <th className="py-1 pr-2 align-middle font-mono text-[0.8rem] font-normal uppercase tracking-widest text-zinc-faded">
+            <th className="py-1 pr-2 align-middle font-mono text-[0.875rem] font-normal uppercase tracking-widest text-zinc-faded">
               Average score, last 100
             </th>
             <td className="py-1 text-ink">{(sarsa.totals.slice(-100).reduce((a, b) => a + b, 0) / 100).toFixed(1).replace('-', '−')}</td>

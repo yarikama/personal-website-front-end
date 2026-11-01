@@ -56,7 +56,7 @@ export default function Lab() {
           </Button>
         </div>
       </Controls>
-      <p className="mt-8 font-mono text-[0.8rem] uppercase tracking-widest text-zinc-faded">
+      <p className="mt-8 font-mono text-[0.875rem] uppercase tracking-widest text-zinc-faded">
         Booked the most that fit, on {TRIALS.days.toLocaleString('en-US')} random days of {TRIALS.requests} requests
       </p>
       <div className="mt-3 grid grid-cols-2 gap-4 sm:grid-cols-4">
