@@ -5,6 +5,7 @@ import { Github, Linkedin } from '../ui/brandIcons'
 import { Link, useLocation } from 'react-router-dom'
 import Container from './Container'
 import ThemeToggle from '../ui/ThemeToggle'
+import Mark from '../ui/Mark'
 import { useScrollSpy } from '../../hooks/useScrollSpy'
 import { hasAdminHint } from '../../services/api/auth'
 import { publicTalks } from '../../talks'
@@ -246,8 +247,8 @@ export default function Header() {
     >
       <Container>
         <nav className="flex items-center justify-between py-6">
-          <Link to="/" className="font-serif text-xl font-light tracking-tight">
-            &lt;H,H&gt;
+          <Link to="/" aria-label="Henry Hsu, home" className="inline-flex">
+            <Mark size={34} />
           </Link>
 
           <ul className="hidden md:flex items-center gap-8">
