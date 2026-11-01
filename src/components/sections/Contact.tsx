@@ -82,7 +82,7 @@ export default function Contact() {
       {/* Contact Form */}
       <div className="max-w-xl mx-auto mb-16">
         {isSuccess ? (
-          <div className="text-center py-12 border border-sage/30 bg-sage/5">
+          <div className="text-center py-12 border border-sage/30 bg-sage/5 rounded-2xl">
             <CheckCircle className="w-12 h-12 text-sage mx-auto mb-4" />
             <h3 className="font-serif text-2xl mb-2">Message Sent</h3>
             <p className="text-zinc-faded mb-6">
@@ -98,7 +98,7 @@ export default function Contact() {
         ) : (
           <form onSubmit={handleSubmit} className="space-y-6">
             {error && (
-              <div className="p-4 border border-red-300 bg-red-50 dark:bg-red-900/20 dark:border-red-800">
+              <div className="p-4 rounded-xl border border-red-300 bg-red-50 dark:bg-red-900/20 dark:border-red-800">
                 <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
               </div>
             )}
@@ -119,7 +119,7 @@ export default function Contact() {
                   onChange={handleChange}
                   required
                   className={`
-                    w-full px-4 py-3 bg-transparent border
+                    w-full px-4 py-3 bg-transparent border rounded-xl
                     font-serif text-lg
                     focus:border-ink dark:focus:border-zinc-400
                     transition-colors duration-300
@@ -147,7 +147,7 @@ export default function Contact() {
                   onChange={handleChange}
                   required
                   className={`
-                    w-full px-4 py-3 bg-transparent border
+                    w-full px-4 py-3 bg-transparent border rounded-xl
                     font-serif text-lg
                     focus:border-ink dark:focus:border-zinc-400
                     transition-colors duration-300
@@ -176,7 +176,7 @@ export default function Contact() {
                 onChange={handleChange}
                 required
                 className={`
-                  w-full px-4 py-3 bg-transparent border
+                  w-full px-4 py-3 bg-transparent border rounded-xl
                   font-serif text-lg
                   focus:border-ink dark:focus:border-zinc-400
                   transition-colors duration-300
@@ -204,7 +204,7 @@ export default function Contact() {
                 required
                 rows={6}
                 className={`
-                  w-full px-4 py-3 bg-transparent border resize-none
+                  w-full px-4 py-3 bg-transparent border rounded-xl resize-none
                   font-serif text-lg leading-relaxed
                   focus:border-ink dark:focus:border-zinc-400
                   transition-colors duration-300
@@ -221,7 +221,7 @@ export default function Contact() {
               type="submit"
               disabled={isSubmitting}
               className="
-                w-full py-4 border border-ink dark:border-zinc-400
+                w-full py-4 rounded-full border border-ink dark:border-zinc-400
                 font-mono text-sm uppercase tracking-widest
                 hover:bg-ink hover:text-paper dark:hover:bg-zinc-400 dark:hover:text-zinc-900
                 disabled:opacity-50 disabled:cursor-not-allowed
@@ -259,7 +259,7 @@ export default function Contact() {
               rel="noopener noreferrer"
               download={link.href.endsWith('.pdf') ? 'Henry_Hsu_Resume.pdf' : undefined}
               className="
-                group p-6 border border-zinc-200 dark:border-zinc-700 hover:border-zinc-400
+                group p-6 rounded-2xl border border-zinc-200 dark:border-zinc-700 hover:border-zinc-400
                 transition-colors duration-300
               "
             >
