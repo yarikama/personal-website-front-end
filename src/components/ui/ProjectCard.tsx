@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import ResponsiveImage from './ResponsiveImage'
-import { ArrowRight, ArrowUpRight } from 'lucide-react'
+import { ArrowUpRight } from 'lucide-react'
 import MagazineLine from './MagazineLine'
+import WaveLink from './WaveLink'
 import { descriptionBlocks } from '../../lib/descriptionBlocks'
 
 // Base project type that works with both API and local data
@@ -34,9 +35,13 @@ export default function ProjectCard({ project, index, featured = false, story = 
   const formattedIndex = String(index + 1).padStart(2, '0')
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [isHovering, setIsHovering] = useState(false)
+  // The cover preview follows the pointer, so over the buttons below it would
+  // sit on top of them: hide it there
+  const [overLink, setOverLink] = useState(false)
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!project.coverImage) return
+    setOverLink((e.target as Element).closest('[data-actions]') !== null)
     setMousePosition({
       x: e.clientX,
       y: e.clientY,
@@ -53,7 +58,7 @@ export default function ProjectCard({ project, index, featured = false, story = 
       <MagazineLine className="mb-6" delay={index * 100} />
 
       {/* Hover Image Preview */}
-      {project.coverImage && isHovering && (
+      {project.coverImage && isHovering && !overLink && (
         <div
           className="
             pointer-events-none fixed z-50
@@ -150,24 +155,8 @@ export default function ProjectCard({ project, index, featured = false, story = 
           {/* Always shown, not only on hover: the ask chat's citations land
               on this card, and these are where to go from it. */}
           {(page || project.github || (project.link && project.link !== project.github)) && (
-            <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3">
-              {page && (
-                <Link
-                  to={page}
-                  className={`group/open inline-flex items-center gap-3 border px-5 py-3 font-mono text-sm uppercase tracking-widest transition-colors ${
-                    story
-                      ? 'border-ink bg-ink text-paper hover:bg-sage hover:border-sage'
-                      : 'border-ink text-ink hover:bg-ink hover:text-paper'
-                  }`}
-                >
-                  {story ? 'Read the story' : 'See the project'}
-                  <ArrowRight
-                    size={16}
-                    aria-hidden="true"
-                    className="transition-transform duration-300 group-hover/open:translate-x-1"
-                  />
-                </Link>
-              )}
+            <div data-actions className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3">
+              {page && <WaveLink to={page}>{story ? 'Read the story' : 'See the project'}</WaveLink>}
               {project.github && (
                 <a
                   href={project.github}
