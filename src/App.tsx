@@ -33,6 +33,8 @@ const Talk = lazy(() => import('./pages/Talk'))
 // The 3D graph (three.js) loads only here
 const LearningsPage = lazy(() => import('./pages/LearningsPage'))
 const LearningPage = lazy(() => import('./pages/LearningPage'))
+// A project's own page, with its story's figures
+const ProjectPage = lazy(() => import('./pages/ProjectPage'))
 
 // The first talk's old address, already sent out. Keeps the hash, so a link
 // to a slide still lands on it.
@@ -187,6 +189,7 @@ function App() {
                       <Routes>
                         <Route path="/" element={<Home />} />
                         <Route path="/works" element={<WorksPage />} />
+                        <Route path="/works/:slug" element={<ProjectPage />} />
                         {/* The old name, still in links elsewhere */}
                         <Route path="/archive" element={<Navigate to="/works" replace />} />
                         <Route path="/notes" element={<NotesPage />} />
