@@ -24,9 +24,11 @@ interface ProjectCardProps {
   featured?: boolean
   // Its story is written: say so on the card, not only by the link
   story?: boolean
+  // The project in one line; shown instead of the description
+  hook?: string
 }
 
-export default function ProjectCard({ project, index, featured = false, story = false }: ProjectCardProps) {
+export default function ProjectCard({ project, index, featured = false, story = false, hook }: ProjectCardProps) {
   // Each project has a page of its own at /works/<slug>
   const page = project.slug ? `/works/${project.slug}` : null
   const formattedIndex = String(index + 1).padStart(2, '0')
@@ -101,25 +103,32 @@ export default function ProjectCard({ project, index, featured = false, story = 
             </h3>
           </div>
 
-          {/* With a page of its own, the card is a preview: the first lines
-              of the description, the rest on the page */}
-          <div
-            className={`text-zinc-faded text-sm md:text-base leading-relaxed mb-4 max-w-2xl space-y-2 ${
-              page ? 'line-clamp-3' : ''
-            }`}
-          >
-            {descriptionBlocks(project.description).map((block, i) =>
-              block.kind === 'list' ? (
-                <ul key={i} className="list-disc pl-5 space-y-1">
-                  {block.items.map((item, j) => (
-                    <li key={j}>{item}</li>
-                  ))}
-                </ul>
-              ) : (
-                <p key={i}>{block.text}</p>
-              ),
-            )}
-          </div>
+          {/* With a page of its own, the card is a preview: one line that
+              makes the reader want to open it, or the first lines of the
+              description; the rest is on the page */}
+          {hook ? (
+            <p className={`mb-5 max-w-2xl font-serif font-light leading-snug text-ink ${featured ? 'text-2xl md:text-[1.7rem]' : 'text-xl md:text-2xl'}`}>
+              {hook}
+            </p>
+          ) : (
+            <div
+              className={`text-zinc-faded text-sm md:text-base leading-relaxed mb-4 max-w-2xl space-y-2 ${
+                page ? 'line-clamp-3' : ''
+              }`}
+            >
+              {descriptionBlocks(project.description).map((block, i) =>
+                block.kind === 'list' ? (
+                  <ul key={i} className="list-disc pl-5 space-y-1">
+                    {block.items.map((item, j) => (
+                      <li key={j}>{item}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p key={i}>{block.text}</p>
+                ),
+              )}
+            </div>
+          )}
 
           <div className="flex flex-wrap gap-x-4 gap-y-1">
             {project.tags.map((tag) => (
@@ -141,13 +150,22 @@ export default function ProjectCard({ project, index, featured = false, story = 
           {/* Always shown, not only on hover: the ask chat's citations land
               on this card, and these are where to go from it. */}
           {(page || project.github || (project.link && project.link !== project.github)) && (
-            <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2">
+            <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3">
               {page && (
                 <Link
                   to={page}
-                  className="inline-flex items-center gap-1 font-mono text-xs uppercase tracking-widest text-ink hover:text-sage transition-colors"
+                  className={`group/open inline-flex items-center gap-3 border px-5 py-3 font-mono text-sm uppercase tracking-widest transition-colors ${
+                    story
+                      ? 'border-ink bg-ink text-paper hover:bg-sage hover:border-sage'
+                      : 'border-ink text-ink hover:bg-ink hover:text-paper'
+                  }`}
                 >
-                  {story ? 'Read the story' : 'Open'} <ArrowRight size={14} aria-hidden="true" />
+                  {story ? 'Read the story' : 'See the project'}
+                  <ArrowRight
+                    size={16}
+                    aria-hidden="true"
+                    className="transition-transform duration-300 group-hover/open:translate-x-1"
+                  />
                 </Link>
               )}
               {project.github && (

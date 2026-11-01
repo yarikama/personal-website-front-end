@@ -5,6 +5,7 @@ import ProjectCard from '../components/ui/ProjectCard'
 import MagazineLine from '../components/ui/MagazineLine'
 import { useProjects, useProjectCategories } from '../hooks'
 import { findCaseStudy } from '../projects'
+import { hookOf } from '../projects/hooks'
 import { ArrowLeft, Loader2 } from 'lucide-react'
 
 const fallbackCategories = [
@@ -128,7 +129,7 @@ export default function WorksPage() {
                     marked === project.slug ? 'outline-sage' : 'outline-transparent'
                   }`}
                 >
-                  <ProjectCard project={project} index={index} story={!!findCaseStudy(project.slug)} />
+                  <ProjectCard project={project} index={index} story={!!findCaseStudy(project.slug)} hook={hookOf(project.slug)} />
                 </div>
               ))}
             </div>
