@@ -20,6 +20,7 @@ import { useAuth } from '../../hooks/useAuth'
 import { useMediaQuery } from '../../hooks/useMediaQuery'
 import { useNewQuestions, useUnreadMessages } from '../../hooks/useUnreadMessages'
 import ThemeToggle from '../ui/ThemeToggle'
+import Mark from '../ui/Mark'
 
 interface SubItem {
   label: string
@@ -235,9 +236,10 @@ export default function AdminNav() {
               target="_blank"
               rel="noopener noreferrer"
               title="View site"
-              className="font-serif text-xl font-light tracking-tight hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors"
+              aria-label="View site"
+              className="inline-flex hover:opacity-80 transition-opacity"
             >
-              &lt;H,H&gt;
+              <Mark size={28} />
             </a>
 
             <ul className="order-last -ml-4 flex basis-full items-center gap-1 sm:order-none sm:ml-0 sm:basis-auto">
