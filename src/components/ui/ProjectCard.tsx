@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useRef } from 'react'
 import { Link } from 'react-router-dom'
+import { useInView } from 'motion/react'
 import ResponsiveImage from './ResponsiveImage'
 import { ArrowUpRight } from 'lucide-react'
 import MagazineLine from './MagazineLine'
@@ -33,51 +34,23 @@ export default function ProjectCard({ project, index, featured = false, story = 
   // Each project has a page of its own at /works/<slug>
   const page = project.slug ? `/works/${project.slug}` : null
   const formattedIndex = String(index + 1).padStart(2, '0')
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
-  const [isHovering, setIsHovering] = useState(false)
-  // The cover preview follows the pointer, so over the buttons below it would
-  // sit on top of them: hide it there
-  const [overLink, setOverLink] = useState(false)
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!project.coverImage) return
-    setOverLink((e.target as Element).closest('[data-actions]') !== null)
-    setMousePosition({
-      x: e.clientX,
-      y: e.clientY,
-    })
-  }
 
   return (
-    <article
-      className="group relative"
-      onMouseEnter={() => setIsHovering(true)}
-      onMouseLeave={() => setIsHovering(false)}
-      onMouseMove={handleMouseMove}
-    >
+    <article className="group relative">
       <MagazineLine className="mb-6" delay={index * 100} />
 
-      {/* Hover Image Preview */}
-      {project.coverImage && isHovering && !overLink && (
-        <div
-          className="
-            pointer-events-none fixed z-50
-            w-48 h-32 md:w-64 md:h-44
-            rounded-lg overflow-hidden shadow-2xl
-            opacity-0 group-hover:opacity-100
-            transition-opacity duration-200
-            border border-zinc-200 dark:border-zinc-700
-          "
-          style={{
-            left: mousePosition.x + 20,
-            top: mousePosition.y - 80,
-            transform: 'translate(0, 0)',
-          }}
-        >
-          <ResponsiveImage src={project.coverImage} alt="" sizes="256px" loading="eager" className="w-full h-full object-cover" />
-        </div>
-      )}
-
+      {/* The cover beside the text; on a phone, above it */}
+      <div className={project.coverImage ? `grid gap-6 md:gap-10 ${featured ? 'md:grid-cols-[minmax(0,1fr)_20rem]' : 'md:grid-cols-[minmax(0,1fr)_16rem]'}` : ''}>
+        {project.coverImage &&
+          (page ? (
+            <Link to={page} tabIndex={-1} aria-hidden="true" className="block md:order-last">
+              <Cover src={project.coverImage} />
+            </Link>
+          ) : (
+            <div className="md:order-last">
+              <Cover src={project.coverImage} />
+            </div>
+          ))}
       <div className="flex items-start justify-between gap-4">
         <div className="flex-1">
           <div className="flex items-baseline gap-4 mb-3">
@@ -112,7 +85,7 @@ export default function ProjectCard({ project, index, featured = false, story = 
               makes the reader want to open it, or the first lines of the
               description; the rest is on the page */}
           {hook ? (
-            <p className={`mb-5 max-w-2xl font-serif font-light leading-snug text-ink ${featured ? 'text-2xl md:text-[1.7rem]' : 'text-xl md:text-2xl'}`}>
+            <p className={`mb-5 max-w-xl font-serif italic leading-snug text-ink/85 ${featured ? 'text-xl md:text-[1.4rem]' : 'text-lg md:text-xl'}`}>
               {hook}
             </p>
           ) : (
@@ -197,6 +170,29 @@ export default function ProjectCard({ project, index, featured = false, story = 
           </a>
         )}
       </div>
+      </div>
     </article>
+  )
+}
+
+// A project's cover, loaded once it is nearly on screen: a drawn (SVG)
+// cover animates as it loads, so it starts where the reader can see it.
+// A drawing is shown whole; a photo fills the frame.
+function Cover({ src }: { src: string }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const near = useInView(ref, { once: true, margin: '0px 0px -15% 0px' })
+  const drawing = /\.svg$/i.test(src)
+  return (
+    <div ref={ref} className="aspect-[2/1] w-full overflow-hidden rounded-2xl border border-zinc-200 bg-paper-dark md:aspect-[8/5]">
+      {near && (
+        <ResponsiveImage
+          src={src}
+          alt=""
+          sizes="(min-width: 768px) 320px, 100vw"
+          loading="eager"
+          className={`h-full w-full ${drawing ? 'object-contain' : 'object-cover'}`}
+        />
+      )}
+    </div>
   )
 }
