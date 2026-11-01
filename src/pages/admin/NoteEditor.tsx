@@ -283,7 +283,7 @@ export default function NoteEditor() {
           <div className="flex items-center gap-3">
             {draft.savedAt && (
               <span
-                className="font-mono text-[0.8rem] text-zinc-400"
+                className="font-mono text-[0.875rem] text-zinc-400"
                 title="Unsaved changes are kept in this browser until you save"
               >
                 Draft kept · {new Date(draft.savedAt).toLocaleTimeString(undefined, { timeStyle: 'short' })}

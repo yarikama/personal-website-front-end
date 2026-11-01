@@ -24,7 +24,7 @@ export default function DiskYear({ disks, years }: { disks: number; years: numbe
           </rect>
         ))}
       </svg>
-      <div className="mt-2 flex justify-between font-mono text-[0.8rem] uppercase tracking-widest text-zinc-400">
+      <div className="mt-2 flex justify-between font-mono text-[0.875rem] uppercase tracking-widest text-zinc-400">
         <span>Jan</span>
         <span>One square a day</span>
         <span>Dec</span>

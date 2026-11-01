@@ -41,7 +41,7 @@ export default function Arms({ c }: { c: number }) {
 
   return (
     <div>
-      <div className="flex items-baseline justify-between gap-4 font-mono text-[0.8rem] uppercase tracking-widest">
+      <div className="flex items-baseline justify-between gap-4 font-mono text-[0.875rem] uppercase tracking-widest">
         <span className="shrink-0 text-zinc-faded">
           Pull <span className="text-ink tabular-nums">{t}</span> of {PULLS}
         </span>
@@ -141,7 +141,7 @@ export default function Arms({ c }: { c: number }) {
           N
         </text>
       </svg>
-      <div className="mt-2 flex flex-wrap gap-x-6 gap-y-1 font-mono text-[0.75rem] uppercase tracking-widest text-zinc-faded">
+      <div className="mt-2 flex flex-wrap gap-x-6 gap-y-1 font-mono text-[0.8125rem] uppercase tracking-widest text-zinc-faded">
         <span>
           <span className="mr-2 inline-block h-2.5 w-2.5 rounded-full bg-ink align-middle" />
           Score Q

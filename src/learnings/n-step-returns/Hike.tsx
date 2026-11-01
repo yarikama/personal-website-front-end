@@ -55,7 +55,7 @@ export default function Hike({ step }: { step: number }) {
 
   return (
     <div>
-      <p className="font-mono text-[0.8rem] uppercase tracking-widest text-zinc-faded">{status}</p>
+      <p className="font-mono text-[0.875rem] uppercase tracking-widest text-zinc-faded">{status}</p>
       <svg viewBox={`0 0 ${WIDTH} ${HEIGHT}`} className="mx-auto mt-2 w-full max-w-[32rem]" role="img" aria-label={status}>
         {/* The trail */}
         <line x1={post(0)} x2={post(HUT)} y1={GROUND} y2={GROUND} className="stroke-zinc-300 dark:stroke-zinc-200/25" strokeWidth={6} strokeLinecap="round" />

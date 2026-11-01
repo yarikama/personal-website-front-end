@@ -66,7 +66,7 @@ export default function Shop({ visits, from, to, pace, truth = false, named = fa
 
   return (
     <div>
-      <div className="flex flex-wrap items-baseline justify-between gap-x-4 font-mono text-[0.8rem] uppercase tracking-widest">
+      <div className="flex flex-wrap items-baseline justify-between gap-x-4 font-mono text-[0.875rem] uppercase tracking-widest">
         <span className="text-zinc-faded">
           {named ? 'A greedy learner' : 'You'}
           {visit && (

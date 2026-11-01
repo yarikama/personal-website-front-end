@@ -49,13 +49,13 @@ export default function Article({ kicker, title, promise, takeaway, sources, chi
       </div>
 
       <div className="mt-16 border-l-2 border-sage pl-5">
-        <span className="font-mono text-[0.8rem] uppercase tracking-widest text-sage">Remember this</span>
+        <span className="font-mono text-[0.875rem] uppercase tracking-widest text-sage">Remember this</span>
         <p className="mt-2 font-serif text-2xl font-light leading-snug">{takeaway}</p>
       </div>
 
       <MagazineLine className="mt-16 mb-8" />
       <footer>
-        <h2 className="font-mono text-[0.8rem] uppercase tracking-widest text-zinc-400 mb-4">Read more</h2>
+        <h2 className="font-mono text-[0.875rem] uppercase tracking-widest text-zinc-400 mb-4">Read more</h2>
         <ul className="flex flex-col gap-3">
           {sources.map((source) => (
             <li key={source.title} className="text-sm text-zinc-faded leading-relaxed">

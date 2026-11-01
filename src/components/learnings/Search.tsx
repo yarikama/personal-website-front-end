@@ -101,7 +101,7 @@ export default function Search({
         {tag && (
           <button
             onClick={() => onTag(null)}
-            className="inline-flex shrink-0 items-center gap-1 bg-sage/15 px-1.5 py-0.5 font-mono text-[0.75rem] uppercase tracking-widest text-sage hover:bg-sage/25 transition-colors"
+            className="inline-flex shrink-0 items-center gap-1 bg-sage/15 px-1.5 py-0.5 font-mono text-[0.8125rem] uppercase tracking-widest text-sage hover:bg-sage/25 transition-colors"
             aria-label={`Stop showing the tag ${tag}`}
           >
             {tag}
@@ -158,10 +158,10 @@ export default function Search({
               {option.kind === 'tag' ? (
                 <>
                   <Hash size={12} className="shrink-0 text-zinc-400" aria-hidden />
-                  <span className={`font-mono text-[0.8rem] uppercase tracking-widest ${option.tag === tag ? 'text-sage' : 'text-ink'}`}>
+                  <span className={`font-mono text-[0.875rem] uppercase tracking-widest ${option.tag === tag ? 'text-sage' : 'text-ink'}`}>
                     {option.tag}
                   </span>
-                  <span className="ml-auto font-mono text-[0.75rem] text-zinc-400">{option.count}</span>
+                  <span className="ml-auto font-mono text-[0.8125rem] text-zinc-400">{option.count}</span>
                 </>
               ) : (
                 <>

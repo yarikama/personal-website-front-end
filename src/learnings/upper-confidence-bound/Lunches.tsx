@@ -69,7 +69,7 @@ export default function Lunches({ record, from, to, pace, bars = true, focus, tr
 
   return (
     <div>
-      <div className="flex items-baseline justify-between gap-4 font-mono text-[0.8rem] uppercase tracking-widest">
+      <div className="flex items-baseline justify-between gap-4 font-mono text-[0.875rem] uppercase tracking-widest">
         <span className="shrink-0 text-zinc-faded">
           {named ? `Step t = ${Math.max(1, eaten)}` : `Lunch ${Math.max(1, eaten)} · week ${Math.ceil(Math.max(1, eaten) / 5)}`}
         </span>

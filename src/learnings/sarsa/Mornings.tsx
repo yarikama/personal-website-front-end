@@ -18,7 +18,7 @@ function walker(training: Training, morning: number, played: number) {
 }
 
 function Status({ children }: { children: string }) {
-  return <p className="font-mono text-[0.8rem] uppercase tracking-widest text-zinc-faded">{children}</p>
+  return <p className="font-mono text-[0.875rem] uppercase tracking-widest text-zinc-faded">{children}</p>
 }
 
 // The story: mornings walking to the station in a new town, learning a
@@ -109,7 +109,7 @@ export default function Mornings({
             ]}
           />
         </div>
-        <p className="mt-3 text-center font-mono text-[0.8rem] tabular-nums text-zinc-faded">
+        <p className="mt-3 text-center font-mono text-[0.875rem] tabular-nums text-zinc-faded">
           <span className="uppercase tracking-widest">{way}:</span> {fmt(now.before)} + 0.5 × (−1 + <span className="text-sage">{paren(onward)}</span> −{' '}
           {paren(now.before)}) = <span className={updated ? 'text-ink' : 'opacity-0'}>{fmt(now.after)}</span>
         </p>
@@ -164,7 +164,7 @@ export default function Mornings({
           ]}
         />
       </div>
-      <p className="mt-3 text-center font-mono text-[0.8rem] tabular-nums text-zinc-faded">
+      <p className="mt-3 text-center font-mono text-[0.875rem] tabular-nums text-zinc-faded">
         Q(s, a) ← Q(s, a) + α × (r + γ <span className="text-sage">Q(s′, a′)</span> − Q(s, a))
       </p>
     </div>

@@ -59,7 +59,7 @@ export default function Overview({ graph, node, stages, hasPage, onOpen }: Overv
 
       {links.parts.length > 0 && (
         <section className="mt-16">
-          <h2 className="font-mono text-[0.8rem] uppercase tracking-widest text-zinc-400 mb-6">Inside, in reading order</h2>
+          <h2 className="font-mono text-[0.875rem] uppercase tracking-widest text-zinc-400 mb-6">Inside, in reading order</h2>
           <ol className="flex flex-col gap-6">
             {links.parts.map((part, i) => (
               <li key={part.slug} className="flex gap-4">
@@ -79,7 +79,7 @@ export default function Overview({ graph, node, stages, hasPage, onOpen }: Overv
 
       {elsewhere.length > 0 && (
         <footer className="mt-16">
-          <h2 className="font-mono text-[0.8rem] uppercase tracking-widest text-zinc-400 mb-4">Read more</h2>
+          <h2 className="font-mono text-[0.875rem] uppercase tracking-widest text-zinc-400 mb-4">Read more</h2>
           <ul className="flex flex-col gap-3">
             {elsewhere.map((other) => (
               <li key={other.slug} className="text-sm leading-relaxed text-zinc-faded">

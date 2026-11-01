@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
 import { seeded } from '../../components/explain/random'
+import { NARROW, useWidth } from '../../components/case/useWidth'
 import { usePrefersReducedMotion } from '../../hooks'
 
 // A job shop as a graph: one dot per step of a job (an operation), jobs as
@@ -28,12 +29,15 @@ function routes(jobs: number): number[][] {
 export default function ShopGraph({ jobs, hubs }: { jobs: number; hubs: boolean }) {
   const reducedMotion = usePrefersReducedMotion()
   const machinesOf = useMemo(() => routes(10), [])
-  const W = 640
+  // Drawn at the width it is shown, so its labels keep their size on a phone
+  const { ref, width: W } = useWidth<HTMLDivElement>()
+  const narrow = W < NARROW
   const H = 330
-  const left = 120
-  const colX = (j: number) => left + j * 130
+  const left = narrow ? 62 : 120
+  const gap = narrow ? (W - left - 72) / 2 : 130
+  const colX = (j: number) => left + j * gap
   const rowY = (i: number) => 24 + (i + 0.5) * ((H - 48) / jobs)
-  const hubX = 560
+  const hubX = narrow ? W - 26 : 560
   const hubY = (m: number) => 70 + m * 95
 
   const ops = Array.from({ length: jobs }, (_, i) =>
@@ -48,9 +52,10 @@ export default function ShopGraph({ jobs, hubs }: { jobs: number; hubs: boolean 
   const fade = reducedMotion ? { duration: 0 } : { duration: 0.35 }
 
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} className="w-full" role="img" aria-label={`${jobs} jobs on 3 machines, ${hubs ? 'with machine hubs' : `${conflicts.length} same-machine links`}`}>
+    <div ref={ref}>
+    <svg viewBox={`0 0 ${W} ${H}`} width={W} height={H} className="block max-w-full" role="img" aria-label={`${jobs} jobs on 3 machines, ${hubs ? 'with machine hubs' : `${conflicts.length} same-machine links`}`}>
       {Array.from({ length: jobs }, (_, i) => (
-        <text key={`job${i}`} x={left - 40} y={rowY(i) + 4} textAnchor="end" className="fill-zinc-400 font-mono text-[11px]">
+        <text key={`job${i}`} x={left - (narrow ? 18 : 40)} y={rowY(i) + 4} textAnchor="end" className="fill-zinc-400 font-mono text-[12px]">
           job {i + 1}
         </text>
       ))}
@@ -145,5 +150,6 @@ export default function ShopGraph({ jobs, hubs }: { jobs: number; hubs: boolean 
           ))}
       </AnimatePresence>
     </svg>
+    </div>
   )
 }

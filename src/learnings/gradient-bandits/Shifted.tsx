@@ -72,7 +72,7 @@ export default function Shifted({ alpha }: { alpha: number }) {
 
       <table className="mt-4 w-full text-left">
         <thead>
-          <tr className="font-mono text-[0.8rem] uppercase tracking-widest">
+          <tr className="font-mono text-[0.875rem] uppercase tracking-widest">
             <th className="w-2/5 pb-1 font-normal" />
             <th className="pb-1 font-normal text-sage">Baseline</th>
             <th className="pb-1 font-normal text-ink">None</th>
@@ -81,7 +81,7 @@ export default function Shifted({ alpha }: { alpha: number }) {
         <tbody className="font-serif text-3xl font-light tabular-nums">
           {rows.map(([label, measure]) => (
             <tr key={label}>
-              <th className="py-1 pr-2 align-middle font-mono text-[0.8rem] font-normal uppercase tracking-widest text-zinc-faded">
+              <th className="py-1 pr-2 align-middle font-mono text-[0.875rem] font-normal uppercase tracking-widest text-zinc-faded">
                 {label}
               </th>
               <td className="py-1 text-sage">{percent(measure(withBaseline))}</td>

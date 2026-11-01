@@ -225,7 +225,7 @@ export default function ToolPoisoning({ project }: { project: Project }) {
             ] as const
           ).map(([title, , values]) => (
             <div key={title}>
-              <p className="mb-3 font-mono text-[0.75rem] uppercase tracking-widest text-zinc-faded">{title}</p>
+              <p className="mb-3 font-mono text-[0.8125rem] uppercase tracking-widest text-zinc-faded">{title}</p>
               <Bars
                 max={70}
                 decimals={title === 'Privacy leak score' ? 1 : 0}

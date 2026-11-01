@@ -56,7 +56,7 @@ export function DotGrid({
 // The key under a grid: what each tone means
 export function DotKey({ items }: { items: [Tone, string][] }) {
   return (
-    <div className="mt-4 flex flex-wrap justify-center gap-x-6 gap-y-2 font-mono text-[0.8rem] uppercase tracking-widest text-zinc-faded">
+    <div className="mt-4 flex flex-wrap justify-center gap-x-6 gap-y-2 font-mono text-[0.875rem] uppercase tracking-widest text-zinc-faded">
       {items.map(([tone, text]) => (
         <span key={text} className="inline-flex items-center gap-2">
           <svg width="12" height="12" aria-hidden>

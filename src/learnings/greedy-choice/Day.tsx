@@ -72,7 +72,7 @@ export default function Day({ day, rule, pace = 900, named = false, cancelled = 
 
   return (
     <div>
-      <div className="flex items-baseline justify-between gap-4 font-mono text-[0.8rem] uppercase tracking-widest">
+      <div className="flex items-baseline justify-between gap-4 font-mono text-[0.875rem] uppercase tracking-widest">
         <span className="shrink-0 text-zinc-faded">{rule ? (named ? 'Greedy · ends first' : RULE_NAMES[rule]) : 'One room'}</span>
         <span className={`text-right ${rule && done ? (short ? 'text-ink' : 'text-sage') : 'text-zinc-faded'}`}>{status}</span>
       </div>

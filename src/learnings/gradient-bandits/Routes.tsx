@@ -134,7 +134,7 @@ export default function Routes({ run, who, baseline, from, to, pace, named = fal
 
   return (
     <div>
-      <div className="flex items-baseline justify-between gap-4 font-mono text-[0.8rem] uppercase tracking-widest">
+      <div className="flex items-baseline justify-between gap-4 font-mono text-[0.875rem] uppercase tracking-widest">
         <span className="shrink-0 text-zinc-faded">
           {who} · {to === 0 ? 'Before the first trip' : `Morning ${shown + 1}`}
         </span>
@@ -148,7 +148,7 @@ export default function Routes({ run, who, baseline, from, to, pace, named = fal
         </span>
       </div>
       <div
-        className={`mt-2 font-mono text-[0.8rem] uppercase tracking-widest transition-opacity ${
+        className={`mt-2 font-mono text-[0.875rem] uppercase tracking-widest transition-opacity ${
           arrived ? 'opacity-100' : 'opacity-0'
         } ${baseline && surprise < -0.05 ? 'text-ink' : 'text-sage'}`}
       >

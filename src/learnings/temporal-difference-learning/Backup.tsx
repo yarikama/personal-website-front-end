@@ -40,7 +40,7 @@ export default function Backup() {
 
   return (
     <div>
-      <div className="flex items-baseline justify-between gap-4 font-mono text-[0.8rem] uppercase tracking-widest">
+      <div className="flex items-baseline justify-between gap-4 font-mono text-[0.875rem] uppercase tracking-widest">
         <span className="shrink-0 text-zinc-faded">Game {game + 1}</span>
         <span className="text-right text-sage">
           The win has reached {reached} of {POSITIONS.length} positions

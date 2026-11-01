@@ -42,7 +42,7 @@ export function OneDinner({ arrivals }: { arrivals: number[] }) {
 
   return (
     <div>
-      <div className="flex items-baseline justify-between gap-4 font-mono text-[0.8rem] uppercase tracking-widest">
+      <div className="flex items-baseline justify-between gap-4 font-mono text-[0.875rem] uppercase tracking-widest">
         <span className="shrink-0 text-zinc-faded">{clock(Math.min(minute, last))}</span>
         <span className={`text-right ${seated ? (waited ? 'text-ink' : 'text-sage') : 'text-zinc-faded'}`}>
           {seated

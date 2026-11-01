@@ -41,7 +41,7 @@ function Run({ world, seed }: { world: World; seed: number }) {
 
   return (
     <div>
-      <div className="flex items-baseline justify-between gap-4 font-mono text-[0.8rem] uppercase tracking-widest">
+      <div className="flex items-baseline justify-between gap-4 font-mono text-[0.875rem] uppercase tracking-widest">
         <span className="text-zinc-faded">
           Pass <span className="tabular-nums text-ink">{Math.floor(played)}</span>
         </span>
@@ -179,7 +179,7 @@ export default function Replay() {
         <Readout label="TD misses by" value={`${misses.td.toFixed(1)} min`} accent={better === 'td'} />
         <Readout label="MC misses by" value={`${misses.mc.toFixed(1)} min`} accent={better === 'mc'} />
       </Controls>
-      <p className="mt-3 font-mono text-[0.7rem] uppercase tracking-widest text-zinc-faded">
+      <p className="mt-3 font-mono text-[0.8rem] uppercase tracking-widest text-zinc-faded">
         Bus and bike, typically, over {NOTEBOOKS.toLocaleString('en-US')} notebooks of ten trips; every guess starts at {FIRST_GUESS}
       </p>
     </div>

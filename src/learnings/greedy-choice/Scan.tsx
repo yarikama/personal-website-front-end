@@ -89,7 +89,7 @@ export default function Scan({ day }: { day: Meeting[] }) {
 
   return (
     <div ref={root}>
-      <div className="flex items-baseline justify-between gap-4 font-mono text-[0.8rem] uppercase tracking-widest">
+      <div className="flex items-baseline justify-between gap-4 font-mono text-[0.875rem] uppercase tracking-widest">
         <span className="shrink-0 text-zinc-faded">
           Picked <span className="text-ink tabular-nums">{step.picked.length}</span>
         </span>

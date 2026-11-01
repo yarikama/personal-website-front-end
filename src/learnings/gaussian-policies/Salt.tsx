@@ -291,7 +291,7 @@ function Frame({
 }) {
   return (
     <div>
-      <div className="flex items-baseline justify-between gap-4 font-mono text-[0.8rem] uppercase tracking-widest">
+      <div className="flex items-baseline justify-between gap-4 font-mono text-[0.875rem] uppercase tracking-widest">
         <span className="shrink-0 text-zinc-faded">{title}</span>
         {usual !== undefined && (
           <span className="text-right text-zinc-faded">
@@ -300,7 +300,7 @@ function Frame({
         )}
       </div>
       <div className="mt-2">{children}</div>
-      <p className="mt-1 min-h-[3em] sm:min-h-[1.5em] text-center font-mono text-[0.8rem] uppercase tracking-widest text-zinc-faded">{note}</p>
+      <p className="mt-1 min-h-[3em] sm:min-h-[1.5em] text-center font-mono text-[0.875rem] uppercase tracking-widest text-zinc-faded">{note}</p>
     </div>
   )
 }

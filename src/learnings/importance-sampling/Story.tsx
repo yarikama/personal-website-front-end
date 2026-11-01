@@ -41,7 +41,7 @@ const RATIOS = (): Labels => ({
 })
 
 function Status({ children }: { children: string }) {
-  return <p className="font-mono text-[0.8rem] uppercase tracking-widest text-zinc-faded">{children}</p>
+  return <p className="font-mono text-[0.875rem] uppercase tracking-widest text-zinc-faded">{children}</p>
 }
 
 const turns = (trip: Trip) =>
@@ -56,7 +56,7 @@ const turns = (trip: Trip) =>
 function Log({ rows, weights, footer }: { rows: number; weights: boolean; footer: { label: string; value: string; accent?: boolean }[] }) {
   return (
     <div className="mt-4">
-      <table className="w-full text-left font-mono text-[0.8rem] tabular-nums">
+      <table className="w-full text-left font-mono text-[0.875rem] tabular-nums">
         <thead>
           <tr className="uppercase tracking-widest text-zinc-faded">
             <th className="pb-1 font-normal">Trip</th>
@@ -79,7 +79,7 @@ function Log({ rows, weights, footer }: { rows: number; weights: boolean; footer
       <div className="mt-3 flex min-h-[3.25rem] flex-wrap gap-x-8 gap-y-2">
         {footer.map((item) => (
           <div key={item.label} className="flex flex-col">
-            <span className="font-mono text-[0.75rem] uppercase tracking-widest text-zinc-faded">{item.label}</span>
+            <span className="font-mono text-[0.8125rem] uppercase tracking-widest text-zinc-faded">{item.label}</span>
             <span className={`font-serif text-2xl font-light tabular-nums ${item.accent ? 'text-sage' : 'text-ink'}`}>{item.value}</span>
           </div>
         ))}
@@ -159,7 +159,7 @@ export default function Story({ step }: { step: number }) {
             </>
           )}
         </p>
-        <p className="mt-1 min-h-[1.5rem] text-center font-mono text-[0.8rem] text-zinc-400">
+        <p className="mt-1 min-h-[1.5rem] text-center font-mono text-[0.875rem] text-zinc-400">
           {step === 3 && passed >= 2 ? 'A jam: 1 in 4, whoever drives' : ''}
         </p>
       </div>

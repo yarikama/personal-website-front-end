@@ -88,7 +88,7 @@ export default function Lunches({ days, from, to, pace, named = false }: { days:
         named={named}
       />
       {(quick || named) && (
-        <p className="mt-1 text-center font-mono text-[0.8rem] uppercase tracking-widest text-zinc-faded">
+        <p className="mt-1 text-center font-mono text-[0.875rem] uppercase tracking-widest text-zinc-faded">
           Bars: where the last {recent.length} lunches ended
         </p>
       )}
@@ -113,7 +113,7 @@ function Frame({
 }) {
   return (
     <div>
-      <div className="flex items-baseline justify-between gap-4 font-mono text-[0.8rem] uppercase tracking-widest">
+      <div className="flex items-baseline justify-between gap-4 font-mono text-[0.875rem] uppercase tracking-widest">
         <span className="shrink-0 text-zinc-faded">{title}</span>
         {usual !== undefined && (
           <span className="text-right text-zinc-faded">
@@ -121,7 +121,7 @@ function Frame({
           </span>
         )}
       </div>
-      <div className={`mt-2 min-h-[1.25rem] font-mono text-[0.8rem] uppercase tracking-widest ${good ? 'text-sage' : 'text-ink'}`}>
+      <div className={`mt-2 min-h-[1.25rem] font-mono text-[0.875rem] uppercase tracking-widest ${good ? 'text-sage' : 'text-ink'}`}>
         {named ? 'The rating: the return G' : note}
       </div>
       <div className="mt-2">{children}</div>

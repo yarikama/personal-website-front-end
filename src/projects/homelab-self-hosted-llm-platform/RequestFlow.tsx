@@ -1,4 +1,5 @@
 import { motion } from 'motion/react'
+import { NARROW, useWidth } from '../../components/case/useWidth'
 import { usePrefersReducedMotion } from '../../hooks'
 
 // A visitor's request on its way through Henry's setup, one hop per step of
@@ -7,13 +8,59 @@ import { usePrefersReducedMotion } from '../../hooks'
 
 type Id = 'browser' | 'edge' | 'api' | 'db' | 'gpu' | 'r2'
 
-const NODES: Record<Id, { x: number; y: number; label: string; sub: string }> = {
-  browser: { x: 62, y: 150, label: 'You', sub: 'a browser' },
-  edge: { x: 205, y: 150, label: 'Cloudflare', sub: 'the doorman' },
-  r2: { x: 205, y: 46, label: 'R2', sub: 'off-site copy' },
-  api: { x: 380, y: 150, label: 'API', sub: 'FastAPI on k3s' },
-  db: { x: 540, y: 86, label: 'Postgres', sub: 'the data' },
-  gpu: { x: 540, y: 214, label: 'GPU', sub: 'two models' },
+const LABELS: Record<Id, { label: string; sub: string }> = {
+  browser: { label: 'You', sub: 'a browser' },
+  edge: { label: 'Cloudflare', sub: 'the doorman' },
+  r2: { label: 'R2', sub: 'off-site copy' },
+  api: { label: 'API', sub: 'FastAPI on k3s' },
+  db: { label: 'Postgres', sub: 'the data' },
+  gpu: { label: 'GPU', sub: 'two models' },
+}
+
+type Point = { x: number; y: number }
+interface Layout {
+  width: number
+  height: number
+  at: Record<Id, Point>
+  home: { x: number; y: number; width: number; height: number }
+  homeLabel: Point & { anchor: 'start' | 'end' }
+  ports: Point
+  tunnel: Point & { anchor: 'start' | 'middle' }
+}
+
+// Left to right on a wide screen; top to bottom on a phone, where the wide
+// one would shrink its labels past reading
+const WIDE: Layout = {
+  width: 640,
+  height: 270,
+  at: {
+    browser: { x: 62, y: 150 },
+    edge: { x: 205, y: 150 },
+    r2: { x: 205, y: 46 },
+    api: { x: 380, y: 150 },
+    db: { x: 540, y: 86 },
+    gpu: { x: 540, y: 214 },
+  },
+  home: { x: 300, y: 20, width: 330, height: 240 },
+  homeLabel: { x: 615, y: 42, anchor: 'end' },
+  ports: { x: 615, y: 250 },
+  tunnel: { x: 292, y: 140, anchor: 'middle' },
+}
+const TALL: Layout = {
+  width: 360,
+  height: 540,
+  at: {
+    browser: { x: 90, y: 45 },
+    edge: { x: 90, y: 150 },
+    r2: { x: 270, y: 150 },
+    api: { x: 180, y: 290 },
+    db: { x: 265, y: 430 },
+    gpu: { x: 95, y: 430 },
+  },
+  home: { x: 10, y: 215, width: 340, height: 315 },
+  homeLabel: { x: 22, y: 512, anchor: 'start' },
+  ports: { x: 338, y: 512 },
+  tunnel: { x: 152, y: 238, anchor: 'start' },
 }
 
 const EDGES: { from: Id; to: Id; dashed?: boolean }[] = [
@@ -39,17 +86,23 @@ const H = 50
 
 export default function RequestFlow({ step }: { step: number }) {
   const reducedMotion = usePrefersReducedMotion()
+  const { ref, width } = useWidth<HTMLDivElement>()
+  const layout = width < NARROW ? TALL : WIDE
   const { lit, at } = FLOW[step]
   const on = (id: Id) => lit.includes(id)
+  const NODES = Object.fromEntries(
+    (Object.keys(LABELS) as Id[]).map((id) => [id, { ...LABELS[id], ...layout.at[id] }])
+  ) as Record<Id, Point & { label: string; sub: string }>
   const dot = NODES[at]
   return (
-    <svg viewBox="0 0 640 270" className="w-full" role="img" aria-label="A request going from a browser through Cloudflare into Henry's laptop">
+    <div ref={ref}>
+    <svg viewBox={`0 0 ${layout.width} ${layout.height}`} className="w-full" role="img" aria-label="A request going from a browser through Cloudflare into Henry's laptop">
       {/* Henry's home: one laptop, nothing listening to the internet */}
-      <rect x={300} y={20} width={330} height={240} rx={10} className="fill-sage/5 stroke-sage/50" strokeDasharray="4 4" />
-      <text x={615} y={42} textAnchor="end" className="fill-sage font-mono text-[11px] uppercase tracking-widest">
+      <rect {...layout.home} rx={10} className="fill-sage/5 stroke-sage/50" strokeDasharray="4 4" />
+      <text x={layout.homeLabel.x} y={layout.homeLabel.y} textAnchor={layout.homeLabel.anchor} className="fill-sage font-mono text-[12px] uppercase tracking-widest">
         One laptop at home
       </text>
-      <text x={615} y={250} textAnchor="end" className="fill-zinc-400 font-mono text-[10px]">
+      <text x={layout.ports.x} y={layout.ports.y} textAnchor="end" className="fill-zinc-400 font-mono text-[12px]">
         no open ports
       </text>
 
@@ -75,7 +128,7 @@ export default function RequestFlow({ step }: { step: number }) {
         )
       })}
       {on('edge') && on('api') && (
-        <text x={292} y={140} textAnchor="middle" className="fill-sage font-mono text-[10px]">
+        <text x={layout.tunnel.x} y={layout.tunnel.y} textAnchor={layout.tunnel.anchor} className="fill-sage font-mono text-[12px]">
           tunnel
         </text>
       )}
@@ -104,7 +157,7 @@ export default function RequestFlow({ step }: { step: number }) {
             >
               {node.label}
             </text>
-            <text x={node.x} y={node.y + 14} textAnchor="middle" className="fill-zinc-400 font-mono text-[9.5px]">
+            <text x={node.x} y={node.y + 14} textAnchor="middle" className="fill-zinc-400 font-mono text-[12px]">
               {node.sub}
             </text>
           </g>
@@ -120,5 +173,6 @@ export default function RequestFlow({ step }: { step: number }) {
         transition={reducedMotion ? { duration: 0 } : { type: 'spring', stiffness: 120, damping: 18 }}
       />
     </svg>
+    </div>
   )
 }

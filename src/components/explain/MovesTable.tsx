@@ -35,10 +35,10 @@ export default function MovesTable({
 }) {
   const g = String(gamma).replace(/^0/, '')
   return (
-    <div className="mx-auto w-full max-w-[26rem] font-mono text-[0.8rem]">
+    <div className="mx-auto w-full max-w-[26rem] font-mono text-[0.875rem]">
       <table className="w-full tabular-nums">
         <thead>
-          <tr className="text-[0.7rem] text-zinc-400">
+          <tr className="text-[0.8rem] text-zinc-400">
             <th className="pb-2 text-left font-normal uppercase tracking-widest">Move</th>
             <th className="pb-2 text-right font-normal">r</th>
             <th className="pb-2 text-right font-normal">+ {g} × v′</th>

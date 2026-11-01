@@ -73,7 +73,7 @@ export default function Shower({ step }: { step: number }) {
 
   return (
     <div>
-      <p className="font-mono text-[0.8rem] uppercase tracking-widest text-zinc-faded">{STATUS[step]}</p>
+      <p className="font-mono text-[0.875rem] uppercase tracking-widest text-zinc-faded">{STATUS[step]}</p>
       <svg viewBox={`0 0 ${WIDTH} ${HEIGHT}`} className="mx-auto mt-2 w-full max-w-[32rem]" role="img" aria-label={STATUS[step]}>
         {/* The dial */}
         <path

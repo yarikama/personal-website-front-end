@@ -66,7 +66,7 @@ export default function CaseStudy({ project, pitch, problem, did, result, stats,
       </div>
 
       <div className="mt-20 border-l-2 border-sage pl-5">
-        <span className="font-mono text-[0.8rem] uppercase tracking-widest text-sage">What I took away</span>
+        <span className="font-mono text-[0.875rem] uppercase tracking-widest text-sage">What I took away</span>
         <p className="mt-2 font-serif text-2xl font-light leading-snug">{learned}</p>
       </div>
 
@@ -94,7 +94,7 @@ function Stats({ stats }: { stats: Stat[] }) {
           <dd className="font-serif text-5xl font-light tabular-nums text-ink">
             <StatValue stat={stat} go={seen} />
           </dd>
-          <dt className="mt-2 font-mono text-[0.8rem] uppercase tracking-widest text-zinc-faded">{stat.label}</dt>
+          <dt className="mt-2 font-mono text-[0.875rem] uppercase tracking-widest text-zinc-faded">{stat.label}</dt>
           {stat.note && <p className="mt-1 text-sm text-zinc-400">{stat.note}</p>}
         </motion.div>
       ))}
@@ -123,7 +123,7 @@ function InShort(props: { problem: ReactNode; did: ReactNode; result: ReactNode 
   const { ref, seen } = useSeen<HTMLDivElement>(0.3)
   return (
     <section ref={ref} aria-label="In thirty seconds" className="not-prose mt-10 mb-6">
-      <span className="font-mono text-[0.8rem] uppercase tracking-widest text-sage">In thirty seconds</span>
+      <span className="font-mono text-[0.875rem] uppercase tracking-widest text-sage">In thirty seconds</span>
       <ol className="mt-4 flex flex-col">
         {ROWS.map(({ key, label, icon: Icon }, i) => (
           <motion.li
@@ -135,7 +135,7 @@ function InShort(props: { problem: ReactNode; did: ReactNode; result: ReactNode 
           >
             <Icon size={18} className="mt-1 text-sage" aria-hidden />
             <div>
-              <p className="font-mono text-[0.8rem] uppercase tracking-widest text-zinc-400">{label}</p>
+              <p className="font-mono text-[0.875rem] uppercase tracking-widest text-zinc-400">{label}</p>
               <p className="mt-1 text-lg leading-relaxed text-ink">{props[key]}</p>
             </div>
           </motion.li>
@@ -154,12 +154,12 @@ export function Built({ project }: { project: Project }) {
   return (
     <footer className="flex flex-col gap-6">
       <div>
-        <h2 className="font-mono text-[0.8rem] uppercase tracking-widest text-zinc-400 mb-3">Built with</h2>
+        <h2 className="font-mono text-[0.875rem] uppercase tracking-widest text-zinc-400 mb-3">Built with</h2>
         <ul className="flex flex-wrap gap-2">
           {project.tags.map((tag) => (
             <li
               key={tag}
-              className="border border-zinc-200 dark:border-zinc-200/20 px-2.5 py-1 font-mono text-[0.75rem] uppercase tracking-widest text-zinc-faded"
+              className="border border-zinc-200 dark:border-zinc-200/20 px-2.5 py-1 font-mono text-[0.8125rem] uppercase tracking-widest text-zinc-faded"
             >
               {tag}
             </li>

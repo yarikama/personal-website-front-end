@@ -153,7 +153,7 @@ export default function Signs({ count }: { count: number }) {
 
       <table className="mt-4 w-full text-left">
         <thead>
-          <tr className="font-mono text-[0.8rem] uppercase tracking-widest">
+          <tr className="font-mono text-[0.875rem] uppercase tracking-widest">
             <th className="w-2/5 pb-1 font-normal" />
             <th className="pb-1 font-normal text-ink">One table</th>
             <th className="pb-1 font-normal text-sage">Table per sign</th>
@@ -161,14 +161,14 @@ export default function Signs({ count }: { count: number }) {
         </thead>
         <tbody className="font-serif text-3xl font-light tabular-nums">
           <tr>
-            <th className="py-1 pr-2 align-middle font-mono text-[0.8rem] font-normal uppercase tracking-widest text-zinc-faded">
+            <th className="py-1 pr-2 align-middle font-mono text-[0.875rem] font-normal uppercase tracking-widest text-zinc-faded">
               Best arm, last 100 steps
             </th>
             <td className="py-1 text-ink">{percent(meanOf(one.best, STEPS - 100))}</td>
             <td className="py-1 text-sage">{percent(meanOf(per.best, STEPS - 100))}</td>
           </tr>
           <tr>
-            <th className="py-1 pr-2 align-middle font-mono text-[0.8rem] font-normal uppercase tracking-widest text-zinc-faded">
+            <th className="py-1 pr-2 align-middle font-mono text-[0.875rem] font-normal uppercase tracking-widest text-zinc-faded">
               Reward, last 100 steps
             </th>
             <td className="py-1 text-ink">{meanOf(one.reward, STEPS - 100).toFixed(2)}</td>

@@ -10,7 +10,7 @@ const FAR_ROUTE = [at(0, 2), at(0, 1), ...Array.from({ length: EDGE + 1 }, (_, x
 const SLIP = [at(0, 2), at(1, 2), at(2, 2), at(3, 2), at(3, 3)]
 
 function Status({ children }: { children: string }) {
-  return <p className="font-mono text-[0.8rem] uppercase tracking-widest text-zinc-faded">{children}</p>
+  return <p className="font-mono text-[0.875rem] uppercase tracking-widest text-zinc-faded">{children}</p>
 }
 
 // Where someone walking through `cells` is after `played` blocks

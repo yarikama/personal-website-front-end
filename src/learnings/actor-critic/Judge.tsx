@@ -92,7 +92,7 @@ export default function Judge({
         shares={shares}
       />
       {(quick || named) && (
-        <p className="mt-1 text-center font-mono text-[0.8rem] uppercase tracking-widest text-zinc-faded">
+        <p className="mt-1 text-center font-mono text-[0.875rem] uppercase tracking-widest text-zinc-faded">
           {named ? 'Lane widths: the actor · numbers: the critic' : `Bars: where the last ${recent.length} lunches ended`}
         </p>
       )}
@@ -103,8 +103,8 @@ export default function Judge({
 function Frame({ title, note, good = true, children }: { title: string; note: string; good?: boolean; children: ReactNode }) {
   return (
     <div>
-      <div className="font-mono text-[0.8rem] uppercase tracking-widest text-zinc-faded">{title}</div>
-      <div className={`mt-2 min-h-[1.25rem] font-mono text-[0.8rem] uppercase tracking-widest ${good ? 'text-sage' : 'text-ink'}`}>
+      <div className="font-mono text-[0.875rem] uppercase tracking-widest text-zinc-faded">{title}</div>
+      <div className={`mt-2 min-h-[1.25rem] font-mono text-[0.875rem] uppercase tracking-widest ${good ? 'text-sage' : 'text-ink'}`}>
         {note}
       </div>
       <div className="mt-2">{children}</div>

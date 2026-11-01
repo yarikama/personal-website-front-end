@@ -24,7 +24,7 @@ function Run({ n }: { n: number }) {
   const chalk = chalks[hikes]
   return (
     <div>
-      <div className="flex items-baseline justify-between gap-4 font-mono text-[0.8rem] uppercase tracking-widest">
+      <div className="flex items-baseline justify-between gap-4 font-mono text-[0.875rem] uppercase tracking-widest">
         <span className="shrink-0 text-zinc-faded">
           {hikes} of {HIKES} hikes
         </span>
@@ -76,7 +76,7 @@ export default function Learn() {
         <Readout label={`Off by, over ${RUNS} runs`} value={`${Math.round(AVERAGE_MISS.find((m) => m.n === n)!.miss)} min`} accent />
       </Controls>
       <div className="mt-6">
-        <p className="font-mono text-[0.7rem] uppercase tracking-widest text-zinc-faded">
+        <p className="font-mono text-[0.8rem] uppercase tracking-widest text-zinc-faded">
           Off by after {HIKES} hikes, starting from {FIRST_GUESS} everywhere
         </p>
         <div className="mt-2 flex h-24 items-end gap-1.5">
@@ -87,12 +87,12 @@ export default function Learn() {
               aria-label={`n ${showN(m.n)}: off by ${Math.round(m.miss)} minutes`}
               className="flex h-full flex-1 flex-col items-center justify-end gap-1"
             >
-              <span className="font-mono text-[0.7rem] tabular-nums text-zinc-faded">{Math.round(m.miss)}</span>
+              <span className="font-mono text-[0.8rem] tabular-nums text-zinc-faded">{Math.round(m.miss)}</span>
               <span
                 className={`w-full ${m.n === n ? 'bg-sage' : 'bg-zinc-300 dark:bg-zinc-200/35'}`}
                 style={{ height: `${(m.miss / top) * 60}%` }}
               />
-              <span className={`font-mono text-[0.7rem] ${m.n === n ? 'text-sage' : 'text-zinc-faded'}`}>{showN(m.n)}</span>
+              <span className={`font-mono text-[0.8rem] ${m.n === n ? 'text-sage' : 'text-zinc-faded'}`}>{showN(m.n)}</span>
             </button>
           ))}
         </div>
