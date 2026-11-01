@@ -31,7 +31,8 @@ interface NavItem {
 
 // Works and Notes open their own pages, and are also marked while their
 // previews on the home page are on screen. Learnings opens the map, and stays
-// marked on each learning page. Talks shows once there is a public one to list.
+// marked on each learning page; it comes after Contact, the last of the
+// pages about Henry. Talks shows once there is a public one to list.
 const navItems: NavItem[] = [
   { label: 'Ask', href: '/#ask', sectionId: 'ask' },
   {
@@ -46,7 +47,6 @@ const navItems: NavItem[] = [
   },
   { label: 'Works', href: '/works', isRoute: true, sectionId: 'works' },
   { label: 'Notes', href: '/notes', isRoute: true, sectionId: 'notes' },
-  { label: 'Learnings', href: '/learnings', isRoute: true },
   ...(publicTalks.length > 0 ? [{ label: 'Talks', href: '/talks', isRoute: true }] : []),
   {
     label: 'Contact',
@@ -60,6 +60,7 @@ const navItems: NavItem[] = [
       { label: 'Resume', href: '/resume.pdf', icon: FileText, newTab: true },
     ],
   },
+  { label: 'Learnings', href: '/learnings', isRoute: true },
 ]
 
 /**
