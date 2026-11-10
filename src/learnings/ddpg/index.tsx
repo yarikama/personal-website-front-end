@@ -55,7 +55,7 @@ export default function Ddpg() {
         {
           title: 'COMP 442/552: Reinforcement Learning',
           by: 'Vaibhav Unhelkar, Rice University, Fall 2026',
-          part: 'Deep Deterministic Policy Gradient',
+          part: 'Lectures “Deep Deterministic Policy Gradient” and “DDPG (Reprise)”',
         },
       ]}
     >
