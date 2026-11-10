@@ -67,7 +67,7 @@ export default function Ppo() {
         <>
           Reuse a batch by weighting each move with how much likelier the new policy makes it, but once that ratio is
           past 1 ± ε in the direction the move pushes, let it push no further: the policy can take many steps on one
-          batch and still stay <em>close</em> to the one that collected it.
+          batch with no reason to drift far from the one that <em>collected</em> it.
         </>
       }
       sources={[
@@ -136,7 +136,7 @@ export default function Ppo() {
           </>,
           <>
             The cover is now {pct(loose[1])} of your set, and even the waltz, whose every tip beat your usual, is down to{' '}
-            {pct(loose[BEST])}: next weekend you will hardly play it, so you will hardly learn how good it is.
+            {pct(loose[BEST])}: next weekend you will play it far less, and learn far less about how good it is.
           </>,
           <>
             So you add a rule: once a song’s share is a fifth above or below where it was that weekend, its notes stop
@@ -173,7 +173,9 @@ export default function Ppo() {
         goes wrong is the reuse. The notes describe the setlist you played, and every rework moves you further from it,
         while the notes keep speaking as if you hadn’t moved. Weighting each note by how much more often you now play
         its song, the trick from <Link to="/learnings/importance-sampling">learning from someone else’s trips</Link>,
-        corrects the average, but it rests on a few plays, and the further you drift, the more those few count.
+        corrects the average for the songs you now choose, but it rests on a few plays, and the further you drift, the
+        more those few count. With states, it corrects only the choices, not the situations a new policy would lead you
+        into: another reason to stay close.
       </p>
 
       <h2>The one line of math</h2>
@@ -187,7 +189,7 @@ export default function Ppo() {
         items={WORKED.map((w) => ({
           label: `${w.surprise > 0 ? '+' : '−'}$${Math.abs(w.surprise)}, played ×${w.ratio}`,
           value: (w.surprise > 0 && w.ratio > 1 + EPSILON) || (w.surprise < 0 && w.ratio < 1 - EPSILON) ? 'stops' : 'pushes',
-          note: `counts ${clippedObjective(w.ratio, w.surprise).toFixed(1)}`,
+          note: `${(w.surprise > 0 && w.ratio > 1 + EPSILON) || (w.surprise < 0 && w.ratio < 1 - EPSILON) ? 'flat at' : 'counts'} ${clippedObjective(w.ratio, w.surprise).toFixed(1)}`,
         }))}
       />
       <p>
@@ -218,7 +220,7 @@ export default function Ppo() {
           <>
             Faint lines: single runs; sage: the average of 200. One rework a weekend is safe but slow: the waltz is at{' '}
             {pct(onceRun.waltz[WEEKENDS])} after {WEEKENDS} weekends. {REWORKS} reworks without the limit jump ahead, then{' '}
-            {pct(looseRun.onOther)} of runs lock onto another song and never play the waltz again. With the limit, every
+            {pct(looseRun.onOther)} of runs lock onto another song and hardly ever play the waltz again. With the limit, every
             run finds it.
           </>
         }
@@ -253,19 +255,22 @@ export default function Ppo() {
         reveal={
           <>
             About 12%. The limit is on the ratio, a fifth of where the song was, not a fifth of the whole set: 10% × 1.2.
-            A rare move grows by a share of itself each batch, so it takes several weekends to come to the fore. That is
-            the price of never jumping on one weekend’s luck.
+            Other songs’ bad notes can still nudge it a little past that, since the clip takes away the reason to drift,
+            not the possibility. Either way, a rare move grows by a share of itself each batch, so it takes several
+            weekends to come to the fore: the price of never jumping on one weekend’s luck.
           </>
         }
       />
 
       <h2>Where it runs</h2>
       <p>
-        PPO is the method that fine-tuned InstructGPT, a sibling of ChatGPT, against a model of people’s ratings. There, the
-        state is the prompt plus the words written so far, an action is the next token, out of tens of thousands, and
-        the reward is one score for the whole answer. Batches of answers are expensive to write and score, so reusing
-        each one for several passes matters, and so does not drifting off the answers they describe. The same clip runs
-        robots, with a <Link to="/learnings/gaussian-policies">bell curve</Link> for each motor as the policy.
+        PPO is the method that fine-tuned InstructGPT, a sibling of ChatGPT, against a model of which answers people
+        preferred. There, the state is the prompt plus the words written so far, an action is the next token, out of
+        tens of thousands, and the reward is one score for the whole answer. Each batch of answers is split into
+        mini-batches, so even a single pass has moved the policy away from the one that wrote them by the last
+        mini-batch: the clip covers that, and InstructGPT also charged the policy, at every token, for drifting from the
+        model it started from. The same clip runs robots, with a <Link to="/learnings/gaussian-policies">bell curve</Link>{' '}
+        for each motor as the policy.
       </p>
 
       <h2>Making it work</h2>
@@ -275,12 +280,13 @@ export default function Ppo() {
           larger and the clip stops protecting it.
         </li>
         <li>
-          <strong>Make a few passes, then collect.</strong> Around three to ten passes over each batch, in shuffled
-          mini-batches, then fresh experience. The clip makes extra passes safe, not free.
+          <strong>Make a few passes, then collect.</strong> A handful of passes over each batch, three to fifteen in
+          the paper’s experiments, in shuffled mini-batches, then fresh experience. The clip makes extra passes safer,
+          not free.
         </li>
         <li>
           <strong>Watch the drift, and stop early.</strong> Measure how far the new policy’s chances have moved from the
-          old ones on the batch, and end the passes when it passes a threshold, as many implementations do.
+          old ones on the batch, and end the passes when it passes a threshold, an option many implementations offer.
         </li>
         <li>
           <strong>Give the usual a critic.</strong> Advantages from a learned value per state cut the noise in every push,
