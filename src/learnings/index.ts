@@ -53,6 +53,7 @@ export const learningPages: LearningPage[] = [
   { slug: 'reinforce', load: () => import('./reinforce') },
   { slug: 'actor-critic', load: () => import('./actor-critic') },
   { slug: 'gaussian-policies', load: () => import('./gaussian-policies') },
+  { slug: 'ppo', load: () => import('./ppo') },
   { slug: 'ddpg', load: () => import('./ddpg') },
 ]
 
