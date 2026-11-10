@@ -72,6 +72,11 @@ export default function ImportanceSampling() {
           part: 'Chapter 5, “Monte Carlo Methods”, §5.5 “Off-policy Prediction via Importance Sampling”, §5.6 “Incremental Implementation” and §5.7 “Off-policy Monte Carlo Control”',
           url: 'http://incompleteideas.net/book/the-book-2nd.html',
         },
+        {
+          title: 'COMP 442/552: Reinforcement Learning',
+          by: 'Vaibhav Unhelkar, Rice University, Fall 2026',
+          part: 'Lecture “Off-policy RL”',
+        },
       ]}
     >
       <Predict
