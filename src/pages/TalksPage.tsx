@@ -3,14 +3,11 @@ import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 import Section from '../components/layout/Section'
 import MagazineLine from '../components/ui/MagazineLine'
 import { formatTalkDate, publicTalks } from '../talks'
-import { usePageMeta } from '../lib/pageMeta'
+import { PAGES, usePageMeta } from '../lib/pageMeta'
 
 // The public talks and lessons. Private ones are reached only by their links.
 export default function TalksPage() {
-  usePageMeta({
-    title: 'Talks',
-    description: 'Interactive slides from talks Henry Hsu has given and things he has taught.',
-  })
+  usePageMeta(PAGES.talks)
   return (
     <div className="pt-24">
       <Section>
