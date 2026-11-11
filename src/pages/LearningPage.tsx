@@ -10,6 +10,7 @@ import { hasOverview, linksOf, stagesOf } from '../lib/learningGraph'
 import { useProgress } from '../lib/progress'
 import { findLearningPage } from '../learnings'
 import { useLearningPage } from '../learnings/useLearningPage'
+import { usePageMeta } from '../lib/pageMeta'
 
 const hasPage = (slug: string) => findLearningPage(slug) !== undefined
 
@@ -20,10 +21,21 @@ export default function LearningPage() {
   const { slug } = useParams()
   const { entry, Page, failed } = useLearningPage(slug)
   // For the pages before and after this one, and an overview
-  const { graph, isLoading } = useLearningGraph()
+  const { graph, isDemo, isLoading } = useLearningGraph()
   const links = graph && slug ? linksOf(graph, slug) : null
   const index = entry ? undefined : graph?.nodes.find((node) => node.slug === slug && hasOverview(node))
   const progress = useProgress()
+  // Its card in the graph: the title and summary search results show.
+  const node = graph?.nodes.find((found) => found.slug === slug)
+  // While the graph loads, or when it cannot be reached (the sample stands in),
+  // nothing is set; a page with no published node is a draft or no page at all.
+  usePageMeta(
+    isLoading || isDemo
+      ? null
+      : node
+        ? { title: node.title, description: node.summary, image: node.previewImage, type: 'article' }
+        : { title: 'Page not found', noindex: true },
+  )
   const stages = useMemo(() => {
     const read = new Map(Object.entries(progress).map(([page, { stage }]) => [page, stage]))
     return graph ? stagesOf(graph, read, hasPage) : read

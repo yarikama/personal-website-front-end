@@ -342,6 +342,28 @@ A new topic or field is published with its overview written.
 Publish it with `set_learning_node_published` **only once the page is live** on the site,
 and only when the owner asks.
 
+### 6. Search and link previews
+
+The node is also what search engines and link previews (LinkedIn, Slack) show for the
+page: `LearningPage` sets the tab title, description, canonical address and `og:*` tags
+from it (`usePageMeta` in `src/lib/pageMeta.ts`), and the sitemap
+(`/sitemap.xml`, served by the backend) lists the page once its node is published. No
+code for this, but write the node for it:
+
+- **Title**: what a reader would type into a search box should be in it. A page whose
+  headline is a metaphor ("Stay close to the notes") gets a node title that names the
+  idea too ("PPO: stay close to the notes"). Keep it under about 60 characters; the site
+  adds " | Henry Hsu".
+- **Summary**: the description under the result. One or two sentences, under 160
+  characters, saying what the reader will understand and naming the idea by its usual
+  name and abbreviation ("Proximal Policy Optimization (PPO)"). It is cut at 160.
+- **Preview image** (optional): `preview_image` on the node, a full URL or a path on the
+  site, 1200×630 if it is made for it. Without one the site's own image is used.
+- A field or topic page is its overview; its node's title and summary work the same way.
+
+Any other public page (a new route, not a learning) calls `usePageMeta` itself with its
+title and description, and `noindex: true` for drafts and pages that do not exist.
+
 ## Check it
 
 ```bash
@@ -352,6 +374,14 @@ Then `npm run dev` and open `/learnings/<slug>` in both themes, on a phone width
 expanded on the map at `/learnings?node=<slug>&read=1` on a wide screen (the card beside
 it). Play with every control, including changing a setting while a simulation is running.
 Answer every check and watch its node crack beside the page.
+
+Once it is live and its node published, check what search engines get: the tab title
+reads "<node title> | Henry Hsu", and in the console
+`document.querySelector('link[rel=canonical]').href` is
+`https://www.yarikama.com/learnings/<slug>` and there is no `meta[name=robots]`.
+`curl -s https://www.yarikama.com/sitemap.xml | grep <slug>` finds it (the sitemap is
+cached for up to an hour). Then ask the owner to request indexing for the address in
+Google Search Console.
 
 Then check the page's words against its source, the same PDF the page was written from,
 with the chapter's pages:

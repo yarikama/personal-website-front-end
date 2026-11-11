@@ -4,10 +4,18 @@ import MagazineLine from '../components/ui/MagazineLine'
 import MarkdownRenderer from '../components/ui/MarkdownRenderer'
 import { useLabNote } from '../hooks'
 import { ArrowLeft, Loader2 } from 'lucide-react'
+import { usePageMeta } from '../lib/pageMeta'
 
 export default function NotePage() {
   const { slug } = useParams<{ slug: string }>()
   const { note, isLoading, error } = useLabNote(slug || '')
+  usePageMeta(
+    isLoading
+      ? null
+      : note && !error
+        ? { title: note.title, description: note.excerpt, type: 'article' }
+        : { title: 'Article not found', noindex: true },
+  )
 
   if (isLoading) {
     return (
