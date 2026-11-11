@@ -205,7 +205,10 @@ export default function DeepQNetworks() {
         </li>
         <li>
           <strong>Hold the target still.</strong> Refresh the copy every few thousand updates, or blend it toward the
-          network by a sliver each update. Either way it should change more slowly than the network it guides.
+          network by a sliver each update. Either way it should change more slowly than the network it guides. The
+          copy steadies the target but doesn’t make it honest: it still both picks the best next move and scores it,
+          so the max still <Link to="/learnings/maximization-bias">overestimates</Link>. Double DQN lets the network
+          being trained pick and the copy score.
         </li>
         <li>
           <strong>Keep each step small.</strong> DQN clipped rewards to between −1 and 1 and capped how far a single

@@ -282,7 +282,9 @@ export default function Ppo() {
         <li>
           <strong>Make a few passes, then collect.</strong> A handful of passes over each batch, three to fifteen in
           the paper’s experiments, in shuffled mini-batches, then fresh experience. The clip makes extra passes safer,
-          not free.
+          not free. This is why PPO still counts as on-policy despite the ratio: the ratio covers only the drift since
+          the batch was played, so each batch is thrown away after its passes, where{' '}
+          <Link to="/learnings/deep-q-networks">DQN</Link> keeps a million old moves to replay.
         </li>
         <li>
           <strong>Watch the drift, and stop early.</strong> Measure how far the new policy’s chances have moved from the

@@ -86,8 +86,11 @@ export default function Discounting() {
 
       <h2>The return, in one line</h2>
       <p>
-        On <Link to="/learnings/reward-and-value">Reward versus value</Link>, value was all the reward still to come,
-        added up. That sum is called the <strong>return</strong>. For a game that ends it is a plain sum, but for a task
+        On <Link to="/learnings/reward-and-value">Reward versus value</Link>, value was all the reward you can expect
+        from here on, added up. What one run actually adds up to is called the <strong>return</strong>, G, and it
+        differs from run to run when luck plays a part; a state’s value is its return on average, which the{' '}
+        <Link to="/learnings/bellman-equation">Bellman equation</Link> works out. For a game that ends the return is a
+        plain sum, but for a task
         that runs for ever, like keeping a server cool or a robot charged, a plain sum can grow without limit, and
         “more than infinity” tells an agent nothing. So weigh each reward by how far off it is.
       </p>

@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { Bars } from '../../components/case/Bars'
 import CaseStudy from '../../components/case/CaseStudy'
 import { Decision } from '../../components/case/Decision'
@@ -242,6 +243,12 @@ export default function Homelab({ project }: { project: Project }) {
       <p>
         Prometheus watches the inside and sends alerts by email. Two outside services notice when the laptop goes
         quiet altogether, as one did when a power flicker took the home Wi-Fi down for 14 minutes.
+      </p>
+      <p>
+        Three lab notes go further: how <Link to="/notes/two-llms-on-one-8gb-laptop-gpu">the two models share one
+        GPU</Link>, <Link to="/notes/why-my-portfolio-chatbot-uses-cag-not-rag">why the chat reads the whole site
+        instead of searching it</Link>, and how <Link to="/notes/gitops-and-disaster-recovery-on-single-node-k3s">the
+        cluster runs from Git and came back in a restore drill</Link>.
       </p>
     </CaseStudy>
   )

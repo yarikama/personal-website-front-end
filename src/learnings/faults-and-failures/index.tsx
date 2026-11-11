@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import Article from '../../components/explain/Article'
 import { Controls, Figure, Numbers, Slider } from '../../components/explain/figure'
 import { Predict } from '../../components/explain/Predict'
@@ -139,7 +140,10 @@ export default function FaultsAndFailures() {
       <ul>
         <li>
           <strong>For hardware, keep spares.</strong> Disks in pairs, two power supplies, and, more and more, whole
-          machines that can be lost without the service noticing. That also lets you patch one machine at a time.
+          machines that can be lost without the service noticing. That also lets you patch one machine at a time. A
+          spare helps only where the same fault can’t reach it: a database copy on the same disk dies with the disk,
+          which is why <Link to="/notes/gitops-and-disaster-recovery-on-single-node-k3s">this site’s one-laptop
+          cluster</Link> keeps its backups off the machine.
         </li>
         <li>
           <strong>For software, distrust your assumptions.</strong> Test thoroughly, isolate processes so one crash
