@@ -1,12 +1,13 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowUpRight, Check, Plus, X } from 'lucide-react'
+import { ArrowRight, ArrowUpRight, Check, Plus, Sparkles, X } from 'lucide-react'
 import { adminTodosService, localDay, type Todo } from '../../services/api'
-import { completion } from '../../lib/todos'
+import { arrange, completion } from '../../lib/todos'
 
 // The day's to-dos, kept by the API: a NeetCode problem every day, what the
-// owner adds, and whatever was left undone on earlier days, marked with the
-// day it was for.
+// owner adds, whatever was left undone on earlier days, marked with the day
+// it was for, and Claude's morning plan: due today at the top with the rest,
+// then this week and what can wait, each saying why.
 
 const SHORT_DAY = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' })
 
@@ -99,8 +100,28 @@ export default function TodayList({ date }: { date: Date }) {
     const textClass = `text-sm transition-colors ${
       done ? 'text-zinc-400 line-through' : carried ? 'text-red-600 dark:text-red-400' : 'text-ink'
     }`
+    const planned = todo.source === 'claude'
+    const label = todo.href ? (
+      external ? (
+        <a
+          href={todo.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`inline-flex items-center gap-1 hover:text-sage ${textClass}`}
+        >
+          {todo.text}
+          <ArrowUpRight size={12} aria-hidden="true" className="text-zinc-400" />
+        </a>
+      ) : (
+        <Link to={todo.href} className={`hover:text-sage ${textClass}`}>
+          {todo.text}
+        </Link>
+      )
+    ) : (
+      <span className={textClass}>{todo.text}</span>
+    )
     return (
-      <li key={todo.id} className="group flex items-center gap-3">
+      <li key={todo.id} className={`group flex gap-3 ${planned && todo.reason ? 'items-start' : 'items-center'}`}>
         <button
           onClick={() => toggle(todo)}
           role="checkbox"
@@ -116,24 +137,16 @@ export default function TodayList({ date }: { date: Date }) {
         >
           {done && <Check size={12} aria-hidden="true" />}
         </button>
-        {todo.href ? (
-          external ? (
-            <a
-              href={todo.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`inline-flex items-center gap-1 hover:text-sage ${textClass}`}
-            >
-              {todo.text}
-              <ArrowUpRight size={12} aria-hidden="true" className="text-zinc-400" />
-            </a>
-          ) : (
-            <Link to={todo.href} className={`hover:text-sage ${textClass}`}>
-              {todo.text}
-            </Link>
-          )
+        {planned ? (
+          <div className="min-w-0">
+            <div className="flex items-center gap-1.5">
+              {label}
+              <Sparkles size={11} aria-label="From the morning plan" className="shrink-0 text-sage/70" />
+            </div>
+            {todo.reason && !done && <p className="mt-0.5 text-xs leading-snug text-zinc-faded">{todo.reason}</p>}
+          </div>
         ) : (
-          <span className={textClass}>{todo.text}</span>
+          label
         )}
         {older && !done && (
           <span className="font-mono text-[11px] uppercase tracking-widest text-red-600/80 dark:text-red-400/80">
@@ -152,9 +165,10 @@ export default function TodayList({ date }: { date: Date }) {
     )
   }
 
-  // Left undone on earlier days, in a block of its own, in red.
-  const carried = todos?.filter((todo) => todo.day < today) ?? []
-  const own = todos?.filter((todo) => todo.day >= today) ?? []
+  // Left undone on earlier days, in a block of its own, in red; the morning
+  // plan's this week and later under the list.
+  const { carried, today: own, week, later } = arrange(todos ?? [], today)
+  const planned = todos?.some((todo) => todo.source === 'claude') ?? false
 
   return (
     <div>
@@ -211,6 +225,31 @@ export default function TodayList({ date }: { date: Date }) {
           />
         </div>
       </form>
+
+      {week.length > 0 && (
+        <div className="mt-8">
+          <p className="font-mono text-xs uppercase tracking-widest text-zinc-400">This week</p>
+          <ul className="mt-3 space-y-3">{week.map((todo) => renderItem(todo, false))}</ul>
+        </div>
+      )}
+
+      {later.length > 0 && (
+        <details className="group/later mt-6">
+          <summary className="cursor-pointer list-none font-mono text-xs uppercase tracking-widest text-zinc-400 hover:text-ink">
+            Can wait · {later.length}
+          </summary>
+          <ul className="mt-3 space-y-3">{later.map((todo) => renderItem(todo, false))}</ul>
+        </details>
+      )}
+
+      <Link
+        to="/admin/planner"
+        className="mt-8 inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-zinc-400 hover:text-sage"
+      >
+        <Sparkles size={12} aria-hidden="true" />
+        {planned ? 'What the morning plan works from' : 'Set up the morning plan'}
+        <ArrowRight size={12} aria-hidden="true" />
+      </Link>
     </div>
   )
 }

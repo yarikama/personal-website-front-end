@@ -3,6 +3,12 @@ import type { ApiResponse } from '../../types'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://api.yarikama.com/api/v1'
 
+// Who put it on the list: the owner, the items added every day, or Claude's
+// morning plan.
+export type TodoSource = 'owner' | 'daily' | 'claude'
+// The morning plan's groups: due today, to move on this week, can wait.
+export type TodoBucket = 'today' | 'week' | 'later'
+
 export interface Todo {
   id: string
   text: string
@@ -11,6 +17,9 @@ export interface Todo {
   dailyKey: string | null // set on the items added every day
   doneOn: string | null
   createdAt: string
+  source: TodoSource
+  bucket: TodoBucket | null // the morning plan's items only
+  reason: string | null // why the morning plan put it there
 }
 
 /** A date as YYYY-MM-DD in the browser's own time zone: the owner's today. */

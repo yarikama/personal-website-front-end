@@ -28,6 +28,7 @@ const AdminCategoryEditor = lazy(() => import('./pages/admin/CategoryEditor'))
 const AdminQuestionsList = lazy(() => import('./pages/admin/QuestionsList'))
 const AdminMessagesList = lazy(() => import('./pages/admin/MessagesList'))
 const AdminVisitors = lazy(() => import('./pages/admin/Visitors'))
+const AdminPlanner = lazy(() => import('./pages/admin/Planner'))
 const AdminTalksList = lazy(() => import('./pages/admin/TalksList'))
 const Talk = lazy(() => import('./pages/Talk'))
 // The 3D graph (three.js) loads only here
@@ -161,6 +162,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <AdminVisitors />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/planner"
+            element={
+              <ProtectedRoute>
+                <AdminPlanner />
               </ProtectedRoute>
             }
           />
