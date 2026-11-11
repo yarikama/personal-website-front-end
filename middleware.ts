@@ -1,4 +1,3 @@
-import { next } from '@vercel/functions'
 import { headFor, renderHead } from './src/lib/head'
 import { metaForPath, readsWithoutScripts, type FetchJson } from './src/lib/routeHead'
 
@@ -7,6 +6,16 @@ import { metaForPath, readsWithoutScripts, type FetchJson } from './src/lib/rout
 // description, canonical address and preview image already in it, as the
 // page's script would set them. Everyone else, and anything that goes
 // wrong here, gets the site exactly as before.
+
+/**
+ * Lets the request go on to the site as it would without middleware: the
+ * same as next() in @vercel/functions, which is that header on an empty
+ * response. Written here so the site does not depend on that package and
+ * the dependencies it brings.
+ */
+export function next(): Response {
+  return new Response(null, { headers: { 'x-middleware-next': '1' } })
+}
 
 const API = 'https://api.yarikama.com/api/v1'
 // Past this, the default head is better than a preview that never comes.
