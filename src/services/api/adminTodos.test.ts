@@ -40,3 +40,22 @@ describe('completing a to-do', () => {
     expect(completion('Write', history)).toBeNull()
   })
 })
+
+describe('adminPlannerService', () => {
+  it('reads the planner, and sends only what changes', async () => {
+    const planner = { goals: 'Graduate', goalsUpdatedAt: null, notes: '', notesUpdatedAt: null }
+    const fetch = vi
+      .fn()
+      .mockResolvedValueOnce(new Response(JSON.stringify({ data: planner })))
+      .mockResolvedValueOnce(new Response(JSON.stringify({ data: { ...planner, notes: 'Busy' } })))
+    vi.stubGlobal('fetch', fetch)
+    const { adminPlannerService } = await import('./adminPlanner')
+
+    expect(await adminPlannerService.get()).toEqual(planner)
+    expect((await adminPlannerService.set({ notes: 'Busy' })).notes).toBe('Busy')
+
+    expect(fetch.mock.calls[0][0]).toMatch(/\/admin\/planner$/)
+    expect(fetch.mock.calls[1][1].method).toBe('PUT')
+    expect(JSON.parse(fetch.mock.calls[1][1].body)).toEqual({ notes: 'Busy' })
+  })
+})
