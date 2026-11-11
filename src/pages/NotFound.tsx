@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom'
 import { ArrowLeft } from 'lucide-react'
 import Section from '../components/layout/Section'
-import { usePageMeta } from '../lib/pageMeta'
+import { PAGES, usePageMeta } from '../lib/pageMeta'
 
 // Any address the site has no page for. A single-page app answers every
 // address with 200, so `noindex` is what keeps these out of search.
 export default function NotFound() {
-  usePageMeta({ title: 'Page not found', noindex: true })
+  usePageMeta(PAGES.notFound)
   return (
     <div className="pt-24">
       <Section>

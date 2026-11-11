@@ -17,7 +17,7 @@ import { areaColours, hasOverview, homes, inReadingOrder, linksOf, places, stage
 import { useProgress, type Stage } from '../lib/progress'
 import { useIsDark } from '../lib/theme'
 import type { LearningGraph, LearningNode } from '../types'
-import { usePageMeta } from '../lib/pageMeta'
+import { PAGES, usePageMeta } from '../lib/pageMeta'
 
 const hasPage = (slug: string) => findLearningPage(slug) !== undefined
 
@@ -340,11 +340,7 @@ export default function LearningsPage() {
     setShowTopics(false)
   }
 
-  usePageMeta({
-    title: 'Learnings',
-    description:
-      'A map of what Henry Hsu is learning, from data systems to reinforcement learning, each page taught with interactive figures you can play with.',
-  })
+  usePageMeta(PAGES.learnings)
 
   return (
     <div className="fixed inset-0 overflow-hidden bg-paper text-ink">

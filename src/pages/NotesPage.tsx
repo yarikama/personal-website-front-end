@@ -4,14 +4,10 @@ import Section from '../components/layout/Section'
 import MagazineLine from '../components/ui/MagazineLine'
 import { useLabNotes, useLabNoteTags } from '../hooks'
 import { ArrowLeft, ArrowUpRight, Loader2 } from 'lucide-react'
-import { usePageMeta } from '../lib/pageMeta'
+import { PAGES, usePageMeta } from '../lib/pageMeta'
 
 export default function NotesPage() {
-  usePageMeta({
-    title: 'Lab Notes',
-    description:
-      'Technical writing by Henry Hsu on software engineering, machine learning and building systems that endure.',
-  })
+  usePageMeta(PAGES.notes)
   const [activeTag, setActiveTag] = useState<string | undefined>(undefined)
   const { notes, isLoading, error } = useLabNotes({ tag: activeTag })
   const { tags } = useLabNoteTags()

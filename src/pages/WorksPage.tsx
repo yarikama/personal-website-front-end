@@ -7,7 +7,7 @@ import { useProjects, useProjectCategories } from '../hooks'
 import { findCaseStudy } from '../projects'
 import { hookOf } from '../projects/hooks'
 import { ArrowLeft, Loader2 } from 'lucide-react'
-import { usePageMeta } from '../lib/pageMeta'
+import { PAGES, usePageMeta } from '../lib/pageMeta'
 
 const fallbackCategories = [
   { id: 'all', name: 'all', label: 'All', count: 0 },
@@ -16,11 +16,7 @@ const fallbackCategories = [
 ]
 
 export default function WorksPage() {
-  usePageMeta({
-    title: 'Works',
-    description:
-      'Projects by Henry Hsu across GenAI systems, infrastructure and machine learning: what each built, how, and what it did.',
-  })
+  usePageMeta(PAGES.works)
   const [activeCategory, setActiveCategory] = useState<string>('all')
   const { projects, isLoading, error } = useProjects()
   const { categories: apiCategories } = useProjectCategories()
