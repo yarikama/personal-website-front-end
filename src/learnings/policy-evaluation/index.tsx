@@ -188,6 +188,13 @@ export default function PolicyEvaluation() {
         work grows with the cube of the number of states: nothing for {SPOTS.length} squares, hopeless for a million. A
         sweep costs one look at every landing of every state, and you can stop at the accuracy you need.
       </p>
+      <p>
+        The target may look familiar from{' '}
+        <Link to="/learnings/temporal-difference-learning">temporal-difference learning</Link>: this step’s reward plus
+        the value where you land. It is the same target. The difference is which landings count. A sweep averages over
+        all six, weighted by their odds, so it needs the rules; TD takes the one roll that actually happened, so it
+        needs only play, and its step α evens out the luck over many games.
+      </p>
 
       <h2>When to stop</h2>
       <p>
