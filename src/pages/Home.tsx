@@ -7,8 +7,10 @@ import Experience from '../components/sections/Experience'
 import Toolkit from '../components/sections/Toolkit'
 import LabNotes from '../components/sections/LabNotes'
 import Contact from '../components/sections/Contact'
+import { usePageMeta } from '../lib/pageMeta'
 
 export default function Home() {
+  usePageMeta({ path: '/' })
   return (
     <>
       <Hero />

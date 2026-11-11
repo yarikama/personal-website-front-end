@@ -1,6 +1,11 @@
 {
   "redirects": [
     {
+      "source": "/learning",
+      "destination": "/learnings",
+      "permanent": true
+    },
+    {
       "source": "/archive",
       "destination": "/works",
       "permanent": true
@@ -17,6 +22,10 @@
     }
   ],
   "rewrites": [
+    {
+      "source": "/sitemap.xml",
+      "destination": "https://api.yarikama.com/api/v1/sitemap.xml"
+    },
     {
       "source": "/((?!favicon\\.svg$|assets/).*)",
       "destination": "/index.html"

@@ -28,6 +28,7 @@ const AdminCategoryEditor = lazy(() => import('./pages/admin/CategoryEditor'))
 const AdminQuestionsList = lazy(() => import('./pages/admin/QuestionsList'))
 const AdminMessagesList = lazy(() => import('./pages/admin/MessagesList'))
 const AdminVisitors = lazy(() => import('./pages/admin/Visitors'))
+const NotFound = lazy(() => import('./pages/NotFound'))
 const AdminPlanner = lazy(() => import('./pages/admin/Planner'))
 const AdminTalksList = lazy(() => import('./pages/admin/TalksList'))
 const Talk = lazy(() => import('./pages/Talk'))
@@ -205,6 +206,7 @@ function App() {
                         <Route path="/notes/:slug" element={<NotePage />} />
                         <Route path="/talks" element={<TalksPage />} />
                         <Route path="/learnings/:slug" element={<LearningPage />} />
+                        <Route path="*" element={<NotFound />} />
                       </Routes>
                     </Suspense>
                   </main>

@@ -7,6 +7,7 @@ import { useProjects } from '../hooks'
 import { descriptionBlocks } from '../lib/descriptionBlocks'
 import { findCaseStudy } from '../projects'
 import type { Project } from '../types'
+import { usePageMeta } from '../lib/pageMeta'
 
 // A project's own page at /works/:slug: its story when one is written (code
 // in src/projects, loaded on opening), otherwise its card set out as a page.
@@ -23,14 +24,11 @@ export default function ProjectPage() {
     window.scrollTo(0, 0)
   }, [slug])
 
-  useEffect(() => {
-    if (!project) return
-    const previous = document.title
-    document.title = `${project.title} | Henry Hsu`
-    return () => {
-      document.title = previous
-    }
-  }, [project])
+  usePageMeta(
+    project
+      ? { title: project.title, description: project.description, image: project.coverImage, type: 'article' }
+      : null,
+  )
 
   const back = (
     <Link

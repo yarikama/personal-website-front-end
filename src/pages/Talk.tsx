@@ -4,6 +4,7 @@ import Deck from '../components/talk/Deck'
 import PresenterView from '../components/talk/PresenterView'
 import { TalkContext, type Talk as TalkData } from '../components/talk/talk'
 import { findTalk } from '../talks'
+import { usePageMeta } from '../lib/pageMeta'
 
 // A talk at /talks/:slug, and its presenter window at /talks/:slug/presenter.
 // Private talks are kept out of search results: links to share, not pages to find.
@@ -26,19 +27,15 @@ export default function Talk({ presenter = false }: { presenter?: boolean }) {
     }
   }, [entry])
 
-  useEffect(() => {
-    if (!entry) return
-    const previousTitle = document.title
-    document.title = presenter ? `Presenter | ${entry.title}` : `${entry.title} | Henry Hsu`
-    const robots = document.createElement('meta')
-    robots.name = 'robots'
-    robots.content = 'noindex'
-    if (entry.visibility === 'private' || presenter) document.head.appendChild(robots)
-    return () => {
-      document.title = previousTitle
-      robots.remove()
-    }
-  }, [entry, presenter])
+  usePageMeta(
+    entry
+      ? {
+          title: presenter ? `Presenter | ${entry.title}` : entry.title,
+          description: entry.summary,
+          noindex: entry.visibility === 'private' || presenter,
+        }
+      : { title: 'Talk not found', noindex: true },
+  )
 
   if (!entry || failed) {
     return (
