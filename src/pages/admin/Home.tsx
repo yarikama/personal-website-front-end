@@ -3,17 +3,15 @@ import { Link } from 'react-router-dom'
 import { ArrowRight, FilePen, Inbox, MessageSquare, Users } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import AdminNav from '../../components/admin/AdminNav'
-import CoffeeCup from '../../components/admin/CoffeeCup'
 import CurrentGoal from '../../components/admin/CurrentGoal'
 import DayCountdown from '../../components/admin/DayCountdown'
 import ContributionHeatmap from '../../components/admin/ContributionHeatmap'
 import TodayList from '../../components/admin/TodayList'
-import { PROMPTS, THOUGHTS, forToday, greeting } from '../../data/adminDesk'
 import { useNewQuestions, useUnreadMessages } from '../../hooks'
 import { adminLabNotesService, adminVisitorsService } from '../../services/api'
 
-// The admin's first page after signing in: a greeting, a thought and a
-// question for the day, a cup of coffee, and what is waiting.
+// The admin's first page after signing in: the current goal, the day's
+// to-dos, what is waiting, and a year on GitHub.
 
 function useNow(everyMs = 30_000): Date {
   const [now, setNow] = useState(() => new Date())
@@ -99,57 +97,15 @@ export default function AdminHome() {
   // Changes once a day, so the routine reloads only then.
   const dayKey = now.toDateString()
   const day = useMemo(() => new Date(dayKey), [dayKey])
-  const time = now.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })
 
   return (
     <div className="min-h-screen bg-paper dark:bg-[#0f0f0f]">
       <AdminNav />
 
       <main className="max-w-5xl mx-auto px-6 py-16 md:py-24">
-        <div className="grid gap-16 lg:grid-cols-[1fr_auto] lg:items-center">
-          <div>
-            <p className="font-mono text-sm text-zinc-400 uppercase tracking-widest">
-              {now.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
-            </p>
-            <h1 className="mt-4 font-serif text-5xl md:text-6xl font-light tracking-tight">
-              {greeting(now)},
-              <br />
-              <span className="italic">Henry.</span>
-            </h1>
+        <h1 className="sr-only">Desk</h1>
 
-            <figure className="mt-10 max-w-xl">
-              <figcaption className="font-mono text-xs text-sage uppercase tracking-widest">
-                On my mind today
-              </figcaption>
-              <blockquote className="mt-3 font-serif text-xl md:text-2xl leading-relaxed text-zinc-faded">
-                {forToday(THOUGHTS, now)}
-              </blockquote>
-            </figure>
-
-            <div className="mt-10 max-w-xl border-l-2 border-sage/60 pl-5">
-              <p className="font-mono text-xs text-zinc-400 uppercase tracking-widest">
-                If you write today
-              </p>
-              <p className="mt-2 font-serif text-lg italic">{forToday(PROMPTS, now)}</p>
-              <Link
-                to="/admin/notes/new"
-                className="mt-4 inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-sage hover:underline"
-              >
-                Start a note
-                <ArrowRight size={14} aria-hidden="true" />
-              </Link>
-            </div>
-          </div>
-
-          <div className="flex flex-col items-center">
-            <CoffeeCup className="text-base md:text-lg" />
-            <p className="mt-4 font-mono text-xs text-zinc-400 uppercase tracking-widest">
-              Fresh pot · {time}
-            </p>
-          </div>
-        </div>
-
-        <section className="mt-20">
+        <section>
           <p className="font-mono text-xs text-zinc-400 uppercase tracking-widest">Current goal</p>
           <div className="mt-3">
             <CurrentGoal />
