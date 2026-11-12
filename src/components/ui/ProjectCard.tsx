@@ -34,6 +34,11 @@ export default function ProjectCard({ project, index, featured = false, story = 
   // Each project has a page of its own at /works/<slug>
   const page = project.slug ? `/works/${project.slug}` : null
   const formattedIndex = String(index + 1).padStart(2, '0')
+  const label = story ? 'Read the story' : 'See the project'
+  // Beside a cover, the way into the page sits under it on a wide screen.
+  // On a phone the cover is above the text, so it stays after the text.
+  const underCover = !!(page && project.coverImage)
+  const otherLinks = !!(project.github || (project.link && project.link !== project.github))
 
   return (
     <article className="group relative">
@@ -41,16 +46,24 @@ export default function ProjectCard({ project, index, featured = false, story = 
 
       {/* The cover beside the text; on a phone, above it */}
       <div className={project.coverImage ? `grid gap-6 md:gap-10 ${featured ? 'md:grid-cols-[minmax(0,1fr)_20rem]' : 'md:grid-cols-[minmax(0,1fr)_16rem]'}` : ''}>
-        {project.coverImage &&
-          (page ? (
-            <Link to={page} tabIndex={-1} aria-hidden="true" className="block md:order-last">
+        {project.coverImage && (
+          <div className="md:order-last">
+            {page ? (
+              <Link to={page} tabIndex={-1} aria-hidden="true" className="block">
+                <Cover src={project.coverImage} />
+              </Link>
+            ) : (
               <Cover src={project.coverImage} />
-            </Link>
-          ) : (
-            <div className="md:order-last">
-              <Cover src={project.coverImage} />
-            </div>
-          ))}
+            )}
+            {page && (
+              <div className="mt-4 hidden md:block">
+                <WaveLink to={page} block>
+                  {label}
+                </WaveLink>
+              </div>
+            )}
+          </div>
+        )}
       <div className="flex items-start justify-between gap-4">
         <div className="flex-1">
           <div className="flex items-baseline gap-4 mb-3">
@@ -127,9 +140,16 @@ export default function ProjectCard({ project, index, featured = false, story = 
 
           {/* Always shown, not only on hover: the ask chat's citations land
               on this card, and these are where to go from it. */}
-          {(page || project.github || (project.link && project.link !== project.github)) && (
-            <div data-actions className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3">
-              {page && <WaveLink to={page}>{story ? 'Read the story' : 'See the project'}</WaveLink>}
+          {(page || otherLinks) && (
+            <div
+              data-actions
+              className={`mt-6 flex flex-wrap items-center gap-x-6 gap-y-3 ${underCover && !otherLinks ? 'md:hidden' : ''}`}
+            >
+              {page && (
+                <div className={underCover ? 'md:hidden' : ''}>
+                  <WaveLink to={page}>{label}</WaveLink>
+                </div>
+              )}
               {project.github && (
                 <a
                   href={project.github}
