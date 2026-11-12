@@ -12,22 +12,22 @@
 [![CI](https://github.com/yarikama/personal-website-front-end/actions/workflows/ci.yml/badge.svg)](https://github.com/yarikama/personal-website-front-end/actions/workflows/ci.yml)
 [![Website](https://img.shields.io/website?url=https%3A%2F%2Fwww.yarikama.com&label=yarikama.com&up_message=online&down_message=down)](https://www.yarikama.com)
 [![Deployed on Vercel](https://img.shields.io/badge/deployed%20on-Vercel-000000?logo=vercel&logoColor=white)](https://vercel.com)
-[![Last commit](https://img.shields.io/github/last-commit/yarikama/personal-website-front-end)](https://github.com/yarikama/personal-website-front-end/commits/main)
+[![Node 22](https://img.shields.io/badge/node-22-5FA04E?logo=nodedotjs&logoColor=white)](https://nodejs.org)
 <br>
 [![React 19](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)](https://react.dev)
 [![TypeScript 6](https://img.shields.io/badge/TypeScript-6-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
 [![Vite 8](https://img.shields.io/badge/Vite-8-646CFF?logo=vite&logoColor=white)](https://vite.dev)
 [![Tailwind CSS 4](https://img.shields.io/badge/Tailwind%20CSS-4-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
 [![Tested with Vitest](https://img.shields.io/badge/tested%20with-Vitest-6E9F18?logo=vitest&logoColor=white)](https://vitest.dev)
-[![Node 22](https://img.shields.io/badge/node-22-5FA04E?logo=nodedotjs&logoColor=white)](https://nodejs.org)
+[![Last commit](https://img.shields.io/github/last-commit/yarikama/personal-website-front-end)](https://github.com/yarikama/personal-website-front-end/commits/main)
 
 </div>
 
-The front end of [yarikama.com](https://www.yarikama.com), Henry Hsu's personal website: projects with their case studies, technical notes, a 3D graph of what I've learned, and a chat that answers questions about all of it, streamed from a language model I host at home.
+The front end of [yarikama.com](https://www.yarikama.com), Henry Hsu's personal website. It shows the projects and notes, streams answers to visitors' questions about them from a self-hosted language model, and gives the author an editor with inline autocomplete from a second model.
 
 It is a single-page app built with React 19, TypeScript, Vite and Tailwind CSS v4, and deployed on Vercel. The API, database and models live in [personal-website-back-end](https://github.com/yarikama/personal-website-back-end).
 
-[![The works page of yarikama.com in dark mode: each project with its title, a one-line hook, tags, results and an animated cover drawing](docs/works.webp)](https://www.yarikama.com/works)
+[![The home page of yarikama.com: name, tagline and awards beside a photo, with the ask chat button in the corner](docs/home.webp)](https://www.yarikama.com)
 
 ## What it does
 
@@ -38,19 +38,19 @@ It is a single-page app built with React 19, TypeScript, Vite and Tailwind CSS v
 - **Talks**: slide decks on a 16:9 canvas, with a presenter window that stays in step.
 - **Admin**: editors for notes, projects and categories, inline autocomplete from a second self-hosted model, and the site's visitors, questions and messages.
 
-The full list is in [Features](docs/features.md).
+[![The works page of yarikama.com: each project with its title, a one-line hook, tags and results beside its animated cover drawing, with a link to its story under the cover](docs/works.webp)](https://www.yarikama.com/works)
 
 ## Quick start
 
 Requires Node.js 22.
 
 ```bash
-npm ci
-cp .env.example .env
-npm run dev                 # http://localhost:5173
+npm ci                # dependencies
+cp .env.example .env  # points the site at a local back end on port 8080
+npm run dev           # the site with hot reload on http://localhost:5173
 ```
 
-`VITE_API_BASE_URL` in `.env` picks the API: a local backend by default, or `https://api.yarikama.com/api/v1` for production data. More in [Development](docs/development.md).
+To use production data instead, set `VITE_API_BASE_URL` in `.env` to `https://api.yarikama.com/api/v1`. More in [Development](docs/development.md).
 
 ## Documentation
 
