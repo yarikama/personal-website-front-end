@@ -170,6 +170,8 @@ function TravelPhoto({ photo, innerRef }: { photo: Photo; innerRef?: (el: HTMLDi
               alt={photo.alt}
               loading="lazy"
               decoding="async"
+              // Below the hero: never ahead of its photo for bandwidth
+              fetchPriority="low"
               draggable={false}
             />
           </div>

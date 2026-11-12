@@ -247,7 +247,15 @@ export default function Toolkit() {
         <div className="mt-6 grid md:grid-cols-2 gap-10 lg:gap-20">
           {education.map((school) => (
             <div key={school.school} className="flex items-start gap-4">
-              <img src={school.logo} alt="" width={48} height={48} className="w-12 h-12 object-contain" />
+              <img
+                src={school.logo}
+                alt=""
+                width={48}
+                height={48}
+                loading="lazy"
+                decoding="async"
+                className="w-12 h-12 object-contain"
+              />
               <div>
                 {/* A touch smaller than elsewhere, so NYCU's long name and its
                     GPA fit on one line */}

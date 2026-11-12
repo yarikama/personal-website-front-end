@@ -78,6 +78,33 @@
           "value": "public, max-age=31536000, immutable"
         }
       ]
+    },
+    {
+      "source": "/",
+      "headers": [
+        {
+          "key": "Link",
+          "value": "</hero/sky.webp>; rel=preload; as=image; fetchpriority=high, </hero/bridge.webp>; rel=preload; as=image; fetchpriority=high, </hero/buildings.webp>; rel=preload; as=image; fetchpriority=high, </hero/people.webp>; rel=preload; as=image; fetchpriority=high, </hero/henry.webp>; rel=preload; as=image; fetchpriority=high"
+        }
+      ]
+    },
+    {
+      "source": "/hero/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400, stale-while-revalidate=604800"
+        }
+      ]
+    },
+    {
+      "source": "/travel/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400, stale-while-revalidate=604800"
+        }
+      ]
     }
   ]
 }

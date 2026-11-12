@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import Container from '../layout/Container'
 import HeroPhoto from '../ui/HeroPhoto'
+import { HERO_LAYERS } from './heroLayers'
 import HeroBackdrop from '../ui/HeroBackdrop'
 import FlipText from '../ui/FlipText'
 
@@ -120,16 +121,7 @@ export default function Hero() {
           <div className="lg:justify-self-end relative w-full max-w-[400px] lg:max-w-[480px] mx-auto">
             <HeroBackdrop />
             <HeroPhoto
-              // Split from one photo, far to near: sky and street, the bridge,
-              // the buildings on either side, the crowd (in black and white so
-              // Henry stands out), then Henry
-              layers={[
-                { src: '/hero/sky.webp', depth: 3 },
-                { src: '/hero/bridge.webp', depth: 7 },
-                { src: '/hero/buildings.webp', depth: 12 },
-                { src: '/hero/people.webp', depth: 17, grayscale: true },
-                { src: '/hero/henry.webp', depth: 20 },
-              ]}
+              layers={HERO_LAYERS}
               alt="Henry Hsu"
               width={960}
               height={1280}
