@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import { usePrefersReducedMotion } from '../../hooks'
+import { travelPhotoSizes } from '../../lib/travelSizes'
 
 // The border each print sits in, from the site's palette (index.css)
 type Frame = 'paper' | 'sand' | 'mist' | 'sage' | 'forest'
@@ -164,7 +165,7 @@ function TravelPhoto({ photo, innerRef }: { photo: Photo; innerRef?: (el: HTMLDi
             <img
               src={`/travel/${photo.slug}-960.webp`}
               srcSet={widths.map((w) => `/travel/${photo.slug}-${w}.webp ${w}w`).join(', ')}
-              sizes={`${Math.round(photo.h * ratio)}vh`}
+              sizes={travelPhotoSizes(photo.h * ratio)}
               width={960}
               height={Math.round(960 / ratio)}
               alt={photo.alt}
