@@ -5,8 +5,18 @@
 // a phone pick the variant it needs instead of one sized for its height.
 export const VW_PER_UNIT = 1.3
 
+// On an upright phone at 3x or more, sizes claims two thirds of the width,
+// so the browser picks a variant for 2x: a print about 200 px wide stays
+// sharp at 400 px and loads in about a third of the bytes.
+const PHONE_DENSITY_CAP = 2 / 3
+
 const round = (n: number) => Math.round(n * 10) / 10
 
 export function travelPhotoSizes(units: number): string {
-  return `(max-aspect-ratio: 13/10) ${round(units * VW_PER_UNIT)}vw, ${round(units)}vh`
+  const upright = units * VW_PER_UNIT
+  return [
+    `(max-aspect-ratio: 13/10) and (min-resolution: 3dppx) ${round(upright * PHONE_DENSITY_CAP)}vw`,
+    `(max-aspect-ratio: 13/10) ${round(upright)}vw`,
+    `${round(units)}vh`,
+  ].join(', ')
 }
