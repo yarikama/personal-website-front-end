@@ -27,6 +27,14 @@
       "destination": "https://api.yarikama.com/api/v1/sitemap.xml"
     },
     {
+      "source": "/love",
+      "destination": "https://love-site-alpha-nine.vercel.app/love/"
+    },
+    {
+      "source": "/love/:path*",
+      "destination": "https://love-site-alpha-nine.vercel.app/love/:path*"
+    },
+    {
       "source": "/((?!favicon\\.svg$|assets/).*)",
       "destination": "/index.html"
     }
