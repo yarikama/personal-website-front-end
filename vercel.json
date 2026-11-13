@@ -31,6 +31,10 @@
       "destination": "https://love-site-alpha-nine.vercel.app/love/"
     },
     {
+      "source": "/love/",
+      "destination": "https://love-site-alpha-nine.vercel.app/love/"
+    },
+    {
       "source": "/love/:path*",
       "destination": "https://love-site-alpha-nine.vercel.app/love/:path*"
     },
