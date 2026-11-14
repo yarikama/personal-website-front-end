@@ -74,13 +74,13 @@ export default function NotesPage() {
           </div>
         ) : error ? (
           <div className="py-16 text-center">
-            <p className="font-serif text-xl text-zinc-faded italic">
+            <p className="font-serif text-xl text-zinc-faded">
               Unable to load notes at this time.
             </p>
           </div>
         ) : notes.length === 0 ? (
           <div className="py-16 text-center">
-            <p className="font-serif text-2xl text-zinc-faded italic mb-4">
+            <p className="font-serif text-2xl text-zinc-faded mb-4">
               Coming Soon
             </p>
             <p className="text-sm text-zinc-400 max-w-md mx-auto">

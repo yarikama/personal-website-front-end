@@ -70,7 +70,7 @@ function TurnView({ turn, anchor, owls }: { turn: Turn; anchor: string; owls: bo
   return (
     <div className="py-5">
       {turn.passage && (
-        <blockquote className="ml-auto w-fit max-w-[85%] mb-2 border-l-2 border-sage/60 pl-3 text-sm italic text-zinc-400 line-clamp-3">
+        <blockquote className="ml-auto w-fit max-w-[85%] mb-2 border-l-2 border-sage/60 pl-3 text-sm text-zinc-400 line-clamp-3">
           {turn.passage.text}
         </blockquote>
       )}
@@ -102,7 +102,7 @@ function TurnView({ turn, anchor, owls }: { turn: Turn; anchor: string; owls: bo
             </Suspense>
           )}
           {turn.truncated && (
-            <p className="mt-2 text-sm text-zinc-400 italic">
+            <p className="mt-2 text-sm text-zinc-400">
               The answer got too long and was cut off. Try a narrower question.
             </p>
           )}
@@ -233,7 +233,7 @@ export default function AskChat({ className = '', compact = false, autoFocus = f
         // min-h-full, not h-full: centred when it fits, scrollable when it
         // does not (a fixed height would cut the top off on small screens).
         <div className="min-h-full py-6 flex flex-col items-center justify-center gap-4 text-center">
-          <p className="font-serif text-xl italic text-zinc-faded">Try asking</p>
+          <p className="font-serif text-xl text-zinc-faded">Try asking</p>
           <div className="flex flex-wrap justify-center gap-2">
             {SUGGESTIONS.map((s) => (
               <button
@@ -268,7 +268,7 @@ export default function AskChat({ className = '', compact = false, autoFocus = f
     >
       {passage && (
         <div className={`${column} mx-auto mb-2 flex items-start gap-2 rounded-xl bg-sage/10 pl-3 pr-1 py-2`}>
-          <blockquote className="flex-1 border-l-2 border-sage/60 pl-3 text-sm italic text-zinc-faded line-clamp-3">
+          <blockquote className="flex-1 border-l-2 border-sage/60 pl-3 text-sm text-zinc-faded line-clamp-3">
             {passage.text}
           </blockquote>
           <button

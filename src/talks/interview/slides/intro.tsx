@@ -23,7 +23,7 @@ export const intro: SlideDef[] = [
       <div className="h-full flex flex-col justify-center">
         <h1 className="font-serif font-light tracking-tight leading-none text-[72px]">
           <FlipText front="Henry" back="恒睿" />{' '}
-          <FlipText front="Hsu" back="許" className="italic" backClassName="not-italic" />
+          <FlipText front="Hsu" back="許" />
         </h1>
         {/* Honours, styled like the badges in the home page hero */}
         <div className="mt-6 flex flex-wrap gap-3">

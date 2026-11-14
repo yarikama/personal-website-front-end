@@ -60,11 +60,11 @@ export default function Article({ kicker, title, promise, takeaway, sources, chi
           {sources.map((source) => (
             <li key={source.title} className="text-sm text-zinc-faded leading-relaxed">
               {source.url ? (
-                <a href={source.url} target="_blank" rel="noopener noreferrer" className="text-ink hover:text-sage italic">
+                <a href={source.url} target="_blank" rel="noopener noreferrer" className="text-ink hover:text-sage">
                   {source.title}
                 </a>
               ) : (
-                <span className="text-ink italic">{source.title}</span>
+                <span className="text-ink">{source.title}</span>
               )}
               , {source.by}
               {source.part && <>. {source.part}</>}

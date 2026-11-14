@@ -114,14 +114,14 @@ function QuestionCard({
       </div>
 
       {item.quote && (
-        <blockquote className="mt-3 border-l-2 border-sage pl-3 text-sm text-zinc-500 italic whitespace-pre-wrap">
+        <blockquote className="mt-3 border-l-2 border-sage pl-3 text-sm text-zinc-500 whitespace-pre-wrap">
           {item.quote}
           {item.page && (
             <a
               href={item.page}
               target="_blank"
               rel="noopener noreferrer"
-              className="ml-2 not-italic font-mono text-xs text-zinc-400 hover:text-sage"
+              className="ml-2 font-mono text-xs text-zinc-400 hover:text-sage"
             >
               {item.page}
             </a>
@@ -302,7 +302,7 @@ export default function AdminQuestionsList() {
             </button>
           </div>
         ) : !isLoading && items.length === 0 ? (
-          <p className="py-16 text-center font-serif text-xl text-zinc-faded italic">
+          <p className="py-16 text-center font-serif text-xl text-zinc-faded">
             No questions match
           </p>
         ) : (

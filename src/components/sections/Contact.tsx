@@ -69,7 +69,7 @@ export default function Contact() {
         <h2 className="font-serif text-4xl md:text-5xl font-light mt-4 tracking-tight">
           Let's Build
           <br />
-          <span className="italic">Something Together</span>
+          Something Together
         </h2>
         <p className="mt-6 text-zinc-faded max-w-lg mx-auto">
           Whether you're building AI systems, exploring open-source collaboration, or have an

@@ -89,7 +89,7 @@ export default function AdminCategoriesList() {
           </div>
         ) : categories.length === 0 ? (
           <div className="py-16 text-center">
-            <p className="font-serif text-xl text-zinc-faded italic mb-4">No categories yet</p>
+            <p className="font-serif text-xl text-zinc-faded mb-4">No categories yet</p>
             <Link
               to="/admin/categories/new"
               className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-sage hover:underline"

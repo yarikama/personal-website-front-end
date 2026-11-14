@@ -58,7 +58,7 @@ export default function ProjectPage() {
       <div className="pt-24">
         <Section reading>
           {back}
-          <p className="font-serif text-2xl text-zinc-faded italic">
+          <p className="font-serif text-2xl text-zinc-faded">
             {error ? 'This project did not load. Try reloading the page.' : 'There is no project here.'}
           </p>
         </Section>

@@ -34,7 +34,7 @@ export default function BriefSelection() {
         </div>
       ) : error ? (
         <div className="py-16 text-center">
-          <p className="font-serif text-xl text-zinc-faded italic">
+          <p className="font-serif text-xl text-zinc-faded">
             Unable to load projects at this time.
           </p>
         </div>

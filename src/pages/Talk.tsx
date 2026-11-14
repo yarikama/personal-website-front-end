@@ -40,7 +40,7 @@ export default function Talk({ presenter = false }: { presenter?: boolean }) {
   if (!entry || failed) {
     return (
       <div className="fixed inset-0 flex flex-col items-center justify-center gap-6 bg-paper text-ink">
-        <p className="font-serif text-2xl text-zinc-faded italic">
+        <p className="font-serif text-2xl text-zinc-faded">
           {entry ? 'This talk did not load. Try reloading the page.' : 'There is no talk here.'}
         </p>
         <Link to="/talks" className="font-mono text-xs uppercase tracking-widest text-sage hover:underline">

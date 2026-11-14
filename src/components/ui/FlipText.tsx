@@ -5,12 +5,11 @@ interface FlipTextProps {
   front: string
   back: string
   className?: string
-  backClassName?: string
   // Nudge once on its own this many ms after mount, to show that it flips
   hintDelay?: number
 }
 
-export default function FlipText({ front, back, className = '', backClassName = '', hintDelay }: FlipTextProps) {
+export default function FlipText({ front, back, className = '', hintDelay }: FlipTextProps) {
   const [isFlipped, setIsFlipped] = useState(false)
   const [isNudging, setIsNudging] = useState(false)
   const reducedMotion = usePrefersReducedMotion()
@@ -48,7 +47,7 @@ export default function FlipText({ front, back, className = '', backClassName = 
 
         {/* Back - Chinese */}
         <span
-          className={`absolute left-0 top-0 inline-block ${backClassName}`}
+          className="absolute left-0 top-0 inline-block"
           style={{
             backfaceVisibility: 'hidden',
             transform: 'rotateX(180deg)',

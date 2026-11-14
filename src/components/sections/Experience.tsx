@@ -111,7 +111,7 @@ function SectionTitle() {
     <div>
       <span className="font-mono text-sm text-zinc-400 uppercase tracking-widest">Experience</span>
       <h2 className="font-serif text-4xl md:text-5xl font-light mt-4 tracking-tight">
-        Where I've <span className="italic">Shipped</span>
+        Where I've Shipped
       </h2>
     </div>
   )

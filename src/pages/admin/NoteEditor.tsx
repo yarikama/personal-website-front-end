@@ -597,7 +597,7 @@ Tip: Drag & drop or paste images directly here"
                   {formData.content ? (
                     <MarkdownRenderer content={formData.content} />
                   ) : (
-                    <p className="text-zinc-400 italic">Preview will appear here...</p>
+                    <p className="text-zinc-400">Preview will appear here...</p>
                   )}
                 </div>
               )}

@@ -199,7 +199,7 @@ export default function AdminMessagesList() {
         ) : !isLoading && items.length === 0 ? (
           <div className="py-16 flex flex-col items-center gap-3 text-zinc-faded">
             <MailOpen size={28} aria-hidden="true" />
-            <p className="font-serif text-xl italic">
+            <p className="font-serif text-xl">
               {unreadOnly ? 'Nothing unread' : 'No messages yet'}
             </p>
           </div>

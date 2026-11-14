@@ -97,6 +97,21 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* The site sets nothing in italics. Emphasis is a step heavier instead, and
+   the tags browsers slant by default stand upright. */
+em,
+i,
+cite,
+dfn,
+var,
+address {
+  font-style: normal;
+}
+
+em {
+  font-weight: 500;
+}
+
 /* Dark Mode */
 .dark body,
 body.dark {
@@ -545,7 +560,6 @@ body.dark {
 .travel-print-note {
   padding: 4.5% 1% 5.5%;
   font-family: var(--font-serif);
-  font-style: italic;
   font-size: calc(var(--u) * 2);
   line-height: 1.2;
   white-space: nowrap;
@@ -592,6 +606,11 @@ body.dark {
 
 .prose :is(p, li, blockquote):not(.not-prose *) {
   font-family: var(--font-sans), var(--font-serif-tc);
+}
+
+/* The typography plugin slants quotes and emphasis; keep them upright */
+.prose :is(blockquote, em, cite) {
+  font-style: normal;
 }
 
 /* Ask owl: nodding along to an answer, a thought while it waits for the
