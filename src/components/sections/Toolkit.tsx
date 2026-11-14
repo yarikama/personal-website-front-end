@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import Section from '../layout/Section'
 import TechTable from '../ui/TechTable'
-import MagazineLine from '../ui/MagazineLine'
 import { techStack } from '../../data/techStack'
 import { usePrefersReducedMotion } from '../../hooks'
 
@@ -199,9 +198,7 @@ export default function Toolkit() {
         Tools of the Trade
       </h2>
 
-      <MagazineLine className="my-12" />
-
-      <div className="grid lg:grid-cols-2 gap-16 lg:gap-20">
+      <div className="mt-12 grid lg:grid-cols-2 gap-16 lg:gap-20">
         <div>
           <Eyebrow>Skill Set</Eyebrow>
           <TechTable data={techStack} className="mt-6" />

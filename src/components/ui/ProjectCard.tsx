@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import { useInView } from 'motion/react'
 import ResponsiveImage from './ResponsiveImage'
 import { ArrowUpRight } from 'lucide-react'
-import MagazineLine from './MagazineLine'
 import WaveLink from './WaveLink'
 import { descriptionBlocks } from '../../lib/descriptionBlocks'
 
@@ -42,8 +41,6 @@ export default function ProjectCard({ project, index, featured = false, story = 
 
   return (
     <article className="group relative">
-      <MagazineLine className="mb-6" delay={index * 100} />
-
       {/* The cover beside the text; on a phone, above it */}
       <div className={project.coverImage ? `grid gap-6 md:gap-10 ${featured ? 'md:grid-cols-[minmax(0,1fr)_20rem]' : 'md:grid-cols-[minmax(0,1fr)_16rem]'}` : ''}>
         {project.coverImage && (

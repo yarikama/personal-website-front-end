@@ -335,7 +335,7 @@ export default function AdminQuestionsList() {
           )
         )}
 
-        <div className="mt-12 pt-8 border-t border-zinc-200 dark:border-zinc-800">
+        <div className="mt-20">
           <Link
             to="/"
             className="font-mono text-xs uppercase tracking-widest text-zinc-faded hover:text-ink transition-colors"

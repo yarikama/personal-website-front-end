@@ -1,5 +1,4 @@
 import type { ReactNode } from 'react'
-import MagazineLine from '../ui/MagazineLine'
 
 export interface Source {
   title: string
@@ -53,8 +52,7 @@ export default function Article({ kicker, title, promise, takeaway, sources, chi
         <p className="mt-2 font-serif text-2xl font-light leading-snug">{takeaway}</p>
       </div>
 
-      <MagazineLine className="mt-16 mb-8" />
-      <footer>
+      <footer className="mt-24">
         <h2 className="font-mono text-[0.875rem] uppercase tracking-widest text-zinc-400 mb-4">Read more</h2>
         <ul className="flex flex-col gap-3">
           {sources.map((source) => (

@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
 import Container from '../layout/Container'
-import MagazineLine from '../ui/MagazineLine'
 import { experience } from '../../data/experience'
 import { useMediaQuery, usePrefersReducedMotion } from '../../hooks'
 import type { ExperienceEntry, ExperienceHighlight } from '../../types'
@@ -198,8 +197,7 @@ function ExperienceDrum() {
       <div ref={pinnedRef} className="sticky" style={{ top: NAV_CLEARANCE }}>
         <Container>
           <SectionTitle />
-          <MagazineLine className="mt-8" />
-          <div className="mt-2 grid grid-cols-[320px_1fr] gap-16 items-center">
+          <div className="mt-10 grid grid-cols-[320px_1fr] gap-16 items-center">
             {/* One line, every company's logo on it; edges fade out */}
             <div
               className="relative overflow-hidden"
@@ -338,9 +336,8 @@ export default function Experience() {
         <ExperienceDrum />
       ) : (
         <div className="pb-[var(--section-spacing)]">
-          <Container>
+          <Container className="mb-12">
             <SectionTitle />
-            <MagazineLine className="my-12" />
           </Container>
           <ExperienceTimeline />
         </div>

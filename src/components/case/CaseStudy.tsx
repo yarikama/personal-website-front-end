@@ -2,7 +2,6 @@ import type { ReactNode } from 'react'
 import { motion } from 'motion/react'
 import { ArrowUpRight, CircleHelp, Hammer, Target } from 'lucide-react'
 import type { Project } from '../../types'
-import MagazineLine from '../ui/MagazineLine'
 import { EASE, useCountUp, useSeen } from './motion'
 
 export interface Stat {
@@ -70,8 +69,9 @@ export default function CaseStudy({ project, pitch, problem, did, result, stats,
         <p className="mt-2 font-serif text-2xl font-light leading-snug">{learned}</p>
       </div>
 
-      <MagazineLine className="mt-16 mb-8" />
-      <Built project={project} />
+      <div className="mt-24">
+        <Built project={project} />
+      </div>
     </article>
   )
 }

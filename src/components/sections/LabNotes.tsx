@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom'
 import Section from '../layout/Section'
-import MagazineLine from '../ui/MagazineLine'
 import { useLabNotes } from '../../hooks'
 import { ArrowUpRight, Loader2 } from 'lucide-react'
 
@@ -24,8 +23,6 @@ export default function LabNotes() {
           philosophy of building systems that endure.
         </p>
       </div>
-
-      <MagazineLine className="mb-12" />
 
       {isLoading ? (
         <div className="py-12 flex flex-col items-center justify-center">

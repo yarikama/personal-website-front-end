@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import Section from '../layout/Section'
-import MagazineLine from '../ui/MagazineLine'
 import { useContactForm } from '../../hooks'
 import { Mail, FileText, Send, Loader2, CheckCircle } from 'lucide-react'
 import { Github, Linkedin } from '../ui/brandIcons'
@@ -76,8 +75,6 @@ export default function Contact() {
           interesting problem to solve, I'd be glad to hear from you.
         </p>
       </div>
-
-      <MagazineLine className="mb-12" />
 
       {/* Contact Form */}
       <div className="max-w-xl mx-auto mb-16">
@@ -244,8 +241,6 @@ export default function Contact() {
           </form>
         )}
       </div>
-
-      <MagazineLine className="mb-12" />
 
       {/* Contact Links */}
       <div className="grid sm:grid-cols-2 gap-6">

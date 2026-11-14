@@ -1,6 +1,5 @@
 import { Fragment, useEffect, useRef, useState } from 'react'
 import Section from '../layout/Section'
-import MagazineLine from '../ui/MagazineLine'
 import AskChat from '../ask/AskChat'
 import { useAskChat, usePrefersReducedMotion } from '../../hooks'
 
@@ -115,7 +114,6 @@ export default function Ask() {
   return (
     <Section id="ask">
       <AskHeader />
-      <MagazineLine className="mb-8" />
 
       {/* Centred on the page rather than in the text column, so it can open
           out past the column's edges: from the column's full width up to
