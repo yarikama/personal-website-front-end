@@ -6,14 +6,22 @@ import type { ExperienceEntry, ExperienceHighlight } from '../../types'
 
 // Right-hand text dial: one panel per role, turning around a horizontal axis
 const DIAL_STEP = 50
-const PANEL_HEIGHT = 560
-const DIAL_RADIUS = PANEL_HEIGHT / 2 / Math.tan(((DIAL_STEP / 2) * Math.PI) / 180)
+// The dial and the line are as tall as the screen allows under the title, so
+// a long role's text is not cut off at the top and bottom: never shorter than
+// MIN_PANEL_HEIGHT, never taller than MAX_PANEL_HEIGHT
+const MIN_PANEL_HEIGHT = 560
+const MAX_PANEL_HEIGHT = 780
+// Room kept between the dial and the footer bar
+const PANEL_BOTTOM_GAP = 16
+const dialRadius = (panelHeight: number) => panelHeight / 2 / Math.tan(((DIAL_STEP / 2) * Math.PI) / 180)
 
 // Left-hand line: every role is a stop on one vertical line, spaced this far apart
 const STOP_GAP = 240
 
-// Keep the pinned block clear of the fixed site header
+// Keep the pinned block clear of the fixed site header, and of the fixed
+// footer bar along the bottom of the screen
 const NAV_CLEARANCE = 88
+const FOOTER_CLEARANCE = 56
 
 // Every role in page order, remembering which company it belongs to
 const stops = experience.flatMap((entry, companyIndex) =>
@@ -127,6 +135,8 @@ function ExperienceDrum() {
   const dialRef = useRef<HTMLDivElement>(null)
   const panelRefs = useRef<(HTMLDivElement | null)[]>([])
   const [frontStop, setFrontStop] = useState(0)
+  const [panelHeight, setPanelHeight] = useState(MIN_PANEL_HEIGHT)
+  const radius = dialRadius(panelHeight)
   const turns = stops.length - 1
 
   useEffect(() => {
@@ -134,13 +144,27 @@ function ExperienceDrum() {
     const update = () => {
       frame = 0
       if (!containerRef.current || !pinnedRef.current) return
-      // The title and the dial pin together, centred in the space under the
-      // site header; the turn runs from the moment they pin until the
+      // The title and the dial pin together, centred between the site header
+      // and the footer bar; the turn runs from the moment they pin until the
       // container carries them away
       const pinnedHeight = pinnedRef.current.offsetHeight
+      // Grow the dial into whatever height the screen has under the title
+      const fit = Math.round(
+        Math.min(
+          MAX_PANEL_HEIGHT,
+          Math.max(
+            MIN_PANEL_HEIGHT,
+            window.innerHeight - NAV_CLEARANCE - FOOTER_CLEARANCE - (pinnedHeight - panelHeight) - PANEL_BOTTOM_GAP
+          )
+        )
+      )
+      if (fit !== panelHeight) {
+        setPanelHeight(fit)
+        return
+      }
       const pinTop = Math.max(
         NAV_CLEARANCE,
-        NAV_CLEARANCE + (window.innerHeight - NAV_CLEARANCE - pinnedHeight) / 2
+        NAV_CLEARANCE + (window.innerHeight - NAV_CLEARANCE - FOOTER_CLEARANCE - pinnedHeight) / 2
       )
       const top = `${pinTop}px`
       if (pinnedRef.current.style.top !== top) pinnedRef.current.style.top = top
@@ -154,7 +178,7 @@ function ExperienceDrum() {
       // Text dial
       const dialAngle = position * DIAL_STEP
       if (dialRef.current) {
-        dialRef.current.style.transform = `translateZ(${-DIAL_RADIUS}px) rotateX(${dialAngle}deg)`
+        dialRef.current.style.transform = `translateZ(${-radius}px) rotateX(${dialAngle}deg)`
       }
       panelRefs.current.forEach((panel, i) => {
         if (!panel) return
@@ -165,7 +189,7 @@ function ExperienceDrum() {
       // Line: pull the track so the current stop sits at the vertical centre,
       // and let stops fade and shrink the further they are from it
       if (trackRef.current) {
-        trackRef.current.style.transform = `translateY(${PANEL_HEIGHT / 2 - position * STOP_GAP}px)`
+        trackRef.current.style.transform = `translateY(${panelHeight / 2 - position * STOP_GAP}px)`
       }
       stopRefs.current.forEach((stop, i) => {
         if (!stop) return
@@ -188,7 +212,7 @@ function ExperienceDrum() {
       window.removeEventListener('resize', handleScroll)
       cancelAnimationFrame(frame)
     }
-  }, [turns])
+  }, [turns, panelHeight, radius])
 
   return (
     <div ref={containerRef} className="relative">
@@ -197,23 +221,23 @@ function ExperienceDrum() {
       <div ref={pinnedRef} className="sticky" style={{ top: NAV_CLEARANCE }}>
         <Container>
           <SectionTitle />
-          <div className="mt-10 grid grid-cols-[320px_1fr] gap-16 items-center">
+          <div className="mt-6 grid grid-cols-[320px_1fr] gap-16 items-center">
             {/* One line, every company's logo on it; edges fade out */}
             <div
               className="relative overflow-hidden"
               style={{
-                height: `${PANEL_HEIGHT}px`,
+                height: `${panelHeight}px`,
                 maskImage: 'linear-gradient(to bottom, transparent, black 18%, black 82%, transparent)',
               }}
             >
               <div
                 ref={trackRef}
                 className="absolute left-1/2 top-0 w-0"
-                style={{ transform: `translateY(${PANEL_HEIGHT / 2}px)` }}
+                style={{ transform: `translateY(${panelHeight / 2}px)` }}
               >
                 <div
                   className="absolute left-0 w-px bg-sage/60"
-                  style={{ top: -PANEL_HEIGHT, height: turns * STOP_GAP + 2 * PANEL_HEIGHT }}
+                  style={{ top: -panelHeight, height: turns * STOP_GAP + 2 * panelHeight }}
                   aria-hidden="true"
                 />
                 {stops.map((stop, i) => (
@@ -236,7 +260,7 @@ function ExperienceDrum() {
             <div
               className="relative"
               style={{
-                height: `${PANEL_HEIGHT}px`,
+                height: `${panelHeight}px`,
                 perspective: '1600px',
                 maskImage: 'linear-gradient(to bottom, transparent, black 4%, black 96%, transparent)',
               }}
@@ -244,7 +268,7 @@ function ExperienceDrum() {
               <div
                 ref={dialRef}
                 className="absolute inset-0"
-                style={{ transformStyle: 'preserve-3d', transform: `translateZ(${-DIAL_RADIUS}px)` }}
+                style={{ transformStyle: 'preserve-3d', transform: `translateZ(${-radius}px)` }}
               >
                 {stops.map((stop, i) => (
                   <div
@@ -254,7 +278,7 @@ function ExperienceDrum() {
                     }}
                     className="absolute inset-0"
                     style={{
-                      transform: `rotateX(${-i * DIAL_STEP}deg) translateZ(${DIAL_RADIUS}px)`,
+                      transform: `rotateX(${-i * DIAL_STEP}deg) translateZ(${radius}px)`,
                       backfaceVisibility: 'hidden',
                     }}
                     // Only the role facing you is read out and focusable
