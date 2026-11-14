@@ -1,5 +1,4 @@
 import { Fragment, useEffect, useRef, useState } from 'react'
-import { ChevronDown } from 'lucide-react'
 import Section from '../layout/Section'
 import MagazineLine from '../ui/MagazineLine'
 import AskChat from '../ask/AskChat'
@@ -106,64 +105,6 @@ function AskHeader() {
   )
 }
 
-// Leads on from the chat to the story below. The first story card only
-// fades in after a screen of scrolling, and without this the page looked as
-// if it ended at the chat. The line draws down once it comes into view.
-function OnToAbout() {
-  const ref = useRef<HTMLAnchorElement>(null)
-  const [isVisible, setIsVisible] = useState(false)
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true)
-          observer.disconnect()
-        }
-      },
-      { threshold: 0.3 }
-    )
-    if (ref.current) observer.observe(ref.current)
-    return () => observer.disconnect()
-  }, [])
-
-  return (
-    <a
-      ref={ref}
-      href="#about"
-      className="group mt-24 mx-auto flex w-fit flex-col items-center text-center"
-    >
-      <span
-        aria-hidden="true"
-        className="block h-24 w-px bg-gradient-to-b from-transparent to-sage/70 origin-top
-          transition-transform duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none"
-        style={{ transform: isVisible ? 'scaleY(1)' : 'scaleY(0)' }}
-      />
-      <span
-        className={`mt-6 font-mono text-sm text-zinc-400 uppercase tracking-widest
-          group-hover:text-sage group-focus-visible:text-sage
-          transition-[opacity,color] duration-700 delay-300 motion-reduce:transition-none
-          ${isVisible ? 'opacity-100' : 'opacity-0'}`}
-      >
-        About me
-      </span>
-      <span
-        className={`mt-3 font-serif text-3xl md:text-4xl font-light tracking-tight
-          transition-opacity duration-700 delay-500 motion-reduce:transition-none
-          ${isVisible ? 'opacity-100' : 'opacity-0'}`}
-      >
-        How I Work
-      </span>
-      <ChevronDown
-        aria-hidden="true"
-        className={`mt-6 h-5 w-5 text-sage motion-safe:animate-bounce
-          transition-opacity duration-700 delay-700 motion-reduce:transition-none
-          ${isVisible ? 'opacity-100' : 'opacity-0'}`}
-      />
-    </a>
-  )
-}
-
 export default function Ask() {
   // The chat box starts at the width of the text above it and opens out to
   // nearly the width of the window with the first question. Only the width: a
@@ -185,8 +126,6 @@ export default function Ask() {
           transition-[max-width] duration-1000 ease-[cubic-bezier(0.4,0,0.2,1)] motion-reduce:transition-none
           ${opened ? 'max-w-[88rem]' : 'max-w-full'}`}
       />
-
-      <OnToAbout />
     </Section>
   )
 }
