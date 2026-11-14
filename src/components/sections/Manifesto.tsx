@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { usePrefersReducedMotion } from '../../hooks'
+import { ARM_MIN_WIDTH, needleAt, recordGaps, recordRadius, wheelRadius } from './manifestoRecord'
 
 const stories = [
   {
@@ -24,23 +25,17 @@ const stories = [
   },
 ]
 
-const SQUARE_SIZE = 70
-
 // A card counts as settled, and gets its nudge, once the wheel is within this
 // share of a step of bringing it to rest at the bottom
 const SETTLED_STEPS = 0.15
 
 // The stories sit around the rim of a large wheel whose center is far above
-// the screen, so only its bottom arc shows. Scrolling turns the wheel
-// clockwise: the current story rolls off to the left along the arc, tilting
-// with it, as the next rolls in from the right and settles at the bottom.
-// Neighbours peek in faintly at the sides.
+// the screen, so only its bottom arc shows. The wheel is drawn as a vinyl
+// record (manifestoRecord.ts), and scrolling turns it clockwise: the current
+// story rolls off to the left along the arc, tilting with it, as the next
+// rolls in from the right and settles at the bottom. Neighbours peek in
+// faintly at the sides.
 const STEP_ANGLE = 30
-// Radius as a share of the viewport width. Titles take up more of a phone's
-// width, so the wheel is larger there to keep neighbours clear of the title.
-const WHEEL_RADIUS = 1.15
-const WHEEL_RADIUS_NARROW = 1.3
-const NARROW_WIDTH = 768
 const NEIGHBOUR_OPACITY = 0.2
 
 const easeInOut = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2)
@@ -61,8 +56,7 @@ function cardFrame(index: number, position: number) {
   const steps = index - position
   const distance = Math.abs(steps)
   const opacity = distance < 1 ? 1 - distance * (1 - NEIGHBOUR_OPACITY) : Math.max(0, NEIGHBOUR_OPACITY * (2 - distance))
-  const width = window.innerWidth
-  const radius = width * (width < NARROW_WIDTH ? WHEEL_RADIUS_NARROW : WHEEL_RADIUS)
+  const radius = wheelRadius(window.innerWidth)
   return {
     opacity,
     // Turning about the wheel's center, not the card's own
@@ -71,17 +65,18 @@ function cardFrame(index: number, position: number) {
   }
 }
 
-// Position of the rolling square along the floor line at progress 0-1
-function squareFrame(progress: number) {
-  const rotation = progress * 360 * stories.length // One rotation per story
-  // Lift the square so its lowest corner stays on the line as it rolls
-  const t = Math.abs(Math.sin(2 * (((rotation * Math.PI) / 180) % (Math.PI / 2))))
-  const halfEdge = SQUARE_SIZE / 2
-  const halfDiagonal = (SQUARE_SIZE * Math.SQRT2) / 2
+// The record's box and turn with the wheel at `position`: centred on the
+// wheel's centre, turning with the stories so they ride on it
+function recordFrame(position: number) {
+  const width = window.innerWidth
+  const radius = wheelRadius(width)
+  const rim = recordRadius(width)
   return {
-    left: `calc(${progress * 100}% - ${progress * SQUARE_SIZE}px)`,
-    bottom: `${halfEdge + t * (halfDiagonal - halfEdge) - halfEdge}px`,
-    transform: `rotate(${rotation}deg)`,
+    width: `${2 * rim}px`,
+    height: `${2 * rim}px`,
+    left: `calc(50% - ${rim}px)`,
+    top: `calc(50% - ${radius + rim}px)`,
+    transform: `rotate(${-position * STEP_ANGLE}deg)`,
   }
 }
 
@@ -128,12 +123,12 @@ function StoryCard({ story, index, isFlipped, shouldNudge, onNudgeEnd, onHoverCh
       >
         {/* Front - Title */}
         <div className="flex flex-col items-center text-center" style={{ backfaceVisibility: 'hidden' }}>
-          <h2 className="font-serif text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-light tracking-tight leading-none">
+          <h2 className="font-serif text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-light tracking-tight leading-none text-[#ece9e2]">
             {firstWord}
             <br />
             {rest.join(' ')}
           </h2>
-          <p className="mt-8 font-mono text-sm md:text-base text-sage uppercase tracking-widest">
+          <p className="mt-8 font-mono text-sm md:text-base text-[#9fc0bb] uppercase tracking-widest">
             {story.subtext}
           </p>
         </div>
@@ -144,8 +139,8 @@ function StoryCard({ story, index, isFlipped, shouldNudge, onNudgeEnd, onHoverCh
           className="absolute inset-0 flex flex-col items-center justify-center text-center px-4"
           style={{ backfaceVisibility: 'hidden', transform: 'rotateX(180deg)' }}
         >
-          <p className="font-mono text-xs text-sage uppercase tracking-widest mb-6">{story.text}</p>
-          <p id={storyId} className="font-serif text-base md:text-xl lg:text-2xl text-zinc-faded leading-relaxed max-w-2xl">
+          <p className="font-mono text-xs text-[#9fc0bb] uppercase tracking-widest mb-6">{story.text}</p>
+          <p id={storyId} className="font-serif text-base md:text-xl lg:text-2xl text-[#a1a1aa] leading-relaxed max-w-2xl">
             {story.story}
           </p>
         </div>
@@ -176,7 +171,11 @@ function StaticManifesto() {
 function ScrollManifesto() {
   const containerRef = useRef<HTMLDivElement>(null)
   const cardRefs = useRef<(HTMLDivElement | null)[]>([])
-  const squareRef = useRef<HTMLDivElement>(null)
+  const stageRef = useRef<HTMLDivElement>(null)
+  const recordRef = useRef<HTMLDivElement>(null)
+  const sheenRef = useRef<HTMLDivElement>(null)
+  const armRef = useRef<SVGGElement>(null)
+  const armRodRef = useRef<SVGRectElement>(null)
   const [activeCard, setActiveCard] = useState(-1)
   const [hoveredCard, setHoveredCard] = useState<number | null>(null)
   const [pinnedCard, setPinnedCard] = useState<number | null>(null)
@@ -201,7 +200,21 @@ function ScrollManifesto() {
       cardRefs.current.forEach((card, i) => {
         if (card) Object.assign(card.style, cardFrame(i, position))
       })
-      if (squareRef.current) Object.assign(squareRef.current.style, squareFrame(progress))
+      const record = recordRef.current
+      if (record) {
+        Object.assign(record.style, recordFrame(position))
+        const gaps = recordGaps(window.innerWidth)
+        record.style.setProperty('--gap-outer', `${gaps.outer}px`)
+        record.style.setProperty('--gap-inner', `${gaps.inner}px`)
+      }
+      // The light stays put while the record turns under it
+      if (sheenRef.current) Object.assign(sheenRef.current.style, recordFrame(0))
+      const stage = stageRef.current
+      if (stage && armRef.current && armRodRef.current && stage.clientWidth >= ARM_MIN_WIDTH) {
+        const needle = needleAt(progress, stage.clientWidth, stage.clientHeight)
+        armRef.current.setAttribute('transform', `translate(${needle.x} ${needle.y}) rotate(${needle.angle})`)
+        armRodRef.current.setAttribute('width', String(needle.length))
+      }
       setActiveCard(active)
       // Nudge each card once, when it has fully risen into view
       if (settled >= 0 && !nudgedCards.current.has(settled)) {
@@ -237,7 +250,9 @@ function ScrollManifesto() {
 
   return (
     <div ref={containerRef} className="relative" style={{ height: `${stories.length * 100}dvh` }}>
-      <div className="sticky top-0 h-dvh flex items-center justify-center overflow-hidden">
+      <div ref={stageRef} className="sticky top-0 h-dvh flex items-center justify-center overflow-hidden">
+        <div ref={recordRef} className="manifesto-record absolute rounded-full" style={recordFrame(0)} aria-hidden="true" />
+        <div ref={sheenRef} className="manifesto-sheen absolute rounded-full pointer-events-none" style={recordFrame(0)} aria-hidden="true" />
         {stories.map((story, index) => {
           const isActive = index === activeCard
           return (
@@ -264,19 +279,28 @@ function ScrollManifesto() {
           )
         })}
 
-        {/* Progress indicator - full width line with rolling square */}
-        <div className="absolute bottom-24 left-0 right-0 px-8" aria-hidden="true">
-          {/* Line (floor) */}
-          <div className="h-0.5 bg-zinc-300 dark:bg-zinc-200/30 w-full relative">
-            <div
-              ref={squareRef}
-              className={`absolute rounded-md transition-colors duration-300 ${
-                flippedCard !== null ? 'bg-sage border-sage' : 'border border-sage'
-              }`}
-              style={{ width: `${SQUARE_SIZE}px`, height: `${SQUARE_SIZE}px`, ...squareFrame(0) }}
-            />
-          </div>
-        </div>
+        {/* The tonearm: its pivot is off the right edge, so only the arm and
+            headshell reach in. Where the stylus sits shows how far through
+            the section the reader is. */}
+        <svg
+          className="absolute inset-0 h-full w-full overflow-visible pointer-events-none hidden min-[1100px]:block"
+          aria-hidden="true"
+        >
+          <defs>
+            <linearGradient id="tonearm-metal" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stopColor="#e4e4e0" />
+              <stop offset="0.55" stopColor="#9a9a96" />
+              <stop offset="1" stopColor="#6e6e6a" />
+            </linearGradient>
+          </defs>
+          <g ref={armRef}>
+            <rect ref={armRodRef} x="0" y="-4" height="8" rx="4" fill="url(#tonearm-metal)" />
+            <rect x="-22" y="-13" width="44" height="26" rx="4" fill="#1e1e1e" stroke="#8d8d8a" strokeWidth="1.5" />
+            <rect x="-16" y="-7" width="20" height="14" rx="2" fill="#b33a2a" />
+            <rect x="10" y="-15" width="26" height="4" rx="2" fill="url(#tonearm-metal)" />
+            <circle cx="-6" cy="0" r="2.2" fill="#e4e4e0" />
+          </g>
+        </svg>
       </div>
     </div>
   )

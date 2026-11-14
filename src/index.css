@@ -595,6 +595,41 @@ body.dark {
   }
 }
 
+/* The Manifesto's wheel, drawn as the outer band of a vinyl record: fine
+   concentric grooves, the smooth bands between tracks, and a lit rim. It is
+   black in both themes, as a record is. */
+.manifesto-record {
+  --vinyl: #0d0d0d;
+  background:
+    radial-gradient(circle, transparent 0 calc(var(--gap-outer, 0px) - 2px), rgb(0 0 0 / 0.55) calc(var(--gap-outer, 0px) - 2px) var(--gap-outer, 0px), transparent var(--gap-outer, 0px)),
+    radial-gradient(circle, transparent 0 calc(var(--gap-inner, 0px) - 2px), rgb(0 0 0 / 0.55) calc(var(--gap-inner, 0px) - 2px) var(--gap-inner, 0px), transparent var(--gap-inner, 0px)),
+    repeating-radial-gradient(circle, rgb(255 255 255 / 0.035) 0 1px, rgb(255 255 255 / 0) 1px 3px),
+    var(--vinyl);
+  box-shadow:
+    inset 0 0 0 1px rgb(255 255 255 / 0.1),
+    inset 0 0 0 7px rgb(255 255 255 / 0.025),
+    0 24px 60px -18px rgb(0 0 0 / 0.55);
+  will-change: transform;
+}
+
+.dark .manifesto-record {
+  --vinyl: #060606;
+}
+
+/* Two wedges of reflected light, fixed while the record turns */
+.manifesto-sheen {
+  background: conic-gradient(
+    from 0deg,
+    rgb(255 255 255 / 0) 0deg,
+    rgb(255 255 255 / 0.05) 18deg,
+    rgb(255 255 255 / 0) 40deg,
+    rgb(255 255 255 / 0) 150deg,
+    rgb(255 255 255 / 0.075) 166deg,
+    rgb(255 255 255 / 0) 186deg,
+    rgb(255 255 255 / 0) 360deg
+  );
+}
+
 /* Markdown Chinese Typography */
 .prose {
   font-family: var(--font-sans), var(--font-serif-tc);
