@@ -90,13 +90,13 @@ export default function Hero() {
               {/* Each word nudges once on load, so visitors learn it flips to Chinese */}
               <FlipText front="Henry" back="恒睿" hintDelay={900} />
               <br />
-              <FlipText front="Hsu" back="許" className="italic" backClassName="not-italic" hintDelay={1050} />
+              <FlipText front="Hsu" back="許" hintDelay={1050} />
             </h1>
 
             <div className="mt-12 md:mt-16">
-              {/* In the name's italic. Cormorant's small x-height reads small,
+              {/* In the name's serif. Cormorant's small x-height reads small,
                   so it is set a step larger than the old tagline. */}
-              <p className="font-serif italic font-normal text-[1.75rem] md:text-[2.25rem] text-zinc-faded leading-snug">
+              <p className="font-serif font-normal text-[1.75rem] md:text-[2.25rem] text-zinc-faded leading-snug">
                 Building AI systems, and the infrastructure behind them.
               </p>
 

@@ -83,7 +83,7 @@ export default function Overview({ graph, node, stages, hasPage, onOpen }: Overv
           <ul className="flex flex-col gap-3">
             {elsewhere.map((other) => (
               <li key={other.slug} className="text-sm leading-relaxed text-zinc-faded">
-                <a href={other.ref ?? undefined} target="_blank" rel="noopener noreferrer" className="italic text-ink hover:text-sage">
+                <a href={other.ref ?? undefined} target="_blank" rel="noopener noreferrer" className="text-ink hover:text-sage">
                   {other.title}
                 </a>
                 , {other.summary}

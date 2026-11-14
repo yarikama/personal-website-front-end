@@ -98,7 +98,7 @@ export default function ProjectCard({ project, index, featured = false, story = 
               makes the reader want to open it, or the first lines of the
               description; the rest is on the page */}
           {hook ? (
-            <p className={`mb-5 max-w-xl font-serif italic leading-snug text-ink/85 ${featured ? 'text-xl md:text-[1.4rem]' : 'text-lg md:text-xl'}`}>
+            <p className={`mb-5 max-w-xl font-serif leading-snug text-ink/85 ${featured ? 'text-xl md:text-[1.4rem]' : 'text-lg md:text-xl'}`}>
               {hook}
             </p>
           ) : (

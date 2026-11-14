@@ -23,11 +23,11 @@ export function Eyebrow({ children }: { children: ReactNode }) {
   return <p className="font-mono text-[15px] text-zinc-400 uppercase tracking-widest">{children}</p>
 }
 
-// Use <em> inside for the italic emphasis the site uses in its titles
+// Use <em> inside for the heavier emphasis the site uses in its titles
 export function Headline({ children, className = '' }: { children: ReactNode; className?: string }) {
   return (
     <h2
-      className={`font-serif font-light text-[64px] leading-[1.08] tracking-tight lining-nums pb-1 [&_em]:italic ${className}`}
+      className={`font-serif font-light text-[64px] leading-[1.08] tracking-tight lining-nums pb-1 ${className}`}
     >
       {children}
     </h2>
@@ -310,7 +310,7 @@ export function Outline({ active, headline, after }: { active?: string; headline
                   className={current ? 'text-sage' : 'text-zinc-400'}
                   aria-hidden="true"
                 />
-                <span className={`font-serif text-[44px] leading-tight font-light ${current ? 'italic' : ''}`}>
+                <span className={`font-serif text-[44px] leading-tight ${current ? 'font-medium' : 'font-light'}`}>
                   {section.label}
                 </span>
               </span>

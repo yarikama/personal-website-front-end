@@ -86,7 +86,7 @@ function AskHeader() {
           </Fragment>
         ))}
         <br />
-        <span className="italic">
+        <span>
           {TITLE_END.split('').map((char, i) => {
             const at = TITLE.length + i
             return (
@@ -152,7 +152,7 @@ function OnToAbout() {
           transition-opacity duration-700 delay-500 motion-reduce:transition-none
           ${isVisible ? 'opacity-100' : 'opacity-0'}`}
       >
-        How I <span className="italic">Work</span>
+        How I Work
       </span>
       <ChevronDown
         aria-hidden="true"

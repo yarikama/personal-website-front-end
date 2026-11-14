@@ -158,7 +158,7 @@ function Topics({ graph, onSelect }: { graph: LearningGraph; onSelect: (slug: st
               <div key={topic.slug}>
                 <div className="flex items-center gap-2">
                   <Shape sides={8} size={10} colour={colours.get(topic.slug) ?? 'var(--color-ink)'} />
-                  {pick(topic, 'font-serif text-lg italic hover:text-sage')}
+                  {pick(topic, 'font-serif text-lg hover:text-sage')}
                 </div>
                 <ul className="mt-1 ml-[18px] flex flex-col gap-1">
                   {ideas.map((idea) => (
@@ -175,7 +175,7 @@ function Topics({ graph, onSelect }: { graph: LearningGraph; onSelect: (slug: st
       ))}
       {elsewhere.length > 0 && (
         <div>
-          <p className="font-serif text-xl italic mb-2">Elsewhere</p>
+          <p className="font-serif text-xl mb-2">Elsewhere</p>
           <ul className="flex flex-col gap-1">
             {elsewhere.map((node) => (
               <li key={node.slug} className="text-sm">
@@ -242,7 +242,7 @@ function Reader({
         {hasOverview(node) ? (
           <Overview graph={graph} node={node} stages={stages} hasPage={hasPage} onOpen={onGo} />
         ) : failed ? (
-          <p className="font-serif text-xl text-zinc-faded italic">This page did not load. Try opening it on its own.</p>
+          <p className="font-serif text-xl text-zinc-faded">This page did not load. Try opening it on its own.</p>
         ) : Page ? (
           <>
             <Reading slug={slug}>

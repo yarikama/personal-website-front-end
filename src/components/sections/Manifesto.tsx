@@ -131,7 +131,7 @@ function StoryCard({ story, index, isFlipped, shouldNudge, onNudgeEnd, onHoverCh
           <h2 className="font-serif text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-light tracking-tight leading-none">
             {firstWord}
             <br />
-            <span className="italic">{rest.join(' ')}</span>
+            {rest.join(' ')}
           </h2>
           <p className="mt-8 font-mono text-sm md:text-base text-sage uppercase tracking-widest">
             {story.subtext}

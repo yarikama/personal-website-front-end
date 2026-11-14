@@ -252,7 +252,7 @@ export default function AdminVisitors() {
 
         {error === 'off' ? (
           <div className="py-16 text-center">
-            <p className="font-serif text-xl italic">Not set up yet</p>
+            <p className="font-serif text-xl">Not set up yet</p>
             <p className="mt-2 text-sm text-zinc-faded">
               The API has no Vercel token (the <code className="font-mono">vercel-analytics</code> secret).
             </p>
@@ -275,7 +275,7 @@ export default function AdminVisitors() {
         ) : report.pageviews === 0 ? (
           <div className="py-16 flex flex-col items-center gap-3 text-zinc-faded">
             <Users size={28} aria-hidden="true" />
-            <p className="font-serif text-xl italic">No visitors {days === 1 ? 'today' : 'in this range'} yet</p>
+            <p className="font-serif text-xl">No visitors {days === 1 ? 'today' : 'in this range'} yet</p>
           </div>
         ) : (
           <>

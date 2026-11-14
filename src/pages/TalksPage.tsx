@@ -32,7 +32,7 @@ export default function TalksPage() {
 
         {publicTalks.length === 0 ? (
           <div className="py-16 text-center">
-            <p className="font-serif text-2xl text-zinc-faded italic mb-4">Coming Soon</p>
+            <p className="font-serif text-2xl text-zinc-faded mb-4">Coming Soon</p>
             <p className="text-sm text-zinc-400 max-w-md mx-auto">The first public talk is in the works.</p>
           </div>
         ) : (

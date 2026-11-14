@@ -116,7 +116,7 @@ export default function WorksPage() {
           </div>
         ) : error ? (
           <div className="py-16 text-center">
-            <p className="font-serif text-xl text-zinc-faded italic">
+            <p className="font-serif text-xl text-zinc-faded">
               Unable to load projects at this time.
             </p>
           </div>
@@ -138,7 +138,7 @@ export default function WorksPage() {
 
             {filteredProjects.length === 0 && (
               <div className="text-center py-16">
-                <p className="font-serif text-xl text-zinc-faded italic">
+                <p className="font-serif text-xl text-zinc-faded">
                   No projects found in this category.
                 </p>
               </div>

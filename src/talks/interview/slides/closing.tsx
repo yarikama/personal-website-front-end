@@ -92,7 +92,7 @@ export const closing: SlideDef[] = [
     render: () => (
       <div className="h-full flex flex-col justify-center">
         <h2 className="font-serif font-light tracking-tight leading-[0.95] text-[150px]">
-          Thank <em className="italic">you</em>.
+          Thank <em>you</em>.
         </h2>
         <p className="mt-10 text-[34px] font-light text-zinc-faded">Questions?</p>
         <dl className="mt-20 grid grid-cols-4 gap-10">

@@ -4,7 +4,7 @@ import { codeLines, tokens, type TokenKind } from './codeText'
 const TONE: Record<TokenKind, string> = {
   keyword: 'text-ink font-medium',
   string: 'text-sage',
-  comment: 'text-zinc-400 italic',
+  comment: 'text-zinc-400',
   number: 'text-sage',
   plain: 'text-ink/85',
 }

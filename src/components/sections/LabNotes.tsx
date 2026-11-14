@@ -17,7 +17,7 @@ export default function LabNotes() {
         <h2 className="font-serif text-4xl md:text-5xl font-light mt-4 tracking-tight">
           Technical
           <br />
-          <span className="italic">Writings</span>
+          Writings
         </h2>
         <p className="mt-4 text-zinc-faded max-w-2xl">
           Essays and explorations on software engineering, machine learning theory, and the
@@ -34,7 +34,7 @@ export default function LabNotes() {
         </div>
       ) : error || !hasNotes ? (
         <div className="py-12 text-center">
-          <p className="font-serif text-xl text-zinc-faded italic mb-4">
+          <p className="font-serif text-xl text-zinc-faded mb-4">
             Coming Soon
           </p>
           <p className="text-sm text-zinc-400 max-w-md mx-auto">

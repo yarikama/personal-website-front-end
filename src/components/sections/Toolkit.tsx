@@ -196,7 +196,7 @@ export default function Toolkit() {
     <Section id="skills">
       <span className="font-mono text-sm text-zinc-400 uppercase tracking-widest">Toolkit</span>
       <h2 className="font-serif text-4xl md:text-5xl font-light mt-4 tracking-tight">
-        Tools of the <span className="italic">Trade</span>
+        Tools of the Trade
       </h2>
 
       <MagazineLine className="my-12" />

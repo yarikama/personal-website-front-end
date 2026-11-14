@@ -84,7 +84,7 @@ export default function LearningPage() {
       <div className="pt-24">
         <Section reading>
           {back}
-          <p className="font-serif text-2xl text-zinc-faded italic">
+          <p className="font-serif text-2xl text-zinc-faded">
             {entry ? 'This page did not load. Try reloading it.' : 'This page is not written yet.'}
           </p>
         </Section>

@@ -11,7 +11,7 @@ export default function Footer() {
       <Container>
         <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
           <div className="font-mono text-sm text-zinc-faded uppercase tracking-widest">
-            <Link to="/admin" className="font-serif text-sm normal-case tracking-normal italic hover:text-sage transition-colors duration-300">
+            <Link to="/admin" className="font-serif text-sm normal-case tracking-normal hover:text-sage transition-colors duration-300">
               Henry Hsu
             </Link>
             <span className="mx-3">/</span>

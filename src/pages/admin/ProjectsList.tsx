@@ -87,7 +87,7 @@ export default function AdminProjectsList() {
           </div>
         ) : projects.length === 0 ? (
           <div className="py-16 text-center">
-            <p className="font-serif text-xl text-zinc-faded italic mb-4">No projects yet</p>
+            <p className="font-serif text-xl text-zinc-faded mb-4">No projects yet</p>
             <Link
               to="/admin/projects/new"
               className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-sage hover:underline"
