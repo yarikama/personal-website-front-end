@@ -22,7 +22,7 @@ export default function TalksPage() {
         <div className="mb-16">
           <span className="font-mono text-sm text-zinc-400 uppercase tracking-widest">Talks</span>
           <h1 className="font-serif text-5xl md:text-6xl font-light mt-4 tracking-tight">Talks and Lessons</h1>
-          <p className="mt-6 text-zinc-faded max-w-2xl text-lg">
+          <p className="mt-6 text-zinc-faded max-w-2xl text-lg md:text-xl leading-relaxed">
             Interactive slides from talks I have given and things I have taught. Open one and step through it with
             the arrow keys.
           </p>

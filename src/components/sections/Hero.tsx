@@ -100,7 +100,7 @@ export default function Hero() {
                 Building AI systems, and the infrastructure behind them.
               </p>
 
-              <p className="mt-4 text-lg text-zinc-faded leading-relaxed">
+              <p className="mt-4 text-lg md:text-xl text-zinc-faded leading-relaxed">
                 Software engineer across GenAI and backend, from RAG architectures and
                 agentic workflows to the pipelines and test infrastructure that keep them running.
               </p>

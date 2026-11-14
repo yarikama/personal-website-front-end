@@ -19,7 +19,7 @@ export default function BriefSelection() {
         <h2 className="font-serif text-4xl md:text-5xl font-light mt-4 tracking-tight">
           Featured Projects
         </h2>
-        <p className="mt-4 text-zinc-faded max-w-2xl">
+        <p className="mt-4 text-lg md:text-xl leading-relaxed text-zinc-faded max-w-2xl">
           A curated selection of projects that represent my approach to engineering: thoughtful
           architecture, clean implementation, and measurable impact.
         </p>
