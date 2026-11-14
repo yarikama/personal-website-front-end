@@ -200,7 +200,7 @@ body.dark {
 /* Tech Table Styling */
 .tech-table {
   font-family: var(--font-mono);
-  font-size: 0.85rem;
+  font-size: 0.9375rem;
 }
 
 .tech-table tr {
@@ -220,7 +220,7 @@ body.dark {
   padding-right: 2rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
 }
 
 /* Hero Photo Interactive Styles */

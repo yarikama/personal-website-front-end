@@ -1,3 +1,5 @@
+import { Fragment } from 'react'
+
 interface TechCategory {
   category: string
   items: string[]
@@ -16,13 +18,18 @@ export default function TechTable({ data, className = '' }: TechTableProps) {
           <tr key={row.category}>
             <td className="whitespace-nowrap align-top">{row.category}</td>
             <td>
+              {/* Each comma stays with the tool before it, so a line never
+                  starts with one */}
               {row.items.map((item, idx) => (
-                <span key={item}>
-                  <span className="inline-block rounded-sm hover:bg-sage hover:text-paper px-1 -mx-1 transition-colors duration-200 cursor-default">
-                    {item}
+                <Fragment key={item}>
+                  <span className="whitespace-nowrap">
+                    <span className="inline-block rounded-sm hover:bg-sage hover:text-paper px-1 -mx-1 transition-colors duration-200 cursor-default">
+                      {item}
+                    </span>
+                    {idx < row.items.length - 1 && ','}
                   </span>
-                  {idx < row.items.length - 1 && ', '}
-                </span>
+                  {idx < row.items.length - 1 && ' '}
+                </Fragment>
               ))}
             </td>
           </tr>

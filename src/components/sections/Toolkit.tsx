@@ -52,7 +52,7 @@ function Eyebrow({ children }: { children: string }) {
   return <p className="font-mono text-sm text-zinc-400 uppercase tracking-widest">{children}</p>
 }
 
-function Badge({ children, className = 'text-xs' }: { children: string; className?: string }) {
+function Badge({ children, className = 'text-sm' }: { children: string; className?: string }) {
   return (
     <span className={`font-mono text-sage rounded-md border border-sage/40 px-1.5 py-0.5 whitespace-nowrap ${className}`}>
       {children}
@@ -96,7 +96,7 @@ function FocusCard() {
           style={{ backfaceVisibility: 'hidden' }}
         >
           <p className="font-mono text-sm text-zinc-faded uppercase tracking-widest mb-3">Current Focus</p>
-          <p className="text-sm text-zinc-faded leading-relaxed">
+          <p className="text-base md:text-lg text-zinc-faded leading-relaxed">
             <span className="text-sage font-medium">Agentic Developer Tooling</span> for failure triage,{' '}
             <span className="text-sage font-medium">Efficient Multimodal Inference</span> via token pruning, and{' '}
             <span className="text-sage font-medium">Database Internals</span> from storage to query optimization.
@@ -110,7 +110,7 @@ function FocusCard() {
           style={{ backfaceVisibility: 'hidden', transform: 'rotateX(180deg)' }}
         >
           <p className="font-mono text-xs text-paper/70 uppercase tracking-widest mb-3">Previous Focus</p>
-          <p id="previous-focus" className="text-sm leading-relaxed">
+          <p id="previous-focus" className="text-base md:text-lg leading-relaxed">
             Building <span className="font-semibold">Production-Ready Generative AI</span> and{' '}
             <span className="font-semibold">RAG Systems</span>, alongside{' '}
             <span className="font-semibold">Data-Intensive Backend Systems</span> that scale.
@@ -168,8 +168,8 @@ function OpenSourceCard() {
     >
       <p className="font-mono text-sm text-zinc-faded uppercase tracking-widest mb-4">Open Source Contributions</p>
       <div className="flex justify-between items-center mb-1">
-        <span className="font-mono text-xs text-ink">LlamaIndex</span>
-        <span className="font-mono text-[0.875rem] text-zinc-400">
+        <span className="font-mono text-sm text-ink">LlamaIndex</span>
+        <span className="font-mono text-sm text-zinc-faded">
           {isHovered ? prCount : LLAMAINDEX_PRS} PRs merged
         </span>
       </div>
@@ -182,7 +182,7 @@ function OpenSourceCard() {
           }}
         />
       </div>
-      <p className="text-xs text-zinc-400 mt-3">
+      <p className="text-sm md:text-base text-zinc-faded mt-3 leading-relaxed">
         AWS Bedrock, Claude, Elasticsearch, Cohere, OpenAI, MCP Client, AI Agent Workflow
       </p>
     </div>
@@ -212,7 +212,7 @@ export default function Toolkit() {
 
           <div className="space-y-4">
             <Eyebrow>Honors</Eyebrow>
-            <ul className="space-y-3">
+            <ul className="space-y-5">
               {honors.map((honor) => (
                 <li key={honor.title} className="flex items-baseline justify-between gap-4">
                   <div>
@@ -221,14 +221,14 @@ export default function Toolkit() {
                         href={honor.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-ink font-medium underline decoration-sage/40 underline-offset-4 hover:text-sage transition-colors duration-200"
+                        className="text-lg text-ink font-medium underline decoration-sage/40 underline-offset-4 hover:text-sage transition-colors duration-200"
                       >
                         {honor.title}
                       </a>
                     ) : (
-                      <p className="text-ink font-medium">{honor.title}</p>
+                      <p className="text-lg text-ink font-medium">{honor.title}</p>
                     )}
-                    <p className="text-xs text-zinc-400 mt-1">{honor.detail}</p>
+                    <p className="text-sm md:text-base text-zinc-faded mt-1 leading-relaxed">{honor.detail}</p>
                   </div>
                   <Badge>{honor.rank}</Badge>
                 </li>
@@ -254,14 +254,13 @@ export default function Toolkit() {
                 className="w-12 h-12 object-contain"
               />
               <div>
-                {/* A touch smaller than elsewhere, so NYCU's long name and its
-                    GPA fit on one line */}
-                <div className="flex flex-wrap items-center gap-2">
-                  <p className="text-ink font-medium text-[15px]">{school.school}</p>
-                  <Badge className="text-[12px]">{school.gpa}</Badge>
+                {/* The GPA wraps under a long school name rather than shrinking it */}
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                  <p className="text-lg text-ink font-medium">{school.school}</p>
+                  <Badge>{school.gpa}</Badge>
                 </div>
-                <p className="mt-1 text-sm text-zinc-faded">{school.degree}</p>
-                <p className="text-xs text-zinc-400 mt-1">{school.detail}</p>
+                <p className="mt-1 text-base text-zinc-faded">{school.degree}</p>
+                <p className="text-sm md:text-base text-zinc-faded mt-1">{school.detail}</p>
               </div>
             </div>
           ))}
