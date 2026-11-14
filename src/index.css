@@ -24,10 +24,14 @@
   --font-sans: "Atkinson Hyperlegible Next", system-ui, sans-serif;
   --font-mono: "Overpass Mono", monospace;
 
-  /* The smallest text: a step above Tailwind's 12px, which read too small
-     in the site's light mono labels */
-  --text-xs: 0.8125rem;
-  --text-xs--line-height: calc(1.125 / 0.8125);
+  /* The two smallest sizes, each 2px above what they were: in the site's
+     light (300) body weight and faded grey, 13-14px details, badges and
+     labels read too small. Nothing on a page is set smaller than 15px, and
+     text-sm now matches the 16px body size, set apart by its grey. */
+  --text-xs: 0.9375rem;
+  --text-xs--line-height: calc(1.375 / 0.9375);
+  --text-sm: 1rem;
+  --text-sm--line-height: calc(1.5 / 1);
 
   /* Font sizes for titles */
   --text-display: clamp(4rem, 12vw, 10rem);

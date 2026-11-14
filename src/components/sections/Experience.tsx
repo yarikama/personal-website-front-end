@@ -72,7 +72,9 @@ function HighlightItem({ item }: { item: ExperienceHighlight }) {
   return (
     <li>
       <p className="font-mono text-xs text-zinc-400 uppercase tracking-widest mb-1">{item.label}</p>
-      <p className="text-sm text-zinc-faded leading-relaxed">{renderHighlighted(item.text)}</p>
+      {/* 15px, a step under the body size, so a role with five highlights
+          still fits the pinned dial on a 900px-tall screen */}
+      <p className="text-[0.9375rem] text-zinc-faded leading-relaxed">{renderHighlighted(item.text)}</p>
     </li>
   )
 }
@@ -349,9 +351,10 @@ function ExperienceTimeline() {
 
 export default function Experience() {
   const reduceMotion = usePrefersReducedMotion()
-  // The pinned title and dial need about 680px under the site header;
-  // smaller screens get the flat timeline
-  const roomyScreen = useMediaQuery('(min-width: 1024px) and (min-height: 780px)')
+  // The pinned title and a dial tall enough for the longest role need about
+  // 880px of screen; shorter screens get the flat timeline, where nothing is
+  // cut off
+  const roomyScreen = useMediaQuery('(min-width: 1024px) and (min-height: 880px)')
   const useDrum = roomyScreen && !reduceMotion
 
   return (
