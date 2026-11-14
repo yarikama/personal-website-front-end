@@ -70,4 +70,4 @@
 - **Framework**: React + TypeScript + Vite
 - **Styling**: Tailwind CSS v4
 - **Icons**: Lucide React
-- **Fonts**: Cormorant Garamond, Inter, Overpass Mono, Noto Serif TC
+- **Fonts**: Cormorant Garamond, Atkinson Hyperlegible Next, Overpass Mono, Noto Serif TC
