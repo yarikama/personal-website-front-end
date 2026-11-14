@@ -533,7 +533,7 @@ export default function Graph3D({
       const labelColor = place ? palette.ink : palette.faded
       const label = new SpriteText(node.title, LABEL[level], labelColor)
       const serif = level === 1 || level === 2
-      label.fontFace = serif ? 'Cormorant Garamond, serif' : 'Inter, system-ui, sans-serif'
+      label.fontFace = serif ? 'Cormorant Garamond, serif' : '"Atkinson Hyperlegible Next", system-ui, sans-serif'
       label.fontWeight = serif ? '500' : '400'
       label.position.y = -(size / 2 + LABEL[level] * 0.9)
       object.add(label)

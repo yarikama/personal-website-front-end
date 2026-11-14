@@ -25,7 +25,7 @@
 
 - **H1 (Hero Title)**: Cormorant Garamond, Light, 10rem (Desktop), Leading-none。
 - **H3 (Section Title)**: Cormorant Garamond, Light, 4rem ~ 6rem。
-- **Body (Narrative)**: Inter, Light, 1.125rem, Leading-relaxed。
+- **Body (Narrative)**: Atkinson Hyperlegible Next, Light, 1.125rem, Leading-relaxed。
 - **Metadata (Tech Specs)**: Overpass Mono, 10px, Tracking-widest, Uppercase。
 
 ### C. 裝飾元素 (Motifs)
