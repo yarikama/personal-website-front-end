@@ -60,7 +60,7 @@ export default function Room({ run, from, to, explain = false }: { run: Run; fro
         </span>
         <span className="flex items-center gap-2 text-zinc-faded">
           {dead ? <span className="text-ink">Battery dead</span> : charging ? <span className="text-sage">Charging</span> : 'Battery'}
-          <span className="relative inline-block h-3 w-16 border border-zinc-400" aria-hidden>
+          <span className="relative inline-block h-3 w-16 rounded-sm border border-zinc-400" aria-hidden>
             <span
               className={`absolute inset-y-0 left-0 ${battery < 0.1 ? 'bg-ink' : 'bg-sage'}`}
               style={{ width: `${battery * 100}%` }}

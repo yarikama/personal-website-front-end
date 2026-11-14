@@ -94,7 +94,7 @@ export function Reveal({ at, children, className = '' }: { at: number; children:
 // dashed box is meant to be impossible to miss.
 export function Ask({ children, guess, className = '' }: { children: ReactNode; guess?: ReactNode; className?: string }) {
   return (
-    <div className={`border border-dashed border-sage px-6 py-4 bg-sage/5 ${className}`}>
+    <div className={`rounded-xl border border-dashed border-sage px-6 py-4 bg-sage/5 ${className}`}>
       <p className="font-mono text-[13px] text-sage uppercase tracking-widest">To fill in</p>
       <p className="mt-1 text-[20px] leading-snug text-ink">{children}</p>
       {guess && <p className="mt-2 text-[17px] leading-snug text-zinc-faded">My guess: {guess}</p>}
@@ -248,7 +248,7 @@ export function Credit({ team, mine }: { team: string; mine: string }) {
 export function Badge({ children, accent = false }: { children: ReactNode; accent?: boolean }) {
   return (
     <span
-      className={`font-mono text-[14px] uppercase tracking-widest px-4 py-2 border whitespace-nowrap ${
+      className={`font-mono text-[14px] uppercase tracking-widest rounded-xl px-4 py-2 border whitespace-nowrap ${
         accent ? 'text-sage border-sage/40' : 'text-zinc-400 border-zinc-200 dark:border-zinc-200/30'
       }`}
     >

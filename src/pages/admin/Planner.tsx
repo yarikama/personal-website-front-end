@@ -64,13 +64,13 @@ function Page({
         rows={10}
         lang="zh-Hant"
         aria-label={label}
-        className="mt-4 w-full resize-y border border-zinc-200 bg-transparent p-4 font-mono text-sm leading-relaxed focus:border-sage focus:outline-none dark:border-zinc-800"
+        className="mt-4 w-full resize-y rounded-xl border border-zinc-200 bg-transparent p-4 font-mono text-sm leading-relaxed focus:border-sage focus:outline-none dark:border-zinc-800"
       />
       <div className="mt-3 flex items-center gap-4">
         <button
           onClick={save}
           disabled={!changed || state === 'saving'}
-          className="border border-ink px-4 py-2 font-mono text-xs uppercase tracking-widest transition-colors hover:bg-ink hover:text-paper disabled:cursor-not-allowed disabled:border-zinc-300 disabled:text-zinc-400 disabled:hover:bg-transparent dark:border-white dark:hover:bg-white dark:hover:text-zinc-900"
+          className="rounded-full border border-ink px-4 py-2 font-mono text-xs uppercase tracking-widest transition-colors hover:bg-ink hover:text-paper disabled:cursor-not-allowed disabled:border-zinc-300 disabled:text-zinc-400 disabled:hover:bg-transparent dark:border-white dark:hover:bg-white dark:hover:text-zinc-900"
         >
           {state === 'saving' ? 'Saving…' : 'Save'}
         </button>
@@ -115,7 +115,7 @@ export default function AdminPlanner() {
         </p>
 
         {failed && <p className="mt-12 text-sm text-zinc-faded">The plan’s settings are unavailable right now.</p>}
-        {!failed && planner === null && <div className="mt-12 h-64 animate-pulse bg-paper-dark" />}
+        {!failed && planner === null && <div className="mt-12 h-64 animate-pulse rounded-xl bg-paper-dark" />}
         {planner && (
           <div className="mt-12 space-y-14">
             <Page

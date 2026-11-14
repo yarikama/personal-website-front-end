@@ -122,7 +122,7 @@ export default function NodePanel({ graph, node, onSelect, onGo, onTag, hasPage,
           {((to.kind === 'page' && to.to === `/learnings/${node.slug}`) || hasOverview(node)) && onExpand && (
             <button
               onClick={onExpand}
-              className="inline-flex items-center gap-2 border border-ink px-3 py-1.5 font-mono text-xs uppercase tracking-widest text-ink hover:bg-ink hover:text-paper transition-colors"
+              className="inline-flex items-center gap-2 rounded-full border border-ink px-3 py-1.5 font-mono text-xs uppercase tracking-widest text-ink hover:bg-ink hover:text-paper transition-colors"
             >
               <ArrowLeft size={14} /> Expand
             </button>

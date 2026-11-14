@@ -325,7 +325,7 @@ export default function NoteEditor() {
       {/* Form */}
       <main className="max-w-6xl mx-auto px-6 py-8">
         {draft.offer && (
-          <div className="mb-6 p-4 border border-sage/40 bg-sage/5 flex flex-wrap items-center justify-between gap-3">
+          <div className="mb-6 p-4 rounded-xl border border-sage/40 bg-sage/5 flex flex-wrap items-center justify-between gap-3">
             <p className="flex items-center gap-2 text-sm text-ink dark:text-zinc-200">
               <History size={16} className="text-sage" />
               Unsaved changes from {formatTime(draft.offer.savedAt)} were kept in this browser.
@@ -334,14 +334,14 @@ export default function NoteEditor() {
               <button
                 type="button"
                 onClick={draft.restore}
-                className="px-3 py-1.5 bg-ink text-paper dark:bg-white dark:text-zinc-900 font-mono text-xs uppercase tracking-widest hover:opacity-90"
+                className="rounded-full px-3 py-1.5 bg-ink text-paper dark:bg-white dark:text-zinc-900 font-mono text-xs uppercase tracking-widest hover:opacity-90"
               >
                 Restore
               </button>
               <button
                 type="button"
                 onClick={draft.discard}
-                className="px-3 py-1.5 border border-zinc-300 dark:border-zinc-600 font-mono text-xs uppercase tracking-widest text-zinc-500 hover:text-ink dark:hover:text-white"
+                className="px-3 py-1.5 rounded-full border border-zinc-300 dark:border-zinc-600 font-mono text-xs uppercase tracking-widest text-zinc-500 hover:text-ink dark:hover:text-white"
               >
                 Discard
               </button>
@@ -350,7 +350,7 @@ export default function NoteEditor() {
         )}
 
         {error && (
-          <div className="mb-6 p-4 border border-red-300 bg-red-50 dark:bg-red-900/20 dark:border-red-800">
+          <div className="mb-6 p-4 rounded-xl border border-red-300 bg-red-50 dark:bg-red-900/20 dark:border-red-800">
             <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
           </div>
         )}
@@ -367,7 +367,7 @@ export default function NoteEditor() {
               onChange={(e) => handleTitleChange(e.target.value)}
               required
               className="
-                w-full px-4 py-3 bg-transparent border border-zinc-200 dark:border-zinc-700
+                w-full px-4 py-3 bg-transparent rounded-xl border border-zinc-200 dark:border-zinc-700
                 font-serif text-2xl
                 focus:outline-none focus:border-ink dark:focus:border-zinc-400
                 transition-colors
@@ -397,7 +397,7 @@ export default function NoteEditor() {
               }}
               required
               className="
-                w-full px-4 py-3 bg-transparent border border-zinc-200 dark:border-zinc-700
+                w-full px-4 py-3 bg-transparent rounded-xl border border-zinc-200 dark:border-zinc-700
                 font-mono text-sm
                 focus:outline-none focus:border-ink dark:focus:border-zinc-400
                 transition-colors
@@ -418,7 +418,7 @@ export default function NoteEditor() {
                 onChange={(e) => setFormData((prev) => ({ ...prev, date: e.target.value }))}
                 required
                 className="
-                  w-full px-4 py-3 bg-transparent border border-zinc-200 dark:border-zinc-700
+                  w-full px-4 py-3 bg-transparent rounded-xl border border-zinc-200 dark:border-zinc-700
                   font-mono text-sm
                   focus:outline-none focus:border-ink dark:focus:border-zinc-400
                   transition-colors
@@ -429,7 +429,7 @@ export default function NoteEditor() {
               <label className="block font-mono text-xs uppercase tracking-widest text-zinc-400 mb-2">
                 Status
               </label>
-              <label className="flex items-center gap-3 px-4 py-3 border border-zinc-200 dark:border-zinc-700 cursor-pointer hover:border-zinc-400 transition-colors">
+              <label className="flex items-center gap-3 px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 cursor-pointer hover:border-zinc-400 transition-colors">
                 <input
                   type="checkbox"
                   checked={formData.published}
@@ -451,7 +451,7 @@ export default function NoteEditor() {
               value={tagsInput}
               onChange={(e) => handleTagsChange(e.target.value)}
               className="
-                w-full px-4 py-3 bg-transparent border border-zinc-200 dark:border-zinc-700
+                w-full px-4 py-3 bg-transparent rounded-xl border border-zinc-200 dark:border-zinc-700
                 font-mono text-sm
                 focus:outline-none focus:border-ink dark:focus:border-zinc-400
                 transition-colors
@@ -471,7 +471,7 @@ export default function NoteEditor() {
               required
               rows={2}
               className="
-                w-full px-4 py-3 bg-transparent border border-zinc-200 dark:border-zinc-700
+                w-full px-4 py-3 bg-transparent rounded-xl border border-zinc-200 dark:border-zinc-700
                 font-serif text-base leading-relaxed resize-none
                 focus:outline-none focus:border-ink dark:focus:border-zinc-400
                 transition-colors
@@ -554,7 +554,7 @@ export default function NoteEditor() {
                   {...autocomplete.handlers}
                   required
                   className={`
-                    block w-full h-[calc(100vh-8rem)] min-h-[600px] px-4 py-3 bg-transparent border
+                    block w-full h-[calc(100vh-8rem)] min-h-[600px] px-4 py-3 bg-transparent rounded-xl border
                     font-mono text-sm leading-relaxed resize-y
                     focus:outline-none transition-colors
                     ${isDragging
@@ -570,7 +570,7 @@ Tip: Drag & drop or paste images directly here"
                   <div
                     ref={ghostRef}
                     aria-hidden="true"
-                    className="absolute inset-0 px-4 py-3 border border-transparent font-mono text-sm leading-relaxed whitespace-pre-wrap break-words overflow-hidden pointer-events-none"
+                    className="absolute inset-0 px-4 py-3 rounded-xl border border-transparent font-mono text-sm leading-relaxed whitespace-pre-wrap break-words overflow-hidden pointer-events-none"
                     style={{ paddingRight: `calc(1rem + ${scrollbarWidth}px)` }}
                   >
                     {/* Invisible copy of the text before the caret, so the
@@ -580,7 +580,7 @@ Tip: Drag & drop or paste images directly here"
                   </div>
                 )}
                 {isDragging && (
-                  <div className="absolute inset-0 flex items-center justify-center bg-sage/10 border-2 border-dashed border-sage pointer-events-none">
+                  <div className="absolute inset-0 flex items-center justify-center rounded-xl bg-sage/10 border-2 border-dashed border-sage pointer-events-none">
                     <div className="flex flex-col items-center gap-2 text-sage">
                       <ImagePlus size={32} />
                       <span className="font-mono text-xs uppercase tracking-widest">

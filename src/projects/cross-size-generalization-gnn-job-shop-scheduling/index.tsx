@@ -283,7 +283,7 @@ function Factorial() {
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={seen ? { opacity: 1, scale: 1 } : {}}
                   transition={{ duration: 0.5, delay: 0.15 + (r * 2 + c) * 0.15, ease: EASE }}
-                  className={`flex flex-col items-center justify-center border py-6 ${
+                  className={`flex flex-col items-center justify-center rounded-xl border py-6 ${
                     worst ? 'border-ink/40 bg-ink/10' : 'border-sage bg-sage/15'
                   }`}
                 >

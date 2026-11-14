@@ -29,7 +29,7 @@ export function Code({
   const lines = codeLines(code)
   const gutter = String(lines.length).length
   const block = (
-    <div className="overflow-x-auto bg-paper border border-zinc-200 dark:border-zinc-200/20" role="region" aria-label={label} tabIndex={0}>
+    <div className="overflow-x-auto rounded-xl bg-paper border border-zinc-200 dark:border-zinc-200/20" role="region" aria-label={label} tabIndex={0}>
       <pre className="m-0 min-w-max py-3 font-mono text-[0.875rem] leading-[1.7] [font-variant-ligatures:none]">
         <code>
           {lines.map((line, i) => {

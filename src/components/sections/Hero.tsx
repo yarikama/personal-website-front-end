@@ -24,7 +24,7 @@ function AwardLink({ href, children }: { href: string; children: string }) {
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="liquid-trigger group flex items-stretch border border-sage/40 hover:border-sage transition-colors duration-300"
+      className="liquid-trigger group flex items-stretch overflow-hidden rounded-xl border border-sage/40 hover:border-sage transition-colors duration-300"
     >
       <span className="relative overflow-hidden">
         <span className={`block text-sage ${AWARD_LABEL}`}>{children}</span>
@@ -75,7 +75,7 @@ export default function Hero() {
       ref={(el) => {
         barRefs.current[i] = el
       }}
-      className="w-1 bg-sage origin-bottom transition-transform duration-100"
+      className="w-1 rounded-full bg-sage origin-bottom transition-transform duration-100"
       style={{ height: `${BAR_MAX_HEIGHT}px`, transform: `scaleY(${barScale(i, 0)})` }}
     />
   )
@@ -111,7 +111,7 @@ export default function Hero() {
                 2024 Presidential Hackathon Winner
               </AwardLink>
               <AwardLink href="https://lifenews.com.tw/334346">Golden Peak Award 2025</AwardLink>
-              <span className="font-mono text-sm text-zinc-400 uppercase tracking-widest px-4 py-2 border border-zinc-200 dark:border-zinc-200/30">
+              <span className="font-mono text-sm text-zinc-400 uppercase tracking-widest rounded-xl px-4 py-2 border border-zinc-200 dark:border-zinc-200/30">
                 Dean's List × 2
               </span>
             </div>

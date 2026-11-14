@@ -238,7 +238,7 @@ export default function ProjectEditor() {
       {/* Form */}
       <main className="max-w-4xl mx-auto px-6 py-8">
         {error && (
-          <div className="mb-6 p-4 border border-red-300 bg-red-50 dark:bg-red-900/20 dark:border-red-800">
+          <div className="mb-6 p-4 rounded-xl border border-red-300 bg-red-50 dark:bg-red-900/20 dark:border-red-800">
             <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
           </div>
         )}
@@ -255,7 +255,7 @@ export default function ProjectEditor() {
               onChange={(e) => handleTitleChange(e.target.value)}
               required
               className="
-                w-full px-4 py-3 bg-transparent border border-zinc-200 dark:border-zinc-700
+                w-full px-4 py-3 bg-transparent rounded-xl border border-zinc-200 dark:border-zinc-700
                 font-serif text-2xl
                 focus:outline-none focus:border-ink dark:focus:border-zinc-400
                 transition-colors
@@ -285,7 +285,7 @@ export default function ProjectEditor() {
               }}
               required
               className="
-                w-full px-4 py-3 bg-transparent border border-zinc-200 dark:border-zinc-700
+                w-full px-4 py-3 bg-transparent rounded-xl border border-zinc-200 dark:border-zinc-700
                 font-mono text-sm
                 focus:outline-none focus:border-ink dark:focus:border-zinc-400
                 transition-colors
@@ -311,7 +311,7 @@ export default function ProjectEditor() {
                 required
                 disabled={categories.length === 0}
                 className="
-                  w-full px-4 py-3 bg-transparent border border-zinc-200 dark:border-zinc-700
+                  w-full px-4 py-3 bg-transparent rounded-xl border border-zinc-200 dark:border-zinc-700
                   font-mono text-sm
                   focus:outline-none focus:border-ink dark:focus:border-zinc-400
                   transition-colors
@@ -339,7 +339,7 @@ export default function ProjectEditor() {
                 onChange={(e) => setFormData((prev) => ({ ...prev, year: e.target.value }))}
                 required
                 className="
-                  w-full px-4 py-3 bg-transparent border border-zinc-200 dark:border-zinc-700
+                  w-full px-4 py-3 bg-transparent rounded-xl border border-zinc-200 dark:border-zinc-700
                   font-mono text-sm
                   focus:outline-none focus:border-ink dark:focus:border-zinc-400
                   transition-colors
@@ -359,7 +359,7 @@ export default function ProjectEditor() {
                 }
                 required
                 className="
-                  w-full px-4 py-3 bg-transparent border border-zinc-200 dark:border-zinc-700
+                  w-full px-4 py-3 bg-transparent rounded-xl border border-zinc-200 dark:border-zinc-700
                   font-mono text-sm
                   focus:outline-none focus:border-ink dark:focus:border-zinc-400
                   transition-colors
@@ -375,7 +375,7 @@ export default function ProjectEditor() {
               <label className="block font-mono text-xs uppercase tracking-widest text-zinc-400 mb-2">
                 Features
               </label>
-              <label className="flex items-center gap-3 px-4 py-3 border border-zinc-200 dark:border-zinc-700 cursor-pointer hover:border-zinc-400 transition-colors">
+              <label className="flex items-center gap-3 px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 cursor-pointer hover:border-zinc-400 transition-colors">
                 <input
                   type="checkbox"
                   checked={formData.featured}
@@ -389,7 +389,7 @@ export default function ProjectEditor() {
               <label className="block font-mono text-xs uppercase tracking-widest text-zinc-400 mb-2">
                 Status
               </label>
-              <label className="flex items-center gap-3 px-4 py-3 border border-zinc-200 dark:border-zinc-700 cursor-pointer hover:border-zinc-400 transition-colors">
+              <label className="flex items-center gap-3 px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 cursor-pointer hover:border-zinc-400 transition-colors">
                 <input
                   type="checkbox"
                   checked={formData.published}
@@ -411,7 +411,7 @@ export default function ProjectEditor() {
               value={tagsInput}
               onChange={(e) => handleTagsChange(e.target.value)}
               className="
-                w-full px-4 py-3 bg-transparent border border-zinc-200 dark:border-zinc-700
+                w-full px-4 py-3 bg-transparent rounded-xl border border-zinc-200 dark:border-zinc-700
                 font-mono text-sm
                 focus:outline-none focus:border-ink dark:focus:border-zinc-400
                 transition-colors
@@ -426,7 +426,7 @@ export default function ProjectEditor() {
               Cover Image (optional)
             </label>
             {formData.coverImage ? (
-              <div className="relative border border-zinc-200 dark:border-zinc-700 p-2">
+              <div className="relative rounded-xl border border-zinc-200 dark:border-zinc-700 p-2">
                 <img
                   src={formData.coverImage}
                   alt="Cover preview"
@@ -494,7 +494,7 @@ export default function ProjectEditor() {
               required
               rows={4}
               className="
-                w-full px-4 py-3 bg-transparent border border-zinc-200 dark:border-zinc-700
+                w-full px-4 py-3 bg-transparent rounded-xl border border-zinc-200 dark:border-zinc-700
                 font-serif text-base leading-relaxed resize-none
                 focus:outline-none focus:border-ink dark:focus:border-zinc-400
                 transition-colors
@@ -514,7 +514,7 @@ export default function ProjectEditor() {
                 value={formData.link}
                 onChange={(e) => setFormData((prev) => ({ ...prev, link: e.target.value }))}
                 className="
-                  w-full px-4 py-3 bg-transparent border border-zinc-200 dark:border-zinc-700
+                  w-full px-4 py-3 bg-transparent rounded-xl border border-zinc-200 dark:border-zinc-700
                   font-mono text-sm
                   focus:outline-none focus:border-ink dark:focus:border-zinc-400
                   transition-colors
@@ -531,7 +531,7 @@ export default function ProjectEditor() {
                 value={formData.github}
                 onChange={(e) => setFormData((prev) => ({ ...prev, github: e.target.value }))}
                 className="
-                  w-full px-4 py-3 bg-transparent border border-zinc-200 dark:border-zinc-700
+                  w-full px-4 py-3 bg-transparent rounded-xl border border-zinc-200 dark:border-zinc-700
                   font-mono text-sm
                   focus:outline-none focus:border-ink dark:focus:border-zinc-400
                   transition-colors
@@ -552,7 +552,7 @@ export default function ProjectEditor() {
                 value={formData.metrics}
                 onChange={(e) => setFormData((prev) => ({ ...prev, metrics: e.target.value }))}
                 className="
-                  w-full px-4 py-3 bg-transparent border border-zinc-200 dark:border-zinc-700
+                  w-full px-4 py-3 bg-transparent rounded-xl border border-zinc-200 dark:border-zinc-700
                   font-mono text-sm
                   focus:outline-none focus:border-ink dark:focus:border-zinc-400
                   transition-colors
@@ -569,7 +569,7 @@ export default function ProjectEditor() {
                 value={formData.formula}
                 onChange={(e) => setFormData((prev) => ({ ...prev, formula: e.target.value }))}
                 className="
-                  w-full px-4 py-3 bg-transparent border border-zinc-200 dark:border-zinc-700
+                  w-full px-4 py-3 bg-transparent rounded-xl border border-zinc-200 dark:border-zinc-700
                   font-mono text-sm
                   focus:outline-none focus:border-ink dark:focus:border-zinc-400
                   transition-colors

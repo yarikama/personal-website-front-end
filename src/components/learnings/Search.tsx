@@ -96,12 +96,12 @@ export default function Search({
 
   return (
     <div className={`pointer-events-auto relative ${className}`}>
-      <div className="flex items-center gap-2 border border-zinc-200 dark:border-zinc-200/20 bg-paper/85 backdrop-blur-md px-3 py-2 transition-colors duration-300 focus-within:border-sage">
+      <div className="flex items-center gap-2 rounded-xl border border-zinc-200 dark:border-zinc-200/20 bg-paper/85 backdrop-blur-md px-3 py-2 transition-colors duration-300 focus-within:border-sage">
         <SearchIcon size={14} className="shrink-0 text-zinc-faded" aria-hidden />
         {tag && (
           <button
             onClick={() => onTag(null)}
-            className="inline-flex shrink-0 items-center gap-1 bg-sage/15 px-1.5 py-0.5 font-mono text-[0.8125rem] uppercase tracking-widest text-sage hover:bg-sage/25 transition-colors"
+            className="inline-flex shrink-0 items-center gap-1 rounded-full bg-sage/15 px-1.5 py-0.5 font-mono text-[0.8125rem] uppercase tracking-widest text-sage hover:bg-sage/25 transition-colors"
             aria-label={`Stop showing the tag ${tag}`}
           >
             {tag}
@@ -139,7 +139,7 @@ export default function Search({
           id={list}
           role="listbox"
           aria-label="Pages and tags"
-          className="absolute left-0 right-0 top-full z-10 mt-1 max-h-[min(24rem,60dvh)] overflow-y-auto overscroll-contain border border-zinc-200 dark:border-zinc-200/20 bg-paper/95 backdrop-blur-md py-1 animate-slide-enter"
+          className="absolute left-0 right-0 top-full z-10 mt-1 max-h-[min(24rem,60dvh)] overflow-y-auto overscroll-contain rounded-xl border border-zinc-200 dark:border-zinc-200/20 bg-paper/95 backdrop-blur-md py-1 animate-slide-enter"
         >
           {options.map((option, i) => (
             <li

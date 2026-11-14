@@ -55,7 +55,7 @@ function Eyebrow({ children }: { children: string }) {
 
 function Badge({ children, className = 'text-xs' }: { children: string; className?: string }) {
   return (
-    <span className={`font-mono text-sage border border-sage/40 px-1.5 py-0.5 whitespace-nowrap ${className}`}>
+    <span className={`font-mono text-sage rounded-md border border-sage/40 px-1.5 py-0.5 whitespace-nowrap ${className}`}>
       {children}
     </span>
   )
@@ -93,7 +93,7 @@ function FocusCard() {
         }}
       >
         <div
-          className="col-start-1 row-start-1 p-6 bg-paper-dark dark:bg-zinc-200/5"
+          className="col-start-1 row-start-1 p-6 rounded-2xl bg-paper-dark dark:bg-zinc-200/5"
           style={{ backfaceVisibility: 'hidden' }}
         >
           <p className="font-mono text-sm text-zinc-faded uppercase tracking-widest mb-3">Current Focus</p>
@@ -107,7 +107,7 @@ function FocusCard() {
         {/* Read out through aria-describedby */}
         <div
           aria-hidden="true"
-          className="col-start-1 row-start-1 p-6 bg-sage text-paper"
+          className="col-start-1 row-start-1 p-6 rounded-2xl bg-sage text-paper"
           style={{ backfaceVisibility: 'hidden', transform: 'rotateX(180deg)' }}
         >
           <p className="font-mono text-xs text-paper/70 uppercase tracking-widest mb-3">Previous Focus</p>
@@ -163,7 +163,7 @@ function OpenSourceCard() {
 
   return (
     <div
-      className="p-6 border border-zinc-200 dark:border-zinc-200/20 cursor-pointer transition-colors duration-300 hover:border-sage"
+      className="p-6 rounded-2xl border border-zinc-200 dark:border-zinc-200/20 cursor-pointer transition-colors duration-300 hover:border-sage"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >

@@ -18,7 +18,7 @@ export default function TechTable({ data, className = '' }: TechTableProps) {
             <td>
               {row.items.map((item, idx) => (
                 <span key={item}>
-                  <span className="inline-block hover:bg-sage hover:text-paper px-1 -mx-1 transition-colors duration-200 cursor-default">
+                  <span className="inline-block rounded-sm hover:bg-sage hover:text-paper px-1 -mx-1 transition-colors duration-200 cursor-default">
                     {item}
                   </span>
                   {idx < row.items.length - 1 && ', '}

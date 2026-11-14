@@ -32,7 +32,7 @@ export function Decision({
   return (
     <div
       ref={ref}
-      className="not-prose my-12 -mx-4 sm:mx-0 border-y sm:border border-zinc-200 dark:border-zinc-200/20 p-5 sm:p-7"
+      className="not-prose my-12 -mx-4 sm:mx-0 border-y sm:border sm:rounded-2xl border-zinc-200 dark:border-zinc-200/20 p-5 sm:p-7"
     >
       <span className="font-mono text-[0.875rem] uppercase tracking-widest text-sage">
         Decision {String(n).padStart(2, '0')}
@@ -60,12 +60,12 @@ export function Decision({
             }}
             // The choice gets a row of its own, under the roads not taken
             style={option.chosen ? { gridColumn: '1 / -1', order: 1 } : undefined}
-            className="relative flex flex-col gap-2 border p-4 border-zinc-200 dark:border-zinc-200/20"
+            className="relative flex flex-col gap-2 rounded-xl border p-4 border-zinc-200 dark:border-zinc-200/20"
           >
             {option.chosen && (
               <motion.span
                 aria-hidden
-                className="pointer-events-none absolute -inset-px border-2 border-sage bg-sage/10"
+                className="pointer-events-none absolute -inset-px rounded-xl border-2 border-sage bg-sage/10"
                 initial={{ opacity: 0, scale: 1.04 }}
                 animate={seen ? { opacity: 1, scale: 1 } : {}}
                 transition={{ duration: 0.4, delay: decided, ease: EASE }}

@@ -159,7 +159,7 @@ export function Built({ project }: { project: Project }) {
           {project.tags.map((tag) => (
             <li
               key={tag}
-              className="border border-zinc-200 dark:border-zinc-200/20 px-2.5 py-1 font-mono text-[0.8125rem] uppercase tracking-widest text-zinc-faded"
+              className="rounded-full border border-zinc-200 dark:border-zinc-200/20 px-2.5 py-1 font-mono text-[0.8125rem] uppercase tracking-widest text-zinc-faded"
             >
               {tag}
             </li>

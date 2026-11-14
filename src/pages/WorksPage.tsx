@@ -91,7 +91,7 @@ export default function WorksPage() {
               onClick={() => setActiveCategory(category.name)}
               className={`
                 font-mono text-xs uppercase tracking-widest
-                px-4 py-2 border transition-colors duration-300
+                rounded-full px-4 py-2 border transition-colors duration-300
                 ${
                   activeCategory === category.name
                     ? 'border-ink text-ink bg-ink/5 dark:border-zinc-400 dark:bg-zinc-400/10'

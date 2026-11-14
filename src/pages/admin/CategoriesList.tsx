@@ -105,7 +105,7 @@ export default function AdminCategoriesList() {
                 key={category.id}
                 className="
                   flex items-center justify-between gap-4 p-4
-                  border border-zinc-200 dark:border-zinc-800
+                  rounded-xl border border-zinc-200 dark:border-zinc-800
                   hover:border-zinc-400 transition-colors
                 "
               >

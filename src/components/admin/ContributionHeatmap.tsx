@@ -54,7 +54,7 @@ export default function ContributionHeatmap() {
     return <p className="text-sm text-zinc-faded">GitHub’s graph is unavailable right now.</p>
   }
   if (!data) {
-    return <div className="h-[120px] animate-pulse bg-paper-dark" aria-label="Loading the graph" />
+    return <div className="h-[120px] animate-pulse rounded-xl bg-paper-dark" aria-label="Loading the graph" />
   }
 
   const columns = weeks(data.days)

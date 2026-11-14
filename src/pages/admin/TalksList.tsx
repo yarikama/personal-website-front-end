@@ -7,7 +7,7 @@ import { formatTalkDate, talks } from '../../talks'
 type Filter = 'all' | TalkEntry['visibility']
 
 function chip(active: boolean) {
-  return `px-3 py-1.5 font-mono text-xs uppercase tracking-widest border transition-colors ${
+  return `px-3 py-1.5 font-mono text-xs uppercase tracking-widest rounded-full border transition-colors ${
     active
       ? 'border-ink bg-ink text-paper dark:border-white dark:bg-white dark:text-zinc-900'
       : 'border-zinc-200 dark:border-zinc-800 text-zinc-500 hover:text-ink dark:hover:text-white'
@@ -52,7 +52,7 @@ function TalkCard({ talk, content }: { talk: TalkEntry; content: TalkContent | n
   }
 
   return (
-    <article className="border border-zinc-200 dark:border-zinc-800 p-5">
+    <article className="rounded-xl border border-zinc-200 dark:border-zinc-800 p-5">
       <div className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs text-zinc-400">
         <span className={`inline-flex items-center gap-1.5 ${isPublic ? 'text-sage' : ''}`}>
           {isPublic ? <Eye size={12} aria-hidden="true" /> : <EyeOff size={12} aria-hidden="true" />}

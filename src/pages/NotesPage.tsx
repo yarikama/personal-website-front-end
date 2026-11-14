@@ -48,7 +48,7 @@ export default function NotesPage() {
                 onClick={() => setActiveTag(tagItem.tag === 'All' ? undefined : tagItem.tag)}
                 className={`
                   font-mono text-xs uppercase tracking-widest
-                  px-3 py-1.5 border transition-colors duration-300
+                  px-3 py-1.5 rounded-full border transition-colors duration-300
                   ${
                     (tagItem.tag === 'All' && !activeTag) || activeTag === tagItem.tag
                       ? 'border-ink text-ink bg-ink/5 dark:border-zinc-400 dark:bg-zinc-400/10'
@@ -122,7 +122,7 @@ export default function NotesPage() {
                     {note.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="font-mono text-[0.8rem] text-zinc-400 uppercase tracking-widest px-2 py-0.5 border border-zinc-200 dark:border-zinc-700"
+                        className="font-mono text-[0.8rem] text-zinc-400 uppercase tracking-widest px-2 py-0.5 rounded-full border border-zinc-200 dark:border-zinc-700"
                       >
                         {tag}
                       </span>

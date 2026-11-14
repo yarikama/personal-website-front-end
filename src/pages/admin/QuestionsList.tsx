@@ -34,7 +34,7 @@ const RATINGS: { value: QuestionFilters['rating']; label: string }[] = [
 ]
 
 function chip(active: boolean) {
-  return `px-3 py-1.5 font-mono text-xs uppercase tracking-widest border transition-colors ${
+  return `px-3 py-1.5 font-mono text-xs uppercase tracking-widest rounded-full border transition-colors ${
     active
       ? 'border-ink bg-ink text-paper dark:border-white dark:bg-white dark:text-zinc-900'
       : 'border-zinc-200 dark:border-zinc-800 text-zinc-500 hover:text-ink dark:hover:text-white'
@@ -61,7 +61,7 @@ function QuestionCard({
   }
 
   return (
-    <article className={`border p-5 ${isNew ? 'border-sage/60' : 'border-zinc-200 dark:border-zinc-800'}`}>
+    <article className={`rounded-xl border p-5 ${isNew ? 'border-sage/60' : 'border-zinc-200 dark:border-zinc-800'}`}>
       <div className="flex items-start justify-between gap-4">
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs text-zinc-400">
@@ -279,7 +279,7 @@ export default function AdminQuestionsList() {
             onChange={(e) =>
               setFilters({ ...filters, rating: (e.target.value || undefined) as QuestionFilters['rating'] })
             }
-            className="bg-transparent border border-zinc-200 dark:border-zinc-800 px-3 py-1.5 font-mono text-xs uppercase tracking-widest text-zinc-500"
+            className="bg-transparent rounded-full border border-zinc-200 dark:border-zinc-800 px-3 py-1.5 font-mono text-xs uppercase tracking-widest text-zinc-500"
             aria-label="Rating"
           >
             {RATINGS.map(({ value, label }) => (

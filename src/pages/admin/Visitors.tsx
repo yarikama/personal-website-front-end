@@ -27,7 +27,7 @@ const day = (date: string) => new Date(`${date}T00:00:00Z`)
 const plural = (n: number, word: string) => `${n.toLocaleString('en-US')} ${word}${n === 1 ? '' : 's'}`
 
 function chip(active: boolean) {
-  return `px-3 py-1.5 font-mono text-xs uppercase tracking-widest border transition-colors ${
+  return `px-3 py-1.5 font-mono text-xs uppercase tracking-widest rounded-full border transition-colors ${
     active
       ? 'border-ink bg-ink text-paper dark:border-white dark:bg-white dark:text-zinc-900'
       : 'border-zinc-200 dark:border-zinc-800 text-zinc-500 hover:text-ink dark:hover:text-white'
@@ -269,8 +269,8 @@ export default function AdminVisitors() {
           </div>
         ) : !report ? (
           <div className="space-y-8" aria-label="Loading visitors">
-            <div className="h-24 w-64 animate-pulse bg-paper-dark" />
-            <div className="h-40 animate-pulse bg-paper-dark" />
+            <div className="h-24 w-64 animate-pulse rounded-xl bg-paper-dark" />
+            <div className="h-40 animate-pulse rounded-xl bg-paper-dark" />
           </div>
         ) : report.pageviews === 0 ? (
           <div className="py-16 flex flex-col items-center gap-3 text-zinc-faded">

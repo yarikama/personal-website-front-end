@@ -114,7 +114,7 @@ function TurnView({ turn, anchor, owls }: { turn: Turn; anchor: string; owls: bo
         </div>
 
         {turn.citations && turn.citations.length > 0 && (
-          <ol className="bg-paper-dark text-sm">
+          <ol className="overflow-hidden rounded-xl bg-paper-dark text-sm">
             {turn.citations.map((citation, i) => (
               <li
                 key={citation.id}

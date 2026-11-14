@@ -33,7 +33,7 @@ export default function ReadOn({ before, next, onGo, hasPage }: ReadOnProps) {
       {next &&
         go(
           next,
-          'group flex w-full items-center justify-between gap-4 border border-ink px-5 py-4 text-left transition-colors hover:bg-ink hover:text-paper',
+          'group flex w-full items-center justify-between gap-4 rounded-xl border border-ink px-5 py-4 text-left transition-colors hover:bg-ink hover:text-paper',
           <>
             <span className="flex flex-col gap-1">
               <span className="font-mono text-[0.875rem] uppercase tracking-widest text-sage group-hover:text-paper">

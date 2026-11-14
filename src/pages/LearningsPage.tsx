@@ -22,7 +22,7 @@ import { PAGES, usePageMeta } from '../lib/pageMeta'
 const hasPage = (slug: string) => findLearningPage(slug) !== undefined
 
 const overlay =
-  'bg-paper/85 backdrop-blur-md border border-zinc-200 dark:border-zinc-200/20 transition-colors duration-300'
+  'rounded-xl bg-paper/85 backdrop-blur-md border border-zinc-200 dark:border-zinc-200/20 transition-colors duration-300'
 
 function useWindowSize() {
   const read = () => ({ width: window.innerWidth, height: window.innerHeight })
