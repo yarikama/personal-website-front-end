@@ -89,7 +89,7 @@ export default function Learn() {
             >
               <span className="font-mono text-[0.8rem] tabular-nums text-zinc-faded">{Math.round(m.miss)}</span>
               <span
-                className={`w-full ${m.n === n ? 'bg-sage' : 'bg-zinc-300 dark:bg-zinc-200/35'}`}
+                className={`w-full rounded-t-md ${m.n === n ? 'bg-sage' : 'bg-zinc-300 dark:bg-zinc-200/35'}`}
                 style={{ height: `${(m.miss / top) * 60}%` }}
               />
               <span className={`font-mono text-[0.8rem] ${m.n === n ? 'text-sage' : 'text-zinc-faded'}`}>{showN(m.n)}</span>

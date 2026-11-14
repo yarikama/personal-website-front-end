@@ -270,7 +270,7 @@ function ScrollManifesto() {
           <div className="h-0.5 bg-zinc-300 dark:bg-zinc-200/30 w-full relative">
             <div
               ref={squareRef}
-              className={`absolute transition-colors duration-300 ${
+              className={`absolute rounded-md transition-colors duration-300 ${
                 flippedCard !== null ? 'bg-sage border-sage' : 'border border-sage'
               }`}
               style={{ width: `${SQUARE_SIZE}px`, height: `${SQUARE_SIZE}px`, ...squareFrame(0) }}

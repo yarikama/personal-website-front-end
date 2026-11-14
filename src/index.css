@@ -516,6 +516,7 @@ body.dark {
   background: var(--print-bg);
   color: var(--print-ink);
   box-shadow: 0 1px 2px rgb(26 26 26 / 0.08), 0 18px 40px -16px rgb(26 26 26 / 0.35);
+  border-radius: 4px;
   transform: rotate(var(--tilt));
   transition: transform 600ms var(--ease-elegant);
 }
@@ -552,6 +553,7 @@ body.dark {
 .travel-frame {
   aspect-ratio: var(--ratio);
   overflow: hidden;
+  border-radius: 2px;
   background: var(--color-paper-dark);
 }
 

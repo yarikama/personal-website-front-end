@@ -10,7 +10,7 @@ export function Figure({ children, caption, readable = false }: { children: Reac
   const drawing = useRef<HTMLDivElement>(null)
   useReadableText(drawing, readable)
   return (
-    <figure className="not-prose my-12 -mx-4 sm:mx-0 border-y sm:border border-zinc-200 dark:border-zinc-200/20 bg-paper-dark/40">
+    <figure className="not-prose my-12 -mx-4 sm:mx-0 border-y sm:border sm:rounded-2xl border-zinc-200 dark:border-zinc-200/20 bg-paper-dark/40">
       <div ref={drawing} className="p-4 sm:p-6">
         {children}
       </div>
@@ -90,7 +90,7 @@ export function Choice<T extends string | number>({
             role="radio"
             aria-checked={option === value}
             onClick={() => onChange(option)}
-            className={`-ml-px first:ml-0 border px-3 py-1.5 font-mono text-[0.875rem] tabular-nums transition-colors ${
+            className={`-ml-px first:ml-0 first:rounded-l-xl last:rounded-r-xl border px-3 py-1.5 font-mono text-[0.875rem] tabular-nums transition-colors ${
               option === value
                 ? 'relative border-sage bg-sage/15 text-sage'
                 : 'border-zinc-300 dark:border-zinc-200/20 text-zinc-faded hover:text-ink'
@@ -109,7 +109,7 @@ export function Button({ children, onClick, disabled = false }: { children: Reac
     <button
       onClick={onClick}
       disabled={disabled}
-      className="border border-ink px-4 py-2 font-mono text-xs uppercase tracking-widest text-ink transition-colors hover:bg-ink hover:text-paper disabled:opacity-40 disabled:hover:bg-transparent disabled:hover:text-ink"
+      className="rounded-full border border-ink px-4 py-2 font-mono text-xs uppercase tracking-widest text-ink transition-colors hover:bg-ink hover:text-paper disabled:opacity-40 disabled:hover:bg-transparent disabled:hover:text-ink"
     >
       {children}
     </button>

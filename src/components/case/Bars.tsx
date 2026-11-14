@@ -48,7 +48,7 @@ export function Bars({
           <div className="flex items-center gap-3">
             <div className="relative h-7 flex-1">
               <motion.div
-                className={`absolute inset-y-0 left-0 ${
+                className={`absolute inset-y-0 left-0 rounded-md ${
                   bar.accent ? 'bg-sage' : bar.muted ? 'border border-dashed border-zinc-400' : 'bg-zinc-400/70 dark:bg-zinc-400'
                 }`}
                 initial={{ width: 0 }}

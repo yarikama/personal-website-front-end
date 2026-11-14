@@ -66,7 +66,7 @@ export default function Deck() {
       {refused && (
         <p
           role="status"
-          className="fixed top-4 left-1/2 -translate-x-1/2 px-4 py-2 bg-paper border border-sage text-sm text-ink-light"
+          className="fixed top-4 left-1/2 -translate-x-1/2 rounded-xl px-4 py-2 bg-paper border border-sage text-sm text-ink-light"
         >
           This window can&rsquo;t go full screen. Use the browser&rsquo;s own: <span className="font-mono">⌃⌘F</span> on a
           Mac, or open the page in Chrome.
@@ -75,7 +75,7 @@ export default function Deck() {
 
       <div
         className={`
-          fixed bottom-4 right-4 flex items-center bg-paper border border-zinc-200 dark:border-zinc-200/30
+          fixed bottom-4 right-4 flex items-center overflow-hidden rounded-full bg-paper border border-zinc-200 dark:border-zinc-200/30
           transition-opacity duration-500 ease-elegant
           ${idle ? 'opacity-0 pointer-events-none' : 'opacity-100'}
         `}

@@ -127,7 +127,7 @@ export default function TodayList({ date }: { date: Date }) {
           role="checkbox"
           aria-checked={done}
           aria-label={todo.text}
-          className={`flex h-5 w-5 shrink-0 items-center justify-center border transition-colors ${
+          className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-md border transition-colors ${
             done
               ? 'border-sage bg-sage text-paper'
               : carried
@@ -182,7 +182,7 @@ export default function TodayList({ date }: { date: Date }) {
       )}
 
       <ul className="space-y-3">
-        {todos === null && <li className="h-5 w-48 animate-pulse bg-paper-dark" />}
+        {todos === null && <li className="h-5 w-48 animate-pulse rounded-md bg-paper-dark" />}
         {own.map((todo) => renderItem(todo, false))}
       </ul>
 

@@ -126,7 +126,7 @@ export default function Trainer() {
 
         <div className="w-full max-w-[12rem] sm:max-w-none">
           <p className="mb-2 font-mono text-[0.8rem] uppercase tracking-widest text-zinc-faded">Its guess per first move</p>
-          <div className="grid grid-cols-3 border-l border-t border-zinc-300 dark:border-zinc-200/20">
+          <div className="grid grid-cols-3 overflow-hidden rounded-xl border-l border-t border-zinc-300 dark:border-zinc-200/20">
             {run.opening.map((value, cell) => (
               <div
                 key={cell}

@@ -28,7 +28,7 @@ export function Predict({
   const answer = useCheck(kicker !== 'Guess first')
   const answered = picked !== null
   return (
-    <div className="not-prose my-12 border border-zinc-200 dark:border-zinc-200/20 p-5 sm:p-7">
+    <div className="not-prose my-12 rounded-2xl border border-zinc-200 dark:border-zinc-200/20 p-5 sm:p-7">
       <span className="font-mono text-[0.875rem] uppercase tracking-widest text-sage">{kicker}</span>
       <p className="mt-3 font-serif text-2xl font-light leading-snug">{question}</p>
       <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
@@ -49,7 +49,7 @@ export function Predict({
                 answer(option.right ?? false)
               }}
               disabled={answered}
-              className={`border px-3 py-3 font-mono text-sm tabular-nums transition-colors ${tone}`}
+              className={`rounded-xl border px-3 py-3 font-mono text-sm tabular-nums transition-colors ${tone}`}
             >
               {option.label}
             </button>

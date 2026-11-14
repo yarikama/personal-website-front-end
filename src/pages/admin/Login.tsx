@@ -27,7 +27,7 @@ export default function AdminLogin() {
           {error && (
             <div
               role="alert"
-              className="p-3 border border-red-300 bg-red-50 dark:bg-red-900/20 dark:border-red-800"
+              className="p-3 rounded-xl border border-red-300 bg-red-50 dark:bg-red-900/20 dark:border-red-800"
             >
               <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
             </div>
@@ -38,7 +38,7 @@ export default function AdminLogin() {
           <a
             href={authService.signInUrl(from)}
             className="
-              w-full py-3 border border-ink dark:border-zinc-400
+              w-full py-3 rounded-xl border border-ink dark:border-zinc-400
               font-mono text-sm uppercase tracking-widest
               hover:bg-ink hover:text-paper dark:hover:bg-zinc-400 dark:hover:text-zinc-900
               transition-all duration-300

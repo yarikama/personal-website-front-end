@@ -94,14 +94,14 @@ export default function PresenterView() {
           <button
             type="button"
             onClick={clock.toggle}
-            className="px-3 py-1 border border-zinc-200 dark:border-zinc-200/30 hover:border-sage hover:text-sage transition-colors duration-300"
+            className="px-3 py-1 rounded-full border border-zinc-200 dark:border-zinc-200/30 hover:border-sage hover:text-sage transition-colors duration-300"
           >
             {clock.running ? 'Pause' : 'Start'}
           </button>
           <button
             type="button"
             onClick={clock.reset}
-            className="px-3 py-1 border border-zinc-200 dark:border-zinc-200/30 hover:border-sage hover:text-sage transition-colors duration-300"
+            className="px-3 py-1 rounded-full border border-zinc-200 dark:border-zinc-200/30 hover:border-sage hover:text-sage transition-colors duration-300"
           >
             Reset
           </button>
@@ -115,7 +115,7 @@ export default function PresenterView() {
       <main className="flex-1 min-h-0 grid grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)] gap-8 p-8">
         <section className="min-h-0 overflow-y-auto flex flex-col gap-6">
           <Stage
-            className="relative w-full aspect-video shrink-0 border border-zinc-200 dark:border-zinc-200/30"
+            className="relative w-full aspect-video shrink-0 rounded-xl border border-zinc-200 dark:border-zinc-200/30"
             slide={slide}
             index={pos.index}
             step={pos.step}
@@ -129,7 +129,7 @@ export default function PresenterView() {
                 <p className="font-serif text-2xl text-zinc-faded">End of talk. Questions.</p>
               ) : (
                 <Stage
-                  className="relative w-full aspect-video border border-zinc-200 dark:border-zinc-200/30"
+                  className="relative w-full aspect-video rounded-xl border border-zinc-200 dark:border-zinc-200/30"
                   slide={slides[upcoming.index]}
                   index={upcoming.index}
                   step={upcoming.step}

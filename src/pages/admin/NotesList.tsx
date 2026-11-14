@@ -88,7 +88,7 @@ export default function AdminNotesList() {
               onChange={(e) => setSearchQuery(e.target.value)}
               className="
                 w-full pl-10 pr-4 py-2
-                bg-transparent border border-zinc-200 dark:border-zinc-800
+                bg-transparent rounded-xl border border-zinc-200 dark:border-zinc-800
                 font-mono text-sm
                 placeholder:text-zinc-400
                 focus:outline-none focus:border-zinc-400 dark:focus:border-zinc-600
@@ -141,7 +141,7 @@ export default function AdminNotesList() {
                 key={note.id}
                 className="
                   flex items-center justify-between gap-4 p-4
-                  border border-zinc-200 dark:border-zinc-800
+                  rounded-xl border border-zinc-200 dark:border-zinc-800
                   hover:border-zinc-400 transition-colors
                 "
               >

@@ -29,7 +29,7 @@ export default function LoadCalculator({ posts, reads, followers, biggest }: Loa
               <span>{row.name}</span>
               <span className="text-ink tabular-nums">{short(row.value)} / s</span>
             </div>
-            <div className="mt-2 h-4 bg-zinc-200 dark:bg-zinc-200/10">
+            <div className="mt-2 h-4 overflow-hidden rounded-full bg-zinc-200 dark:bg-zinc-200/10">
               <motion.div
                 className={`h-full ${row.name === cheaper ? 'bg-sage' : 'bg-ink'}`}
                 animate={{ width: `${Math.max(0.5, (row.value / most) * 100)}%` }}

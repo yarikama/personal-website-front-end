@@ -29,7 +29,7 @@ export function Steps({
 
   return (
     <figure
-      className="not-prose my-12 -mx-4 sm:mx-0 border-y sm:border border-zinc-200 dark:border-zinc-200/20 bg-paper-dark/40 outline-none"
+      className="not-prose my-12 -mx-4 sm:mx-0 border-y sm:border sm:rounded-2xl border-zinc-200 dark:border-zinc-200/20 bg-paper-dark/40 outline-none"
       tabIndex={0}
       onKeyDown={keys}
       aria-roledescription="story"
@@ -55,7 +55,7 @@ export function Steps({
         <div className="mt-4 flex items-center justify-between gap-4">
           <div className="flex gap-1.5" aria-hidden>
             {say.map((_, i) => (
-              <span key={i} className={`h-1.5 w-6 transition-colors ${i <= step ? 'bg-sage' : 'bg-zinc-300 dark:bg-zinc-200/20'}`} />
+              <span key={i} className={`h-1.5 w-6 rounded-full transition-colors ${i <= step ? 'bg-sage' : 'bg-zinc-300 dark:bg-zinc-200/20'}`} />
             ))}
           </div>
           <div className="flex items-center gap-2">
@@ -70,7 +70,7 @@ export function Steps({
             <button
               onClick={() => go(step + 1)}
               disabled={step === last}
-              className="inline-flex items-center gap-2 border border-ink px-4 py-2 font-mono text-xs uppercase tracking-widest text-ink transition-colors hover:bg-ink hover:text-paper disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-ink"
+              className="inline-flex items-center gap-2 rounded-full border border-ink px-4 py-2 font-mono text-xs uppercase tracking-widest text-ink transition-colors hover:bg-ink hover:text-paper disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-ink"
             >
               {step === last ? 'Done' : 'Next'} <ArrowRight size={14} />
             </button>

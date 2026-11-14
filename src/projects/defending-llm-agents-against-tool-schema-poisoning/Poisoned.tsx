@@ -17,7 +17,7 @@ function Card({ title, show, accent, children }: { title: string; show: boolean;
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.4 }}
-          className={`border p-3 sm:p-4 ${accent ? 'border-ink bg-ink/5' : 'border-zinc-200 dark:border-zinc-200/20 bg-paper'}`}
+          className={`rounded-xl border p-3 sm:p-4 ${accent ? 'border-ink bg-ink/5' : 'border-zinc-200 dark:border-zinc-200/20 bg-paper'}`}
         >
           <p className="font-mono text-[0.8rem] uppercase tracking-widest text-zinc-400">{title}</p>
           <div className="mt-2 font-mono text-[0.875rem] leading-relaxed text-ink">{children}</div>

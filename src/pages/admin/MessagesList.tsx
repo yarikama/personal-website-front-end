@@ -7,7 +7,7 @@ import { adminContactService, replyLink, type ContactMessage, type MessageChange
 const PAGE = 50
 
 function chip(active: boolean) {
-  return `px-3 py-1.5 font-mono text-xs uppercase tracking-widest border transition-colors ${
+  return `px-3 py-1.5 font-mono text-xs uppercase tracking-widest rounded-full border transition-colors ${
     active
       ? 'border-ink bg-ink text-paper dark:border-white dark:bg-white dark:text-zinc-900'
       : 'border-zinc-200 dark:border-zinc-800 text-zinc-500 hover:text-ink dark:hover:text-white'
@@ -37,7 +37,7 @@ function MessageCard({
 
   return (
     <article
-      className={`border p-5 transition-colors ${
+      className={`rounded-xl border p-5 transition-colors ${
         item.read ? 'border-zinc-200 dark:border-zinc-800' : 'border-sage/60'
       }`}
     >

@@ -120,7 +120,7 @@ export default function CategoryEditor() {
       {/* Form */}
       <main className="max-w-4xl mx-auto px-6 py-8">
         {error && (
-          <div className="mb-6 p-4 border border-red-300 bg-red-50 dark:bg-red-900/20 dark:border-red-800">
+          <div className="mb-6 p-4 rounded-xl border border-red-300 bg-red-50 dark:bg-red-900/20 dark:border-red-800">
             <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
           </div>
         )}
@@ -137,7 +137,7 @@ export default function CategoryEditor() {
               onChange={(e) => handleLabelChange(e.target.value)}
               required
               className="
-                w-full px-4 py-3 bg-transparent border border-zinc-200 dark:border-zinc-700
+                w-full px-4 py-3 bg-transparent rounded-xl border border-zinc-200 dark:border-zinc-700
                 font-serif text-2xl
                 focus:outline-none focus:border-ink dark:focus:border-zinc-400
                 transition-colors
@@ -167,7 +167,7 @@ export default function CategoryEditor() {
               }}
               required
               className="
-                w-full px-4 py-3 bg-transparent border border-zinc-200 dark:border-zinc-700
+                w-full px-4 py-3 bg-transparent rounded-xl border border-zinc-200 dark:border-zinc-700
                 font-mono text-sm
                 focus:outline-none focus:border-ink dark:focus:border-zinc-400
                 transition-colors
@@ -191,7 +191,7 @@ export default function CategoryEditor() {
                 setFormData((prev) => ({ ...prev, order: parseInt(e.target.value) || 0 }))
               }
               className="
-                w-full px-4 py-3 bg-transparent border border-zinc-200 dark:border-zinc-700
+                w-full px-4 py-3 bg-transparent rounded-xl border border-zinc-200 dark:border-zinc-700
                 font-mono text-sm
                 focus:outline-none focus:border-ink dark:focus:border-zinc-400
                 transition-colors
@@ -213,7 +213,7 @@ export default function CategoryEditor() {
               onChange={(e) => setFormData((prev) => ({ ...prev, description: e.target.value }))}
               rows={3}
               className="
-                w-full px-4 py-3 bg-transparent border border-zinc-200 dark:border-zinc-700
+                w-full px-4 py-3 bg-transparent rounded-xl border border-zinc-200 dark:border-zinc-700
                 font-serif text-base leading-relaxed resize-none
                 focus:outline-none focus:border-ink dark:focus:border-zinc-400
                 transition-colors

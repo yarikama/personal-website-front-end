@@ -73,7 +73,7 @@ function Waiting({
   return (
     <Link
       to={to}
-      className={`group flex items-center gap-4 border p-5 transition-colors ${
+      className={`group flex items-center gap-4 rounded-xl border p-5 transition-colors ${
         count ? 'border-sage/60 hover:border-sage' : 'border-zinc-200 dark:border-zinc-800 hover:border-zinc-400'
       }`}
     >
