@@ -19,7 +19,7 @@ export default function LabNotes() {
           <br />
           Writings
         </h2>
-        <p className="mt-4 text-zinc-faded max-w-2xl">
+        <p className="mt-4 text-lg md:text-xl leading-relaxed text-zinc-faded max-w-2xl">
           Essays and explorations on software engineering, machine learning theory, and the
           philosophy of building systems that endure.
         </p>

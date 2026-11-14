@@ -34,7 +34,7 @@ export default function NotesPage() {
           <h1 className="font-serif text-5xl md:text-6xl font-light mt-4 tracking-tight">
             Technical Writings
           </h1>
-          <p className="mt-6 text-zinc-faded max-w-2xl text-lg">
+          <p className="mt-6 text-zinc-faded max-w-2xl text-lg md:text-xl leading-relaxed">
             Essays and explorations on software engineering, machine learning theory, and the
             philosophy of building systems that endure.
           </p>
