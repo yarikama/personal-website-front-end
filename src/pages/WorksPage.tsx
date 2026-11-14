@@ -2,7 +2,6 @@ import { useState, useMemo, useEffect, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import Section from '../components/layout/Section'
 import ProjectCard from '../components/ui/ProjectCard'
-import MagazineLine from '../components/ui/MagazineLine'
 import { useProjects, useProjectCategories } from '../hooks'
 import { findCaseStudy } from '../projects'
 import { hookOf } from '../projects/hooks'
@@ -107,8 +106,6 @@ export default function WorksPage() {
           ))}
         </div>
 
-        <MagazineLine className="mb-12" />
-
         {isLoading ? (
           <div className="py-16 flex flex-col items-center justify-center">
             <Loader2 className="w-8 h-8 animate-spin text-zinc-400 mb-4" />
@@ -146,7 +143,7 @@ export default function WorksPage() {
           </>
         )}
 
-        <div className="mt-16 pt-8 border-t border-zinc-200 dark:border-zinc-200/20">
+        <div className="mt-24">
           <p className="font-mono text-sm text-zinc-400 uppercase tracking-widest text-center">
             {filteredProjects.length} project{filteredProjects.length !== 1 ? 's' : ''} /{' '}
             {activeCategory === 'all' ? 'All Categories' : activeCategory}

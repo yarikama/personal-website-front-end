@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 import Section from '../components/layout/Section'
-import MagazineLine from '../components/ui/MagazineLine'
 import { formatTalkDate, publicTalks } from '../talks'
 import { PAGES, usePageMeta } from '../lib/pageMeta'
 
@@ -28,16 +27,14 @@ export default function TalksPage() {
           </p>
         </div>
 
-        <MagazineLine className="mb-12" />
-
         {publicTalks.length === 0 ? (
           <div className="py-16 text-center">
             <p className="font-serif text-2xl text-zinc-faded mb-4">Coming Soon</p>
             <p className="text-sm text-zinc-400 max-w-md mx-auto">The first public talk is in the works.</p>
           </div>
         ) : (
-          <div className="flex flex-col gap-8">
-            {publicTalks.map((talk, index) => (
+          <div className="flex flex-col gap-12">
+            {publicTalks.map((talk) => (
               <Link key={talk.slug} to={`/talks/${talk.slug}`} className="group block">
                 <article>
                   <div className="mb-4 flex items-center justify-between gap-4 font-mono text-[0.875rem] text-zinc-400 uppercase tracking-widest">
@@ -56,15 +53,13 @@ export default function TalksPage() {
                       className="opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                     />
                   </div>
-
-                  <MagazineLine className="mt-6" delay={index * 50} />
                 </article>
               </Link>
             ))}
           </div>
         )}
 
-        <div className="mt-16 pt-8 border-t border-zinc-200 dark:border-zinc-200/20">
+        <div className="mt-24">
           <p className="font-mono text-sm text-zinc-400 uppercase tracking-widest text-center">
             {publicTalks.length} talk{publicTalks.length !== 1 ? 's' : ''}
           </p>

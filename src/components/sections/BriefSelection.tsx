@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom'
 import Section from '../layout/Section'
 import ProjectCard from '../ui/ProjectCard'
-import MagazineLine from '../ui/MagazineLine'
 import { useFeaturedProjects } from '../../hooks'
 import { findCaseStudy } from '../../projects'
 import { hookOf } from '../../projects/hooks'
@@ -24,8 +23,6 @@ export default function BriefSelection() {
           architecture, clean implementation, and measurable impact.
         </p>
       </div>
-
-      <MagazineLine className="mb-12" />
 
       {isLoading ? (
         <div className="py-16 flex flex-col items-center justify-center">

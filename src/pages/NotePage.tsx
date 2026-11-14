@@ -1,6 +1,5 @@
 import { useParams, Link } from 'react-router-dom'
 import Section from '../components/layout/Section'
-import MagazineLine from '../components/ui/MagazineLine'
 import MarkdownRenderer from '../components/ui/MarkdownRenderer'
 import { useLabNote } from '../hooks'
 import { ArrowLeft, Loader2 } from 'lucide-react'
@@ -96,14 +95,10 @@ export default function NotePage() {
             </div>
           </header>
 
-          <MagazineLine className="mb-12" />
-
           <MarkdownRenderer content={note.content} />
         </article>
 
-        <MagazineLine className="mt-16 mb-8" />
-
-        <div className="text-center">
+        <div className="mt-24 text-center">
           <Link
             to="/notes"
             className="inline-block font-mono text-xs uppercase tracking-widest text-zinc-faded hover:text-ink border-b border-zinc-300 hover:border-ink pb-1 transition-colors duration-300"
