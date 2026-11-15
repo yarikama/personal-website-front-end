@@ -169,7 +169,7 @@ function OpenSourceCard() {
       <p className="font-mono text-sm text-zinc-faded uppercase tracking-widest mb-4">Open Source Contributions</p>
       <div className="flex justify-between items-center mb-1">
         <span className="font-mono text-xs text-ink">LlamaIndex</span>
-        <span className="font-mono text-[0.875rem] text-zinc-400">
+        <span className="font-mono text-xs text-zinc-400">
           {isHovered ? prCount : LLAMAINDEX_PRS} PRs merged
         </span>
       </div>
@@ -254,11 +254,10 @@ export default function Toolkit() {
                 className="w-12 h-12 object-contain"
               />
               <div>
-                {/* A touch smaller than elsewhere, so NYCU's long name and its
-                    GPA fit on one line */}
-                <div className="flex flex-wrap items-center gap-2">
-                  <p className="text-ink font-medium text-[15px]">{school.school}</p>
-                  <Badge className="text-[12px]">{school.gpa}</Badge>
+                {/* The GPA wraps under a long school name rather than shrinking it */}
+                <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                  <p className="text-ink font-medium text-base">{school.school}</p>
+                  <Badge>{school.gpa}</Badge>
                 </div>
                 <p className="mt-1 text-sm text-zinc-faded">{school.degree}</p>
                 <p className="text-xs text-zinc-400 mt-1">{school.detail}</p>

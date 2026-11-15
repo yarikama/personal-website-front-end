@@ -77,7 +77,7 @@ export default function ProjectPage() {
             className="group mt-16 flex w-full items-center justify-between gap-4 rounded-xl border border-ink px-5 py-4 text-left transition-colors hover:bg-ink hover:text-paper"
           >
             <span className="flex flex-col gap-1">
-              <span className="font-mono text-[0.875rem] uppercase tracking-widest text-sage group-hover:text-paper">
+              <span className="font-mono text-xs uppercase tracking-widest text-sage group-hover:text-paper">
                 Next project
               </span>
               <span className="font-serif text-2xl font-light leading-tight">{next.title}</span>
@@ -124,9 +124,9 @@ function ProjectCardPage({ project }: { project: Project }) {
         <h1 className="font-serif text-4xl md:text-5xl font-light tracking-tight mt-4">{project.title}</h1>
       </header>
       {results.length > 0 && (
-        <ul className="mb-10 grid grid-cols-1 sm:grid-cols-3 border-y border-zinc-200 dark:border-zinc-200/20 divide-y sm:divide-y-0 sm:divide-x divide-zinc-200 dark:divide-zinc-200/20">
+        <ul className="mb-12 grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-10">
           {results.map((result) => (
-            <li key={result} className="px-4 py-5 font-serif text-xl font-light leading-snug sm:text-center">
+            <li key={result} className="font-serif text-xl font-light leading-snug sm:text-center">
               {result}
             </li>
           ))}

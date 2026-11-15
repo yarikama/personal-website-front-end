@@ -5,6 +5,8 @@ description: Anti-slop frontend skill for landing pages, portfolios, and redesig
 
 # tasteskill: Anti-Slop Frontend Skill
 
+> **In this repo:** `.claude/skills/conventions.md` overrides this skill's type and decoration advice. The owner reads Geist, Satoshi, Outfit and Cabinet Grotesk as AI defaults, just like Inter; the body face is Atkinson Hyperlegible Next. No italics, no hairline rules, no text under 15px. `tests/design-rules.test.ts` enforces these.
+
 > Landing pages, portfolios, and redesigns. Not dashboards, not data tables, not multi-step product UI.
 > Every rule below is **contextual**. None of it fires automatically. First read the brief, then pull only what fits.
 

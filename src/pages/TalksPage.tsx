@@ -37,7 +37,7 @@ export default function TalksPage() {
             {publicTalks.map((talk) => (
               <Link key={talk.slug} to={`/talks/${talk.slug}`} className="group block">
                 <article>
-                  <div className="mb-4 flex items-center justify-between gap-4 font-mono text-[0.875rem] text-zinc-400 uppercase tracking-widest">
+                  <div className="mb-4 flex items-center justify-between gap-4 font-mono text-xs text-zinc-400 uppercase tracking-widest">
                     <time dateTime={talk.date}>{formatTalkDate(talk.date)}</time>
                     <span>{talk.venue ? `${talk.kind} · ${talk.venue}` : talk.kind}</span>
                   </div>

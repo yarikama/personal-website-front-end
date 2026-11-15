@@ -122,7 +122,7 @@ export default function ProjectCard({ project, index, featured = false, story = 
             {project.tags.map((tag) => (
               <span
                 key={tag}
-                className="font-mono text-[0.875rem] text-zinc-400 uppercase tracking-widest"
+                className="font-mono text-xs text-zinc-400 uppercase tracking-widest"
               >
                 {tag}
               </span>

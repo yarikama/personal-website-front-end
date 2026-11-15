@@ -161,7 +161,7 @@ export default function Header() {
       // The active item is also underlined, the line drawing in from the left
       className={`
         relative inline-flex items-center gap-1
-        font-mono text-[0.8125rem] uppercase tracking-widest
+        font-mono text-xs uppercase tracking-widest
         transition-colors duration-300
         after:absolute after:left-0 after:-bottom-1.5 after:h-0.5 after:w-full after:bg-sage
         after:origin-left after:transition-transform after:duration-500 after:ease-[var(--ease-elegant)]
@@ -269,7 +269,7 @@ export default function Header() {
             onClick={() => setIsMenuOpen((open) => !open)}
             aria-expanded={isMenuOpen}
             aria-controls="mobile-menu"
-            className="md:hidden font-mono text-[0.8125rem] uppercase tracking-widest"
+            className="md:hidden font-mono text-xs uppercase tracking-widest"
           >
             {isMenuOpen ? 'Close' : 'Menu'}
           </button>

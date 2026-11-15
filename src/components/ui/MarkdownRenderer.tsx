@@ -18,7 +18,7 @@ export default function MarkdownRenderer({ content, className = '' }: MarkdownRe
       className={`prose prose-zinc dark:prose-invert max-w-none
         prose-headings:font-serif prose-headings:font-light
         prose-h1:text-4xl prose-h1:mb-6 prose-h1:mt-8
-        prose-h2:text-2xl prose-h2:mb-4 prose-h2:mt-6 prose-h2:border-b prose-h2:border-zinc-200 prose-h2:dark:border-zinc-700 prose-h2:pb-2
+        prose-h2:text-2xl prose-h2:mb-4 prose-h2:mt-6
         prose-h3:text-xl prose-h3:mb-3 prose-h3:mt-5
         prose-h4:text-lg prose-h4:mb-2 prose-h4:mt-4
         prose-p:text-zinc-faded prose-p:leading-relaxed
