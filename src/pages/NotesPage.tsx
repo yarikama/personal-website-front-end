@@ -95,14 +95,14 @@ export default function NotesPage() {
               >
                 <article className="h-full">
                   <div className="mb-4 flex items-center justify-between">
-                    <span className="font-mono text-[0.875rem] text-zinc-400 uppercase tracking-widest">
+                    <span className="font-mono text-xs text-zinc-400 uppercase tracking-widest">
                       {new Date(note.date).toLocaleDateString('en-US', {
                         year: 'numeric',
                         month: 'short',
                         day: 'numeric',
                       })}
                     </span>
-                    <span className="font-mono text-[0.875rem] text-zinc-400 uppercase tracking-widest">
+                    <span className="font-mono text-xs text-zinc-400 uppercase tracking-widest">
                       {note.readTime}
                     </span>
                   </div>
@@ -119,7 +119,7 @@ export default function NotesPage() {
                     {note.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="font-mono text-[0.8rem] text-zinc-400 uppercase tracking-widest px-2 py-0.5 rounded-full border border-zinc-200 dark:border-zinc-700"
+                        className="font-mono text-xs text-zinc-400 uppercase tracking-widest px-2 py-0.5 rounded-full border border-zinc-200 dark:border-zinc-700"
                       >
                         {tag}
                       </span>
