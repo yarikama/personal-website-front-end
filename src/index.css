@@ -23,6 +23,11 @@
   /* Sage dark enough to read as text */
   --color-sage-ink: #4f6a67;
 
+  /* The Lab Notes print's two riso inks: a sage and a mustard, each in its
+     paper cut here and a lighter cut for the dark page in .dark */
+  --color-riso-a: #5f8a85;
+  --color-riso-b: #c9973a;
+
   /* Kinds of project tag (src/projects/tagKinds.ts): infrastructure, models and
      frameworks, methods, fields. Muted, so four of them sit quietly together. */
   --color-kind-infra: #5b7083;
@@ -147,6 +152,8 @@ body.dark {
   --color-sage: #7fa8a3;
   --color-sage-light: #6b8f8b;
   --color-sage-ink: #7fa8a3;
+  --color-riso-a: #86b3ad;
+  --color-riso-b: #d9b066;
   --color-kind-infra: #8fa6bb;
   --color-kind-model: #7fa8a3;
   --color-kind-method: #c4a06a;
