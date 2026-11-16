@@ -728,3 +728,22 @@ body.dark {
   line-height: 1;
   color: var(--color-zinc-faded);
 }
+
+/* Hairline figures (drawn project covers) sit on the page's own ground, in
+   the site's inks. The values resolve per theme, so .dark repeats them. */
+:root {
+  --hairline-plate: var(--color-paper);
+  --hairline-hi: var(--color-ink);
+  --hairline-edge: #9a9aa2;
+  --hairline-mid: #c2c2c8;
+  --hairline-lo: #dcdbd5;
+  --hairline-stroke: 1;
+}
+
+.dark {
+  --hairline-plate: var(--color-paper);
+  --hairline-hi: var(--color-ink);
+  --hairline-edge: #6e6e76;
+  --hairline-mid: #45454b;
+  --hairline-lo: #2a2a2e;
+}
