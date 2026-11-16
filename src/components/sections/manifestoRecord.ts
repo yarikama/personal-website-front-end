@@ -79,3 +79,17 @@ export function needleAt(progress: number, width: number, height: number): Needl
 
   return { x, y, angle: (Math.atan2(pivot.y - y, pivot.x - x) * 180) / Math.PI, length }
 }
+
+// How far up the stage the record's top fades in from nothing as the section
+// arrives, as a share of the stage's height
+export const ENTRY_FADE = 0.25
+
+// The record arriving: `top` is the section's top in the window, `height` the
+// window's height. While the section scrolls in (its top from the window's
+// bottom to its top) the record fades in, and its top edge, where the pinned
+// stage cuts the circle off in a straight line, is softened by a mask that
+// shrinks to nothing as it settles.
+export function entryFade(top: number, height: number) {
+  const p = Math.min(1, Math.max(0, 1 - top / height))
+  return { opacity: 1 - (1 - p) ** 2, fade: ENTRY_FADE * (1 - p) }
+}

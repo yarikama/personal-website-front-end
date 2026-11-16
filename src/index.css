@@ -646,6 +646,15 @@ body.dark {
 }
 
 /* Two wedges of reflected light, fixed while the record turns */
+/* The record and its sheen, together: the pinned stage cuts the record off
+   in a straight line along its top, so as the section scrolls in that edge
+   fades in over --fade of the stage, shrinking to nothing as it settles
+   (Manifesto.tsx, entryFade) */
+.manifesto-disc {
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 var(--fade, 0%));
+  mask-image: linear-gradient(to bottom, transparent 0, #000 var(--fade, 0%));
+}
+
 .manifesto-sheen {
   background: conic-gradient(
     from 0deg,

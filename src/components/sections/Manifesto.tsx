@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { usePrefersReducedMotion } from '../../hooks'
-import { ARM_MIN_WIDTH, needleAt, recordGaps, recordRadius, wheelRadius } from './manifestoRecord'
+import { ARM_MIN_WIDTH, entryFade, needleAt, recordGaps, recordRadius, wheelRadius } from './manifestoRecord'
 
 const stories = [
   {
@@ -174,6 +174,7 @@ function ScrollManifesto() {
   const stageRef = useRef<HTMLDivElement>(null)
   const recordRef = useRef<HTMLDivElement>(null)
   const sheenRef = useRef<HTMLDivElement>(null)
+  const discRef = useRef<HTMLDivElement>(null)
   const armRef = useRef<SVGGElement>(null)
   const armRodRef = useRef<SVGRectElement>(null)
   const [activeCard, setActiveCard] = useState(-1)
@@ -206,6 +207,12 @@ function ScrollManifesto() {
         const gaps = recordGaps(window.innerWidth)
         record.style.setProperty('--gap-outer', `${gaps.outer}px`)
         record.style.setProperty('--gap-inner', `${gaps.inner}px`)
+      }
+      // The record arrives softly instead of starting on a straight line under the Ask section
+      if (discRef.current) {
+        const { opacity, fade } = entryFade(rect.top, window.innerHeight)
+        discRef.current.style.opacity = String(opacity)
+        discRef.current.style.setProperty('--fade', `${fade * 100}%`)
       }
       // The light stays put while the record turns under it
       if (sheenRef.current) Object.assign(sheenRef.current.style, recordFrame(0))
@@ -251,8 +258,10 @@ function ScrollManifesto() {
   return (
     <div ref={containerRef} className="relative" style={{ height: `${stories.length * 100}dvh` }}>
       <div ref={stageRef} className="sticky top-0 h-dvh flex items-center justify-center overflow-hidden">
-        <div ref={recordRef} className="manifesto-record absolute rounded-full" style={recordFrame(0)} aria-hidden="true" />
-        <div ref={sheenRef} className="manifesto-sheen absolute rounded-full pointer-events-none" style={recordFrame(0)} aria-hidden="true" />
+        <div ref={discRef} className="manifesto-disc absolute inset-0 pointer-events-none" aria-hidden="true">
+          <div ref={recordRef} className="manifesto-record absolute rounded-full" style={recordFrame(0)} />
+          <div ref={sheenRef} className="manifesto-sheen absolute rounded-full" style={recordFrame(0)} />
+        </div>
         {stories.map((story, index) => {
           const isActive = index === activeCard
           return (

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { ARM_MIN_WIDTH, needleAt, recordRadius, wheelRadius } from './manifestoRecord'
+import { ARM_MIN_WIDTH, ENTRY_FADE, entryFade, needleAt, recordRadius, wheelRadius } from './manifestoRecord'
 
 const SCREENS = [
   [1100, 760],
@@ -51,6 +51,28 @@ describe('the Manifesto record', () => {
     for (const p of [0, 0.5, 1]) {
       const n = needleAt(p, width, height)
       expect(Math.hypot(n.x - pivot.x, n.y - pivot.y)).toBeCloseTo(n.length, 6)
+    }
+  })
+})
+
+describe('the record arriving under the Ask section', () => {
+  it('is hidden with its softest edge while the section is still below the window', () => {
+    expect(entryFade(900, 900)).toEqual({ opacity: 0, fade: ENTRY_FADE })
+    expect(entryFade(2000, 900)).toEqual({ opacity: 0, fade: ENTRY_FADE })
+  })
+
+  it('is whole, with no fade left, once the section reaches the top', () => {
+    expect(entryFade(0, 900)).toEqual({ opacity: 1, fade: 0 })
+    expect(entryFade(-5000, 900)).toEqual({ opacity: 1, fade: 0 })
+  })
+
+  it('comes in steadily on the way, never going back', () => {
+    let last = { opacity: -1, fade: Infinity }
+    for (let top = 900; top >= 0; top -= 90) {
+      const now = entryFade(top, 900)
+      expect(now.opacity).toBeGreaterThanOrEqual(last.opacity)
+      expect(now.fade).toBeLessThanOrEqual(last.fade)
+      last = now
     }
   })
 })
