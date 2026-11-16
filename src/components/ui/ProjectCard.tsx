@@ -5,6 +5,9 @@ import ResponsiveImage from './ResponsiveImage'
 import { ArrowUpRight } from 'lucide-react'
 import WaveLink from './WaveLink'
 import { descriptionBlocks } from '../../lib/descriptionBlocks'
+import HairlineFigure from '../figures/HairlineFigure'
+import type { FigureDef } from '../figures/types'
+import { figureOf } from '../../projects/figures'
 
 // Base project type that works with both API and local data
 interface ProjectCardData {
@@ -36,21 +39,26 @@ export default function ProjectCard({ project, index, featured = false, story = 
   const label = story ? 'Read the story' : 'See the project'
   // Beside a cover, the way into the page sits under it on a wide screen.
   // On a phone the cover is above the text, so it stays after the text.
-  const underCover = !!(page && project.coverImage)
+  // A drawn figure, when the project has one, takes the stored cover's place
+  const figure = figureOf(project.slug)
+  const hasCover = !!(figure || project.coverImage)
+  const underCover = !!(page && hasCover)
   const otherLinks = !!(project.github || (project.link && project.link !== project.github))
 
   return (
     <article className="group relative">
       {/* The cover beside the text; on a phone, above it */}
-      <div className={project.coverImage ? `grid gap-6 md:gap-10 ${featured ? 'md:grid-cols-[minmax(0,1fr)_20rem]' : 'md:grid-cols-[minmax(0,1fr)_16rem]'}` : ''}>
-        {project.coverImage && (
+      <div className={hasCover ? `grid gap-6 md:gap-10 ${featured ? 'md:grid-cols-[minmax(0,1fr)_20rem]' : 'md:grid-cols-[minmax(0,1fr)_16rem]'}` : ''}>
+        {hasCover && (
           <div className="md:order-last">
             {page ? (
               <Link to={page} tabIndex={-1} aria-hidden="true" className="block">
-                <Cover src={project.coverImage} />
+                {figure ? <FigureCover figure={figure} /> : <Cover src={project.coverImage!} />}
               </Link>
+            ) : figure ? (
+              <FigureCover figure={figure} />
             ) : (
-              <Cover src={project.coverImage} />
+              <Cover src={project.coverImage!} />
             )}
             {page && (
               <div className="mt-4 hidden md:block">
@@ -210,6 +218,16 @@ function Cover({ src }: { src: string }) {
           className={`h-full w-full ${drawing ? 'object-contain' : 'object-cover'}`}
         />
       )}
+    </div>
+  )
+}
+
+// A drawn figure in the cover's frame: the same 8:5 box, on the page's own
+// ground with no border, the figure's 5:4 stage centred at its full height.
+function FigureCover({ figure }: { figure: FigureDef }) {
+  return (
+    <div className="aspect-[2/1] w-full max-w-full md:aspect-[8/5]">
+      <HairlineFigure figure={figure} className="mx-auto h-full" />
     </div>
   )
 }

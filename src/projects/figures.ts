@@ -1,0 +1,10 @@
+// Projects whose cover is a drawn, moving figure instead of the image stored
+// with the project. The stored cover stays the share image (og:image).
+import { onebox } from '../components/figures/onebox'
+import type { FigureDef } from '../components/figures/types'
+
+export const figures: Record<string, FigureDef> = {
+  'homelab-self-hosted-llm-platform': onebox,
+}
+
+export const figureOf = (slug: string | undefined) => (slug ? figures[slug] : undefined)
