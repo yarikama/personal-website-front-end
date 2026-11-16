@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import HairlineFigure from '../figures/HairlineFigure'
 import ResponsiveImage from './ResponsiveImage'
+import TagStrip from './TagStrip'
 import { figureOf } from '../../projects/figures'
 
 interface FeaturedCardData {
@@ -8,12 +9,14 @@ interface FeaturedCardData {
   title: string
   description: string
   coverImage?: string | null
+  tags?: string[]
 }
 
 /**
  * A featured project on the home page, trimmed to what makes a reader open
- * it: the cover, the title, one line. Tags, numbers and links live on the
- * project's page. The whole card is one link to that page.
+ * it: the cover, the title, one line, and its tags folded into strips that
+ * open under the pointer. Numbers and links live on the project's page. The
+ * whole card is one link to that page.
  */
 // `flip` puts the cover on the right on a wide screen, so a list of cards can
 // alternate sides; on a phone the cover is always above the text.
@@ -42,6 +45,11 @@ export default function FeaturedCard({ project, hook, flip = false }: { project:
           </span>
         </h3>
         <p className="max-w-xl font-serif text-xl md:text-[1.4rem] leading-snug text-ink-light line-clamp-3">{line}</p>
+        {project.tags && project.tags.length > 0 && (
+          <div className="mt-6">
+            <TagStrip tags={project.tags} />
+          </div>
+        )}
       </div>
     </>
   )

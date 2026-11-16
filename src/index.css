@@ -23,6 +23,13 @@
   /* Sage dark enough to read as text */
   --color-sage-ink: #4f6a67;
 
+  /* Kinds of project tag (src/projects/tagKinds.ts): infrastructure, models and
+     frameworks, methods, fields. Muted, so four of them sit quietly together. */
+  --color-kind-infra: #5b7083;
+  --color-kind-model: #4f6a67;
+  --color-kind-method: #8a6a3a;
+  --color-kind-field: #8b5a5a;
+
   /* Typography */
   --font-serif: "Cormorant Garamond", serif;
   --font-serif-tc: "Noto Serif TC", serif;
@@ -140,6 +147,10 @@ body.dark {
   --color-sage: #7fa8a3;
   --color-sage-light: #6b8f8b;
   --color-sage-ink: #7fa8a3;
+  --color-kind-infra: #8fa6bb;
+  --color-kind-model: #7fa8a3;
+  --color-kind-method: #c4a06a;
+  --color-kind-field: #c48f8f;
 }
 
 /* Selection */
@@ -746,4 +757,78 @@ body.dark {
   --hairline-edge: #6e6e76;
   --hairline-mid: #45454b;
   --hairline-lo: #2a2a2e;
+}
+
+/* A featured card's tags (TagStrip.tsx). Each keeps its own width: at rest a
+   strip in its kind's colour runs along its foot; open, the strip fills it as
+   a tint and the name shows, in ink. */
+.tag-strip {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px 6px;
+}
+
+.tag-strip-chip {
+  --kind: var(--color-kind-field);
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 34px;
+  padding: 0 12px;
+  white-space: nowrap;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.05em;
+  color: var(--color-ink);
+}
+
+.tag-strip-chip[data-kind='infra'] { --kind: var(--color-kind-infra); }
+.tag-strip-chip[data-kind='model'] { --kind: var(--color-kind-model); }
+.tag-strip-chip[data-kind='method'] { --kind: var(--color-kind-method); }
+
+.tag-strip-chip::before {
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  height: 6px;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--kind) 75%, var(--color-paper));
+  transition:
+    height 700ms cubic-bezier(0.32, 0.72, 0, 1) var(--delay, 0ms),
+    border-radius 700ms cubic-bezier(0.32, 0.72, 0, 1) var(--delay, 0ms),
+    background-color 400ms var(--delay, 0ms);
+}
+
+.tag-strip-chip > span {
+  position: relative;
+  opacity: 0;
+  transition: opacity 250ms var(--delay, 0ms);
+}
+
+.tag-strip-chip.open::before,
+.tag-strip-chip.open > span {
+  transition-delay: var(--delay, 0ms);
+}
+
+.tag-strip-chip.open::before {
+  height: 100%;
+  border-radius: 10px;
+  background: color-mix(in oklab, var(--kind) 24%, var(--color-paper));
+}
+
+.tag-strip-chip.open > span {
+  opacity: 1;
+  transition-delay: calc(var(--delay, 0ms) + 200ms);
+}
+
+/* No hover to open them with: every tag is open, and the row starts at the left */
+@media (hover: none) {
+  .tag-strip { justify-content: flex-start; }
+  .tag-strip-chip::before {
+    height: 100%;
+    border-radius: 10px;
+    background: color-mix(in oklab, var(--kind) 24%, var(--color-paper));
+  }
+  .tag-strip-chip > span { opacity: 1; }
 }
