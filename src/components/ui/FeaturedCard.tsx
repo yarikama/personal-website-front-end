@@ -15,7 +15,9 @@ interface FeaturedCardData {
  * it: the cover, the title, one line. Tags, numbers and links live on the
  * project's page. The whole card is one link to that page.
  */
-export default function FeaturedCard({ project, hook }: { project: FeaturedCardData; hook?: string }) {
+// `flip` puts the cover on the right on a wide screen, so a list of cards can
+// alternate sides; on a phone the cover is always above the text.
+export default function FeaturedCard({ project, hook, flip = false }: { project: FeaturedCardData; hook?: string; flip?: boolean }) {
   const figure = figureOf(project.slug)
   const page = project.slug ? `/works/${project.slug}` : null
   // Without a written hook, the description's first lines stand in for it
@@ -25,7 +27,7 @@ export default function FeaturedCard({ project, hook }: { project: FeaturedCardD
     <>
       {(figure || project.coverImage) && (
         // The cover is decoration here: the link is named by the title and the line under it
-        <div aria-hidden="true" className="aspect-[8/5] w-full max-w-full">
+        <div aria-hidden="true" className={`aspect-[8/5] w-full max-w-full ${flip ? 'md:order-last' : ''}`}>
           {figure ? (
             <HairlineFigure figure={figure} className="mx-auto h-full" />
           ) : (
@@ -44,7 +46,7 @@ export default function FeaturedCard({ project, hook }: { project: FeaturedCardD
     </>
   )
 
-  const layout = 'group grid items-center gap-5 md:grid-cols-[20rem_minmax(0,1fr)] md:gap-10'
+  const layout = `group grid items-center gap-5 md:gap-10 ${flip ? 'md:grid-cols-[minmax(0,1fr)_20rem]' : 'md:grid-cols-[20rem_minmax(0,1fr)]'}`
   return page ? (
     <Link to={page} className={`${layout} rounded-xl focus-visible:outline-offset-8`}>
       {body}

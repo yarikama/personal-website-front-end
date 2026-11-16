@@ -43,8 +43,9 @@ export default function BriefSelection() {
         </div>
       ) : (
         <div className="grid gap-14">
-          {projects.map((project) => (
-            <FeaturedCard key={project.id} project={project} hook={hookOf(project.slug)} />
+          {/* Covers alternate sides down the list */}
+          {projects.map((project, index) => (
+            <FeaturedCard key={project.id} project={project} hook={hookOf(project.slug)} flip={index % 2 === 1} />
           ))}
         </div>
       )}
