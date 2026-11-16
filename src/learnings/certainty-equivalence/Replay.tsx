@@ -45,7 +45,7 @@ function Run({ world, seed }: { world: World; seed: number }) {
         <span className="text-zinc-faded">
           Pass <span className="tabular-nums text-ink">{Math.floor(played)}</span>
         </span>
-        <span className={done ? 'text-sage' : 'text-zinc-faded'}>{done ? 'settled' : 'replaying…'}</span>
+        <span className={done ? 'text-sage-ink' : 'text-zinc-faded'}>{done ? 'settled' : 'replaying…'}</span>
       </div>
       <svg
         viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
@@ -58,7 +58,7 @@ function Run({ world, seed }: { world: World; seed: number }) {
           const fast = trip.train === FAST
           return (
             <g key={i} className="font-mono tabular-nums">
-              <text x={column(i)} y={12} textAnchor="middle" className="fill-zinc-400 text-[10px] uppercase">
+              <text x={column(i)} y={12} textAnchor="middle" className="fill-zinc-faded text-[10px] uppercase">
                 {trip.by === BUS ? 'bus' : 'bike'}
               </text>
               <rect
@@ -69,7 +69,7 @@ function Run({ world, seed }: { world: World; seed: number }) {
                 className={fast ? 'fill-sage/25 stroke-sage' : 'fill-paper stroke-ink'}
                 strokeWidth={1}
               />
-              <text x={column(i)} y={34} textAnchor="middle" className={`text-[10px] ${fast ? 'fill-sage' : 'fill-ink'}`}>
+              <text x={column(i)} y={34} textAnchor="middle" className={`text-[10px] ${fast ? 'fill-sage-ink' : 'fill-ink'}`}>
                 {fast ? 'fast' : 'slow'}
               </text>
               <text x={column(i)} y={56} textAnchor="middle" className="fill-ink text-[11px]">
@@ -84,12 +84,12 @@ function Run({ world, seed }: { world: World; seed: number }) {
         {[10, 20, 30, 40, 50].map((minutes) => (
           <g key={minutes}>
             <line x1={x(minutes)} x2={x(minutes)} y1={108} y2={262} className="stroke-zinc-300 dark:stroke-zinc-200/25" strokeWidth={0.5} />
-            <text x={x(minutes)} y={276} textAnchor="middle" className="fill-zinc-400 font-mono text-[10px]">
+            <text x={x(minutes)} y={276} textAnchor="middle" className="fill-zinc-faded font-mono text-[10px]">
               {minutes}
             </text>
           </g>
         ))}
-        <text x={RIGHT} y={294} textAnchor="end" className="fill-zinc-400 font-mono text-[10px] uppercase tracking-widest">
+        <text x={RIGHT} y={294} textAnchor="end" className="fill-zinc-faded font-mono text-[10px] uppercase tracking-widest">
           minutes left
         </text>
 
@@ -101,7 +101,7 @@ function Run({ world, seed }: { world: World; seed: number }) {
                 {name}
               </text>
               {!seen && (
-                <text x={8} y={y + 18} className="fill-zinc-400 font-mono text-[10px]">
+                <text x={8} y={y + 18} className="fill-zinc-faded font-mono text-[10px]">
                   not in notes
                 </text>
               )}
@@ -135,7 +135,7 @@ function Run({ world, seed }: { world: World; seed: number }) {
         {/* Key */}
         <g className="font-mono text-[10px] uppercase">
           <circle cx={8} cy={88} r={4} className="fill-sage" />
-          <text x={16} y={91} className="fill-sage">
+          <text x={16} y={91} className="fill-sage-ink">
             TD(0)
           </text>
           <circle cx={62} cy={88} r={4} className="fill-ink" />
@@ -147,7 +147,7 @@ function Run({ world, seed }: { world: World; seed: number }) {
             True
           </text>
           <circle cx={214} cy={88} r={5} fill="none" className="stroke-zinc-400" strokeWidth={1} />
-          <text x={223} y={91} className="fill-zinc-400">
+          <text x={223} y={91} className="fill-zinc-faded">
             Where it settles
           </text>
         </g>

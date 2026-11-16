@@ -47,7 +47,7 @@ export default function ProjectPage() {
       <div className="pt-24">
         <Section reading>
           {back}
-          <Loader2 className="mx-auto my-16 h-6 w-6 animate-spin text-zinc-400" />
+          <Loader2 className="mx-auto my-16 h-6 w-6 animate-spin text-zinc-faded" />
         </Section>
       </div>
     )
@@ -77,7 +77,7 @@ export default function ProjectPage() {
             className="group mt-16 flex w-full items-center justify-between gap-4 rounded-xl border border-ink px-5 py-4 text-left transition-colors hover:bg-ink hover:text-paper"
           >
             <span className="flex flex-col gap-1">
-              <span className="font-mono text-xs uppercase tracking-widest text-sage group-hover:text-paper">
+              <span className="font-mono text-xs uppercase tracking-widest text-sage-ink group-hover:text-paper">
                 Next project
               </span>
               <span className="font-serif text-2xl font-light leading-tight">{next.title}</span>
@@ -118,7 +118,7 @@ function ProjectCardPage({ project }: { project: Project }) {
   return (
     <article>
       <header className="mb-12">
-        <span className="font-mono text-sm text-zinc-400 uppercase tracking-widest">
+        <span className="font-mono text-sm text-zinc-faded uppercase tracking-widest">
           {project.category.label} · {project.year}
         </span>
         <h1 className="font-serif text-4xl md:text-5xl font-light tracking-tight mt-4">{project.title}</h1>

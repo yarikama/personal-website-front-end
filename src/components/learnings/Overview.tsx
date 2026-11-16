@@ -26,7 +26,7 @@ export default function Overview({ graph, node, stages, hasPage, onOpen }: Overv
   const elsewhere = links.related.filter((other) => other.kind === 'external')
 
   const open = (other: LearningNode, children: ReactNode) => {
-    const className = 'text-left hover:text-sage transition-colors'
+    const className = 'text-left hover:text-sage-ink transition-colors'
     if (onOpen) {
       return (
         <button onClick={() => onOpen(other.slug)} className={className}>
@@ -46,7 +46,7 @@ export default function Overview({ graph, node, stages, hasPage, onOpen }: Overv
   return (
     <article>
       <header className="mb-12">
-        <span className="font-mono text-sm text-zinc-400 uppercase tracking-widest">{kicker}</span>
+        <span className="font-mono text-sm text-zinc-faded uppercase tracking-widest">{kicker}</span>
         <h1 className="font-serif text-4xl md:text-5xl font-light tracking-tight mt-4 mb-8">{node.title}</h1>
         <p className="font-serif text-2xl font-light leading-snug text-zinc-faded">{node.summary}</p>
       </header>
@@ -59,11 +59,11 @@ export default function Overview({ graph, node, stages, hasPage, onOpen }: Overv
 
       {links.parts.length > 0 && (
         <section className="mt-16">
-          <h2 className="font-mono text-[0.875rem] uppercase tracking-widest text-zinc-400 mb-6">Inside, in reading order</h2>
+          <h2 className="font-mono text-[0.875rem] uppercase tracking-widest text-zinc-faded mb-6">Inside, in reading order</h2>
           <ol className="flex flex-col gap-6">
             {links.parts.map((part, i) => (
               <li key={part.slug} className="flex gap-4">
-                <span className="w-6 shrink-0 pt-1 font-mono text-sm text-sage">{i + 1}</span>
+                <span className="w-6 shrink-0 pt-1 font-mono text-sm text-sage-ink">{i + 1}</span>
                 <div className="min-w-0">
                   <div className="flex items-baseline gap-2">
                     {open(part, <span className="font-serif text-xl font-light">{part.title}</span>)}
@@ -79,11 +79,11 @@ export default function Overview({ graph, node, stages, hasPage, onOpen }: Overv
 
       {elsewhere.length > 0 && (
         <footer className="mt-16">
-          <h2 className="font-mono text-[0.875rem] uppercase tracking-widest text-zinc-400 mb-4">Read more</h2>
+          <h2 className="font-mono text-[0.875rem] uppercase tracking-widest text-zinc-faded mb-4">Read more</h2>
           <ul className="flex flex-col gap-3">
             {elsewhere.map((other) => (
               <li key={other.slug} className="text-sm leading-relaxed text-zinc-faded">
-                <a href={other.ref ?? undefined} target="_blank" rel="noopener noreferrer" className="text-ink hover:text-sage">
+                <a href={other.ref ?? undefined} target="_blank" rel="noopener noreferrer" className="text-ink hover:text-sage-ink">
                   {other.title}
                 </a>
                 , {other.summary}

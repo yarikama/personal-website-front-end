@@ -77,7 +77,7 @@ export default function Lunches({ record, from, to, pace, bars = true, focus, tr
           {nextShown && (
             <>
               {named ? 'Next pull' : 'Next lunch'}{' '}
-              <span className="text-sage">{named ? `arm ${next + 1}` : SPOTS[next]}</span>
+              <span className="text-sage-ink">{named ? `arm ${next + 1}` : SPOTS[next]}</span>
             </>
           )}
         </span>
@@ -98,7 +98,7 @@ export default function Lunches({ record, from, to, pace, bars = true, focus, tr
               className="stroke-zinc-200 dark:stroke-zinc-200/10"
               strokeDasharray={rating === 0 ? undefined : '2 4'}
             />
-            <text x={10} y={y(rating) + 4} textAnchor="middle" className="fill-zinc-400 font-mono text-[11px]">
+            <text x={10} y={y(rating) + 4} textAnchor="middle" className="fill-zinc-faded font-mono text-[11px]">
               {rating}
             </text>
           </g>
@@ -166,7 +166,7 @@ export default function Lunches({ record, from, to, pace, bars = true, focus, tr
                     x={x}
                     y={y(score + doubt) - 10}
                     textAnchor="middle"
-                    className="fill-sage font-mono text-[12px]"
+                    className="fill-sage-ink font-mono text-[12px]"
                   >
                     Q + c√(ln t / N)
                   </text>
@@ -179,7 +179,7 @@ export default function Lunches({ record, from, to, pace, bars = true, focus, tr
                 x={x}
                 y={FLOOR + 46}
                 textAnchor="middle"
-                className={`font-mono text-[15px] uppercase ${shown?.spot === i ? 'fill-sage' : 'fill-ink'}`}
+                className={`font-mono text-[15px] uppercase ${shown?.spot === i ? 'fill-sage-ink' : 'fill-ink'}`}
               >
                 {named ? `Arm ${i + 1}` : name}
               </text>
@@ -201,7 +201,7 @@ export default function Lunches({ record, from, to, pace, bars = true, focus, tr
             x={diner + (shown.spot === SPOTS.length - 1 ? -14 : 14)}
             y={FLOOR + 23}
             textAnchor={shown.spot === SPOTS.length - 1 ? 'end' : 'start'}
-            className="fill-sage font-mono text-[13px]"
+            className="fill-sage-ink font-mono text-[13px]"
           >
             {named ? `R = ${shown.rating.toFixed(1)}` : `today ${shown.rating.toFixed(1)}`}
           </text>

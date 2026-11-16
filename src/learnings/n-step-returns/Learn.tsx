@@ -28,7 +28,7 @@ function Run({ n }: { n: number }) {
         <span className="shrink-0 text-zinc-faded">
           {hikes} of {HIKES} hikes
         </span>
-        <span className="text-right text-sage">Off by {Math.round(miss(chalk))} min</span>
+        <span className="text-right text-sage-ink">Off by {Math.round(miss(chalk))} min</span>
       </div>
       <svg
         viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
@@ -39,7 +39,7 @@ function Run({ n }: { n: number }) {
         {[0, 100, 200].map((minutes) => (
           <g key={minutes}>
             <line x1={LEFT} x2={WIDTH - 6} y1={y(minutes)} y2={y(minutes)} className="stroke-zinc-300 dark:stroke-zinc-200/25" strokeWidth={0.5} />
-            <text x={LEFT - 6} y={y(minutes) + 3} textAnchor="end" className="fill-zinc-400 font-mono text-[10px]">
+            <text x={LEFT - 6} y={y(minutes) + 3} textAnchor="end" className="fill-zinc-faded font-mono text-[10px]">
               {minutes}
             </text>
           </g>
@@ -51,13 +51,13 @@ function Run({ n }: { n: number }) {
             <g key={i}>
               <rect x={x - 10} y={y(guess)} width={20} height={BOTTOM - y(guess)} className="fill-sage/70" />
               <rect x={x - 13} y={y(value)} width={26} height={BOTTOM - y(value)} fill="none" className="stroke-ink" strokeWidth={1} strokeDasharray="3 2" />
-              <text x={x} y={BOTTOM + 15} textAnchor="middle" className="fill-zinc-400 font-mono text-[10px]">
+              <text x={x} y={BOTTOM + 15} textAnchor="middle" className="fill-zinc-faded font-mono text-[10px]">
                 {i}
               </text>
             </g>
           )
         })}
-        <text x={WIDTH - 6} y={BOTTOM + 28} textAnchor="end" className="fill-zinc-400 font-mono text-[10px] uppercase tracking-widest">
+        <text x={WIDTH - 6} y={BOTTOM + 28} textAnchor="end" className="fill-zinc-faded font-mono text-[10px] uppercase tracking-widest">
           post
         </text>
       </svg>
@@ -92,7 +92,7 @@ export default function Learn() {
                 className={`w-full rounded-t-md ${m.n === n ? 'bg-sage' : 'bg-zinc-300 dark:bg-zinc-200/35'}`}
                 style={{ height: `${(m.miss / top) * 60}%` }}
               />
-              <span className={`font-mono text-[0.8rem] ${m.n === n ? 'text-sage' : 'text-zinc-faded'}`}>{showN(m.n)}</span>
+              <span className={`font-mono text-[0.8rem] ${m.n === n ? 'text-sage-ink' : 'text-zinc-faded'}`}>{showN(m.n)}</span>
             </button>
           ))}
         </div>

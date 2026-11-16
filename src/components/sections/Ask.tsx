@@ -74,7 +74,7 @@ function AskHeader() {
 
   return (
     <div ref={ref} className="mb-12">
-      <span className="font-mono text-sm text-zinc-400 uppercase tracking-widest">Ask</span>
+      <span className="font-mono text-sm text-zinc-faded uppercase tracking-widest">Ask</span>
       <h2 className="font-serif text-4xl md:text-5xl font-light mt-4 tracking-tight">
         {frame.typed === 0 && <Cursor />}
         {TITLE.split('').map((char, i) => (

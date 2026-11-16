@@ -111,7 +111,7 @@ export default function ScalingUpAndOut() {
           <>
             The same bytes a second, but one is bound by handling requests and the other by moving and storing huge
             files. There’s no architecture that scales for every load: each is built around its own{' '}
-            <Link to="/learnings/describing-load" className="text-sage">
+            <Link to="/learnings/describing-load" className="text-sage-ink">
               load parameters
             </Link>
             .

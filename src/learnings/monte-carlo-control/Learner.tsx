@@ -123,24 +123,24 @@ export default function Learner() {
             {[LOW, 8, 10, HIGH].map((value) => (
               <g key={value}>
                 <line x1={LEFT} x2={RIGHT} y1={y(value)} y2={y(value)} className="stroke-zinc-200 dark:stroke-zinc-200/10" />
-                <text x={LEFT - 6} y={y(value) + 4} textAnchor="end" className="fill-zinc-400 font-mono text-[11px]">
+                <text x={LEFT - 6} y={y(value) + 4} textAnchor="end" className="fill-zinc-faded font-mono text-[11px]">
                   {value}
                 </text>
               </g>
             ))}
             <line x1={LEFT} x2={RIGHT} y1={y(ROLLING)} y2={y(ROLLING)} className="stroke-zinc-400" strokeDasharray="2 3" />
-            <text x={RIGHT} y={y(ROLLING) - 4} textAnchor="end" className="fill-zinc-400 font-mono text-[10px] uppercase tracking-widest">
+            <text x={RIGHT} y={y(ROLLING) - 4} textAnchor="end" className="fill-zinc-faded font-mono text-[10px] uppercase tracking-widest">
               always roll
             </text>
             <line x1={LEFT} x2={RIGHT} y1={y(BEST_TURNS)} y2={y(BEST_TURNS)} className="stroke-sage" strokeDasharray="4 4" />
-            <text x={RIGHT} y={y(BEST_TURNS) + 12} textAnchor="end" className="fill-sage font-mono text-[10px] uppercase tracking-widest">
+            <text x={RIGHT} y={y(BEST_TURNS) + 12} textAnchor="end" className="fill-sage-ink font-mono text-[10px] uppercase tracking-widest">
               best play
             </text>
             {played > 0 && epsilon > 0 && (
               <path d={path(run.soft)} fill="none" className="stroke-ink" strokeWidth={1.2} opacity={0.45} />
             )}
             {played > 0 && <path d={path(run.straight)} fill="none" className="stroke-sage" strokeWidth={2} />}
-            <text x={LEFT} y={HEIGHT - 8} className="fill-zinc-400 font-mono text-[11px] uppercase tracking-widest">
+            <text x={LEFT} y={HEIGHT - 8} className="fill-zinc-faded font-mono text-[11px] uppercase tracking-widest">
               Turns from square 1, games 1 to {span.toLocaleString('en-US')}
             </text>
           </svg>

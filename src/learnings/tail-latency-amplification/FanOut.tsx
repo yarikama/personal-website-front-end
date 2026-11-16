@@ -172,12 +172,12 @@ export default function FanOut({ calls, slowness }: FanOutProps) {
         {/* When each call answered, on one time axis */}
         <line x1={AXIS_LEFT} y1={AXIS_Y} x2={AXIS_RIGHT} y2={AXIS_Y} className="stroke-zinc-400" />
         {[0, 250, 500, 750, 1000].map((ms) => (
-          <text key={ms} x={atTime(ms)} y={AXIS_Y + 18} textAnchor="middle" className="fill-zinc-400 font-mono text-[10px]">
+          <text key={ms} x={atTime(ms)} y={AXIS_Y + 18} textAnchor="middle" className="fill-zinc-faded font-mono text-[10px]">
             {ms} ms
           </text>
         ))}
         <line x1={atTime(SLOW_MS)} y1={AXIS_Y - 34} x2={atTime(SLOW_MS)} y2={AXIS_Y} className="stroke-zinc-400" strokeDasharray="3 3" />
-        <text x={atTime(SLOW_MS) + 5} y={AXIS_Y - 26} className="fill-zinc-400 font-mono text-[10px] uppercase tracking-widest">
+        <text x={atTime(SLOW_MS) + 5} y={AXIS_Y - 26} className="fill-zinc-faded font-mono text-[10px] uppercase tracking-widest">
           Slow
         </text>
         {page?.map((ms, i) =>

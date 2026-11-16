@@ -180,7 +180,7 @@ export default function Town({
                 x={c.x + dx * 22}
                 y={c.y + dy * 21 + 4}
                 textAnchor="middle"
-                className={`pointer-events-none font-mono text-[11px] tabular-nums ${best ? 'fill-sage' : tried ? 'fill-zinc-faded' : 'fill-zinc-400'}`}
+                className={`pointer-events-none font-mono text-[11px] tabular-nums ${best ? 'fill-sage-ink' : tried ? 'fill-zinc-faded' : 'fill-zinc-faded'}`}
               >
                 {score(value, digits)}
               </text>
@@ -232,7 +232,7 @@ export default function Town({
                 x={mid.x + (dy ? 8 : dx * 14)}
                 y={mid.y + (dx ? -12 : 4)}
                 textAnchor={dy ? 'start' : 'middle'}
-                className={`font-mono text-[13px] tabular-nums ${sage ? 'fill-sage' : 'fill-ink'}`}
+                className={`font-mono text-[13px] tabular-nums ${sage ? 'fill-sage-ink' : 'fill-ink'}`}
               >
                 {text}
               </text>
@@ -261,7 +261,7 @@ export default function Town({
             x={p.x}
             y={p.y + CELL / 2 - 10}
             textAnchor="middle"
-            className={`pointer-events-none font-mono text-[12px] ${mark.accent ? 'fill-sage' : 'fill-ink'}`}
+            className={`pointer-events-none font-mono text-[12px] ${mark.accent ? 'fill-sage-ink' : 'fill-ink'}`}
           >
             {mark.text}
           </text>

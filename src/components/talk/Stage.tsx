@@ -54,7 +54,7 @@ export default function Stage({ slide, index, step, total, animate = true, class
 
         {!slide.bare && (
           <>
-            <div className="absolute bottom-10 left-28 right-28 flex justify-between font-mono text-[15px] text-zinc-400 uppercase tracking-widest">
+            <div className="absolute bottom-10 left-28 right-28 flex justify-between font-mono text-[15px] text-zinc-faded uppercase tracking-widest">
               <span>{sectionLabel(sections, slide.section)}</span>
               <span>
                 {index + 1} / {total}

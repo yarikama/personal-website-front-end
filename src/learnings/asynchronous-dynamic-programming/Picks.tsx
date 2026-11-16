@@ -22,7 +22,7 @@ export default function Picks({ from, to, pace, label }: { from: number; to: num
           {at > 0 && (
             <span className="hidden sm:inline">
               {' '}
-              · square <span className="text-sage tabular-nums">{square}</span>
+              · square <span className="text-sage-ink tabular-nums">{square}</span>
             </span>
           )}
         </>

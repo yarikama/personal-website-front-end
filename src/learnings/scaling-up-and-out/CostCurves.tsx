@@ -34,7 +34,7 @@ export default function CostCurves({ load }: { load: number }) {
       <svg viewBox={`0 0 ${WIDTH} ${HEIGHT}`} className="w-full" role="img" aria-label="The cost of scaling up and out as load grows">
         <line x1={LEFT} x2={RIGHT} y1={BOTTOM} y2={BOTTOM} className="stroke-zinc-400" />
         {[1, 10, 20, 30].map((tick) => (
-          <text key={tick} x={x(tick)} y={BOTTOM + 16} textAnchor="middle" className="fill-zinc-400 font-mono text-[10px]">
+          <text key={tick} x={x(tick)} y={BOTTOM + 16} textAnchor="middle" className="fill-zinc-faded font-mono text-[10px]">
             {tick}×
           </text>
         ))}
@@ -45,7 +45,7 @@ export default function CostCurves({ load }: { load: number }) {
           Cost
         </text>
         <line x1={x(BIGGEST)} x2={x(BIGGEST)} y1={TOP} y2={BOTTOM} className="stroke-zinc-400" strokeDasharray="3 3" />
-        <text x={x(BIGGEST) + 6} y={TOP + 10} className="fill-zinc-400 font-mono text-[10px] uppercase tracking-widest">
+        <text x={x(BIGGEST) + 6} y={TOP + 10} className="fill-zinc-faded font-mono text-[10px] uppercase tracking-widest">
           Biggest machine made
         </text>
         <path d={path(scaleUpCost)} fill="none" className="stroke-ink" strokeWidth={2} />
@@ -53,7 +53,7 @@ export default function CostCurves({ load }: { load: number }) {
         <text x={x(5.2)} y={y(scaleUpCost(5.2)!) - 8} className="fill-ink font-mono text-[10px] uppercase tracking-widest">
           One bigger machine
         </text>
-        <text x={x(22)} y={y(scaleOutCost(22)) - 14} className="fill-sage font-mono text-[10px] uppercase tracking-widest">
+        <text x={x(22)} y={y(scaleOutCost(22)) - 14} className="fill-sage-ink font-mono text-[10px] uppercase tracking-widest">
           More machines
         </text>
         <line x1={x(load)} x2={x(load)} y1={TOP} y2={BOTTOM} className="stroke-zinc-300 dark:stroke-zinc-200/25" />

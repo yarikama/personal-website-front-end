@@ -113,7 +113,7 @@ export default function Percentiles() {
           <>
             99% of requests are faster than 2 s, so 1 in 100 takes that long or longer. If a page makes many
             requests, that 1 in 100 lands on most pages: see{' '}
-            <Link to="/learnings/tail-latency-amplification" className="text-sage">
+            <Link to="/learnings/tail-latency-amplification" className="text-sage-ink">
               tail latency amplification
             </Link>
             .

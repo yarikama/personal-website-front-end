@@ -117,7 +117,7 @@ export default function Trainer() {
             {[0, 30, 60].map((value) => (
               <g key={value}>
                 <line x1={LEFT} x2={RIGHT} y1={y(value)} y2={y(value)} className="stroke-zinc-200 dark:stroke-zinc-200/10" />
-                <text x={LEFT - 6} y={y(value) + 4} textAnchor="end" className="fill-zinc-400 font-mono text-[11px]">
+                <text x={LEFT - 6} y={y(value) + 4} textAnchor="end" className="fill-zinc-faded font-mono text-[11px]">
                   {value}
                 </text>
               </g>
@@ -133,7 +133,7 @@ export default function Trainer() {
               />
             ))}
             <line x1={LEFT} x2={RIGHT} y1={y(SHORTEST)} y2={y(SHORTEST)} className="stroke-sage" strokeDasharray="4 4" />
-            <text x={LEFT} y={HEIGHT - 6} className="fill-zinc-400 font-mono text-[11px] uppercase tracking-widest">
+            <text x={LEFT} y={HEIGHT - 6} className="fill-zinc-faded font-mono text-[11px] uppercase tracking-widest">
               Minutes, morning {first + 1} to {Math.max(walked, 1)}
             </text>
           </svg>

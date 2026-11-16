@@ -105,7 +105,7 @@ export default function Setlist({ show, setlists }: { show: Show; setlists: Pref
                         key={k}
                         dx={k ? 8 : 0}
                         opacity={shown ? (quiet ? 0.25 : 1) : 0}
-                        className={n.surprise > 0 ? 'fill-sage' : 'fill-ink'}
+                        className={n.surprise > 0 ? 'fill-sage-ink' : 'fill-ink'}
                         textDecoration={quiet ? 'line-through' : undefined}
                       >
                         {n.tip}
@@ -152,13 +152,13 @@ export default function Setlist({ show, setlists }: { show: Show; setlists: Pref
                 {pct(share)}
               </text>
               {show === 'one' && played > 0.15 && way !== 0 && (
-                <text x={cx(i) + BAR / 2 + 12} y={y(share) + 14} className={`font-mono text-[14px] ${way > 0 ? 'fill-sage' : 'fill-ink'}`}>
+                <text x={cx(i) + BAR / 2 + 12} y={y(share) + 14} className={`font-mono text-[14px] ${way > 0 ? 'fill-sage-ink' : 'fill-ink'}`}>
                   {way > 0 ? '▲' : '▼'}
                 </text>
               )}
 
               {/* The song, and how much more you now play it */}
-              <text x={cx(i)} y={BASE + 22} textAnchor="middle" className={`font-mono text-[12px] uppercase tracking-widest ${i === 3 ? 'fill-sage' : 'fill-zinc-faded'}`}>
+              <text x={cx(i)} y={BASE + 22} textAnchor="middle" className={`font-mono text-[12px] uppercase tracking-widest ${i === 3 ? 'fill-sage-ink' : 'fill-zinc-faded'}`}>
                 {song}
               </text>
               {ratios && (

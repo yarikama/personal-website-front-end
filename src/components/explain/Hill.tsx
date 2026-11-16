@@ -116,7 +116,7 @@ export default function Hill({
               x={p.x}
               y={p.y + 46}
               textAnchor="middle"
-              className={`font-mono text-[12px] uppercase ${here ? 'fill-sage' : 'fill-zinc-faded'}`}
+              className={`font-mono text-[12px] uppercase ${here ? 'fill-sage-ink' : 'fill-zinc-faded'}`}
             >
               {name}
             </text>
@@ -162,7 +162,7 @@ export default function Hill({
             x={(from.x + to.x) / 2 + side * 16}
             y={(from.y + to.y) / 2 + 4}
             textAnchor={side > 0 ? 'start' : 'end'}
-            className={`font-mono text-[14px] ${good ? 'fill-sage' : 'fill-ink'}`}
+            className={`font-mono text-[14px] ${good ? 'fill-sage-ink' : 'fill-ink'}`}
           >
             {text}
           </text>
@@ -171,13 +171,13 @@ export default function Hill({
 
       {named && (
         <g className="font-mono text-[12px]">
-          <text x={top.x + radius + 8} y={top.y - 14} className="fill-sage">
+          <text x={top.x + radius + 8} y={top.y - 14} className="fill-sage-ink">
             a fork: state s
           </text>
-          <text x={top.x - 62} y={top.y + 34} textAnchor="end" className="fill-sage">
+          <text x={top.x - 62} y={top.y + 34} textAnchor="end" className="fill-sage-ink">
             a turn: action a
           </text>
-          <text x={top.x + 58} y={top.y + 34} className="fill-sage">
+          <text x={top.x + 58} y={top.y + 34} className="fill-sage-ink">
             width: π(a|s)
           </text>
         </g>

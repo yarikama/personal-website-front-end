@@ -77,12 +77,12 @@ function Waiting({
         count ? 'border-sage/60 hover:border-sage' : 'border-zinc-200 dark:border-zinc-800 hover:border-zinc-400'
       }`}
     >
-      <Icon size={18} aria-hidden="true" className={count ? 'text-sage' : 'text-zinc-400'} />
+      <Icon size={18} aria-hidden="true" className={count ? 'text-sage-ink' : 'text-zinc-faded'} />
       <span className="flex-1 text-sm text-zinc-faded group-hover:text-ink transition-colors">{text}</span>
       <ArrowRight
         size={14}
         aria-hidden="true"
-        className="text-zinc-400 transition-transform group-hover:translate-x-0.5"
+        className="text-zinc-faded transition-transform group-hover:translate-x-0.5"
       />
     </Link>
   )
@@ -106,7 +106,7 @@ export default function AdminHome() {
         <h1 className="sr-only">Desk</h1>
 
         <section>
-          <p className="font-mono text-xs text-zinc-400 uppercase tracking-widest">Current goal</p>
+          <p className="font-mono text-xs text-zinc-faded uppercase tracking-widest">Current goal</p>
           <div className="mt-3">
             <CurrentGoal />
           </div>
@@ -114,7 +114,7 @@ export default function AdminHome() {
 
         <div className="mt-16 grid gap-12 md:grid-cols-2">
           <section>
-            <p className="font-mono text-xs text-zinc-400 uppercase tracking-widest">Today</p>
+            <p className="font-mono text-xs text-zinc-faded uppercase tracking-widest">Today</p>
             <div className="mt-2 flex flex-wrap items-baseline gap-x-4 gap-y-1">
               <p className="font-serif text-2xl" lang="zh-Hant">
                 今日事今日畢
@@ -127,7 +127,7 @@ export default function AdminHome() {
           </section>
 
           <section>
-            <p className="font-mono text-xs text-zinc-400 uppercase tracking-widest">Waiting for you</p>
+            <p className="font-mono text-xs text-zinc-faded uppercase tracking-widest">Waiting for you</p>
             <div className="mt-4 grid gap-3">
               <Waiting
                 to="/admin/messages"
@@ -168,7 +168,7 @@ export default function AdminHome() {
         </div>
 
         <section className="mt-16">
-          <p className="font-mono text-xs text-zinc-400 uppercase tracking-widest">A year on GitHub</p>
+          <p className="font-mono text-xs text-zinc-faded uppercase tracking-widest">A year on GitHub</p>
           <div className="mt-4">
             <ContributionHeatmap />
           </div>

@@ -55,17 +55,17 @@ export default function Detour({ stalls }: { stalls: number }) {
         {[0, 0.25, 0.5, 0.75, 1].map((share) => (
           <g key={share}>
             <line x1={LEFT} x2={RIGHT} y1={y(share)} y2={y(share)} className="stroke-zinc-200 dark:stroke-zinc-200/10" />
-            <text x={LEFT - 8} y={y(share) + 4} textAnchor="end" className="fill-zinc-400 font-mono text-[11px]">
+            <text x={LEFT - 8} y={y(share) + 4} textAnchor="end" className="fill-zinc-faded font-mono text-[11px]">
               {percent(share)}
             </text>
           </g>
         ))}
         {[1, 100, 200, 300].map((evening) => (
-          <text key={evening} x={x(evening - 1)} y={BOTTOM + 18} textAnchor="middle" className="fill-zinc-400 font-mono text-[11px]">
+          <text key={evening} x={x(evening - 1)} y={BOTTOM + 18} textAnchor="middle" className="fill-zinc-faded font-mono text-[11px]">
             {evening}
           </text>
         ))}
-        <text x={LEFT} y={HEIGHT - 4} className="fill-zinc-400 font-mono text-[11px] uppercase tracking-widest">
+        <text x={LEFT} y={HEIGHT - 4} className="fill-zinc-faded font-mono text-[11px] uppercase tracking-widest">
           Evening
         </text>
         <line x1={LEFT} x2={RIGHT} y1={y(FLOOR)} y2={y(FLOOR)} className="stroke-zinc-400" strokeDasharray="4 4" />
@@ -74,7 +74,7 @@ export default function Detour({ stalls }: { stalls: number }) {
         <text x={RIGHT + 8} y={y(q.at(-1)!) - 4} className="fill-ink font-mono text-[11px] uppercase tracking-widest">
           Q
         </text>
-        <text x={RIGHT + 8} y={y(double.at(-1)!) + 12} className="fill-sage font-mono text-[11px] uppercase tracking-widest">
+        <text x={RIGHT + 8} y={y(double.at(-1)!) + 12} className="fill-sage-ink font-mono text-[11px] uppercase tracking-widest">
           Double
         </text>
       </svg>

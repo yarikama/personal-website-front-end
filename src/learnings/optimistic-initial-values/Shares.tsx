@@ -76,13 +76,13 @@ export default function Shares({ series, axis, window, mark, label }: SharesProp
       {[0, 0.25, 0.5, 0.75, 1].map((share) => (
         <g key={share}>
           <line x1={LEFT} x2={RIGHT} y1={y(share)} y2={y(share)} className="stroke-zinc-200 dark:stroke-zinc-200/10" />
-          <text x={LEFT - 8} y={y(share) + 3} textAnchor="end" className="fill-zinc-400 font-mono text-[10px]">
+          <text x={LEFT - 8} y={y(share) + 3} textAnchor="end" className="fill-zinc-faded font-mono text-[10px]">
             {percent(share)}
           </text>
         </g>
       ))}
       {ticks.map((step) => (
-        <text key={step} x={x(Math.min(step, steps - 1))} y={BOTTOM + 16} textAnchor="middle" className="fill-zinc-400 font-mono text-[10px]">
+        <text key={step} x={x(Math.min(step, steps - 1))} y={BOTTOM + 16} textAnchor="middle" className="fill-zinc-faded font-mono text-[10px]">
           {Math.max(1, step)}
         </text>
       ))}
@@ -116,7 +116,7 @@ export default function Shares({ series, axis, window, mark, label }: SharesProp
           key={s.label}
           x={RIGHT + 8}
           y={labels[i] + 3}
-          className={`font-mono text-[10px] uppercase tracking-widest ${s.tone === 'sage' ? 'fill-sage' : 'fill-ink'}`}
+          className={`font-mono text-[10px] uppercase tracking-widest ${s.tone === 'sage' ? 'fill-sage-ink' : 'fill-ink'}`}
         >
           <Label text={s.label} svg />
         </text>
@@ -139,7 +139,7 @@ export function Compare({
         <tr className="font-mono text-[0.875rem] uppercase tracking-widest">
           <th className="w-2/5 pb-1 font-normal" />
           {columns.map((column) => (
-            <th key={column.label} className={`pb-1 font-normal ${column.tone === 'sage' ? 'text-sage' : 'text-ink'}`}>
+            <th key={column.label} className={`pb-1 font-normal ${column.tone === 'sage' ? 'text-sage-ink' : 'text-ink'}`}>
               <Label text={column.label} />
             </th>
           ))}
@@ -152,7 +152,7 @@ export function Compare({
               {row.label}
             </th>
             {row.shares.map((share, i) => (
-              <td key={columns[i].label} className={`py-1 ${columns[i].tone === 'sage' ? 'text-sage' : 'text-ink'}`}>
+              <td key={columns[i].label} className={`py-1 ${columns[i].tone === 'sage' ? 'text-sage-ink' : 'text-ink'}`}>
                 {percent(share)}
               </td>
             ))}

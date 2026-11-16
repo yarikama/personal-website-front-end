@@ -32,7 +32,7 @@ const stops = experience.flatMap((entry, companyIndex) =>
 function renderHighlighted(text: string) {
   return text.split(/\*\*(.+?)\*\*/).map((part, i) =>
     i % 2 === 1 ? (
-      <span key={i} className="text-sage font-semibold">
+      <span key={i} className="text-sage-ink font-semibold">
         {part}
       </span>
     ) : (
@@ -71,7 +71,7 @@ function LogoTile({ entry, size }: { entry: ExperienceEntry; size: 'md' | 'lg' }
 function HighlightItem({ item }: { item: ExperienceHighlight }) {
   return (
     <li>
-      <p className="font-mono text-xs text-zinc-400 uppercase tracking-widest mb-1">{item.label}</p>
+      <p className="font-mono text-xs text-zinc-faded uppercase tracking-widest mb-1">{item.label}</p>
       {/* 15px, a step under the body size, so a role with five highlights
           still fits the pinned dial on a 900px-tall screen */}
       <p className="text-[0.9375rem] text-zinc-faded leading-relaxed">{renderHighlighted(item.text)}</p>
@@ -98,13 +98,13 @@ function RolePanel({ stop }: { stop: (typeof stops)[number] }) {
       <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
         <p className="font-serif text-3xl font-light tracking-tight text-ink">{entry.company}</p>
         {entry.tagline && (
-          <p className="font-mono text-xs text-sage uppercase tracking-widest">{entry.tagline}</p>
+          <p className="font-mono text-xs text-sage-ink uppercase tracking-widest">{entry.tagline}</p>
         )}
-        <p className="font-mono text-xs text-zinc-400 uppercase tracking-widest">{entry.location}</p>
+        <p className="font-mono text-xs text-zinc-faded uppercase tracking-widest">{entry.location}</p>
       </div>
       <div className="mt-6 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
         <h3 className="font-serif text-2xl text-ink">{role.title}</h3>
-        <span className="font-mono text-sm text-zinc-400">{role.period}</span>
+        <span className="font-mono text-sm text-zinc-faded">{role.period}</span>
       </div>
       <ul className="mt-6 space-y-5">
         {role.highlights.map((item) => (
@@ -118,7 +118,7 @@ function RolePanel({ stop }: { stop: (typeof stops)[number] }) {
 function SectionTitle() {
   return (
     <div>
-      <span className="font-mono text-sm text-zinc-400 uppercase tracking-widest">Experience</span>
+      <span className="font-mono text-sm text-zinc-faded uppercase tracking-widest">Experience</span>
       <h2 className="font-serif text-4xl md:text-5xl font-light mt-4 tracking-tight">
         Where I've Shipped
       </h2>
@@ -313,9 +313,9 @@ function ExperienceTimeline() {
               <div>
                 <p className="font-serif text-3xl font-light tracking-tight text-ink">{entry.company}</p>
                 {entry.tagline && (
-                  <p className="mt-1 font-mono text-xs text-sage uppercase tracking-widest">{entry.tagline}</p>
+                  <p className="mt-1 font-mono text-xs text-sage-ink uppercase tracking-widest">{entry.tagline}</p>
                 )}
-                <p className="mt-1 font-mono text-xs text-zinc-400 uppercase tracking-widest">{entry.location}</p>
+                <p className="mt-1 font-mono text-xs text-zinc-faded uppercase tracking-widest">{entry.location}</p>
               </div>
             </div>
 
@@ -333,7 +333,7 @@ function ExperienceTimeline() {
                     aria-hidden="true"
                   />
                   <h3 className="font-serif text-xl md:text-2xl text-ink">{role.title}</h3>
-                  <p className="mt-1 font-mono text-sm text-zinc-400">{role.period}</p>
+                  <p className="mt-1 font-mono text-sm text-zinc-faded">{role.period}</p>
                   <ul className="mt-5 space-y-5">
                     {role.highlights.map((item) => (
                       <HighlightItem key={item.label} item={item} />

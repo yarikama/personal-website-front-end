@@ -76,7 +76,7 @@ const FAMILY: Member[] = [
   },
 ]
 
-const head = 'font-mono text-[0.8rem] uppercase tracking-widest text-zinc-400'
+const head = 'font-mono text-[0.8rem] uppercase tracking-widest text-zinc-faded'
 
 // The family of methods, each split into what pulls the values toward the
 // policy and what pulls the policy toward the values. On a phone each
@@ -96,10 +96,10 @@ export default function Family() {
             className="grid grid-cols-1 gap-y-1.5 border-t border-zinc-200 py-3 dark:border-zinc-200/15 sm:grid-cols-[10rem_1fr_1fr] sm:gap-x-6"
           >
             <span>
-              <Link to={`/learnings/${member.slug}`} className="font-serif text-lg text-sage hover:underline">
+              <Link to={`/learnings/${member.slug}`} className="font-serif text-lg text-sage-ink hover:underline">
                 {member.name}
               </Link>
-              <span className="block font-mono text-[0.8125rem] text-zinc-400">{member.grain}</span>
+              <span className="block font-mono text-[0.8125rem] text-zinc-faded">{member.grain}</span>
             </span>
             <span className="text-ink">
               <span className={`${head} sm:hidden`}>Evaluation · </span>

@@ -20,7 +20,7 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   if (status === 'checking') {
     return (
       <div className="min-h-screen flex items-center justify-center bg-paper dark:bg-[#0f0f0f]">
-        <Loader2 size={20} className="animate-spin text-zinc-400" />
+        <Loader2 size={20} className="animate-spin text-zinc-faded" />
       </div>
     )
   }
@@ -31,7 +31,7 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
         <p className="text-sm text-zinc-faded">Could not check your sign-in. The API may be down.</p>
         <button
           onClick={() => window.location.reload()}
-          className="font-mono text-xs uppercase tracking-widest text-zinc-400 hover:text-ink dark:hover:text-white transition-colors"
+          className="font-mono text-xs uppercase tracking-widest text-zinc-faded hover:text-ink dark:hover:text-white transition-colors"
         >
           Try again
         </button>

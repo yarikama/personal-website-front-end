@@ -69,13 +69,13 @@ export function Lines({
       {y.ticks.map((t) => (
         <g key={`y${t}`}>
           <line x1={L} x2={W - R} y1={py(t)} y2={py(t)} className="stroke-zinc-200 dark:stroke-zinc-200/15" />
-          <text x={L - 8} y={py(t) + 4} textAnchor="end" className="fill-zinc-400 font-mono text-[12px]">
+          <text x={L - 8} y={py(t) + 4} textAnchor="end" className="fill-zinc-faded font-mono text-[12px]">
             {format(t)}
           </text>
         </g>
       ))}
       {x.ticks.map((t) => (
-        <text key={`x${t}`} x={px(t)} y={H - B + 18} textAnchor="middle" className="fill-zinc-400 font-mono text-[12px]">
+        <text key={`x${t}`} x={px(t)} y={H - B + 18} textAnchor="middle" className="fill-zinc-faded font-mono text-[12px]">
           {fx(t)}
         </text>
       ))}
@@ -132,7 +132,7 @@ export function Lines({
       {mark && (
         <motion.g initial={{ opacity: 0, scale: 0.6 }} animate={seen ? { opacity: 1, scale: 1 } : {}} transition={{ delay: 1.5 }}>
           <circle cx={px(mark.x)} cy={py(mark.y)} r={10} fill="none" className="stroke-sage" strokeWidth={1.5} />
-          <text x={px(mark.x) + 14} y={py(mark.y) - 12} className="fill-sage font-mono text-[12px]">
+          <text x={px(mark.x) + 14} y={py(mark.y) - 12} className="fill-sage-ink font-mono text-[12px]">
             {mark.label}
           </text>
         </motion.g>

@@ -95,13 +95,13 @@ export const projects: SlideDef[] = [
           </Lead>
         </Reveal>
         <Reveal at={4} className="mt-12">
-          <p className="flex items-center gap-2.5 font-mono text-[15px] text-sage uppercase tracking-widest">
+          <p className="flex items-center gap-2.5 font-mono text-[15px] text-sage-ink uppercase tracking-widest">
             <ScanSearch size={20} strokeWidth={1.5} aria-hidden="true" />
             Where it shows up
           </p>
           <p className="mt-3 text-[23px] leading-snug text-ink-light">
             A linear probe separates leaking from safe runs at layer 10, at the end of the tool call:{' '}
-            <span className="text-sage font-medium">96%</span>, as good as an MLP. One direction in the hidden
+            <span className="text-sage-ink font-medium">96%</span>, as good as an MLP. One direction in the hidden
             states tracks the leak.
           </p>
         </Reveal>
@@ -181,7 +181,7 @@ export const projects: SlideDef[] = [
         }
       >
         <PoisoningBars steeringAt={1} />
-        <p className="mt-6 font-mono text-[15px] text-zinc-400 uppercase tracking-widest">
+        <p className="mt-6 font-mono text-[15px] text-zinc-faded uppercase tracking-widest">
           Single-turn runs, Llama 3.1-8B, 100 attacks each
         </p>
       </SlideLayout>
@@ -265,7 +265,7 @@ export const projects: SlideDef[] = [
             ].map((item) => (
               <li key={item.label}>
                 <Reveal at={item.at}>
-                  <p className="flex items-center gap-2.5 font-mono text-[15px] text-sage uppercase tracking-widest">
+                  <p className="flex items-center gap-2.5 font-mono text-[15px] text-sage-ink uppercase tracking-widest">
                     <item.icon size={20} strokeWidth={1.5} aria-hidden="true" />
                     {item.label}
                   </p>
@@ -275,7 +275,7 @@ export const projects: SlideDef[] = [
             ))}
             <li>
               <Reveal at={3}>
-                <p className="flex items-center gap-2.5 font-mono text-[15px] text-zinc-400 uppercase tracking-widest">
+                <p className="flex items-center gap-2.5 font-mono text-[15px] text-zinc-faded uppercase tracking-widest">
                   <Route size={20} strokeWidth={1.5} aria-hidden="true" />
                   At query time
                 </p>
@@ -366,7 +366,7 @@ export const projects: SlideDef[] = [
             <Stat value="0.87" label="RAGAS faithfulness" detail="50 MultiHop-RAG questions" />
           </div>
           <div>
-            <p className="font-mono text-[15px] text-zinc-400 uppercase tracking-widest mb-6">
+            <p className="font-mono text-[15px] text-zinc-faded uppercase tracking-widest mb-6">
               Clustered sample, against the whole corpus
             </p>
             <IndexTradeoffBars />

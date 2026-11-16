@@ -177,7 +177,7 @@ export default function ProjectEditor() {
   if (isEditing && isLoadingProject) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-paper dark:bg-[#0f0f0f]">
-        <Loader2 className="w-8 h-8 animate-spin text-zinc-400" />
+        <Loader2 className="w-8 h-8 animate-spin text-zinc-faded" />
       </div>
     )
   }
@@ -246,7 +246,7 @@ export default function ProjectEditor() {
         <form id="project-form" onSubmit={handleSubmit} className="space-y-6">
           {/* Title */}
           <div>
-            <label className="block font-mono text-xs uppercase tracking-widest text-zinc-400 mb-2">
+            <label className="block font-mono text-xs uppercase tracking-widest text-zinc-faded mb-2">
               Title
             </label>
             <input
@@ -266,12 +266,12 @@ export default function ProjectEditor() {
 
           {/* Slug */}
           <div>
-            <label className="block font-mono text-xs uppercase tracking-widest text-zinc-400 mb-2">
+            <label className="block font-mono text-xs uppercase tracking-widest text-zinc-faded mb-2">
               Slug
               <button
                 type="button"
                 onClick={() => setAutoSlug(!autoSlug)}
-                className="ml-2 text-sage hover:underline normal-case"
+                className="ml-2 text-sage-ink hover:underline normal-case"
               >
                 ({autoSlug ? 'auto' : 'manual'})
               </button>
@@ -297,7 +297,7 @@ export default function ProjectEditor() {
           {/* Category, Year, Order */}
           <div className="grid sm:grid-cols-3 gap-6">
             <div>
-              <label className="block font-mono text-xs uppercase tracking-widest text-zinc-400 mb-2">
+              <label className="block font-mono text-xs uppercase tracking-widest text-zinc-faded mb-2">
                 Category
               </label>
               <select
@@ -330,7 +330,7 @@ export default function ProjectEditor() {
               </select>
             </div>
             <div>
-              <label className="block font-mono text-xs uppercase tracking-widest text-zinc-400 mb-2">
+              <label className="block font-mono text-xs uppercase tracking-widest text-zinc-faded mb-2">
                 Year
               </label>
               <input
@@ -348,7 +348,7 @@ export default function ProjectEditor() {
               />
             </div>
             <div>
-              <label className="block font-mono text-xs uppercase tracking-widest text-zinc-400 mb-2">
+              <label className="block font-mono text-xs uppercase tracking-widest text-zinc-faded mb-2">
                 Order
               </label>
               <input
@@ -372,7 +372,7 @@ export default function ProjectEditor() {
           {/* Featured & Published */}
           <div className="grid sm:grid-cols-2 gap-6">
             <div>
-              <label className="block font-mono text-xs uppercase tracking-widest text-zinc-400 mb-2">
+              <label className="block font-mono text-xs uppercase tracking-widest text-zinc-faded mb-2">
                 Features
               </label>
               <label className="flex items-center gap-3 px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 cursor-pointer hover:border-zinc-400 transition-colors">
@@ -386,7 +386,7 @@ export default function ProjectEditor() {
               </label>
             </div>
             <div>
-              <label className="block font-mono text-xs uppercase tracking-widest text-zinc-400 mb-2">
+              <label className="block font-mono text-xs uppercase tracking-widest text-zinc-faded mb-2">
                 Status
               </label>
               <label className="flex items-center gap-3 px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 cursor-pointer hover:border-zinc-400 transition-colors">
@@ -403,7 +403,7 @@ export default function ProjectEditor() {
 
           {/* Tags */}
           <div>
-            <label className="block font-mono text-xs uppercase tracking-widest text-zinc-400 mb-2">
+            <label className="block font-mono text-xs uppercase tracking-widest text-zinc-faded mb-2">
               Tags (comma separated)
             </label>
             <input
@@ -422,7 +422,7 @@ export default function ProjectEditor() {
 
           {/* Cover Image */}
           <div>
-            <label className="block font-mono text-xs uppercase tracking-widest text-zinc-400 mb-2">
+            <label className="block font-mono text-xs uppercase tracking-widest text-zinc-faded mb-2">
               Cover Image (optional)
             </label>
             {formData.coverImage ? (
@@ -458,16 +458,16 @@ export default function ProjectEditor() {
               >
                 {isUploading ? (
                   <>
-                    <Loader2 size={32} className="text-zinc-400 animate-spin" />
-                    <span className="font-mono text-xs text-zinc-400">Uploading...</span>
+                    <Loader2 size={32} className="text-zinc-faded animate-spin" />
+                    <span className="font-mono text-xs text-zinc-faded">Uploading...</span>
                   </>
                 ) : (
                   <>
-                    <Image size={32} className="text-zinc-400" />
-                    <span className="font-mono text-xs text-zinc-400">
+                    <Image size={32} className="text-zinc-faded" />
+                    <span className="font-mono text-xs text-zinc-faded">
                       Click to upload cover image
                     </span>
-                    <span className="font-mono text-xs text-zinc-300 dark:text-zinc-600">
+                    <span className="font-mono text-xs text-zinc-faded">
                       JPG, PNG, GIF, WebP
                     </span>
                   </>
@@ -485,7 +485,7 @@ export default function ProjectEditor() {
 
           {/* Description */}
           <div>
-            <label className="block font-mono text-xs uppercase tracking-widest text-zinc-400 mb-2">
+            <label className="block font-mono text-xs uppercase tracking-widest text-zinc-faded mb-2">
               Description
             </label>
             <textarea
@@ -506,7 +506,7 @@ export default function ProjectEditor() {
           {/* Links */}
           <div className="grid sm:grid-cols-2 gap-6">
             <div>
-              <label className="block font-mono text-xs uppercase tracking-widest text-zinc-400 mb-2">
+              <label className="block font-mono text-xs uppercase tracking-widest text-zinc-faded mb-2">
                 Live Link (optional)
               </label>
               <input
@@ -523,7 +523,7 @@ export default function ProjectEditor() {
               />
             </div>
             <div>
-              <label className="block font-mono text-xs uppercase tracking-widest text-zinc-400 mb-2">
+              <label className="block font-mono text-xs uppercase tracking-widest text-zinc-faded mb-2">
                 GitHub (optional)
               </label>
               <input
@@ -544,7 +544,7 @@ export default function ProjectEditor() {
           {/* Metrics & Formula (optional) */}
           <div className="grid sm:grid-cols-2 gap-6">
             <div>
-              <label className="block font-mono text-xs uppercase tracking-widest text-zinc-400 mb-2">
+              <label className="block font-mono text-xs uppercase tracking-widest text-zinc-faded mb-2">
                 Metrics (optional)
               </label>
               <input
@@ -561,7 +561,7 @@ export default function ProjectEditor() {
               />
             </div>
             <div>
-              <label className="block font-mono text-xs uppercase tracking-widest text-zinc-400 mb-2">
+              <label className="block font-mono text-xs uppercase tracking-widest text-zinc-faded mb-2">
                 Formula (optional)
               </label>
               <input

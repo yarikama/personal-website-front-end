@@ -148,7 +148,7 @@ export default function Afterstates() {
           label: `${size} bottles`,
           value: (
             <>
-              {pairsFor(size).toLocaleString('en')} <span className="text-zinc-400">vs</span> {shelvesFor(size)}
+              {pairsFor(size).toLocaleString('en')} <span className="text-zinc-faded">vs</span> {shelvesFor(size)}
             </>
           ),
           note: 'pairs vs shelves',

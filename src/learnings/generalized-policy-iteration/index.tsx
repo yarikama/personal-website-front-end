@@ -252,7 +252,7 @@ export default function GeneralizedPolicyIteration() {
         caption={
           <>
             Each row is a value being pulled toward what its policy earns, and a policy being pulled toward what the
-            values favour. <Link to="/learnings/n-step-returns" className="text-sage hover:underline">
+            values favour. <Link to="/learnings/n-step-returns" className="text-sage-ink hover:underline">
               Walk a few steps, then guess
             </Link> changes only the
             judging half: how many real rewards to wait for before trusting a guess.

@@ -24,7 +24,7 @@ export default function Many() {
         : ''
   const panel = (which: 'ordinary' | 'weighted') => (
     <div>
-      <p className={`font-mono text-[0.875rem] uppercase tracking-widest ${which === 'ordinary' ? 'text-ink' : 'text-sage'}`}>
+      <p className={`font-mono text-[0.875rem] uppercase tracking-widest ${which === 'ordinary' ? 'text-ink' : 'text-sage-ink'}`}>
         {which === 'ordinary' ? 'Ordinary · ÷ trips' : 'Weighted · ÷ weight'}
       </p>
       <Chart

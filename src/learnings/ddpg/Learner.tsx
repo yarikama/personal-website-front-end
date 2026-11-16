@@ -68,7 +68,7 @@ export default function Learner({ noise }: { noise: number }) {
           )
         })}
         {[0, 50, 100].map((d) => (
-          <text key={d} x={LEFT - 6} y={y(d) + 4} textAnchor="end" className="fill-zinc-400 font-mono text-[10px]">
+          <text key={d} x={LEFT - 6} y={y(d) + 4} textAnchor="end" className="fill-zinc-faded font-mono text-[10px]">
             {d}
           </text>
         ))}
@@ -78,10 +78,10 @@ export default function Learner({ noise }: { noise: number }) {
         ))}
         <path d={line(bestDial)} className="fill-none stroke-ink" strokeDasharray="5 4" strokeWidth={1.5} />
         <path d={line((cold) => toDial(actorAt(theta, cold)))} className="fill-none stroke-ink" strokeWidth={3} />
-        <text x={LEFT} y={HEIGHT - 8} className="fill-zinc-400 font-mono text-[10px] uppercase tracking-widest">
+        <text x={LEFT} y={HEIGHT - 8} className="fill-zinc-faded font-mono text-[10px] uppercase tracking-widest">
           mild
         </text>
-        <text x={RIGHT} y={HEIGHT - 8} textAnchor="end" className="fill-zinc-400 font-mono text-[10px] uppercase tracking-widest">
+        <text x={RIGHT} y={HEIGHT - 8} textAnchor="end" className="fill-zinc-faded font-mono text-[10px] uppercase tracking-widest">
           freezing
         </text>
         <text x={(LEFT + RIGHT) / 2} y={HEIGHT - 8} textAnchor="middle" className="fill-zinc-faded font-mono text-[10px] uppercase tracking-widest">

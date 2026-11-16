@@ -71,7 +71,7 @@ export default function WorksPage() {
         </Link>
 
         <div className="mb-16">
-          <span className="font-mono text-sm text-zinc-400 uppercase tracking-widest">
+          <span className="font-mono text-sm text-zinc-faded uppercase tracking-widest">
             Works
           </span>
           <h1 className="font-serif text-5xl md:text-6xl font-light mt-4 tracking-tight">
@@ -108,8 +108,8 @@ export default function WorksPage() {
 
         {isLoading ? (
           <div className="py-16 flex flex-col items-center justify-center">
-            <Loader2 className="w-8 h-8 animate-spin text-zinc-400 mb-4" />
-            <p className="text-sm text-zinc-400">Loading projects...</p>
+            <Loader2 className="w-8 h-8 animate-spin text-zinc-faded mb-4" />
+            <p className="text-sm text-zinc-faded">Loading projects...</p>
           </div>
         ) : error ? (
           <div className="py-16 text-center">
@@ -144,7 +144,7 @@ export default function WorksPage() {
         )}
 
         <div className="mt-24">
-          <p className="font-mono text-sm text-zinc-400 uppercase tracking-widest text-center">
+          <p className="font-mono text-sm text-zinc-faded uppercase tracking-widest text-center">
             {filteredProjects.length} project{filteredProjects.length !== 1 ? 's' : ''} /{' '}
             {activeCategory === 'all' ? 'All Categories' : activeCategory}
           </p>

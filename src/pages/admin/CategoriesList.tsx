@@ -74,15 +74,15 @@ export default function AdminCategoriesList() {
       <main className="max-w-5xl mx-auto px-6 py-8">
         {isLoading ? (
           <div className="py-16 flex flex-col items-center justify-center">
-            <Loader2 className="w-8 h-8 animate-spin text-zinc-400 mb-4" />
-            <p className="text-sm text-zinc-400">Loading categories...</p>
+            <Loader2 className="w-8 h-8 animate-spin text-zinc-faded mb-4" />
+            <p className="text-sm text-zinc-faded">Loading categories...</p>
           </div>
         ) : error ? (
           <div className="py-16 text-center">
             <p className="text-zinc-faded">Failed to load categories</p>
             <button
               onClick={() => fetchCategories()}
-              className="mt-4 font-mono text-xs uppercase tracking-widest text-sage hover:underline"
+              className="mt-4 font-mono text-xs uppercase tracking-widest text-sage-ink hover:underline"
             >
               Try again
             </button>
@@ -92,7 +92,7 @@ export default function AdminCategoriesList() {
             <p className="font-serif text-xl text-zinc-faded mb-4">No categories yet</p>
             <Link
               to="/admin/categories/new"
-              className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-sage hover:underline"
+              className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-sage-ink hover:underline"
             >
               <Plus size={14} />
               Create your first category
@@ -110,22 +110,22 @@ export default function AdminCategoriesList() {
                 "
               >
                 <div className="flex items-center gap-4 min-w-0 flex-1">
-                  <div className="text-zinc-300 dark:text-zinc-600">
+                  <div aria-hidden="true" className="text-zinc-300 dark:text-zinc-600">
                     <GripVertical size={18} />
                   </div>
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-3 mb-1">
                       <h2 className="font-serif text-lg">{category.label}</h2>
-                      <span className="font-mono text-xs text-zinc-400 uppercase tracking-widest">
+                      <span className="font-mono text-xs text-zinc-faded uppercase tracking-widest">
                         {category.name}
                       </span>
                     </div>
                     {category.description && (
-                      <p className="text-sm text-zinc-600 dark:text-zinc-400 line-clamp-1">
+                      <p className="text-sm text-zinc-600 dark:text-zinc-faded line-clamp-1">
                         {category.description}
                       </p>
                     )}
-                    <div className="flex items-center gap-3 text-xs text-zinc-400 mt-1">
+                    <div className="flex items-center gap-3 text-xs text-zinc-faded mt-1">
                       <span className="font-mono">Order: {category.order}</span>
                     </div>
                   </div>
@@ -135,7 +135,7 @@ export default function AdminCategoriesList() {
                   <Link
                     to={`/admin/categories/${category.id}/edit`}
                     state={{ category }}
-                    className="p-2 text-zinc-400 hover:text-ink dark:hover:text-white transition-colors"
+                    className="p-2 text-zinc-faded hover:text-ink dark:hover:text-white transition-colors"
                     title="Edit"
                   >
                     <Edit size={16} />
@@ -143,7 +143,7 @@ export default function AdminCategoriesList() {
                   <button
                     onClick={() => handleDelete(category.id, category.label)}
                     disabled={deletingId === category.id}
-                    className="p-2 text-zinc-400 hover:text-red-500 transition-colors disabled:opacity-50"
+                    className="p-2 text-zinc-faded hover:text-red-500 transition-colors disabled:opacity-50"
                     title="Delete"
                   >
                     {deletingId === category.id ? (

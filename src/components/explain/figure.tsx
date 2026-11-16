@@ -92,7 +92,7 @@ export function Choice<T extends string | number>({
             onClick={() => onChange(option)}
             className={`-ml-px first:ml-0 first:rounded-l-xl last:rounded-r-xl border px-3 py-1.5 font-mono text-[0.875rem] tabular-nums transition-colors ${
               option === value
-                ? 'relative border-sage bg-sage/15 text-sage'
+                ? 'relative border-sage bg-sage/15 text-sage-ink'
                 : 'border-zinc-300 dark:border-zinc-200/20 text-zinc-faded hover:text-ink'
             }`}
           >
@@ -121,7 +121,7 @@ export function Readout({ label: name, value, accent = false }: { label: string;
   return (
     <div className="flex flex-col gap-1">
       <span className={label}>{name}</span>
-      <span className={`font-serif text-3xl font-light tabular-nums ${accent ? 'text-sage' : 'text-ink'}`}>{value}</span>
+      <span className={`font-serif text-3xl font-light tabular-nums ${accent ? 'text-sage-ink' : 'text-ink'}`}>{value}</span>
     </div>
   )
 }
@@ -144,7 +144,7 @@ export function Numbers({
         <div key={item.label} className="px-2 py-5">
           <p className="font-mono text-[0.875rem] uppercase tracking-widest text-zinc-faded">{item.label}</p>
           <p className={`mt-2 font-serif font-light text-ink ${words ? 'text-2xl leading-tight' : 'text-4xl'}`}>{item.value}</p>
-          {item.note && <p className="font-mono text-[0.875rem] text-zinc-400">{item.note}</p>}
+          {item.note && <p className="font-mono text-[0.875rem] text-zinc-faded">{item.note}</p>}
         </div>
       ))}
     </div>

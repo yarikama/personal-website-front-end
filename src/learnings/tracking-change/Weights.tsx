@@ -69,7 +69,7 @@ export default function Weights({ step }: { step: Step }) {
         {[0.05, 0.1, 0.15, 0.2, 0.25].map((weight) => (
           <g key={weight}>
             <line x1={LEFT} x2={RIGHT} y1={y(weight)} y2={y(weight)} className="stroke-zinc-200 dark:stroke-zinc-200/10" />
-            <text x={LEFT - 8} y={y(weight) + 4} textAnchor="end" className="fill-zinc-400 font-mono text-[11px]">
+            <text x={LEFT - 8} y={y(weight) + 4} textAnchor="end" className="fill-zinc-faded font-mono text-[11px]">
               {percent(weight)}
             </text>
           </g>
@@ -108,7 +108,7 @@ export default function Weights({ step }: { step: Step }) {
           />
         ))}
         <text x={LEFT} y={STRIP_Y + STRIP_H + 18} className="fill-zinc-faded font-mono text-[11px] uppercase tracking-widest">
-          The whole score{start > 0.005 ? <tspan className="fill-zinc-400"> · grey: the starting guess</tspan> : null}
+          The whole score{start > 0.005 ? <tspan className="fill-zinc-faded"> · grey: the starting guess</tspan> : null}
         </text>
         <text x={RIGHT} y={STRIP_Y + STRIP_H + 18} textAnchor="end" className="fill-ink font-mono text-[11px] tracking-widest">
           100%

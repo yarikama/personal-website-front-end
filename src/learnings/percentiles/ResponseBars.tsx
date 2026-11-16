@@ -21,8 +21,8 @@ export default function ResponseBars({ slowest }: { slowest: number }) {
   const responses = withSlowest(base, slowest)
   const lines = [
     { name: 'Average', ms: mean(responses), tone: 'stroke-ink', text: 'fill-ink', dash: '5 4' },
-    { name: 'p50', ms: percentile(responses, 0.5), tone: 'stroke-sage', text: 'fill-sage', dash: undefined },
-    { name: 'p99', ms: percentile(responses, 0.99), tone: 'stroke-sage', text: 'fill-sage', dash: '2 3' },
+    { name: 'p50', ms: percentile(responses, 0.5), tone: 'stroke-sage', text: 'fill-sage-ink', dash: undefined },
+    { name: 'p99', ms: percentile(responses, 0.99), tone: 'stroke-sage', text: 'fill-sage-ink', dash: '2 3' },
   ]
   const step = (RIGHT - LEFT) / responses.length
 
@@ -32,7 +32,7 @@ export default function ResponseBars({ slowest }: { slowest: number }) {
         {[0, 250, 500, 750, 1000].map((ms) => (
           <g key={ms}>
             <line x1={LEFT} x2={RIGHT} y1={y(ms)} y2={y(ms)} className="stroke-zinc-200 dark:stroke-zinc-200/10" />
-            <text x={LEFT - 6} y={y(ms) + 3} textAnchor="end" className="fill-zinc-400 font-mono text-[9px]">
+            <text x={LEFT - 6} y={y(ms) + 3} textAnchor="end" className="fill-zinc-faded font-mono text-[9px]">
               {ms}
             </text>
           </g>
@@ -55,7 +55,7 @@ export default function ResponseBars({ slowest }: { slowest: number }) {
             </text>
           </g>
         ))}
-        <text x={LEFT} y={HEIGHT - 6} className="fill-zinc-400 font-mono text-[10px] uppercase tracking-widest">
+        <text x={LEFT} y={HEIGHT - 6} className="fill-zinc-faded font-mono text-[10px] uppercase tracking-widest">
           100 requests, as they came · ms
         </text>
       </svg>

@@ -80,7 +80,7 @@ export default function PolicyIteration() {
           </>,
           <>
             Start from your habit, always rolling, and work out its values by sweeping, as on{' '}
-            <Link to="/learnings/policy-evaluation" className="text-sage hover:underline">
+            <Link to="/learnings/policy-evaluation" className="text-sage-ink hover:underline">
               the last page
             </Link>
             : square 1 is worth {start}.

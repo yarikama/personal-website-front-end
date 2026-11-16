@@ -44,7 +44,7 @@ export function OneDinner({ arrivals }: { arrivals: number[] }) {
     <div>
       <div className="flex items-baseline justify-between gap-4 font-mono text-[0.875rem] uppercase tracking-widest">
         <span className="shrink-0 text-zinc-faded">{clock(Math.min(minute, last))}</span>
-        <span className={`text-right ${seated ? (waited ? 'text-ink' : 'text-sage') : 'text-zinc-faded'}`}>
+        <span className={`text-right ${seated ? (waited ? 'text-ink' : 'text-sage-ink') : 'text-zinc-faded'}`}>
           {seated
             ? waited
               ? `Dinner starts ${Math.round(last)} minutes late`
@@ -102,7 +102,7 @@ export function ManyDinners({ waited, unit }: { waited: boolean[]; unit: 'dinner
   return (
     <div>
       <p className="font-serif text-3xl font-light">
-        <span className={count > 0 ? 'text-ink' : 'text-sage'}>{count}</span>
+        <span className={count > 0 ? 'text-ink' : 'text-sage-ink'}>{count}</span>
         <span className="text-zinc-faded">
           {' '}
           of {waited.length} {words.what} {unit === 'dinner' ? 'waited' : 'were slow'}

@@ -257,7 +257,7 @@ export default function NoteEditor() {
   if (isEditing && isLoadingNote) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-paper dark:bg-[#0f0f0f]">
-        <Loader2 className="w-8 h-8 animate-spin text-zinc-400" />
+        <Loader2 className="w-8 h-8 animate-spin text-zinc-faded" />
       </div>
     )
   }
@@ -283,7 +283,7 @@ export default function NoteEditor() {
           <div className="flex items-center gap-3">
             {draft.savedAt && (
               <span
-                className="font-mono text-[0.875rem] text-zinc-400"
+                className="font-mono text-[0.875rem] text-zinc-faded"
                 title="Unsaved changes are kept in this browser until you save"
               >
                 Draft kept · {new Date(draft.savedAt).toLocaleTimeString(undefined, { timeStyle: 'short' })}
@@ -327,7 +327,7 @@ export default function NoteEditor() {
         {draft.offer && (
           <div className="mb-6 p-4 rounded-xl border border-sage/40 bg-sage/5 flex flex-wrap items-center justify-between gap-3">
             <p className="flex items-center gap-2 text-sm text-ink dark:text-zinc-200">
-              <History size={16} className="text-sage" />
+              <History size={16} className="text-sage-ink" />
               Unsaved changes from {formatTime(draft.offer.savedAt)} were kept in this browser.
             </p>
             <div className="flex items-center gap-3">
@@ -341,7 +341,7 @@ export default function NoteEditor() {
               <button
                 type="button"
                 onClick={draft.discard}
-                className="px-3 py-1.5 rounded-full border border-zinc-300 dark:border-zinc-600 font-mono text-xs uppercase tracking-widest text-zinc-500 hover:text-ink dark:hover:text-white"
+                className="px-3 py-1.5 rounded-full border border-zinc-300 dark:border-zinc-600 font-mono text-xs uppercase tracking-widest text-zinc-faded hover:text-ink dark:hover:text-white"
               >
                 Discard
               </button>
@@ -358,7 +358,7 @@ export default function NoteEditor() {
         <form id="note-form" onSubmit={handleSubmit} className="space-y-6">
           {/* Title */}
           <div>
-            <label className="block font-mono text-xs uppercase tracking-widest text-zinc-400 mb-2">
+            <label className="block font-mono text-xs uppercase tracking-widest text-zinc-faded mb-2">
               Title
             </label>
             <input
@@ -378,12 +378,12 @@ export default function NoteEditor() {
 
           {/* Slug */}
           <div>
-            <label className="block font-mono text-xs uppercase tracking-widest text-zinc-400 mb-2">
+            <label className="block font-mono text-xs uppercase tracking-widest text-zinc-faded mb-2">
               Slug
               <button
                 type="button"
                 onClick={() => setAutoSlug(!autoSlug)}
-                className="ml-2 text-sage hover:underline normal-case"
+                className="ml-2 text-sage-ink hover:underline normal-case"
               >
                 ({autoSlug ? 'auto' : 'manual'})
               </button>
@@ -409,7 +409,7 @@ export default function NoteEditor() {
           {/* Date & Published */}
           <div className="grid sm:grid-cols-2 gap-6">
             <div>
-              <label className="block font-mono text-xs uppercase tracking-widest text-zinc-400 mb-2">
+              <label className="block font-mono text-xs uppercase tracking-widest text-zinc-faded mb-2">
                 Date
               </label>
               <input
@@ -426,7 +426,7 @@ export default function NoteEditor() {
               />
             </div>
             <div>
-              <label className="block font-mono text-xs uppercase tracking-widest text-zinc-400 mb-2">
+              <label className="block font-mono text-xs uppercase tracking-widest text-zinc-faded mb-2">
                 Status
               </label>
               <label className="flex items-center gap-3 px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 cursor-pointer hover:border-zinc-400 transition-colors">
@@ -443,7 +443,7 @@ export default function NoteEditor() {
 
           {/* Tags */}
           <div>
-            <label className="block font-mono text-xs uppercase tracking-widest text-zinc-400 mb-2">
+            <label className="block font-mono text-xs uppercase tracking-widest text-zinc-faded mb-2">
               Tags (comma separated)
             </label>
             <input
@@ -462,7 +462,7 @@ export default function NoteEditor() {
 
           {/* Excerpt */}
           <div>
-            <label className="block font-mono text-xs uppercase tracking-widest text-zinc-400 mb-2">
+            <label className="block font-mono text-xs uppercase tracking-widest text-zinc-faded mb-2">
               Excerpt
             </label>
             <textarea
@@ -483,29 +483,29 @@ export default function NoteEditor() {
           {/* Content with Preview */}
           <div>
             <div className="flex items-center justify-between mb-2">
-              <label className="font-mono text-xs uppercase tracking-widest text-zinc-400">
+              <label className="font-mono text-xs uppercase tracking-widest text-zinc-faded">
                 Content (Markdown)
-                <span className="ml-2 normal-case text-zinc-500">· {formData.readTime}</span>
+                <span className="ml-2 normal-case text-zinc-faded">· {formData.readTime}</span>
                 {autocomplete.ghost && (
-                  <span className="ml-2 normal-case text-sage">· Tab accepts all, ⌥→ one word, Esc dismisses</span>
+                  <span className="ml-2 normal-case text-sage-ink">· Tab accepts all, ⌥→ one word, Esc dismisses</span>
                 )}
               </label>
               <div className="flex items-center gap-3">
                 <button
                   type="button"
                   onClick={() => autocomplete.setEnabled(!autocomplete.enabled)}
-                  className="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-zinc-400 hover:text-ink transition-colors"
+                  className="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-zinc-faded hover:text-ink transition-colors"
                   title="Inline suggestions from the note autocomplete model"
                 >
-                  <Sparkles size={14} className={autocomplete.enabled ? 'text-sage' : ''} />
+                  <Sparkles size={14} className={autocomplete.enabled ? 'text-sage-ink' : ''} />
                   {autocomplete.enabled ? 'Autocomplete On' : 'Autocomplete Off'}
                 </button>
-                <span className="text-zinc-300 dark:text-zinc-600">|</span>
+                <span aria-hidden="true" className="text-zinc-300 dark:text-zinc-600">|</span>
                 <button
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
                   disabled={isUploading}
-                  className="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-zinc-400 hover:text-ink transition-colors disabled:opacity-50"
+                  className="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-zinc-faded hover:text-ink transition-colors disabled:opacity-50"
                   title="Upload image"
                 >
                   {isUploading ? (
@@ -515,11 +515,11 @@ export default function NoteEditor() {
                   )}
                   {isUploading ? 'Uploading...' : 'Add Image'}
                 </button>
-                <span className="text-zinc-300 dark:text-zinc-600">|</span>
+                <span aria-hidden="true" className="text-zinc-300 dark:text-zinc-600">|</span>
                 <button
                   type="button"
                   onClick={() => setShowPreview(!showPreview)}
-                  className="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-zinc-400 hover:text-ink transition-colors"
+                  className="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-zinc-faded hover:text-ink transition-colors"
                 >
                   {showPreview ? <Square size={14} /> : <Columns size={14} />}
                   {showPreview ? 'Editor Only' : 'Show Preview'}
@@ -576,12 +576,12 @@ Tip: Drag & drop or paste images directly here"
                     {/* Invisible copy of the text before the caret, so the
                         suggestion lands exactly where the caret is. */}
                     <span className="invisible">{formData.content.slice(0, autocomplete.ghost.at)}</span>
-                    <span className="text-zinc-400 dark:text-zinc-500">{autocomplete.ghost.text}</span>
+                    <span className="text-zinc-faded">{autocomplete.ghost.text}</span>
                   </div>
                 )}
                 {isDragging && (
                   <div className="absolute inset-0 flex items-center justify-center rounded-xl bg-sage/10 border-2 border-dashed border-sage pointer-events-none">
-                    <div className="flex flex-col items-center gap-2 text-sage">
+                    <div className="flex flex-col items-center gap-2 text-sage-ink">
                       <ImagePlus size={32} />
                       <span className="font-mono text-xs uppercase tracking-widest">
                         Drop image here
@@ -597,7 +597,7 @@ Tip: Drag & drop or paste images directly here"
                   {formData.content ? (
                     <MarkdownRenderer content={formData.content} />
                   ) : (
-                    <p className="text-zinc-400">Preview will appear here...</p>
+                    <p className="text-zinc-faded">Preview will appear here...</p>
                   )}
                 </div>
               )}

@@ -30,7 +30,7 @@ function Strip({ y, training, name, tone }: { y: number; training: Training; nam
   const x = (morning: number) => 20 + (morning / MORNINGS) * 420
   return (
     <g>
-      <text x={20} y={y - 12} className={`font-mono text-[11px] uppercase tracking-widest ${tone === 'sage' ? 'fill-sage' : 'fill-ink'}`}>
+      <text x={20} y={y - 12} className={`font-mono text-[11px] uppercase tracking-widest ${tone === 'sage' ? 'fill-sage-ink' : 'fill-ink'}`}>
         {name}: {when.length} wet mornings
       </text>
       <rect x={20} y={y} width={420} height={26} className="fill-zinc-200/60 dark:fill-zinc-200/10" />
@@ -57,8 +57,8 @@ export default function River({ step, you, friend }: { step: number; you: Traini
         <svg viewBox="0 0 460 150" className="mx-auto mt-3 w-full max-w-[34rem]" role="img" aria-label={`Wet mornings over ${MORNINGS}: yours bunch up early and thin out; your friend's go on all along.`}>
           <Strip y={34} training={you} name="You" tone="ink" />
           <Strip y={98} training={friend} name="Your friend" tone="sage" />
-          <text x={20} y={142} className="fill-zinc-400 font-mono text-[11px]">morning 1</text>
-          <text x={440} y={142} textAnchor="end" className="fill-zinc-400 font-mono text-[11px]">
+          <text x={20} y={142} className="fill-zinc-faded font-mono text-[11px]">morning 1</text>
+          <text x={440} y={142} textAnchor="end" className="fill-zinc-faded font-mono text-[11px]">
             morning {MORNINGS}
           </text>
         </svg>

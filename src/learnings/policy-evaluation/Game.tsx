@@ -39,10 +39,10 @@ export default function Game({
     <Labelled
       left={
         <>
-          Turn <span className="text-ink tabular-nums">{index + 1}</span> · <span className="text-sage">{move}</span>
+          Turn <span className="text-ink tabular-nums">{index + 1}</span> · <span className="text-sage-ink">{move}</span>
         </>
       }
-      right={finished && <span className="text-sage">finished</span>}
+      right={finished && <span className="text-sage-ink">finished</span>}
     >
       <Track
         label="The snakes-and-ladders board, with a counter moving square by square"

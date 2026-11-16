@@ -59,7 +59,7 @@ export default function Room({ run, from, to, explain = false }: { run: Run; fro
           Score <span className="font-serif text-2xl normal-case tracking-normal text-ink lining-nums tabular-nums">{frame.score}</span>
         </span>
         <span className="flex items-center gap-2 text-zinc-faded">
-          {dead ? <span className="text-ink">Battery dead</span> : charging ? <span className="text-sage">Charging</span> : 'Battery'}
+          {dead ? <span className="text-ink">Battery dead</span> : charging ? <span className="text-sage-ink">Charging</span> : 'Battery'}
           <span className="relative inline-block h-3 w-16 rounded-sm border border-zinc-400" aria-hidden>
             <span
               className={`absolute inset-y-0 left-0 ${battery < 0.1 ? 'bg-ink' : 'bg-sage'}`}
@@ -169,7 +169,7 @@ function Callout({
     <g>
       <line x1={at.cx} y1={at.cy + dy * 18} x2={x} y2={y - dy * 10} className={tone === 'ink' ? 'stroke-ink' : 'stroke-sage'} />
       <rect x={left} y={y - 10} width={width} height={20} className={`fill-paper ${tone === 'ink' ? 'stroke-ink' : 'stroke-sage'}`} />
-      <text x={anchor === 'start' ? x : x} y={y + 4} textAnchor={anchor} className={tone === 'ink' ? 'fill-ink' : 'fill-sage'}>
+      <text x={anchor === 'start' ? x : x} y={y + 4} textAnchor={anchor} className={tone === 'ink' ? 'fill-ink' : 'fill-sage-ink'}>
         {text}
       </text>
     </g>

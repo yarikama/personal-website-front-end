@@ -30,7 +30,7 @@ export default function Article({ kicker, title, promise, takeaway, sources, chi
   return (
     <article>
       <header className="mb-12">
-        <span className="font-mono text-sm text-zinc-400 uppercase tracking-widest">{kicker}</span>
+        <span className="font-mono text-sm text-zinc-faded uppercase tracking-widest">{kicker}</span>
         <h1 className="font-serif text-4xl md:text-5xl font-light tracking-tight mt-4 mb-8">{title}</h1>
         <p className="font-serif text-2xl font-light leading-snug text-zinc-faded">{promise}</p>
       </header>
@@ -42,23 +42,23 @@ export default function Article({ kicker, title, promise, takeaway, sources, chi
           prose-p:text-zinc-faded prose-p:leading-relaxed
           prose-li:text-zinc-faded
           prose-strong:text-ink prose-strong:font-medium
-          prose-a:text-sage prose-a:no-underline hover:prose-a:underline"
+          prose-a:text-sage-ink prose-a:no-underline hover:prose-a:underline"
       >
         {children}
       </div>
 
       <div className="mt-16 border-l-2 border-sage pl-5">
-        <span className="font-mono text-[0.875rem] uppercase tracking-widest text-sage">Remember this</span>
+        <span className="font-mono text-[0.875rem] uppercase tracking-widest text-sage-ink">Remember this</span>
         <p className="mt-2 font-serif text-2xl font-light leading-snug">{takeaway}</p>
       </div>
 
       <footer className="mt-24">
-        <h2 className="font-mono text-[0.875rem] uppercase tracking-widest text-zinc-400 mb-4">Read more</h2>
+        <h2 className="font-mono text-[0.875rem] uppercase tracking-widest text-zinc-faded mb-4">Read more</h2>
         <ul className="flex flex-col gap-3">
           {sources.map((source) => (
             <li key={source.title} className="text-sm text-zinc-faded leading-relaxed">
               {source.url ? (
-                <a href={source.url} target="_blank" rel="noopener noreferrer" className="text-ink hover:text-sage">
+                <a href={source.url} target="_blank" rel="noopener noreferrer" className="text-ink hover:text-sage-ink">
                   {source.title}
                 </a>
               ) : (

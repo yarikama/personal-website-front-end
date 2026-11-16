@@ -9,7 +9,7 @@ import { adminPlannerService, PLANNER_MAX, type Planner } from '../../services/a
 // lays out the day's to-dos on the welcome page. The owner writes the goals;
 // Claude rewrites the notes each morning, and the owner can correct them.
 
-const LABEL = 'font-mono text-xs text-zinc-400 uppercase tracking-widest'
+const LABEL = 'font-mono text-xs text-zinc-faded uppercase tracking-widest'
 const WHEN = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' })
 
 function Page({
@@ -48,7 +48,7 @@ function Page({
       <div className="flex flex-wrap items-baseline justify-between gap-2">
         <h2 className={LABEL}>{label}</h2>
         {updatedAt && (
-          <p className="font-mono text-[11px] text-zinc-400">
+          <p className="font-mono text-[11px] text-zinc-faded">
             {by} · {WHEN.format(new Date(updatedAt))}
           </p>
         )}
@@ -70,11 +70,11 @@ function Page({
         <button
           onClick={save}
           disabled={!changed || state === 'saving'}
-          className="rounded-full border border-ink px-4 py-2 font-mono text-xs uppercase tracking-widest transition-colors hover:bg-ink hover:text-paper disabled:cursor-not-allowed disabled:border-zinc-300 disabled:text-zinc-400 disabled:hover:bg-transparent dark:border-white dark:hover:bg-white dark:hover:text-zinc-900"
+          className="rounded-full border border-ink px-4 py-2 font-mono text-xs uppercase tracking-widest transition-colors hover:bg-ink hover:text-paper disabled:cursor-not-allowed disabled:border-zinc-300 disabled:text-zinc-faded disabled:hover:bg-transparent dark:border-white dark:hover:bg-white dark:hover:text-zinc-900"
         >
           {state === 'saving' ? 'Saving…' : 'Save'}
         </button>
-        <p className="font-mono text-[11px] text-zinc-400" aria-live="polite">
+        <p className="font-mono text-[11px] text-zinc-faded" aria-live="polite">
           {state === 'saved' && 'Saved'}
           {state === 'failed' && <span className="text-red-600 dark:text-red-400">Not saved; try again</span>}
           {state === 'idle' && `${draft.length} / ${PLANNER_MAX}`}
@@ -102,7 +102,7 @@ export default function AdminPlanner() {
       <main className="max-w-3xl mx-auto px-6 py-16 md:py-24">
         <Link
           to="/admin"
-          className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-zinc-400 hover:text-sage"
+          className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-zinc-faded hover:text-sage-ink"
         >
           <ArrowLeft size={12} aria-hidden="true" />
           Today

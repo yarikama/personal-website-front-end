@@ -25,7 +25,7 @@ export default function AnswerMarkdown({ turn, anchor }: { turn: Turn; anchor: s
       className="prose prose-zinc dark:prose-invert max-w-none text-[17px] leading-relaxed
         prose-p:my-2 prose-ul:my-2 prose-ol:my-2 prose-li:my-0.5
         prose-headings:font-serif prose-headings:font-normal prose-headings:text-lg prose-headings:mt-4 prose-headings:mb-2
-        prose-strong:font-semibold prose-a:text-sage prose-a:no-underline hover:prose-a:underline
+        prose-strong:font-semibold prose-a:text-sage-ink prose-a:no-underline hover:prose-a:underline
         prose-code:font-mono prose-code:text-sm prose-code:before:content-none prose-code:after:content-none
         prose-table:text-sm prose-th:font-sans prose-th:font-medium [&>*:first-child]:mt-0 [&>*:last-child]:mb-0"
     >
@@ -37,12 +37,12 @@ export default function AnswerMarkdown({ turn, anchor }: { turn: Turn; anchor: s
           img: () => null,
           a: ({ href = '', children }) => {
             if (href === PENDING) {
-              return <sup className="font-mono text-[0.6em] text-zinc-400 ml-0.5">·</sup>
+              return <sup className="font-mono text-[0.6em] text-zinc-faded ml-0.5">·</sup>
             }
             if (href.startsWith(`#${anchor}-`)) {
               return (
                 <sup className="ml-0.5 not-prose">
-                  <a href={href} className="font-mono text-[0.6em] text-sage hover:underline">
+                  <a href={href} className="font-mono text-[0.6em] text-sage-ink hover:underline">
                     [{children}]
                   </a>
                 </sup>

@@ -16,7 +16,7 @@ const SHORTCUTS = [
 ]
 
 function Label({ children }: { children: string }) {
-  return <p className="font-mono text-sm text-zinc-400 uppercase tracking-widest mb-3">{children}</p>
+  return <p className="font-mono text-sm text-zinc-faded uppercase tracking-widest mb-3">{children}</p>
 }
 
 // A clock that starts itself once the talk leaves the first slide
@@ -87,26 +87,26 @@ export default function PresenterView() {
       <header className="flex flex-wrap items-center gap-x-8 gap-y-2 px-8 py-4 border-b border-zinc-200 dark:border-zinc-200/30">
         <p className="font-mono text-4xl tabular-nums">{formatDuration(clock.seconds)}</p>
         <div className="font-mono text-sm uppercase tracking-widest">
-          <span className="text-zinc-400">Plan {formatDuration(planned)}</span>
-          <span className={`ml-4 ${drift >= PACE_SLACK ? 'text-ink font-medium' : 'text-sage'}`}>{pace}</span>
+          <span className="text-zinc-faded">Plan {formatDuration(planned)}</span>
+          <span className={`ml-4 ${drift >= PACE_SLACK ? 'text-ink font-medium' : 'text-sage-ink'}`}>{pace}</span>
         </div>
         <div className="flex gap-2 font-mono text-sm uppercase tracking-widest">
           <button
             type="button"
             onClick={clock.toggle}
-            className="px-3 py-1 rounded-full border border-zinc-200 dark:border-zinc-200/30 hover:border-sage hover:text-sage transition-colors duration-300"
+            className="px-3 py-1 rounded-full border border-zinc-200 dark:border-zinc-200/30 hover:border-sage hover:text-sage-ink transition-colors duration-300"
           >
             {clock.running ? 'Pause' : 'Start'}
           </button>
           <button
             type="button"
             onClick={clock.reset}
-            className="px-3 py-1 rounded-full border border-zinc-200 dark:border-zinc-200/30 hover:border-sage hover:text-sage transition-colors duration-300"
+            className="px-3 py-1 rounded-full border border-zinc-200 dark:border-zinc-200/30 hover:border-sage hover:text-sage-ink transition-colors duration-300"
           >
             Reset
           </button>
         </div>
-        <p className="ml-auto font-mono text-sm text-zinc-400 uppercase tracking-widest">
+        <p className="ml-auto font-mono text-sm text-zinc-faded uppercase tracking-widest">
           Slide {pos.index + 1} / {slides.length}
           {steps[pos.index] > 0 && ` · Step ${pos.step} / ${steps[pos.index]}`}
         </p>
@@ -141,7 +141,7 @@ export default function PresenterView() {
             <dl className="font-mono text-sm text-zinc-faded space-y-1.5">
               {SHORTCUTS.map(([keys, action]) => (
                 <div key={keys} className="flex justify-between gap-4">
-                  <dt className="text-zinc-400">{keys}</dt>
+                  <dt className="text-zinc-faded">{keys}</dt>
                   <dd>{action}</dd>
                 </div>
               ))}
@@ -154,20 +154,20 @@ export default function PresenterView() {
             <Label>Notes</Label>
             <p className="font-serif text-3xl font-light tracking-tight mb-4">{slide.title}</p>
             {slide.notes?.length ? (
-              <ul className="space-y-3 text-xl leading-relaxed text-ink-light list-disc pl-6 marker:text-sage">
+              <ul className="space-y-3 text-xl leading-relaxed text-ink-light list-disc pl-6 marker:text-sage-ink">
                 {slide.notes.map((line) => (
                   <li key={line}>{line}</li>
                 ))}
               </ul>
             ) : (
-              <p className="text-lg text-zinc-400">No notes for this slide.</p>
+              <p className="text-lg text-zinc-faded">No notes for this slide.</p>
             )}
           </div>
 
           <nav className="max-h-[45%] overflow-y-auto border-t border-zinc-200 dark:border-zinc-200/30 pt-4" aria-label="Outline">
             {sections.map((section) => (
               <div key={section.id} className="mb-4">
-                <p className="flex justify-between font-mono text-sm text-zinc-400 uppercase tracking-widest mb-1">
+                <p className="flex justify-between font-mono text-sm text-zinc-faded uppercase tracking-widest mb-1">
                   <span>{section.label}</span>
                   <span>{section.minutes} min</span>
                 </p>
@@ -179,11 +179,11 @@ export default function PresenterView() {
                           type="button"
                           onClick={() => go({ index: i, step: 0 })}
                           aria-current={i === pos.index ? 'step' : undefined}
-                          className={`w-full text-left py-0.5 text-base transition-colors duration-300 hover:text-sage ${
-                            i === pos.index ? 'text-sage font-medium' : 'text-zinc-faded'
+                          className={`w-full text-left py-0.5 text-base transition-colors duration-300 hover:text-sage-ink ${
+                            i === pos.index ? 'text-sage-ink font-medium' : 'text-zinc-faded'
                           }`}
                         >
-                          <span className="inline-block w-8 font-mono text-sm text-zinc-400 tabular-nums">{i + 1}</span>
+                          <span className="inline-block w-8 font-mono text-sm text-zinc-faded tabular-nums">{i + 1}</span>
                           {s.title}
                         </button>
                       </li>

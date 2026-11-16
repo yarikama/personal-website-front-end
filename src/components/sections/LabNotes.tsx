@@ -10,7 +10,7 @@ export default function LabNotes() {
   return (
     <Section id="notes">
       <div className="mb-16">
-        <span className="font-mono text-sm text-zinc-400 uppercase tracking-widest">
+        <span className="font-mono text-sm text-zinc-faded uppercase tracking-widest">
           Lab Notes
         </span>
         <h2 className="font-serif text-4xl md:text-5xl font-light mt-4 tracking-tight">
@@ -26,15 +26,15 @@ export default function LabNotes() {
 
       {isLoading ? (
         <div className="py-12 flex flex-col items-center justify-center">
-          <Loader2 className="w-6 h-6 animate-spin text-zinc-400 mb-3" />
-          <p className="text-sm text-zinc-400">Loading...</p>
+          <Loader2 className="w-6 h-6 animate-spin text-zinc-faded mb-3" />
+          <p className="text-sm text-zinc-faded">Loading...</p>
         </div>
       ) : error || !hasNotes ? (
         <div className="py-12 text-center">
           <p className="font-serif text-xl text-zinc-faded mb-4">
             Coming Soon
           </p>
-          <p className="text-sm text-zinc-400 max-w-md mx-auto">
+          <p className="text-sm text-zinc-faded max-w-md mx-auto">
             Technical writings on AI systems, distributed architectures, and engineering
             philosophy are in progress.
           </p>
@@ -50,7 +50,7 @@ export default function LabNotes() {
             >
               <div className="flex items-baseline justify-between gap-4 py-4 border-b border-zinc-200 dark:border-zinc-800 group-hover:border-zinc-400 transition-colors">
                 <div className="flex items-baseline gap-4 min-w-0">
-                  <span className="font-mono text-sm text-zinc-400 shrink-0">
+                  <span className="font-mono text-sm text-zinc-faded shrink-0">
                     {String(index + 1).padStart(2, '0')}
                   </span>
                   <h3 className="font-serif text-xl md:text-2xl font-light tracking-tight transition-colors duration-300 truncate">
@@ -58,12 +58,12 @@ export default function LabNotes() {
                   </h3>
                 </div>
                 <div className="flex items-center gap-3 shrink-0">
-                  <span className="font-mono text-xs text-zinc-400 uppercase tracking-widest hidden sm:block">
+                  <span className="font-mono text-xs text-zinc-faded uppercase tracking-widest hidden sm:block">
                     {note.readTime}
                   </span>
                   <ArrowUpRight
                     size={16}
-                    className="text-zinc-400 group-hover:text-ink transition-colors duration-300"
+                    className="text-zinc-faded group-hover:text-ink transition-colors duration-300"
                   />
                 </div>
               </div>

@@ -98,7 +98,7 @@ export default function TodayList({ date }: { date: Date }) {
     const older = carried ? olderThanYesterday(todo, today) : null
     const external = todo.href && !todo.href.startsWith('/')
     const textClass = `text-sm transition-colors ${
-      done ? 'text-zinc-400 line-through' : carried ? 'text-red-600 dark:text-red-400' : 'text-ink'
+      done ? 'text-zinc-faded line-through' : carried ? 'text-red-600 dark:text-red-400' : 'text-ink'
     }`
     const planned = todo.source === 'claude'
     const label = todo.href ? (
@@ -107,13 +107,13 @@ export default function TodayList({ date }: { date: Date }) {
           href={todo.href}
           target="_blank"
           rel="noopener noreferrer"
-          className={`inline-flex items-center gap-1 hover:text-sage ${textClass}`}
+          className={`inline-flex items-center gap-1 hover:text-sage-ink ${textClass}`}
         >
           {todo.text}
-          <ArrowUpRight size={12} aria-hidden="true" className="text-zinc-400" />
+          <ArrowUpRight size={12} aria-hidden="true" className="text-zinc-faded" />
         </a>
       ) : (
-        <Link to={todo.href} className={`hover:text-sage ${textClass}`}>
+        <Link to={todo.href} className={`hover:text-sage-ink ${textClass}`}>
           {todo.text}
         </Link>
       )
@@ -141,7 +141,7 @@ export default function TodayList({ date }: { date: Date }) {
           <div className="min-w-0">
             <div className="flex items-center gap-1.5">
               {label}
-              <Sparkles size={11} aria-label="From the morning plan" className="shrink-0 text-sage/70" />
+              <Sparkles size={11} aria-label="From the morning plan" className="shrink-0 text-sage-ink/70" />
             </div>
             {todo.reason && !done && <p className="mt-0.5 text-xs leading-snug text-zinc-faded">{todo.reason}</p>}
           </div>
@@ -157,7 +157,7 @@ export default function TodayList({ date }: { date: Date }) {
           onClick={() => remove(todo)}
           aria-label={`Remove: ${todo.text}`}
           title="Remove"
-          className="ml-auto p-1 text-zinc-400 opacity-0 transition-opacity hover:text-red-500 group-hover:opacity-100 focus-visible:opacity-100"
+          className="ml-auto p-1 text-zinc-faded opacity-0 transition-opacity hover:text-red-500 group-hover:opacity-100 focus-visible:opacity-100"
         >
           <X size={14} aria-hidden="true" />
         </button>
@@ -187,7 +187,7 @@ export default function TodayList({ date }: { date: Date }) {
       </ul>
 
       <form onSubmit={add} className="mt-4 flex items-center gap-3">
-        <Plus size={14} aria-hidden="true" className="ml-[3px] shrink-0 text-zinc-400" />
+        <Plus size={14} aria-hidden="true" className="ml-[3px] shrink-0 text-zinc-faded" />
         <div className="relative flex-1">
           {/* The completion, behind the field: the typed text kept invisible
               so the gray rest lines up after it. */}
@@ -197,7 +197,7 @@ export default function TodayList({ date }: { date: Date }) {
               className="pointer-events-none absolute inset-0 overflow-hidden whitespace-pre border-b border-transparent py-1 text-sm"
             >
               <span className="invisible">{draft}</span>
-              <span className="text-zinc-400">{suggestion.slice(draft.length)}</span>
+              <span className="text-zinc-faded">{suggestion.slice(draft.length)}</span>
             </div>
           )}
           <input
@@ -221,21 +221,21 @@ export default function TodayList({ date }: { date: Date }) {
             aria-label="Add a to-do"
             aria-autocomplete="inline"
             aria-description={suggestion ? `Tab completes: ${suggestion}` : undefined}
-            className="relative w-full border-b border-transparent bg-transparent py-1 text-sm placeholder:text-zinc-400 focus:border-zinc-300 focus:outline-none"
+            className="relative w-full border-b border-transparent bg-transparent py-1 text-sm placeholder:text-zinc-faded focus:border-zinc-300 focus:outline-none"
           />
         </div>
       </form>
 
       {week.length > 0 && (
         <div className="mt-8">
-          <p className="font-mono text-xs uppercase tracking-widest text-zinc-400">This week</p>
+          <p className="font-mono text-xs uppercase tracking-widest text-zinc-faded">This week</p>
           <ul className="mt-3 space-y-3">{week.map((todo) => renderItem(todo, false))}</ul>
         </div>
       )}
 
       {later.length > 0 && (
         <details className="group/later mt-6">
-          <summary className="cursor-pointer list-none font-mono text-xs uppercase tracking-widest text-zinc-400 hover:text-ink">
+          <summary className="cursor-pointer list-none font-mono text-xs uppercase tracking-widest text-zinc-faded hover:text-ink">
             Can wait · {later.length}
           </summary>
           <ul className="mt-3 space-y-3">{later.map((todo) => renderItem(todo, false))}</ul>
@@ -244,7 +244,7 @@ export default function TodayList({ date }: { date: Date }) {
 
       <Link
         to="/admin/planner"
-        className="mt-8 inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-zinc-400 hover:text-sage"
+        className="mt-8 inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-zinc-faded hover:text-sage-ink"
       >
         <Sparkles size={12} aria-hidden="true" />
         {planned ? 'What the morning plan works from' : 'Set up the morning plan'}

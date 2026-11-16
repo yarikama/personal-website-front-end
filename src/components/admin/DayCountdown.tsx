@@ -12,8 +12,8 @@ export default function DayCountdown() {
   }, [])
 
   return (
-    <span className="inline-flex items-baseline gap-2 font-mono text-sm text-zinc-400" title="Until midnight">
-      <time className="tabular-nums text-sage" aria-live="off">
+    <span className="inline-flex items-baseline gap-2 font-mono text-sm text-zinc-faded" title="Until midnight">
+      <time className="tabular-nums text-sage-ink" aria-live="off">
         {untilMidnight(now)}
       </time>
       left today

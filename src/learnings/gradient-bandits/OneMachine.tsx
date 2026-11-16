@@ -46,7 +46,7 @@ export default function OneMachine({ alpha, baseline }: { alpha: number; baselin
           Pull <span className="text-ink tabular-nums">{pulls}</span> of {PULLS}
         </span>
         <span className="text-right text-zinc-faded">
-          Best arm’s chance <span className="text-sage tabular-nums">{Math.round(chances[run.best] * 100)}%</span>
+          Best arm’s chance <span className="text-sage-ink tabular-nums">{Math.round(chances[run.best] * 100)}%</span>
         </span>
       </div>
       <svg
@@ -62,7 +62,7 @@ export default function OneMachine({ alpha, baseline }: { alpha: number; baselin
           Chance <tspan className="normal-case">π</tspan>
         </text>
         <line x1={FIRST - COLUMN / 2} x2={x(ARMS - 1) + COLUMN / 2} y1={ZERO} y2={ZERO} className="stroke-zinc-300 dark:stroke-zinc-200/25" />
-        <text x={FIRST - COLUMN / 2 - 6} y={ZERO + 4} textAnchor="end" className="fill-zinc-400 font-mono text-[10px]">
+        <text x={FIRST - COLUMN / 2 - 6} y={ZERO + 4} textAnchor="end" className="fill-zinc-faded font-mono text-[10px]">
           0
         </text>
         <line x1={FIRST - COLUMN / 2} x2={x(ARMS - 1) + COLUMN / 2} y1={FLOOR} y2={FLOOR} className="stroke-zinc-300 dark:stroke-zinc-200/25" />
@@ -91,7 +91,7 @@ export default function OneMachine({ alpha, baseline }: { alpha: number; baselin
                 x={x(arm)}
                 y={FLOOR - chance * FULL - 5}
                 textAnchor="middle"
-                className={`font-mono text-[12px] tabular-nums ${best ? 'fill-sage' : 'fill-zinc-faded'}`}
+                className={`font-mono text-[12px] tabular-nums ${best ? 'fill-sage-ink' : 'fill-zinc-faded'}`}
               >
                 {Math.round(chance * 100)}
               </text>
@@ -100,7 +100,7 @@ export default function OneMachine({ alpha, baseline }: { alpha: number; baselin
                 x={x(arm)}
                 y={FLOOR + 20}
                 textAnchor="middle"
-                className={`font-mono text-[15px] ${best ? 'fill-sage' : last === arm ? 'fill-ink' : 'fill-zinc-faded'}`}
+                className={`font-mono text-[15px] ${best ? 'fill-sage-ink' : last === arm ? 'fill-ink' : 'fill-zinc-faded'}`}
               >
                 {last === arm ? `●${arm + 1}` : arm + 1}
               </text>
@@ -108,7 +108,7 @@ export default function OneMachine({ alpha, baseline }: { alpha: number; baselin
                 x={x(arm)}
                 y={FLOOR + 40}
                 textAnchor="middle"
-                className={`font-mono text-[13px] ${best ? 'fill-sage' : 'fill-zinc-400'}`}
+                className={`font-mono text-[13px] ${best ? 'fill-sage-ink' : 'fill-zinc-faded'}`}
               >
                 {mean.toFixed(1)}
               </text>

@@ -57,7 +57,7 @@ export default function CoffeeLine({ step }: { step: number }) {
               transition={{ duration: reducedMotion ? 0 : 0.7, ease: [0.16, 1, 0.3, 1] }}
               y={BASE - height(value) - 6}
               textAnchor="middle"
-              className={`font-mono text-[10px] ${lit ? 'fill-ink' : 'fill-zinc-400'}`}
+              className={`font-mono text-[10px] ${lit ? 'fill-ink' : 'fill-zinc-faded'}`}
             >
               {number(value)}
             </motion.text>
@@ -88,22 +88,22 @@ export default function CoffeeLine({ step }: { step: number }) {
       )}
 
       {step >= 3 && (
-        <text x={barX(4) + BAR / 2} y={BASE + 18} textAnchor="middle" className="fill-sage font-mono text-[11px] uppercase tracking-widest">
+        <text x={barX(4) + BAR / 2} y={BASE + 18} textAnchor="middle" className="fill-sage-ink font-mono text-[11px] uppercase tracking-widest">
           Median {unit(median)}
         </text>
       )}
       {step >= 4 && (
         <>
-          <text x={barX(8) + BAR / 2} y={BASE + 34} textAnchor="middle" className="fill-sage font-mono text-[11px] uppercase tracking-widest">
+          <text x={barX(8) + BAR / 2} y={BASE + 34} textAnchor="middle" className="fill-sage-ink font-mono text-[11px] uppercase tracking-widest">
             p90 {unit(p90)}
           </text>
-          <text x={barX(9) + BAR / 2} y={BASE + 18} textAnchor="middle" className="fill-sage font-mono text-[11px] uppercase tracking-widest">
+          <text x={barX(9) + BAR / 2} y={BASE + 18} textAnchor="middle" className="fill-sage-ink font-mono text-[11px] uppercase tracking-widest">
             Slowest
           </text>
         </>
       )}
       {step < 3 && (
-        <text x={LEFT} y={BASE + 18} className="fill-zinc-400 font-mono text-[10px] uppercase tracking-widest">
+        <text x={LEFT} y={BASE + 18} className="fill-zinc-faded font-mono text-[10px] uppercase tracking-widest">
           {server ? 'Requests, as they came · ms' : 'Customers, as they were served · minutes'}
         </text>
       )}

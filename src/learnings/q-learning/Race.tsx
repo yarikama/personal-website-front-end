@@ -35,17 +35,17 @@ export default function Race({ epsilon }: { epsilon: number }) {
         {[0, -20, -40, -60].map((total) => (
           <g key={total}>
             <line x1={LEFT} x2={RIGHT} y1={y(total)} y2={y(total)} className="stroke-zinc-200 dark:stroke-zinc-200/10" />
-            <text x={LEFT - 8} y={y(total) + 4} textAnchor="end" className="fill-zinc-400 font-mono text-[11px]">
+            <text x={LEFT - 8} y={y(total) + 4} textAnchor="end" className="fill-zinc-faded font-mono text-[11px]">
               {total === 0 ? 0 : `−${-total}`}
             </text>
           </g>
         ))}
         {[1, 100, 200, 300, 400, 500].map((morning) => (
-          <text key={morning} x={x(morning - 1)} y={BOTTOM + 18} textAnchor="middle" className="fill-zinc-400 font-mono text-[11px]">
+          <text key={morning} x={x(morning - 1)} y={BOTTOM + 18} textAnchor="middle" className="fill-zinc-faded font-mono text-[11px]">
             {morning}
           </text>
         ))}
-        <text x={LEFT} y={HEIGHT - 4} className="fill-zinc-400 font-mono text-[11px] uppercase tracking-widest">
+        <text x={LEFT} y={HEIGHT - 4} className="fill-zinc-faded font-mono text-[11px] uppercase tracking-widest">
           Morning
         </text>
         <path d={path(sarsa.totals)} fill="none" className="stroke-ink" strokeWidth={1.75} />
@@ -53,7 +53,7 @@ export default function Race({ epsilon }: { epsilon: number }) {
         <text x={RIGHT + 8} y={ends.sarsa + 4 + (sarsaAbove ? -gap : gap)} className="fill-ink font-mono text-[11px] uppercase tracking-widest">
           Sarsa
         </text>
-        <text x={RIGHT + 8} y={ends.q + 4 + (sarsaAbove ? gap : -gap)} className="fill-sage font-mono text-[11px] uppercase tracking-widest">
+        <text x={RIGHT + 8} y={ends.q + 4 + (sarsaAbove ? gap : -gap)} className="fill-sage-ink font-mono text-[11px] uppercase tracking-widest">
           Q
         </text>
       </svg>
@@ -63,7 +63,7 @@ export default function Race({ epsilon }: { epsilon: number }) {
           <tr className="font-mono text-[0.875rem] uppercase tracking-widest">
             <th className="w-2/5 pb-1 font-normal" />
             <th className="pb-1 font-normal text-ink">Sarsa</th>
-            <th className="pb-1 font-normal text-sage">Q-learning</th>
+            <th className="pb-1 font-normal text-sage-ink">Q-learning</th>
           </tr>
         </thead>
         <tbody className="font-serif text-3xl font-light tabular-nums">
@@ -72,14 +72,14 @@ export default function Race({ epsilon }: { epsilon: number }) {
               Wet, last 100 mornings
             </th>
             <td className="py-1 text-ink">{percent(lateWet(sarsa.wet))}</td>
-            <td className="py-1 text-sage">{percent(lateWet(q.wet))}</td>
+            <td className="py-1 text-sage-ink">{percent(lateWet(q.wet))}</td>
           </tr>
           <tr>
             <th className="py-1 pr-2 align-middle font-mono text-[0.875rem] font-normal uppercase tracking-widest text-zinc-faded">
               Average score, last 100
             </th>
             <td className="py-1 text-ink">{(sarsa.totals.slice(-100).reduce((a, b) => a + b, 0) / 100).toFixed(1).replace('-', '−')}</td>
-            <td className="py-1 text-sage">{(q.totals.slice(-100).reduce((a, b) => a + b, 0) / 100).toFixed(1).replace('-', '−')}</td>
+            <td className="py-1 text-sage-ink">{(q.totals.slice(-100).reduce((a, b) => a + b, 0) / 100).toFixed(1).replace('-', '−')}</td>
           </tr>
         </tbody>
       </table>

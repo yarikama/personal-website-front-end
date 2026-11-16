@@ -15,7 +15,7 @@ function ControlButton({ label, onClick, children }: { label: string; onClick: (
       onClick={onClick}
       aria-label={label}
       title={label}
-      className="p-2 text-zinc-faded hover:text-sage transition-colors duration-300"
+      className="p-2 text-zinc-faded hover:text-sage-ink transition-colors duration-300"
     >
       {children}
     </button>

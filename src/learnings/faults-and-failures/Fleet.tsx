@@ -20,7 +20,7 @@ function Van({ flat, phase }: { flat: boolean; phase: number }) {
       ) : (
         <circle cx={x + 128} cy={152} r={13} className="fill-sage" />
       )}
-      <text x={280} y={40} textAnchor="middle" className={`font-mono text-[12px] uppercase tracking-widest ${flat ? 'fill-ink' : 'fill-sage'}`}>
+      <text x={280} y={40} textAnchor="middle" className={`font-mono text-[12px] uppercase tracking-widest ${flat ? 'fill-ink' : 'fill-sage-ink'}`}>
         {flat ? 'Flat tire: a fault' : 'Spare fitted: delivered on time, no failure'}
       </text>
     </svg>

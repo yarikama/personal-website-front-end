@@ -43,7 +43,7 @@ export default function Talk({ presenter = false }: { presenter?: boolean }) {
         <p className="font-serif text-2xl text-zinc-faded">
           {entry ? 'This talk did not load. Try reloading the page.' : 'There is no talk here.'}
         </p>
-        <Link to="/talks" className="font-mono text-xs uppercase tracking-widest text-sage hover:underline">
+        <Link to="/talks" className="font-mono text-xs uppercase tracking-widest text-sage-ink hover:underline">
           All talks
         </Link>
       </div>

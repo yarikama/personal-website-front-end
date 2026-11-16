@@ -42,10 +42,10 @@ export default function Tails() {
             </g>
           )
         })}
-        <text x={LEFT} y={HEIGHT - 4} className="fill-zinc-400 font-mono text-[10px] uppercase tracking-widest">
+        <text x={LEFT} y={HEIGHT - 4} className="fill-zinc-faded font-mono text-[10px] uppercase tracking-widest">
           First move
         </text>
-        <text x={RIGHT} y={HEIGHT - 4} textAnchor="end" className="fill-zinc-400 font-mono text-[10px] uppercase tracking-widest">
+        <text x={RIGHT} y={HEIGHT - 4} textAnchor="end" className="fill-zinc-faded font-mono text-[10px] uppercase tracking-widest">
           End
         </text>
       </svg>

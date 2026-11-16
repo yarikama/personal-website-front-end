@@ -37,7 +37,7 @@ function chip(active: boolean) {
   return `px-3 py-1.5 font-mono text-xs uppercase tracking-widest rounded-full border transition-colors ${
     active
       ? 'border-ink bg-ink text-paper dark:border-white dark:bg-white dark:text-zinc-900'
-      : 'border-zinc-200 dark:border-zinc-800 text-zinc-500 hover:text-ink dark:hover:text-white'
+      : 'border-zinc-200 dark:border-zinc-800 text-zinc-faded hover:text-ink dark:hover:text-white'
   }`
 }
 
@@ -64,9 +64,9 @@ function QuestionCard({
     <article className={`rounded-xl border p-5 ${isNew ? 'border-sage/60' : 'border-zinc-200 dark:border-zinc-800'}`}>
       <div className="flex items-start justify-between gap-4">
         <div className="min-w-0 flex-1">
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs text-zinc-400">
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs text-zinc-faded">
             {isNew && (
-              <span className="inline-flex items-center gap-1.5 text-sage">
+              <span className="inline-flex items-center gap-1.5 text-sage-ink">
                 <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-sage" />
                 New
               </span>
@@ -79,7 +79,7 @@ function QuestionCard({
             <span>
               {item.citations.length} source{item.citations.length === 1 ? '' : 's'}
             </span>
-            {item.admin && <span className="text-sage">Me</span>}
+            {item.admin && <span className="text-sage-ink">Me</span>}
             {item.status === 'error' && <span className="text-red-500">Broke off</span>}
             {item.truncated && <span className="text-amber-600 dark:text-amber-500">Cut off</span>}
           </div>
@@ -101,9 +101,9 @@ function QuestionCard({
                 className={`p-2 transition-colors ${
                   active
                     ? value === 'good'
-                      ? 'text-sage'
+                      ? 'text-sage-ink'
                       : 'text-red-500'
-                    : 'text-zinc-300 hover:text-ink dark:text-zinc-600 dark:hover:text-white'
+                    : 'text-zinc-faded hover:text-ink dark:hover:text-white'
                 }`}
               >
                 <Icon size={16} />
@@ -114,14 +114,14 @@ function QuestionCard({
       </div>
 
       {item.quote && (
-        <blockquote className="mt-3 border-l-2 border-sage pl-3 text-sm text-zinc-500 whitespace-pre-wrap">
+        <blockquote className="mt-3 border-l-2 border-sage pl-3 text-sm text-zinc-faded whitespace-pre-wrap">
           {item.quote}
           {item.page && (
             <a
               href={item.page}
               target="_blank"
               rel="noopener noreferrer"
-              className="ml-2 font-mono text-xs text-zinc-400 hover:text-sage"
+              className="ml-2 font-mono text-xs text-zinc-faded hover:text-sage-ink"
             >
               {item.page}
             </a>
@@ -130,7 +130,7 @@ function QuestionCard({
       )}
 
       <div className={`relative mt-4 ${open ? '' : 'max-h-28 overflow-hidden'}`}>
-        <Suspense fallback={<p className="text-sm text-zinc-400">{item.answer}</p>}>
+        <Suspense fallback={<p className="text-sm text-zinc-faded">{item.answer}</p>}>
           <AnswerMarkdown turn={turn} anchor={`question-${item.id}`} />
         </Suspense>
         {!open && (
@@ -142,14 +142,14 @@ function QuestionCard({
         <ol className="mt-4 space-y-1 border-t border-zinc-200 dark:border-zinc-800 pt-3 text-sm">
           {item.citations.map((citation, i) => (
             <li key={citation.id} id={`question-${item.id}-${i + 1}`} className="flex gap-3">
-              <span className="font-mono text-xs text-zinc-400 w-5">{i + 1}</span>
-              <span className="font-mono text-xs uppercase text-zinc-400 w-16">{citation.kind}</span>
+              <span className="font-mono text-xs text-zinc-faded w-5">{i + 1}</span>
+              <span className="font-mono text-xs uppercase text-zinc-faded w-16">{citation.kind}</span>
               {citation.url ? (
                 <a
                   href={citation.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-sage transition-colors"
+                  className="hover:text-sage-ink transition-colors"
                 >
                   {citation.title}
                 </a>
@@ -163,7 +163,7 @@ function QuestionCard({
 
       <button
         onClick={() => setOpen(!open)}
-        className="mt-3 font-mono text-xs uppercase tracking-widest text-sage hover:underline"
+        className="mt-3 font-mono text-xs uppercase tracking-widest text-sage-ink hover:underline"
       >
         {open ? 'Collapse' : 'Show the whole answer'}
       </button>
@@ -239,7 +239,7 @@ export default function AdminQuestionsList() {
             What was asked in the chat, kept for 30 days. Rate answers to build the evaluation set.
           </p>
           {previousVisit && (
-            <p className="mt-1 font-mono text-xs text-sage">
+            <p className="mt-1 font-mono text-xs text-sage-ink">
               New since your last visit,{' '}
               {new Date(previousVisit).toLocaleString([], {
                 dateStyle: 'medium',
@@ -279,7 +279,7 @@ export default function AdminQuestionsList() {
             onChange={(e) =>
               setFilters({ ...filters, rating: (e.target.value || undefined) as QuestionFilters['rating'] })
             }
-            className="bg-transparent rounded-full border border-zinc-200 dark:border-zinc-800 px-3 py-1.5 font-mono text-xs uppercase tracking-widest text-zinc-500"
+            className="bg-transparent rounded-full border border-zinc-200 dark:border-zinc-800 px-3 py-1.5 font-mono text-xs uppercase tracking-widest text-zinc-faded"
             aria-label="Rating"
           >
             {RATINGS.map(({ value, label }) => (
@@ -288,7 +288,7 @@ export default function AdminQuestionsList() {
               </option>
             ))}
           </select>
-          <span className="ml-auto font-mono text-xs text-zinc-400">{total} questions</span>
+          <span className="ml-auto font-mono text-xs text-zinc-faded">{total} questions</span>
         </div>
 
         {error ? (
@@ -296,7 +296,7 @@ export default function AdminQuestionsList() {
             <p className="text-zinc-faded">{error}</p>
             <button
               onClick={() => load(0)}
-              className="mt-4 font-mono text-xs uppercase tracking-widest text-sage hover:underline"
+              className="mt-4 font-mono text-xs uppercase tracking-widest text-sage-ink hover:underline"
             >
               Try again
             </button>
@@ -320,14 +320,14 @@ export default function AdminQuestionsList() {
 
         {isLoading ? (
           <div className="py-8 flex justify-center">
-            <Loader2 className="w-6 h-6 animate-spin text-zinc-400" />
+            <Loader2 className="w-6 h-6 animate-spin text-zinc-faded" />
           </div>
         ) : (
           items.length < total && (
             <div className="mt-8 flex justify-center">
               <button
                 onClick={() => load(items.length)}
-                className="font-mono text-xs uppercase tracking-widest text-sage hover:underline"
+                className="font-mono text-xs uppercase tracking-widest text-sage-ink hover:underline"
               >
                 Load more
               </button>

@@ -33,7 +33,7 @@ function Seat({ degrees, tone, label }: { degrees: number; tone: 'now' | 'before
         <circle cx={x} cy={y - 22} r={11} className={cls} strokeWidth={2} strokeDasharray={tone === 'ghost' ? '4 3' : undefined} />
       </g>
       {label && (
-        <text x={below.x} y={below.y + 14} textAnchor="middle" className="fill-sage font-mono text-[16px] uppercase tracking-widest">
+        <text x={below.x} y={below.y + 14} textAnchor="middle" className="fill-sage-ink font-mono text-[16px] uppercase tracking-widest">
           {label}
         </text>
       )}
@@ -71,7 +71,7 @@ export default function Swing({ t, knowing, ghosts = false, before = false, trai
         <span>{caption ?? `You have: ${knowing}`}</span>
         {ghosts && (
           <span className="text-right">
-            In {AHEAD} s: <span className="text-sage">{places.length === 1 ? 'one place' : `${places.length} places`}</span>
+            In {AHEAD} s: <span className="text-sage-ink">{places.length === 1 ? 'one place' : `${places.length} places`}</span>
           </span>
         )}
       </p>
@@ -86,10 +86,10 @@ export default function Swing({ t, knowing, ghosts = false, before = false, trai
           className="stroke-zinc-300 dark:stroke-zinc-200/25"
           strokeDasharray="2 5"
         />
-        <text x={seatAt(-58).x - 6} y={seatAt(-58).y + 4} textAnchor="end" className="fill-zinc-400 font-mono text-[15px] uppercase">
+        <text x={seatAt(-58).x - 6} y={seatAt(-58).y + 4} textAnchor="end" className="fill-zinc-faded font-mono text-[15px] uppercase">
           back
         </text>
-        <text x={seatAt(58).x + 6} y={seatAt(58).y + 4} className="fill-zinc-400 font-mono text-[15px] uppercase">
+        <text x={seatAt(58).x + 6} y={seatAt(58).y + 4} className="fill-zinc-faded font-mono text-[15px] uppercase">
           forward
         </text>
 

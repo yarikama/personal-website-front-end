@@ -73,7 +73,7 @@ export default function LearningPage() {
       <div className="pt-24">
         <Section reading>
           {back}
-          <Loader2 className="mx-auto my-16 h-6 w-6 animate-spin text-zinc-400" />
+          <Loader2 className="mx-auto my-16 h-6 w-6 animate-spin text-zinc-faded" />
         </Section>
       </div>
     )

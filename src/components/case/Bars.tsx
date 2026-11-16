@@ -35,7 +35,7 @@ export function Bars({
   return (
     <div ref={ref} className="flex flex-col gap-4">
       {better && (
-        <p className="font-mono text-[0.8125rem] uppercase tracking-widest text-zinc-400">
+        <p className="font-mono text-[0.8125rem] uppercase tracking-widest text-zinc-faded">
           {better === 'lower' ? 'Shorter is better' : 'Longer is better'}
         </p>
       )}
@@ -43,7 +43,7 @@ export function Bars({
         <div key={i} className="grid grid-cols-1 sm:grid-cols-[minmax(0,11rem)_1fr] items-center gap-x-4 gap-y-1">
           <div className={`text-sm leading-snug ${bar.accent ? 'text-ink font-medium' : 'text-zinc-faded'}`}>
             {bar.label}
-            {bar.note && <span className="block text-xs text-zinc-400">{bar.note}</span>}
+            {bar.note && <span className="block text-xs text-zinc-faded">{bar.note}</span>}
           </div>
           <div className="flex items-center gap-3">
             <div className="relative h-7 flex-1">
@@ -56,7 +56,7 @@ export function Bars({
                 transition={{ duration: 0.9, delay: 0.1 + i * 0.12, ease: EASE }}
               />
             </div>
-            <span className={`w-20 shrink-0 text-right font-mono text-sm tabular-nums ${bar.accent ? 'text-sage' : 'text-ink'}`}>
+            <span className={`w-20 shrink-0 text-right font-mono text-sm tabular-nums ${bar.accent ? 'text-sage-ink' : 'text-ink'}`}>
               {bar.display ?? <Counted value={bar.value} go={seen} decimals={decimals} unit={unit} />}
             </span>
           </div>

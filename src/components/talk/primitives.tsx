@@ -20,7 +20,7 @@ const tied = (node: ReactNode) => (typeof node === 'string' ? tieEnd(node) : nod
 // one point: the headline states it, everything under it is the evidence.
 
 export function Eyebrow({ children }: { children: ReactNode }) {
-  return <p className="font-mono text-[15px] text-zinc-400 uppercase tracking-widest">{children}</p>
+  return <p className="font-mono text-[15px] text-zinc-faded uppercase tracking-widest">{children}</p>
 }
 
 // Use <em> inside for the heavier emphasis the site uses in its titles
@@ -65,7 +65,7 @@ export function SlideLayout({
   return (
     <div className="h-full flex flex-col">
       <div className="flex items-center gap-3">
-        {StepIcon && <StepIcon size={20} strokeWidth={1.5} className="text-zinc-400" aria-hidden="true" />}
+        {StepIcon && <StepIcon size={20} strokeWidth={1.5} className="text-zinc-faded" aria-hidden="true" />}
         <Eyebrow>{eyebrow}</Eyebrow>
       </div>
       <Headline className="mt-5">{headline}</Headline>
@@ -95,7 +95,7 @@ export function Reveal({ at, children, className = '' }: { at: number; children:
 export function Ask({ children, guess, className = '' }: { children: ReactNode; guess?: ReactNode; className?: string }) {
   return (
     <div className={`rounded-xl border border-dashed border-sage px-6 py-4 bg-sage/5 ${className}`}>
-      <p className="font-mono text-[13px] text-sage uppercase tracking-widest">To fill in</p>
+      <p className="font-mono text-[13px] text-sage-ink uppercase tracking-widest">To fill in</p>
       <p className="mt-1 text-[20px] leading-snug text-ink">{children}</p>
       {guess && <p className="mt-2 text-[17px] leading-snug text-zinc-faded">My guess: {guess}</p>}
     </div>
@@ -105,8 +105,8 @@ export function Ask({ children, guess, className = '' }: { children: ReactNode; 
 export function Stat({ value, label, detail }: { value: ReactNode; label: string; detail?: ReactNode }) {
   return (
     <div>
-      <p className="font-serif font-light text-[104px] leading-none tracking-tight text-sage lining-nums whitespace-nowrap">{value}</p>
-      <p className="mt-6 font-mono text-[15px] text-zinc-400 uppercase tracking-widest">{label}</p>
+      <p className="font-serif font-light text-[104px] leading-none tracking-tight text-sage-ink lining-nums whitespace-nowrap">{value}</p>
+      <p className="mt-6 font-mono text-[15px] text-zinc-faded uppercase tracking-widest">{label}</p>
       {detail && <p className="mt-2 text-[19px] leading-snug text-zinc-faded">{tied(detail)}</p>}
     </div>
   )
@@ -147,13 +147,13 @@ export function Flow({
             {i > 0 &&
               (arrows ? (
                 <Reveal at={reveal ? i + 1 : 0} className={`shrink-0 px-5 ${hasIcons ? 'pt-2.5' : 'pt-7'}`}>
-                  <ArrowRight size={28} strokeWidth={1.25} className="text-zinc-400" aria-hidden="true" />
+                  <ArrowRight size={28} strokeWidth={1.25} className="text-zinc-faded" aria-hidden="true" />
                 </Reveal>
               ) : (
                 <div className="shrink-0 w-16" aria-hidden="true" />
               ))}
             <Reveal at={reveal ? i + 1 : 0} className="flex-1 min-w-0">
-              {item.icon && <div className="mb-6 text-sage">{item.icon}</div>}
+              {item.icon && <div className="mb-6 text-sage-ink">{item.icon}</div>}
               <div
                 className={`border-t-2 pt-6 transition-colors duration-700 ease-elegant ${
                   hot ? 'border-sage' : 'border-zinc-300 dark:border-zinc-300/60'
@@ -161,7 +161,7 @@ export function Flow({
               >
                 <p
                   className={`font-mono text-[15px] uppercase tracking-widest transition-colors duration-700 ease-elegant ${
-                    hot ? 'text-sage' : 'text-zinc-400'
+                    hot ? 'text-sage-ink' : 'text-zinc-faded'
                   }`}
                 >
                   {item.label}
@@ -199,7 +199,7 @@ export function Decision({ question, options }: { question: ReactNode; options: 
           <p className="flex items-baseline justify-between gap-4">
             <span className="font-serif text-[30px] leading-tight">{option.name}</span>
             {option.chosen && (
-              <span className="flex items-center gap-1.5 font-mono text-[13px] text-sage uppercase tracking-widest">
+              <span className="flex items-center gap-1.5 font-mono text-[13px] text-sage-ink uppercase tracking-widest">
                 <Check size={16} strokeWidth={2} aria-hidden="true" />
                 Chosen
               </span>
@@ -208,13 +208,13 @@ export function Decision({ question, options }: { question: ReactNode; options: 
           <ul className="mt-3 space-y-1.5 text-[18px] leading-snug">
             {option.gains.map((gain) => (
               <li key={`+${gain}`}>
-                <span className="font-mono text-sage mr-2">+</span>
+                <span className="font-mono text-sage-ink mr-2">+</span>
                 {tieEnd(gain)}
               </li>
             ))}
             {option.costs.map((cost) => (
               <li key={`-${cost}`}>
-                <span className="font-mono text-zinc-400 mr-2">-</span>
+                <span className="font-mono text-zinc-faded mr-2">-</span>
                 {tieEnd(cost)}
               </li>
             ))}
@@ -238,7 +238,7 @@ export interface Entry {
 export function Credit({ team, mine }: { team: string; mine: string }) {
   return (
     <div>
-      <p className="font-mono text-[15px] leading-relaxed text-zinc-400 uppercase tracking-widest">{team}</p>
+      <p className="font-mono text-[15px] leading-relaxed text-zinc-faded uppercase tracking-widest">{team}</p>
       <p className="mt-2 text-[19px] leading-snug text-zinc-faded">My part: {tieEnd(mine)}</p>
     </div>
   )
@@ -249,7 +249,7 @@ export function Badge({ children, accent = false }: { children: ReactNode; accen
   return (
     <span
       className={`font-mono text-[14px] uppercase tracking-widest rounded-xl px-4 py-2 border whitespace-nowrap ${
-        accent ? 'text-sage border-sage/40' : 'text-zinc-400 border-zinc-200 dark:border-zinc-200/30'
+        accent ? 'text-sage-ink border-sage/40' : 'text-zinc-faded border-zinc-200 dark:border-zinc-200/30'
       }`}
     >
       {children}
@@ -272,7 +272,7 @@ export function Entries({ heading, items }: { heading: string; items: Entry[] })
               <p className="font-serif text-[32px] leading-tight text-ink">{item.title}</p>
               <p className="mt-1 text-[20px] leading-snug text-zinc-faded">{item.place}</p>
               {item.note && <p className="mt-1 text-[18px] leading-snug text-ink-light">{item.note}</p>}
-              <p className="mt-2 font-mono text-[15px] text-zinc-400 uppercase tracking-widest">{item.period}</p>
+              <p className="mt-2 font-mono text-[15px] text-zinc-faded uppercase tracking-widest">{item.period}</p>
             </div>
           </li>
         ))}
@@ -300,28 +300,28 @@ export function Outline({ active, headline, after }: { active?: string; headline
             <li
               key={section.id}
               className={`flex items-baseline justify-between gap-8 py-5 border-b border-zinc-300 dark:border-zinc-300/60 transition-colors duration-700 ${
-                current || !active ? 'text-ink' : 'text-zinc-400'
+                current || !active ? 'text-ink' : 'text-zinc-faded'
               }`}
             >
               <span className="flex items-center gap-5">
                 <Icon
                   size={30}
                   strokeWidth={1.25}
-                  className={current ? 'text-sage' : 'text-zinc-400'}
+                  className={current ? 'text-sage-ink' : 'text-zinc-faded'}
                   aria-hidden="true"
                 />
                 <span className={`font-serif text-[44px] leading-tight ${current ? 'font-medium' : 'font-light'}`}>
                   {section.label}
                 </span>
               </span>
-              <span className={`font-mono text-[17px] tracking-widest ${current ? 'text-sage' : 'text-zinc-400'}`}>
+              <span className={`font-mono text-[17px] tracking-widest ${current ? 'text-sage-ink' : 'text-zinc-faded'}`}>
                 {section.minutes} MIN
               </span>
             </li>
           )
         })}
         {after && (
-          <li className="flex items-center gap-5 pt-5 text-zinc-400">
+          <li className="flex items-center gap-5 pt-5 text-zinc-faded">
             <MessagesSquare size={30} strokeWidth={1.25} aria-hidden="true" />
             <span className="font-serif text-[44px] leading-tight font-light">{after}</span>
           </li>
@@ -342,7 +342,7 @@ export function Contacts({ items }: { items: Contact[] }) {
     <ul className="flex flex-wrap gap-x-10 gap-y-3 font-mono text-[16px] text-zinc-faded">
       {items.map((item) => (
         <li key={item.label} className="flex items-center gap-2.5">
-          <span className="text-sage">{item.icon}</span>
+          <span className="text-sage-ink">{item.icon}</span>
           {item.label}
         </li>
       ))}

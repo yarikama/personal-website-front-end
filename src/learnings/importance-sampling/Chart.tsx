@@ -65,19 +65,19 @@ export default function Chart({
       {grid.map((m) => (
         <g key={m}>
           <line x1={LEFT} x2={right} y1={y(m)} y2={y(m)} className="stroke-zinc-200 dark:stroke-zinc-200/10" />
-          <text x={LEFT - 6} y={y(m) + 4} textAnchor="end" className="fill-zinc-400 font-mono text-[10px] tabular-nums">
+          <text x={LEFT - 6} y={y(m) + 4} textAnchor="end" className="fill-zinc-faded font-mono text-[10px] tabular-nums">
             {m}
           </text>
         </g>
       ))}
       {ticks.map((t) => (
-        <text key={t} x={x(t)} y={bottom + 16} textAnchor="middle" className="fill-zinc-400 font-mono text-[10px] tabular-nums">
+        <text key={t} x={x(t)} y={bottom + 16} textAnchor="middle" className="fill-zinc-faded font-mono text-[10px] tabular-nums">
           {t.toLocaleString('en-US')}
         </text>
       ))}
       <line x1={LEFT} x2={right} y1={y(truth)} y2={y(truth)} className="stroke-zinc-400" strokeDasharray="4 4" />
       {truthName && (
-        <text x={LEFT + 4} y={y(truth) - 5} className="fill-zinc-400 font-mono text-[10px]">
+        <text x={LEFT + 4} y={y(truth) - 5} className="fill-zinc-faded font-mono text-[10px]">
           {truthName}
         </text>
       )}
@@ -93,7 +93,7 @@ export default function Chart({
         />
       ))}
       {ends.map(({ line, at }) => (
-        <text key={line.name} x={right + 6} y={at + 4} className={`font-mono text-[10px] uppercase tracking-wider ${line.tone === 'sage' ? 'fill-sage' : 'fill-ink'}`}>
+        <text key={line.name} x={right + 6} y={at + 4} className={`font-mono text-[10px] uppercase tracking-wider ${line.tone === 'sage' ? 'fill-sage-ink' : 'fill-ink'}`}>
           {line.name}
         </text>
       ))}

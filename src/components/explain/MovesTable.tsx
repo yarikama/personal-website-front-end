@@ -38,7 +38,7 @@ export default function MovesTable({
     <div className="mx-auto w-full max-w-[26rem] font-mono text-[0.875rem]">
       <table className="w-full tabular-nums">
         <thead>
-          <tr className="text-[0.8rem] text-zinc-400">
+          <tr className="text-[0.8rem] text-zinc-faded">
             <th className="pb-2 text-left font-normal uppercase tracking-widest">Move</th>
             <th className="pb-2 text-right font-normal">r</th>
             <th className="pb-2 text-right font-normal">+ {g} × v′</th>
@@ -47,21 +47,21 @@ export default function MovesTable({
         </thead>
         <tbody>
           {rows.map((row) => (
-            <tr key={row.move} className={`border-t border-zinc-200 dark:border-zinc-200/15 ${row.best ? 'text-sage' : 'text-ink'}`}>
+            <tr key={row.move} className={`border-t border-zinc-200 dark:border-zinc-200/15 ${row.best ? 'text-sage-ink' : 'text-ink'}`}>
               <td className={`py-1.5 uppercase ${row.best ? '' : 'text-zinc-faded'}`}>
                 {row.move}
-                {row.stay ? <span className="text-zinc-400"> · edge</span> : null}
+                {row.stay ? <span className="text-zinc-faded"> · edge</span> : null}
               </td>
               <td className="py-1.5 text-right">{num(row.reward, 0)}</td>
               <td className="py-1.5 text-right">{num(row.there)}</td>
-              <td className={`py-1.5 text-right ${row.best === undefined ? 'text-sage' : ''}`}>{num(row.total, 2)}</td>
+              <td className={`py-1.5 text-right ${row.best === undefined ? 'text-sage-ink' : ''}`}>{num(row.total, 2)}</td>
             </tr>
           ))}
         </tbody>
       </table>
       <div className="mt-2 flex items-baseline justify-between border-t border-ink pt-2">
         <span className="uppercase tracking-widest text-zinc-faded">{sum}</span>
-        <span className="font-serif text-2xl text-sage tabular-nums">{num(value)}</span>
+        <span className="font-serif text-2xl text-sage-ink tabular-nums">{num(value)}</span>
       </div>
       <p className="mt-1 text-zinc-faded">{note}</p>
     </div>

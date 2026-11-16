@@ -120,12 +120,12 @@ export default function GpuMemory({ step }: { step: number }) {
       {[0, 2, 4, 6].map((gib) => (
         <g key={gib}>
           <line x1={X0 + scale(gib)} x2={X0 + scale(gib)} y1={128} y2={134} className="stroke-zinc-400" />
-          <text x={X0 + scale(gib)} y={148} textAnchor={gib === 0 ? 'start' : 'middle'} className="fill-zinc-400 font-mono text-[12px]">
+          <text x={X0 + scale(gib)} y={148} textAnchor={gib === 0 ? 'start' : 'middle'} className="fill-zinc-faded font-mono text-[12px]">
             {gib} GiB
           </text>
         </g>
       ))}
-      <text x={X1} y={148} textAnchor="end" className="fill-zinc-400 font-mono text-[12px]">
+      <text x={X1} y={148} textAnchor="end" className="fill-zinc-faded font-mono text-[12px]">
         {narrow ? USABLE : `${USABLE} usable`}
       </text>
       <text x={X0} y={178} className="fill-zinc-faded font-mono text-[12px]">

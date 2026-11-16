@@ -85,14 +85,14 @@ function Table({ x, width, title, scores, today, truth, bandit }: TableProps) {
               className={isBest ? 'fill-sage/15 stroke-sage' : 'fill-paper stroke-zinc-300 dark:stroke-zinc-200/25'}
               strokeWidth={today === r ? 3 : 1.5}
             />
-            <text x={x + 12} y={y + 22} className={`font-mono text-[15px] uppercase ${isBest ? 'fill-sage' : 'fill-ink'}`}>
+            <text x={x + 12} y={y + 22} className={`font-mono text-[15px] uppercase ${isBest ? 'fill-sage-ink' : 'fill-ink'}`}>
               {route}
             </text>
             <text x={x + 12} y={y + (truth ? 37 : 42)} className="fill-zinc-faded font-mono text-[13px]">
               {score.rides === 0 ? 'not ridden' : `${score.onTime} of ${score.rides} on time`}
             </text>
             {truth && (
-              <text x={x + 12} y={y + 52} className="fill-zinc-400 font-mono text-[12px]">
+              <text x={x + 12} y={y + 52} className="fill-zinc-faded font-mono text-[12px]">
                 truly: dry {percent(ON_TIME[0][r])}, rain {percent(ON_TIME[1][r])}
               </text>
             )}
@@ -100,7 +100,7 @@ function Table({ x, width, title, scores, today, truth, bandit }: TableProps) {
               x={x + width - 12}
               y={y + 40}
               textAnchor="end"
-              className={`font-serif text-[30px] ${score.rides ? (isBest ? 'fill-sage' : 'fill-ink') : 'fill-zinc-400'}`}
+              className={`font-serif text-[30px] ${score.rides ? (isBest ? 'fill-sage-ink' : 'fill-ink') : 'fill-zinc-faded'}`}
             >
               {score.rides ? percent(score.onTime / score.rides) : '?'}
             </text>
@@ -108,7 +108,7 @@ function Table({ x, width, title, scores, today, truth, bandit }: TableProps) {
         )
       })}
       {bandit && (
-        <text x={x + width / 2} y={ROW_Y(2) + 12} textAnchor="middle" className="fill-sage font-mono text-[13px] uppercase tracking-widest">
+        <text x={x + width / 2} y={ROW_Y(2) + 12} textAnchor="middle" className="fill-sage-ink font-mono text-[13px] uppercase tracking-widest">
           A bandit of its own
         </text>
       )}
@@ -196,7 +196,7 @@ export default function Commute({ run, from, to, pace, truth = false, named = fa
           x={TODAY_X}
           y={110}
           textAnchor="middle"
-          className={look ? 'fill-ink font-serif text-[22px]' : 'fill-zinc-400 font-mono text-[13px] uppercase tracking-widest'}
+          className={look ? 'fill-ink font-serif text-[22px]' : 'fill-zinc-faded font-mono text-[13px] uppercase tracking-widest'}
         >
           {look ? SKIES[today.sky] : 'not checked'}
         </text>
@@ -211,7 +211,7 @@ export default function Commute({ run, from, to, pace, truth = false, named = fa
             x={TODAY_X}
             y={198}
             textAnchor="middle"
-            className={`font-mono text-[13px] uppercase tracking-widest ${today.onTime ? 'fill-sage' : 'fill-ink'}`}
+            className={`font-mono text-[13px] uppercase tracking-widest ${today.onTime ? 'fill-sage-ink' : 'fill-ink'}`}
           >
             {today.onTime ? 'On time' : 'Late'}
           </text>
@@ -236,7 +236,7 @@ export default function Commute({ run, from, to, pace, truth = false, named = fa
             x={look ? 422 : xs[0] + WIDE_W / 2}
             y={named ? 204 : 196}
             textAnchor="middle"
-            className="fill-sage font-mono text-[13px] uppercase tracking-widest"
+            className="fill-sage-ink font-mono text-[13px] uppercase tracking-widest"
           >
             {named ? 'Policy' : 'Your rule'}:{' '}
             {look ? `dry → ${said(rule[0])} · rain → ${said(rule[1])}` : `always the ${said(rule[0])}`}

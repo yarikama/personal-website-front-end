@@ -77,7 +77,7 @@ export default function Gaps({ run, upTo, ghost = true }: { run: Run; upTo: numb
           <line x1={LEFT} x2={RIGHT} y1={yOff(off)} y2={yOff(off)} className="stroke-zinc-200 dark:stroke-zinc-200/10" />
           {/* Every other decade, so the labels have room on a phone */}
           {off !== 1 && off !== 0.01 && (
-            <text x={LEFT - 8} y={yOff(off) + 4} textAnchor="end" className="fill-zinc-400 font-mono text-[11px]">
+            <text x={LEFT - 8} y={yOff(off) + 4} textAnchor="end" className="fill-zinc-faded font-mono text-[11px]">
               {off}
             </text>
           )}
@@ -92,7 +92,7 @@ export default function Gaps({ run, upTo, ghost = true }: { run: Run; upTo: numb
             y2={yMoves(count)}
             className="stroke-zinc-200 dark:stroke-zinc-200/10"
           />
-          <text x={LEFT - 8} y={yMoves(count) + 4} textAnchor="end" className="fill-zinc-400 font-mono text-[11px]">
+          <text x={LEFT - 8} y={yMoves(count) + 4} textAnchor="end" className="fill-zinc-faded font-mono text-[11px]">
             {count}
           </text>
         </g>
@@ -103,7 +103,7 @@ export default function Gaps({ run, upTo, ghost = true }: { run: Run; upTo: numb
           x={xOf(sweep * PER_SWEEP)}
           y={MOVES_BOTTOM + 18}
           textAnchor="middle"
-          className="fill-zinc-400 font-mono text-[11px]"
+          className="fill-zinc-faded font-mono text-[11px]"
         >
           {sweep}
         </text>

@@ -68,12 +68,12 @@ export default function Kitchen({ run, spread }: { run: KitchenEvening[]; spread
               <text x={LEFT} y={axis - TASTE - 16} className="fill-zinc-faded font-mono text-[11px] uppercase tracking-widest">
                 {NAMES[dish]}
               </text>
-              <text x={RIGHT} y={axis - TASTE - 16} textAnchor="end" className="fill-sage font-mono text-[11px] tabular-nums">
+              <text x={RIGHT} y={axis - TASTE - 16} textAnchor="end" className="fill-sage-ink font-mono text-[11px] tabular-nums">
                 {habit.centre.toFixed(1)} ± {habit.spread.toFixed(2)}
               </text>
               <line x1={LEFT} x2={RIGHT} y1={axis} y2={axis} className="stroke-zinc-300 dark:stroke-zinc-200/25" />
               {Array.from({ length: 11 }, (_, p) => (
-                <text key={p} x={x(p)} y={axis + 15} textAnchor="middle" className="fill-zinc-400 font-mono text-[10px]">
+                <text key={p} x={x(p)} y={axis + 15} textAnchor="middle" className="fill-zinc-faded font-mono text-[10px]">
                   {p}
                 </text>
               ))}

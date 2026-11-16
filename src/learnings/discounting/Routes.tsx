@@ -24,7 +24,7 @@ export default function Routes({ gamma }: { gamma: number }) {
                 <span
                   key={i}
                   className={`flex h-6 w-6 items-center justify-center rounded-md font-mono text-[0.8125rem] ${
-                    reward > 0 ? 'bg-sage text-paper' : 'border border-zinc-300 text-zinc-400 dark:border-zinc-200/25'
+                    reward > 0 ? 'bg-sage text-paper' : 'border border-zinc-300 text-zinc-faded dark:border-zinc-200/25'
                   }`}
                   style={reward > 0 ? undefined : { opacity: 0.3 + 0.7 * gamma ** i }}
                 >
@@ -32,7 +32,7 @@ export default function Routes({ gamma }: { gamma: number }) {
                 </span>
               ))}
               <span className="h-6 w-6 rounded-md bg-ink" title="The end of the episode" />
-              <span className="font-mono text-[0.8125rem] text-zinc-400">0 0 0 …</span>
+              <span className="font-mono text-[0.8125rem] text-zinc-faded">0 0 0 …</span>
             </div>
             <p className="mt-2 font-mono text-[0.875rem] text-ink">
               {gamma === 1 ? (
@@ -44,7 +44,7 @@ export default function Routes({ gamma }: { gamma: number }) {
                 </>
               )}{' '}
               ={' '}
-              <span className={r === 0 ? 'text-sage' : undefined}>{show(discounted(rewards, gamma))}</span>
+              <span className={r === 0 ? 'text-sage-ink' : undefined}>{show(discounted(rewards, gamma))}</span>
             </p>
           </div>
         )

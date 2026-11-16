@@ -46,7 +46,7 @@ function Status({ children }: { children: string }) {
 
 const turns = (trip: Trip) =>
   trip.map((leg, i) => (
-    <span key={i} className={leg.jammed ? 'text-ink' : leg.turn === 'main' ? 'text-sage' : 'text-zinc-faded'}>
+    <span key={i} className={leg.jammed ? 'text-ink' : leg.turn === 'main' ? 'text-sage-ink' : 'text-zinc-faded'}>
       {i ? ' · ' : ''}
       {leg.jammed ? 'jam' : leg.turn}
     </span>
@@ -71,7 +71,7 @@ function Log({ rows, weights, footer }: { rows: number; weights: boolean; footer
               <td className="py-1">{i + 1}</td>
               <td className="py-1">{turns(trip)}</td>
               <td className="py-1 text-right text-ink">{tripMinutes(trip)}</td>
-              {weights && <td className="py-1 text-right text-sage">{fixed(weightOf(trip), 2)}</td>}
+              {weights && <td className="py-1 text-right text-sage-ink">{fixed(weightOf(trip), 2)}</td>}
             </tr>
           ))}
         </tbody>
@@ -80,7 +80,7 @@ function Log({ rows, weights, footer }: { rows: number; weights: boolean; footer
         {footer.map((item) => (
           <div key={item.label} className="flex flex-col">
             <span className="font-mono text-[0.8125rem] uppercase tracking-widest text-zinc-faded">{item.label}</span>
-            <span className={`font-serif text-2xl font-light tabular-nums ${item.accent ? 'text-sage' : 'text-ink'}`}>{item.value}</span>
+            <span className={`font-serif text-2xl font-light tabular-nums ${item.accent ? 'text-sage-ink' : 'text-ink'}`}>{item.value}</span>
           </div>
         ))}
       </div>
@@ -155,11 +155,11 @@ export default function Story({ step }: { step: number }) {
           {passed > 1 && (
             <>
               {' = '}
-              <span className="text-sage">{fixed(sofar, 2)}</span>
+              <span className="text-sage-ink">{fixed(sofar, 2)}</span>
             </>
           )}
         </p>
-        <p className="mt-1 min-h-[1.5rem] text-center font-mono text-[0.875rem] text-zinc-400">
+        <p className="mt-1 min-h-[1.5rem] text-center font-mono text-[0.875rem] text-zinc-faded">
           {step === 3 && passed >= 2 ? 'A jam: 1 in 4, whoever drives' : ''}
         </p>
       </div>

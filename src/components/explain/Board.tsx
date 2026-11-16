@@ -178,7 +178,7 @@ export default function Board({
           key={mark.text}
           x={PAD + mark.at.x * CELL + 6}
           y={PAD + mark.at.y * CELL + 16}
-          className={`pointer-events-none font-mono text-[13px] ${mark.accent ? 'fill-sage' : 'fill-zinc-faded'}`}
+          className={`pointer-events-none font-mono text-[13px] ${mark.accent ? 'fill-sage-ink' : 'fill-zinc-faded'}`}
         >
           {mark.text}
         </text>
@@ -201,7 +201,7 @@ export default function Board({
                 strokeDasharray="5 4"
                 markerEnd="url(#board-arrow)"
               />
-              <text x={mid.x + 2} y={mid.y + 5} className="fill-sage font-mono text-[15px]">
+              <text x={mid.x + 2} y={mid.y + 5} className="fill-sage-ink font-mono text-[15px]">
                 +{jump.reward}
               </text>
             </g>
@@ -315,7 +315,7 @@ export default function Board({
               x={PAD + walker.x * CELL + CELL / 2}
               y={PAD + walker.y * CELL + CELL / 2 - 17}
               textAnchor="middle"
-              className={`font-mono text-[15px] ${said.startsWith('−') ? 'fill-ink' : 'fill-sage'}`}
+              className={`font-mono text-[15px] ${said.startsWith('−') ? 'fill-ink' : 'fill-sage-ink'}`}
             >
               {said}
             </text>

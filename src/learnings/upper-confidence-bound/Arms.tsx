@@ -64,7 +64,7 @@ export default function Arms({ c }: { c: number }) {
               y2={y(value)}
               className={value === 0 ? 'stroke-zinc-300 dark:stroke-zinc-200/25' : 'stroke-zinc-200 dark:stroke-zinc-200/10'}
             />
-            <text x={LEFT - 8} y={y(value) + 4} textAnchor="end" className="fill-zinc-400 font-mono text-[11px]">
+            <text x={LEFT - 8} y={y(value) + 4} textAnchor="end" className="fill-zinc-faded font-mono text-[11px]">
               {value}
             </text>
           </g>
@@ -134,10 +134,10 @@ export default function Arms({ c }: { c: number }) {
             </g>
           )
         })}
-        <text x={LEFT - 8} y={BOTTOM + 22} textAnchor="end" className="fill-zinc-400 font-mono text-[10px] uppercase">
+        <text x={LEFT - 8} y={BOTTOM + 22} textAnchor="end" className="fill-zinc-faded font-mono text-[10px] uppercase">
           arm
         </text>
-        <text x={LEFT - 8} y={BOTTOM + 40} textAnchor="end" className="fill-zinc-400 font-mono text-[10px] uppercase">
+        <text x={LEFT - 8} y={BOTTOM + 40} textAnchor="end" className="fill-zinc-faded font-mono text-[10px] uppercase">
           N
         </text>
       </svg>

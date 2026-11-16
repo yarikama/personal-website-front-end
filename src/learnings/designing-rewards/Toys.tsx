@@ -101,7 +101,7 @@ export default function Toys({ evening, named = false }: { evening: Evening; nam
       {/* Your brother */}
       <circle cx={kid.x} cy={kid.y} r={13} className="fill-sage" />
       {named && (
-        <text x={kid.x + 20} y={kid.y + 5} className="fill-sage font-mono text-[15px] uppercase tracking-widest">
+        <text x={kid.x + 20} y={kid.y + 5} className="fill-sage-ink font-mono text-[15px] uppercase tracking-widest">
           agent
         </text>
       )}

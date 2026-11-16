@@ -42,7 +42,7 @@ export default function Spread({ baseline, each }: { baseline: boolean; each: nu
         {[-4, -2, 0, 2, 4].map((tick) => (
           <g key={tick}>
             <line x1={x(tick)} x2={x(tick)} y1={BAND[0] - 8} y2={BAND[1] + 8} className="stroke-zinc-200 dark:stroke-zinc-200/10" />
-            <text x={x(tick)} y={BAND[1] + 26} textAnchor="middle" className="fill-zinc-400 font-mono text-[12px]">
+            <text x={x(tick)} y={BAND[1] + 26} textAnchor="middle" className="fill-zinc-faded font-mono text-[12px]">
               {tick > 0 ? `+${tick}` : tick < 0 ? `−${-tick}` : '0'}
             </text>
           </g>
@@ -51,7 +51,7 @@ export default function Spread({ baseline, each }: { baseline: boolean; each: nu
           <circle key={i} cx={x(value)} cy={heights[i]} r={4} className="fill-ink" opacity={0.45} />
         ))}
         <line x1={x(truth)} x2={x(truth)} y1={BAND[0] - 16} y2={BAND[1] + 8} className="stroke-sage" strokeWidth={2.5} />
-        <text x={x(truth)} y={BAND[0] - 21} textAnchor="middle" className="fill-sage font-mono text-[12px] uppercase tracking-widest">
+        <text x={x(truth)} y={BAND[0] - 21} textAnchor="middle" className="fill-sage-ink font-mono text-[12px] uppercase tracking-widest">
           True slope
         </text>
         <text x={WIDTH / 2} y={HEIGHT - 4} textAnchor="middle" className="fill-zinc-faded font-mono text-[12px] uppercase tracking-widest">

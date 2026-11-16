@@ -37,13 +37,13 @@ export default function Weekends({ summary }: { summary: Summary }) {
       {[0, 0.25, 0.5, 0.75, 1].map((share) => (
         <g key={share}>
           <line x1={LEFT} x2={RIGHT} y1={y(share)} y2={y(share)} className="stroke-zinc-300 dark:stroke-zinc-200/25" strokeDasharray={share === 0 ? undefined : '2 4'} />
-          <text x={LEFT - 8} y={y(share) + 4} textAnchor="end" className="fill-zinc-400 font-mono text-[11px] tabular-nums">
+          <text x={LEFT - 8} y={y(share) + 4} textAnchor="end" className="fill-zinc-faded font-mono text-[11px] tabular-nums">
             {Math.round(100 * share)}%
           </text>
         </g>
       ))}
       {[0, 5, 10, 15, 20].map((w) => (
-        <text key={w} x={x(w)} y={BOTTOM + 18} textAnchor="middle" className="fill-zinc-400 font-mono text-[11px]">
+        <text key={w} x={x(w)} y={BOTTOM + 18} textAnchor="middle" className="fill-zinc-faded font-mono text-[11px]">
           {w}
         </text>
       ))}

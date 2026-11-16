@@ -101,7 +101,7 @@ export default function Track({
             {note?.accent && (
               <rect x={x + 3} y={y + 3} width={CELL - 6} height={CELL - 6} fill="none" className="stroke-sage" strokeWidth={2} />
             )}
-            <text x={x + CELL / 2} y={y + 13} textAnchor="middle" className="fill-zinc-400 font-mono text-[10px]">
+            <text x={x + CELL / 2} y={y + 13} textAnchor="middle" className="fill-zinc-faded font-mono text-[10px]">
               {named && !jump && square !== FINISH ? `s${square}` : square}
               {jump !== undefined && ` → ${jump}`}
             </text>
@@ -111,7 +111,7 @@ export default function Track({
               </text>
             )}
             {square === START && !note?.main && (
-              <text x={x + CELL / 2} y={y + CELL / 2 + 4} textAnchor="middle" className="fill-zinc-400 font-mono text-[10px] uppercase tracking-widest">
+              <text x={x + CELL / 2} y={y + CELL / 2 + 4} textAnchor="middle" className="fill-zinc-faded font-mono text-[10px] uppercase tracking-widest">
                 Start
               </text>
             )}
@@ -143,12 +143,12 @@ export default function Track({
         return (
           <g key={key} style={{ paintOrder: 'stroke' }} className="stroke-paper" strokeWidth={4} strokeLinejoin="round">
             {note.main && (
-              <text x={x} y={y + 5} textAnchor="middle" className={`font-mono text-[15px] tabular-nums ${note.accent ? 'fill-sage' : 'fill-ink'}`}>
+              <text x={x} y={y + 5} textAnchor="middle" className={`font-mono text-[15px] tabular-nums ${note.accent ? 'fill-sage-ink' : 'fill-ink'}`}>
                 {note.main}
               </text>
             )}
             {note.sub && (
-              <text x={x} y={y + 22} textAnchor="middle" className="fill-zinc-400 font-mono text-[10px] tabular-nums">
+              <text x={x} y={y + 22} textAnchor="middle" className="fill-zinc-faded font-mono text-[10px] tabular-nums">
                 {note.sub}
               </text>
             )}

@@ -130,13 +130,13 @@ export default function CityMap({ label, walks = 0, path = null, along, shade = 
         hotel
       </text>
       <rect x={station.x - 5} y={station.y - 5} width={10} height={10} className="fill-sage" />
-      <text x={station.x} y={station.y - 11} textAnchor="middle" className="fill-sage font-mono text-[11px] uppercase tracking-widest">
+      <text x={station.x} y={station.y - 11} textAnchor="middle" className="fill-sage-ink font-mono text-[11px] uppercase tracking-widest">
         station
       </text>
       <text
         x={MARGIN + c.river * CELL + CELL + 4}
         y={MARGIN + c.size * CELL - 6}
-        className="fill-zinc-400 font-mono text-[11px] uppercase tracking-widest"
+        className="fill-zinc-faded font-mono text-[11px] uppercase tracking-widest"
       >
         river
       </text>

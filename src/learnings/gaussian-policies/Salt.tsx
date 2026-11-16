@@ -89,7 +89,7 @@ export default function Salt({
           {sweep !== null && (
             <g>
               <line x1={x(sweep)} x2={x(sweep)} y1={AXIS - 60} y2={AXIS} className="stroke-sage" strokeWidth={2.5} />
-              <text x={x(sweep)} y={AXIS - 68} textAnchor="middle" className="fill-sage font-mono text-[12px] tabular-nums">
+              <text x={x(sweep)} y={AXIS - 68} textAnchor="middle" className="fill-sage-ink font-mono text-[12px] tabular-nums">
                 {sweep.toFixed(2)}
               </text>
             </g>
@@ -165,12 +165,12 @@ export default function Salt({
           )
         })}
         {!quick && !named && !dropping && (
-          <text x={x(evening.pinches)} y={AXIS - 14} textAnchor="middle" className={`font-mono text-[12px] tabular-nums ${surprise > 0.05 ? 'fill-sage' : 'fill-ink'}`}>
+          <text x={x(evening.pinches)} y={AXIS - 14} textAnchor="middle" className={`font-mono text-[12px] tabular-nums ${surprise > 0.05 ? 'fill-sage-ink' : 'fill-ink'}`}>
             {one(evening.rating)}
           </text>
         )}
         {pushing && centreWay !== 0 && (
-          <text x={x(habit.centre) + centreWay * 16} y={AXIS - BELL - 26} textAnchor="middle" className="fill-sage font-mono text-[16px]">
+          <text x={x(habit.centre) + centreWay * 16} y={AXIS - BELL - 26} textAnchor="middle" className="fill-sage-ink font-mono text-[16px]">
             {centreWay > 0 ? '→' : '←'}
           </text>
         )}
@@ -216,12 +216,12 @@ function Drawing({
       {Array.from({ length: 11 }, (_, p) => (
         <g key={p}>
           <line x1={x(p)} x2={x(p)} y1={AXIS} y2={AXIS + 5} className="stroke-zinc-300 dark:stroke-zinc-200/25" />
-          <text x={x(p)} y={AXIS + 19} textAnchor="middle" className="fill-zinc-400 font-mono text-[11px]">
+          <text x={x(p)} y={AXIS + 19} textAnchor="middle" className="fill-zinc-faded font-mono text-[11px]">
             {p}
           </text>
         </g>
       ))}
-      <text x={(LEFT + RIGHT) / 2} y={AXIS + 38} textAnchor="middle" className={`font-mono text-[11px] tracking-widest ${named ? 'fill-sage' : 'fill-zinc-faded uppercase'}`}>
+      <text x={(LEFT + RIGHT) / 2} y={AXIS + 38} textAnchor="middle" className={`font-mono text-[11px] tracking-widest ${named ? 'fill-sage-ink' : 'fill-zinc-faded uppercase'}`}>
         {named ? 'action a, in pinches' : 'pinches of salt'}
       </text>
 
@@ -240,11 +240,11 @@ function Drawing({
         <g>
           <path d={bellPath(habit)} className="fill-sage/15 stroke-sage" strokeWidth={2} />
           <line x1={x(habit.centre)} x2={x(habit.centre)} y1={AXIS} y2={AXIS - BELL - 6} className="stroke-sage" strokeDasharray="3 3" />
-          <text x={x(habit.centre)} y={AXIS - BELL - 12} textAnchor="middle" className="fill-sage font-mono text-[12px] tabular-nums">
+          <text x={x(habit.centre)} y={AXIS - BELL - 12} textAnchor="middle" className="fill-sage-ink font-mono text-[12px] tabular-nums">
             {named ? `mean μ ${one(habit.centre)}` : `centre ${one(habit.centre)}`}
           </text>
           <line x1={x(habit.centre - habit.spread)} x2={x(habit.centre + habit.spread)} y1={shoulder} y2={shoulder} className="stroke-sage" strokeWidth={1.5} />
-          <text x={x(habit.centre + habit.spread) + 22} y={shoulder - 8} className="fill-sage font-mono text-[12px] tabular-nums">
+          <text x={x(habit.centre + habit.spread) + 22} y={shoulder - 8} className="fill-sage-ink font-mono text-[12px] tabular-nums">
             {named ? `σ ${habit.spread.toFixed(2)}` : `± ${habit.spread.toFixed(2)}`}
           </text>
         </g>
@@ -264,7 +264,7 @@ function Drawing({
           <text x={LEFT} y={STRIP[0] - 8} className="fill-zinc-faded font-mono text-[11px] uppercase tracking-widest">
             the spread, evening by evening
           </text>
-          <text x={RIGHT} y={STRIP[1] + 16} textAnchor="end" className="fill-zinc-400 font-mono text-[11px]">
+          <text x={RIGHT} y={STRIP[1] + 16} textAnchor="end" className="fill-zinc-faded font-mono text-[11px]">
             {STRIP_EVENINGS}
           </text>
         </g>

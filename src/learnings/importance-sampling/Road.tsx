@@ -90,19 +90,19 @@ export default function Road({
             )}
             {text && (
               <g>
-                <text x={mid} y={MAIN_Y + 24} textAnchor="middle" className={`font-mono text-[13px] tabular-nums ${lit && leg?.turn === 'main' ? 'fill-sage' : 'fill-ink'}`}>
+                <text x={mid} y={MAIN_Y + 24} textAnchor="middle" className={`font-mono text-[13px] tabular-nums ${lit && leg?.turn === 'main' ? 'fill-sage-ink' : 'fill-ink'}`}>
                   {text.main}
                 </text>
                 {text.mainNote && (
-                  <text x={mid} y={MAIN_Y + 40} textAnchor="middle" className="fill-zinc-400 font-mono text-[10px]">
+                  <text x={mid} y={MAIN_Y + 40} textAnchor="middle" className="fill-zinc-faded font-mono text-[10px]">
                     {text.mainNote}
                   </text>
                 )}
-                <text x={mid} y={(MAIN_Y + BOW_Y) / 2 + 22} textAnchor="middle" className={`font-mono text-[13px] tabular-nums ${lit && leg?.turn === 'side' ? 'fill-sage' : 'fill-ink'}`}>
+                <text x={mid} y={(MAIN_Y + BOW_Y) / 2 + 22} textAnchor="middle" className={`font-mono text-[13px] tabular-nums ${lit && leg?.turn === 'side' ? 'fill-sage-ink' : 'fill-ink'}`}>
                   {text.side}
                 </text>
                 {text.sideNote && (
-                  <text x={mid} y={(MAIN_Y + BOW_Y) / 2 - 12} textAnchor="middle" className="fill-zinc-400 font-mono text-[10px]">
+                  <text x={mid} y={(MAIN_Y + BOW_Y) / 2 - 12} textAnchor="middle" className="fill-zinc-faded font-mono text-[10px]">
                     {text.sideNote}
                   </text>
                 )}
@@ -114,10 +114,10 @@ export default function Road({
       {Array.from({ length: legs + 1 }, (_, k) => (
         <circle key={k} cx={nodeX(k, legs)} cy={MAIN_Y} r={k === 0 || k === legs ? 6 : 4} className="fill-paper stroke-zinc-400" strokeWidth={1.5} />
       ))}
-      <text x={nodeX(0, legs)} y={MAIN_Y + 24} textAnchor="middle" className="fill-zinc-400 font-mono text-[10px] uppercase tracking-widest">
+      <text x={nodeX(0, legs)} y={MAIN_Y + 24} textAnchor="middle" className="fill-zinc-faded font-mono text-[10px] uppercase tracking-widest">
         Home
       </text>
-      <text x={nodeX(legs, legs)} y={MAIN_Y + 24} textAnchor="middle" className="fill-zinc-400 font-mono text-[10px] uppercase tracking-widest">
+      <text x={nodeX(legs, legs)} y={MAIN_Y + 24} textAnchor="middle" className="fill-zinc-faded font-mono text-[10px] uppercase tracking-widest">
         Work
       </text>
       <circle cx={car.x} cy={car.y} r={7} className={`${tone === 'sage' ? 'fill-sage' : 'fill-ink'} stroke-paper`} strokeWidth={2} />

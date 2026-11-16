@@ -21,8 +21,8 @@ export default function NotePage() {
       <div className="pt-24">
         <Section>
           <div className="py-32 flex flex-col items-center justify-center">
-            <Loader2 className="w-8 h-8 animate-spin text-zinc-400 mb-4" />
-            <p className="text-sm text-zinc-400">Loading article...</p>
+            <Loader2 className="w-8 h-8 animate-spin text-zinc-faded mb-4" />
+            <p className="text-sm text-zinc-faded">Loading article...</p>
           </div>
         </Section>
       </div>
@@ -66,15 +66,15 @@ export default function NotePage() {
         <article>
           <header className="mb-12">
             <div className="flex items-center gap-4 mb-6">
-              <span className="font-mono text-sm text-zinc-400 uppercase tracking-widest">
+              <span className="font-mono text-sm text-zinc-faded uppercase tracking-widest">
                 {new Date(note.date).toLocaleDateString('en-US', {
                   year: 'numeric',
                   month: 'long',
                   day: 'numeric',
                 })}
               </span>
-              <span className="font-mono text-sm text-zinc-400">·</span>
-              <span className="font-mono text-sm text-zinc-400 uppercase tracking-widest">
+              <span className="font-mono text-sm text-zinc-faded">·</span>
+              <span className="font-mono text-sm text-zinc-faded uppercase tracking-widest">
                 {note.readTime}
               </span>
             </div>
@@ -87,7 +87,7 @@ export default function NotePage() {
               {note.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="font-mono text-xs text-zinc-400 uppercase tracking-widest px-2 py-1 rounded-full border border-zinc-200 dark:border-zinc-700"
+                  className="font-mono text-xs text-zinc-faded uppercase tracking-widest px-2 py-1 rounded-full border border-zinc-200 dark:border-zinc-700"
                 >
                   {tag}
                 </span>

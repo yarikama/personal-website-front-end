@@ -128,13 +128,13 @@ export default function Signs({ count }: { count: number }) {
         {[0, 0.25, 0.5, 0.75, 1].map((share) => (
           <g key={share}>
             <line x1={LEFT} x2={RIGHT} y1={y(share)} y2={y(share)} className="stroke-zinc-200 dark:stroke-zinc-200/10" />
-            <text x={LEFT - 8} y={y(share) + 4} textAnchor="end" className="fill-zinc-400 font-mono text-[12px]">
+            <text x={LEFT - 8} y={y(share) + 4} textAnchor="end" className="fill-zinc-faded font-mono text-[12px]">
               {percent(share)}
             </text>
           </g>
         ))}
         {[0, 250, 500, 750, STEPS - 1].map((step) => (
-          <text key={step} x={x(step)} y={BOTTOM + 18} textAnchor="middle" className="fill-zinc-400 font-mono text-[12px]">
+          <text key={step} x={x(step)} y={BOTTOM + 18} textAnchor="middle" className="fill-zinc-faded font-mono text-[12px]">
             {step + 1}
           </text>
         ))}
@@ -146,7 +146,7 @@ export default function Signs({ count }: { count: number }) {
         <text x={RIGHT + 8} y={oneEnd + 4 + (perAbove ? nudge : -nudge)} className="fill-ink font-mono text-[12px] uppercase tracking-widest">
           One table
         </text>
-        <text x={RIGHT + 8} y={perEnd + 4 + (perAbove ? -nudge : nudge)} className="fill-sage font-mono text-[12px] uppercase tracking-widest">
+        <text x={RIGHT + 8} y={perEnd + 4 + (perAbove ? -nudge : nudge)} className="fill-sage-ink font-mono text-[12px] uppercase tracking-widest">
           Per sign
         </text>
       </svg>
@@ -156,7 +156,7 @@ export default function Signs({ count }: { count: number }) {
           <tr className="font-mono text-[0.875rem] uppercase tracking-widest">
             <th className="w-2/5 pb-1 font-normal" />
             <th className="pb-1 font-normal text-ink">One table</th>
-            <th className="pb-1 font-normal text-sage">Table per sign</th>
+            <th className="pb-1 font-normal text-sage-ink">Table per sign</th>
           </tr>
         </thead>
         <tbody className="font-serif text-3xl font-light tabular-nums">
@@ -165,14 +165,14 @@ export default function Signs({ count }: { count: number }) {
               Best arm, last 100 steps
             </th>
             <td className="py-1 text-ink">{percent(meanOf(one.best, STEPS - 100))}</td>
-            <td className="py-1 text-sage">{percent(meanOf(per.best, STEPS - 100))}</td>
+            <td className="py-1 text-sage-ink">{percent(meanOf(per.best, STEPS - 100))}</td>
           </tr>
           <tr>
             <th className="py-1 pr-2 align-middle font-mono text-[0.875rem] font-normal uppercase tracking-widest text-zinc-faded">
               Reward, last 100 steps
             </th>
             <td className="py-1 text-ink">{meanOf(one.reward, STEPS - 100).toFixed(2)}</td>
-            <td className="py-1 text-sage">{meanOf(per.reward, STEPS - 100).toFixed(2)}</td>
+            <td className="py-1 text-sage-ink">{meanOf(per.reward, STEPS - 100).toFixed(2)}</td>
           </tr>
         </tbody>
       </table>

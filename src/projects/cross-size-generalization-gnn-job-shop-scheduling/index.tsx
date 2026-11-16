@@ -287,10 +287,10 @@ function Factorial() {
                     worst ? 'border-ink/40 bg-ink/10' : 'border-sage bg-sage/15'
                   }`}
                 >
-                  <span className={`font-serif text-4xl font-light tabular-nums ${worst ? 'text-ink' : 'text-sage'}`}>
+                  <span className={`font-serif text-4xl font-light tabular-nums ${worst ? 'text-ink' : 'text-sage-ink'}`}>
                     {cell.value.toFixed(1)}%
                   </span>
-                  <span className="mt-1 font-mono text-[0.8rem] uppercase tracking-widest text-zinc-400">
+                  <span className="mt-1 font-mono text-[0.8rem] uppercase tracking-widest text-zinc-faded">
                     {worst ? 'neither fix' : cell.row === 'Hubs only' && cell.col === 'Average' ? 'both' : 'one fix'}
                   </span>
                 </motion.div>

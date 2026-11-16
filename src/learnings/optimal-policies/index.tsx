@@ -72,7 +72,7 @@ export default function OptimalPolicies() {
           <>
             Every square gets its best worth the same way: the reward of its best move, plus 0.9 of the best worth of
             where that move lands. Working the numbers out is{' '}
-            <Link to="/learnings/value-iteration" className="text-sage hover:underline">
+            <Link to="/learnings/value-iteration" className="text-sage-ink hover:underline">
               Improve as you go
             </Link>
             .

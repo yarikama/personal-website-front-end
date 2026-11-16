@@ -70,7 +70,7 @@ export const closing: SlideDef[] = [
                   i < layers.length - 1 ? 'border-b border-zinc-200 dark:border-zinc-200/30' : ''
                 }`}
               >
-                <p className="flex items-center gap-2.5 font-mono text-[15px] text-sage uppercase tracking-widest">
+                <p className="flex items-center gap-2.5 font-mono text-[15px] text-sage-ink uppercase tracking-widest">
                   <item.icon size={20} strokeWidth={1.5} aria-hidden="true" />
                   {item.area}
                 </p>
@@ -98,7 +98,7 @@ export const closing: SlideDef[] = [
         <dl className="mt-20 grid grid-cols-4 gap-10">
           {contacts.map(([label, value]) => (
             <div key={label}>
-              <dt className="font-mono text-[15px] text-zinc-400 uppercase tracking-widest">{label}</dt>
+              <dt className="font-mono text-[15px] text-zinc-faded uppercase tracking-widest">{label}</dt>
               <dd className="mt-2 font-mono text-[19px] text-ink">{value}</dd>
             </div>
           ))}
