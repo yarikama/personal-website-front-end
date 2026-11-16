@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom'
 import Section from '../layout/Section'
-import ProjectCard from '../ui/ProjectCard'
+import FeaturedCard from '../ui/FeaturedCard'
+import TopoField from '../ui/TopoField'
 import { useFeaturedProjects } from '../../hooks'
-import { findCaseStudy } from '../../projects'
 import { hookOf } from '../../projects/hooks'
 import { Loader2 } from 'lucide-react'
 
@@ -11,17 +11,23 @@ export default function BriefSelection() {
 
   return (
     <Section id="works">
-      <div className="mb-16">
-        <span className="font-mono text-sm text-zinc-faded uppercase tracking-widest">
-          Selected Works
-        </span>
-        <h2 className="font-serif text-4xl md:text-5xl font-light mt-4 tracking-tight">
-          Featured Projects
-        </h2>
-        <p className="mt-4 text-lg md:text-xl leading-relaxed text-zinc-faded max-w-2xl">
-          A curated selection of projects that represent my approach to engineering: thoughtful
-          architecture, clean implementation, and measurable impact.
-        </p>
+      {/* The heading, with the way to every project beside it, over a contour field that fades out before the text */}
+      <div className="relative mb-14 flex flex-wrap items-end justify-between gap-x-6 gap-y-4">
+        <TopoField className="absolute -right-10 -top-16 h-[calc(100%+7rem)] w-[min(62%,40rem)] [mask-image:linear-gradient(to_right,transparent,#000_45%,#000_85%,transparent),linear-gradient(to_bottom,transparent,#000_30%,#000_70%,transparent)] [mask-composite:intersect] [-webkit-mask-composite:source-in] max-md:w-full max-md:-right-4 max-md:opacity-70" />
+        <div className="relative">
+          <span className="font-mono text-sm text-zinc-faded uppercase tracking-widest">
+            Selected Works
+          </span>
+          <h2 className="font-serif text-4xl md:text-5xl font-light mt-4 tracking-tight">
+            Featured Projects
+          </h2>
+        </div>
+        <Link
+          to="/works"
+          className="relative pb-1.5 font-mono text-sm uppercase tracking-widest text-sage-ink transition-colors duration-300 hover:text-ink"
+        >
+          All works →
+        </Link>
       </div>
 
       {isLoading ? (
@@ -36,26 +42,12 @@ export default function BriefSelection() {
           </p>
         </div>
       ) : (
-        <div className="space-y-16">
-          {projects.map((project, index) => (
-            <ProjectCard key={project.id} project={project} index={index} featured story={!!findCaseStudy(project.slug)} hook={hookOf(project.slug)} />
+        <div className="grid gap-14">
+          {projects.map((project) => (
+            <FeaturedCard key={project.id} project={project} hook={hookOf(project.slug)} />
           ))}
         </div>
       )}
-
-      <div className="mt-16 text-center">
-        <Link
-          to="/works"
-          className="
-            inline-block font-mono text-xs uppercase tracking-widest
-            text-zinc-faded hover:text-ink
-            border-b border-zinc-300 hover:border-ink
-            pb-1 transition-colors duration-300
-          "
-        >
-          View All Works
-        </Link>
-      </div>
     </Section>
   )
 }
