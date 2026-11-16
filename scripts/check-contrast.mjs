@@ -56,6 +56,7 @@ const paths = await pages()
 const browser = await launch()
 const server = await startServer()
 let total = 0
+let apiFailures = 0
 try {
   for (const theme of ['light', 'dark']) {
     const context = await browser.newContext({ colorScheme: theme, reducedMotion: 'reduce', viewport: { width: 1280, height: 900 } })
@@ -67,9 +68,25 @@ try {
       }
     }, theme)
     // The API allows the site's own origin; let localhost read it too
+    // A dropped connection is retried; one that keeps failing fails that
+    // request only, as it would in a browser, and the page is checked as it
+    // then renders. An error thrown here would end the whole run.
     await context.route('https://api.yarikama.com/**', async (route) => {
-      const response = await route.fetch()
-      await route.fulfill({ response, headers: { ...response.headers(), 'access-control-allow-origin': '*' } })
+      for (let attempt = 1; attempt <= 3; attempt++) {
+        try {
+          const response = await route.fetch()
+          await route.fulfill({ response, headers: { ...response.headers(), 'access-control-allow-origin': '*' } })
+          return
+        } catch (error) {
+          if (attempt === 3) {
+            apiFailures++
+            console.warn(`API request failed after 3 tries: ${route.request().url()} (${error.code ?? error.message})`)
+            await route.abort('failed').catch(() => {})
+            return
+          }
+          await new Promise((r) => setTimeout(r, 1000 * attempt))
+        }
+      }
     })
     const page = await context.newPage()
     for (const path of paths) {
@@ -101,4 +118,5 @@ try {
   }
 }
 console.log(total ? `\n${total} pieces of text below WCAG AA across ${paths.length} pages` : `All text meets WCAG AA on ${paths.length} pages, light and dark`)
+if (apiFailures) console.warn(`${apiFailures} API requests failed; pages that read them were checked without that data`)
 process.exit(total ? 1 : 0)
