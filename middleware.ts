@@ -1,11 +1,14 @@
-import { headFor, renderHead } from './src/lib/head'
+import { headFor, PAGES, renderHead } from './src/lib/head'
+import { bodyForPath, renderBody } from './src/lib/routeBody'
 import { metaForPath, readsWithoutScripts, type FetchJson } from './src/lib/routeHead'
 
 // Vercel routing middleware: for crawlers and link previews (LinkedIn, Slack,
 // iMessage, Google), the page's HTML arrives with its own title,
 // description, canonical address and preview image already in it, as the
-// page's script would set them. Everyone else, and anything that goes
-// wrong here, gets the site exactly as before.
+// page's script would set them, and with its words and links in the body
+// (src/lib/routeBody.ts). An address the site has no page for answers 404.
+// Everyone else, and anything that goes wrong here, gets the site exactly
+// as before.
 
 /**
  * Lets the request go on to the site as it would without middleware: the
@@ -37,23 +40,35 @@ const fetchJson: FetchJson = async (path) => {
   return response.json()
 }
 
+// One answer per API path within a request: the head and the body of a
+// learning page both read the graph
+function once(fetch: FetchJson): FetchJson {
+  const asked = new Map<string, Promise<unknown | null>>()
+  return (path) => {
+    if (!asked.has(path)) asked.set(path, fetch(path))
+    return asked.get(path)!
+  }
+}
+
 export default async function middleware(request: Request): Promise<Response> {
   if (request.method !== 'GET' || !readsWithoutScripts(request.headers.get('user-agent'))) return next()
   const url = new URL(request.url)
+  const api = once(fetchJson)
   try {
-    const meta = await metaForPath(url.pathname, fetchJson)
+    const meta = await metaForPath(url.pathname, api)
     if (!meta) return next()
     const shell = await fetch(new URL('/index.html', url), {
       headers: { accept: 'text/html' },
     })
     if (!shell.ok) return next()
-    const html = renderHead(await shell.text(), headFor(meta, url.pathname))
+    const body = await bodyForPath(url.pathname, meta, api)
+    const html = renderBody(renderHead(await shell.text(), headFor(meta, url.pathname)), body)
     // The shell's own headers (its security headers and caching), less
     // those that described the body before it changed.
     const headers = new Headers(shell.headers)
     for (const name of ['content-length', 'content-encoding', 'etag', 'last-modified']) headers.delete(name)
     headers.set('content-type', 'text/html; charset=utf-8')
-    return new Response(html, { status: 200, headers })
+    return new Response(html, { status: meta === PAGES.notFound ? 404 : 200, headers })
   } catch {
     return next()
   }

@@ -3,6 +3,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import middleware, { config } from '../../middleware'
 
 const LINKEDIN = 'LinkedInBot/1.0 (compatible; Mozilla/5.0; Apache-HttpClient +http://www.linkedin.com)'
+const GOOGLEBOT = 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)'
 const SAFARI = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 Version/18.0 Safari/605.1.15'
 
 function request(path: string, userAgent: string) {
@@ -50,6 +51,35 @@ describe('middleware', () => {
     expect(html).toContain('<link rel="canonical" href="https://www.yarikama.com/notes/two-llms" />')
     expect(response.headers.get('x-frame-options')).toBe('DENY')
     expect(response.headers.get('content-length')).toBeNull()
+  })
+
+  it('puts the note’s words and the site’s links in the body for a crawler', async () => {
+    serve(() =>
+      Response.json({
+        data: { title: 'Two LLMs on One GPU', excerpt: 'Splitting 8 GB.', content: '## The constraint\n\nOne card.' },
+      }),
+    )
+    const html = await (await middleware(request('/notes/two-llms', GOOGLEBOT))).text()
+    const root = html.slice(html.indexOf('<div id="root">'))
+    expect(root).toContain('<h1>Two LLMs on One GPU</h1>')
+    expect(root).toContain('<h2>The constraint</h2><p>One card.</p>')
+    expect(root).toContain('<a href="/learnings">Learnings</a>')
+  })
+
+  it('answers 404, kept out of search, for a note that does not exist', async () => {
+    serve(() => new Response('{"detail":"Not found"}', { status: 404 }))
+    const response = await middleware(request('/notes/nope', GOOGLEBOT))
+    expect(response.status).toBe(404)
+    expect(await response.text()).toContain('<meta name="robots" content="noindex" />')
+  })
+
+  it('reads the learnings graph once for a learning page’s head and body', async () => {
+    const fetch = serve(() =>
+      Response.json({ data: { nodes: [{ slug: 'ppo', kind: 'learning', title: 'PPO', summary: 'Stay close.' }], edges: [] } }),
+    )
+    const response = await middleware(request('/learnings/ppo', GOOGLEBOT))
+    expect(response.status).toBe(200)
+    expect(fetch.mock.calls.filter(([input]) => String(input).includes('/learnings/graph'))).toHaveLength(1)
   })
 
   it('leaves people’s browsers alone, without asking anything', async () => {
