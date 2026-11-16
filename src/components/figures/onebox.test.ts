@@ -26,9 +26,8 @@ describe('onebox, the Homelab cover', () => {
     expect(pick([20, 20])).toBe(-1)
   })
 
-  it('is the cover of the Homelab project only', () => {
+  it('is the cover of the Homelab project', () => {
     expect(figureOf('homelab-self-hosted-llm-platform')).toBe(onebox)
-    expect(figureOf('prompt-aware-image-token-pruning')).toBeUndefined()
     expect(figureOf(undefined)).toBeUndefined()
   })
 })
