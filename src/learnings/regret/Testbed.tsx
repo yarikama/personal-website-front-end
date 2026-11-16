@@ -17,7 +17,7 @@ const STYLE = [
   { className: 'stroke-ink', dash: '5 4', text: 'fill-ink' },
   { className: 'stroke-ink', dash: undefined, text: 'fill-ink' },
   { className: 'stroke-zinc-400', dash: undefined, text: 'fill-zinc-faded' },
-  { className: 'stroke-sage', dash: undefined, text: 'fill-sage' },
+  { className: 'stroke-sage', dash: undefined, text: 'fill-sage-ink' },
 ]
 
 // Labels at the right end of lines, pushed apart so none overlap

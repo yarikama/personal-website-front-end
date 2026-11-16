@@ -135,7 +135,7 @@ export default function Track({
               fill="none"
               className="stroke-zinc-300 dark:stroke-zinc-200/25"
             />
-            <text x={x + 5} y={y + 13} className="fill-zinc-faded font-mono text-[12px]">
+            <text x={x + 5} y={y + 13} className="fill-ink-light font-mono text-[12px]">
               {sq}
             </text>
           </g>
@@ -192,7 +192,7 @@ export default function Track({
                 x={x + CELL / 2}
                 y={y + CELL - 7}
                 textAnchor="middle"
-                className={`font-mono text-[12px] uppercase ${plan[state(sq)] === STEP ? 'fill-sage-ink' : 'fill-zinc-faded'}`}
+                className="fill-ink-light font-mono text-[12px] uppercase"
               >
                 {plan[state(sq)] === STEP ? 'step' : 'roll'}
               </text>
@@ -233,7 +233,7 @@ export default function Track({
                   strokeWidth={1.5}
                   strokeDasharray="4 3"
                 />
-                <text x={x + CELL - 5} y={y + 13} textAnchor="end" className="fill-sage-ink font-mono text-[12px]">
+                <text x={x + CELL - 5} y={y + 13} textAnchor="end" className="fill-ink-light font-mono text-[12px]">
                   {focus.move === STEP ? '1' : `${Math.round(chance * 6)}/6`}
                 </text>
               </g>

@@ -88,11 +88,11 @@ function Table({ x, width, title, scores, today, truth, bandit }: TableProps) {
             <text x={x + 12} y={y + 22} className={`font-mono text-[15px] uppercase ${isBest ? 'fill-sage-ink' : 'fill-ink'}`}>
               {route}
             </text>
-            <text x={x + 12} y={y + (truth ? 37 : 42)} className="fill-zinc-faded font-mono text-[13px]">
+            <text x={x + 12} y={y + (truth ? 37 : 42)} className={`${isBest ? 'fill-ink-light' : 'fill-zinc-faded'} font-mono text-[13px]`}>
               {score.rides === 0 ? 'not ridden' : `${score.onTime} of ${score.rides} on time`}
             </text>
             {truth && (
-              <text x={x + 12} y={y + 52} className="fill-zinc-faded font-mono text-[12px]">
+              <text x={x + 12} y={y + 52} className={`${isBest ? 'fill-ink-light' : 'fill-zinc-faded'} font-mono text-[12px]`}>
                 truly: dry {percent(ON_TIME[0][r])}, rain {percent(ON_TIME[1][r])}
               </text>
             )}

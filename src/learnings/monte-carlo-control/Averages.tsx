@@ -13,7 +13,7 @@ const turns = (mean: number) => (-mean).toFixed(1)
 
 // A die's face, for "roll", and "+1", for "step"
 function Mark({ move, x, y, on }: { move: number; x: number; y: number; on: boolean }) {
-  const fill = on ? (move === STEP ? 'fill-sage' : 'fill-ink') : 'fill-zinc-400'
+  const fill = on ? (move === STEP ? 'fill-sage-ink' : 'fill-ink') : 'fill-zinc-faded'
   const stroke = on ? 'stroke-ink' : 'stroke-zinc-400'
   if (move === STEP) {
     return (
@@ -65,7 +65,7 @@ export default function Averages({
             <rect x={x} y={y} width={CELL} height={CELL} className="fill-paper" />
             {sq === FINISH && <rect x={x} y={y} width={CELL} height={CELL} className="fill-sage" opacity={0.18} />}
             <rect x={x} y={y} width={CELL} height={CELL} fill="none" className="stroke-zinc-300 dark:stroke-zinc-200/25" />
-            <text x={x + 5} y={y + 13} className="fill-zinc-faded font-mono text-[11px]">
+            <text x={x + 5} y={y + 13} className={`${sq === FINISH ? 'fill-ink-light' : 'fill-zinc-faded'} font-mono text-[11px]`}>
               {sq}
             </text>
           </g>

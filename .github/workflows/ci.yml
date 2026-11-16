@@ -28,3 +28,20 @@ jobs:
       - run: npm test
       # Type-checks (tsc) and bundles, as Vercel does.
       - run: npm run build
+
+  # Every page, light and dark, in a real browser: text must meet WCAG AA
+  # contrast as drawn (scripts/check-contrast.mjs). Catches what the unit
+  # tests can't see, such as a colour picked through a variable or text on
+  # a tinted SVG shape.
+  contrast:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run check:contrast

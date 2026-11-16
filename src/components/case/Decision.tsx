@@ -49,14 +49,14 @@ export function Decision({
             initial={{ opacity: 0, y: 10 }}
             animate={
               seen
-                ? { opacity: option.chosen ? 1 : [0, 1, 1, 0.55], y: 0 }
+                ? // Roads not taken stay fully readable: grey text and the ✗ mark
+                  // set them apart, not fading
+                  { opacity: 1, y: 0 }
                 : {}
             }
             transition={{
               y: { duration: 0.45, delay: 0.25 + i * 0.12, ease: EASE },
-              opacity: option.chosen
-                ? { duration: 0.45, delay: 0.25 + i * 0.12 }
-                : { duration: decided + 0.5 - (0.25 + i * 0.12), delay: 0.25 + i * 0.12, times: [0, 0.2, 0.7, 1] },
+              opacity: { duration: 0.45, delay: 0.25 + i * 0.12 },
             }}
             // The choice gets a row of its own, under the roads not taken
             style={option.chosen ? { gridColumn: '1 / -1', order: 1 } : undefined}

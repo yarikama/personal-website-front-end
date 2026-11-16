@@ -39,8 +39,11 @@ export default function LookAhead({ horizon }: { horizon: number }) {
               const seen = i < horizon
               const x = LEFT + i * (CELL + GAP)
               return (
-                <g key={i} opacity={seen ? 1 : 0.45}>
+                <g key={i}>
+                  {/* Past the horizon the square fades; its number turns grey
+                      instead, so it can still be read */}
                   <rect
+                    opacity={seen ? 1 : 0.45}
                     x={x}
                     y={top}
                     width={CELL}
@@ -51,7 +54,7 @@ export default function LookAhead({ horizon }: { horizon: number }) {
                     x={x + CELL / 2}
                     y={top + CELL / 2 + 5}
                     textAnchor="middle"
-                    className={`font-mono text-[15px] tabular-nums ${reward > 0 ? 'fill-ink' : 'fill-zinc-faded'}`}
+                    className={`font-mono text-[15px] tabular-nums ${seen && reward > 0 ? 'fill-ink' : 'fill-zinc-faded'}`}
                   >
                     {reward}
                   </text>

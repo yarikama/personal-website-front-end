@@ -158,7 +158,7 @@ export default function Lake({ step: shown }: { step: number }) {
         {car && <rect x={car.x - 9} y={car.y - 5} width={18} height={10} rx={2} className="fill-sage" />}
 
         {/* As the crow flies */}
-        <g className="fill-zinc-400 font-mono text-[10px]">
+        <g className="fill-zinc-faded font-mono text-[10px]">
           <line x1={HOME.x} x2={SHORE.x} y1={RULER + 12} y2={RULER + 12} className="stroke-zinc-300 dark:stroke-zinc-200/25" />
           {[
             [HOME.x, '0'],

@@ -57,7 +57,7 @@ export default function NotesPage() {
               >
                 {tagItem.tag}
                 {tagItem.count > 0 && (
-                  <span className="ml-1.5 opacity-60">({tagItem.count})</span>
+                  <span className="ml-1.5">({tagItem.count})</span>
                 )}
               </button>
             ))}

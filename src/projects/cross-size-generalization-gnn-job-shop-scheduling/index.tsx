@@ -290,7 +290,7 @@ function Factorial() {
                   <span className={`font-serif text-4xl font-light tabular-nums ${worst ? 'text-ink' : 'text-sage-ink'}`}>
                     {cell.value.toFixed(1)}%
                   </span>
-                  <span className="mt-1 font-mono text-[0.8rem] uppercase tracking-widest text-zinc-faded">
+                  <span className="mt-1 font-mono text-[0.8rem] uppercase tracking-widest text-ink-light">
                     {worst ? 'neither fix' : cell.row === 'Hubs only' && cell.col === 'Average' ? 'both' : 'one fix'}
                   </span>
                 </motion.div>

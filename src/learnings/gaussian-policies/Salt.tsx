@@ -175,7 +175,7 @@ export default function Salt({
           </text>
         )}
         {pushing && spreadWay !== 0 && (
-          <g className="fill-sage font-mono text-[14px]">
+          <g className="fill-sage-ink font-mono text-[14px]">
             <text x={x(habit.centre - habit.spread) - 10} y={AXIS - BELL * Math.exp(-0.5)} textAnchor="middle" dy={4}>
               {spreadWay > 0 ? '◂' : '▸'}
             </text>

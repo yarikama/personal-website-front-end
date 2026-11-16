@@ -24,7 +24,7 @@ const WORLDS = ['comes by chance', 'meets the bus'] as const
 const worldOf = (option: (typeof WORLDS)[number]): World => (option === WORLDS[0] ? 'own' : 'timed')
 
 const TONE: Record<Method, { fill: string; stroke: string; text: string }> = {
-  td: { fill: 'fill-sage', stroke: 'stroke-sage', text: 'fill-sage' },
+  td: { fill: 'fill-sage', stroke: 'stroke-sage', text: 'fill-sage-ink' },
   mc: { fill: 'fill-ink', stroke: 'stroke-ink', text: 'fill-ink' },
 }
 
@@ -69,7 +69,7 @@ function Run({ world, seed }: { world: World; seed: number }) {
                 className={fast ? 'fill-sage/25 stroke-sage' : 'fill-paper stroke-ink'}
                 strokeWidth={1}
               />
-              <text x={column(i)} y={34} textAnchor="middle" className={`text-[10px] ${fast ? 'fill-sage-ink' : 'fill-ink'}`}>
+              <text x={column(i)} y={34} textAnchor="middle" className="text-[10px] fill-ink">
                 {fast ? 'fast' : 'slow'}
               </text>
               <text x={column(i)} y={56} textAnchor="middle" className="fill-ink text-[11px]">
