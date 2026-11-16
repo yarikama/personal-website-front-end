@@ -55,8 +55,9 @@ export function Lines({
 
   // Written out whole, so Tailwind finds every class
   const TONES = {
-    accent: { stroke: 'stroke-sage', fill: 'fill-sage', text: 'fill-sage' },
-    warm: { stroke: 'stroke-[#b08d57]', fill: 'fill-[#b08d57]', text: 'fill-[#b08d57]' },
+    accent: { stroke: 'stroke-sage', fill: 'fill-sage', text: 'fill-sage-ink' },
+    // The gold is too light for text on paper; its label takes a darker one
+    warm: { stroke: 'stroke-[#b08d57]', fill: 'fill-[#b08d57]', text: 'fill-[#7a5f33] dark:fill-[#b08d57]' },
     muted: { stroke: 'stroke-zinc-400', fill: 'fill-zinc-400', text: 'fill-zinc-faded' },
     plain: { stroke: 'stroke-zinc-faded', fill: 'fill-zinc-faded', text: 'fill-zinc-faded' },
   }

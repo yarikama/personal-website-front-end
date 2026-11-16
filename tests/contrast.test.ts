@@ -86,6 +86,19 @@ function filesUnder(dir: string): string[] {
 // faint.
 
 describe('colours too faint for text stay off text', () => {
+  it('keeps no text colour in zinc-400 or sage in a value named for text', () => {
+    // { text: 'fill-sage' } in a table of styles, const labelClass = ...
+    const named = /\b\w*(text|label)\w*\s*[:=]\s*['"`][^'"`]*\b(fill|text)-(zinc-400|sage)(?![\w-])/gi
+    const hits: string[] = []
+    for (const path of filesUnder('src')) {
+      const source = readFileSync(join(root, path), 'utf8')
+      for (const match of source.matchAll(named)) {
+        hits.push(`${path}:${source.slice(0, match.index).split('\n').length}: ${match[0]}`)
+      }
+    }
+    expect(hits).toEqual([])
+  })
+
   it('sets no text in zinc-300, zinc-400, zinc-500, sage or sage-light', () => {
     const faint = /(^|[\s"'`:])text-(zinc-[345]00|sage|sage-light)(?![\w-])/
     const hits: string[] = []
@@ -103,7 +116,9 @@ describe('colours too faint for text stay off text', () => {
     const hits: string[] = []
     for (const path of filesUnder('src')) {
       const source = readFileSync(join(root, path), 'utf8')
-      for (const match of source.matchAll(/<(text|tspan)\b[^>]*?\bfill-(zinc-400|sage)(?![\w-])/gs)) {
+      // On the text itself, or on a group that sets the font for the text in it
+      const faint = /<(text|tspan)\b[^>]*?\bfill-(zinc-400|sage)(?![\w-])|<g\b[^>]*?className="[^"]*\bfill-(zinc-400|sage)(?![\w-])[^"]*\b(font-|text-)/gs
+      for (const match of source.matchAll(faint)) {
         const line = source.slice(0, match.index).split('\n').length
         hits.push(`${path}:${line}`)
       }

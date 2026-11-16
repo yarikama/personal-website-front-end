@@ -109,7 +109,7 @@ function FocusCard() {
           className="col-start-1 row-start-1 p-6 rounded-2xl bg-sage-ink text-paper"
           style={{ backfaceVisibility: 'hidden', transform: 'rotateX(180deg)' }}
         >
-          <p className="font-mono text-xs text-paper/85 uppercase tracking-widest mb-3">Previous Focus</p>
+          <p className="font-mono text-xs text-paper uppercase tracking-widest mb-3">Previous Focus</p>
           <p id="previous-focus" className="text-sm leading-relaxed">
             Building <span className="font-semibold">Production-Ready Generative AI</span> and{' '}
             <span className="font-semibold">RAG Systems</span>, alongside{' '}

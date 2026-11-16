@@ -163,7 +163,7 @@ export default function Board({
                 x={x + CELL / 2}
                 y={y + CELL / 2 + 7}
                 textAnchor="middle"
-                className={`font-serif text-[21px] tabular-nums ${value < 0 ? 'fill-zinc-faded' : 'fill-ink'}`}
+                className={`font-serif text-[21px] tabular-nums ${value < 0 ? 'fill-ink-light' : 'fill-ink'}`}
               >
                 {fmt(value)}
               </text>
@@ -178,7 +178,7 @@ export default function Board({
           key={mark.text}
           x={PAD + mark.at.x * CELL + 6}
           y={PAD + mark.at.y * CELL + 16}
-          className={`pointer-events-none font-mono text-[13px] ${mark.accent ? 'fill-sage-ink' : 'fill-zinc-faded'}`}
+          className={`pointer-events-none font-mono text-[13px] ${mark.accent ? 'fill-ink font-semibold' : 'fill-ink-light'}`}
         >
           {mark.text}
         </text>

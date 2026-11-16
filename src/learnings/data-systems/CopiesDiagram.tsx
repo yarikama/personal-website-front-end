@@ -25,7 +25,12 @@ function Box({ place, name, price, old }: { place: Place; name: string; price: n
         className={old ? 'fill-paper stroke-ink' : place === 'database' ? 'fill-sage/20 stroke-sage' : 'fill-paper stroke-zinc-400'}
         strokeWidth={old ? 2 : 1.5}
       />
-      <text x={x + 12} y={y + 20} className="fill-zinc-faded font-mono text-[10px] uppercase tracking-widest">
+      {/* On the database's sage tint, grey reads too faint */}
+      <text
+        x={x + 12}
+        y={y + 20}
+        className={`${!old && place === 'database' ? 'fill-ink-light' : 'fill-zinc-faded'} font-mono text-[10px] uppercase tracking-widest`}
+      >
         {name}
       </text>
       <AnimatePresence mode="wait">
@@ -86,7 +91,7 @@ export default function CopiesDiagram({
             />
           ))}
           <line x1={from.x} y1={from.y} x2={OWNER.x} y2={OWNER.y} className="stroke-sage" strokeWidth={1.5} />
-          <rect x={OWNER.x - 46} y={OWNER.y - 16} width={92} height={32} rx={16} className="fill-sage" />
+          <rect x={OWNER.x - 46} y={OWNER.y - 16} width={92} height={32} rx={16} className="fill-sage-ink" />
           <text x={OWNER.x} y={OWNER.y + 4} textAnchor="middle" className="fill-paper font-mono text-[10px] uppercase tracking-widest">
             {names.owner}
           </text>

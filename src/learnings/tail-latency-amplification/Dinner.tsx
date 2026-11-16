@@ -65,7 +65,12 @@ export function OneDinner({ arrivals }: { arrivals: number[] }) {
           className={seated ? (waited ? 'fill-ink/10 stroke-ink' : 'fill-sage/20 stroke-sage') : 'fill-paper stroke-zinc-400'}
           strokeWidth={1.5}
         />
-        <text x={TABLE.x} y={TABLE.y + 4} textAnchor="middle" className="fill-zinc-faded font-mono text-[11px] uppercase tracking-widest">
+        <text
+          x={TABLE.x}
+          y={TABLE.y + 4}
+          textAnchor="middle"
+          className={`${seated ? 'fill-ink-light' : 'fill-zinc-faded'} font-mono text-[11px] uppercase tracking-widest`}
+        >
           {seated ? 'Dinner' : 'Table'}
         </text>
         {arrivals.map((at, i) => {

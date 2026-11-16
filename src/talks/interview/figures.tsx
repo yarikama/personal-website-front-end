@@ -486,7 +486,7 @@ export function IndexTradeoffBars() {
             <Caption x={0} y={y + 14}>{row.metric}</Caption>
             {[
               { name: 'Whole corpus', value: 100, label: '100%', fill: GREY_FILL, text: 'fill-zinc-faded' },
-              { name: 'Clustered sample', value: row.clustered, label: row.label, fill: 'fill-sage', text: 'fill-sage' },
+              { name: 'Clustered sample', value: row.clustered, label: row.label, fill: 'fill-sage', text: 'fill-sage-ink' },
             ].map((bar, i) => {
               const by = y + 28 + i * 40
               const w = (bar.value / 100) * width

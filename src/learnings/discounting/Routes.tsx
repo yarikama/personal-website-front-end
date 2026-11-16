@@ -24,7 +24,7 @@ export default function Routes({ gamma }: { gamma: number }) {
                 <span
                   key={i}
                   className={`flex h-6 w-6 items-center justify-center rounded-md font-mono text-[0.8125rem] ${
-                    reward > 0 ? 'bg-sage text-paper' : 'border border-zinc-300 text-zinc-faded dark:border-zinc-200/25'
+                    reward > 0 ? 'bg-sage-ink text-paper' : 'border border-zinc-300 text-zinc-faded dark:border-zinc-200/25'
                   }`}
                   style={reward > 0 ? undefined : { opacity: 0.3 + 0.7 * gamma ** i }}
                 >

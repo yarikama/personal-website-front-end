@@ -100,7 +100,7 @@ export default function WorksPage() {
             >
               {category.label}
               {category.count > 0 && (
-                <span className="ml-2 opacity-60">({category.count})</span>
+                <span className="ml-2">({category.count})</span>
               )}
             </button>
           ))}

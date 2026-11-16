@@ -23,7 +23,11 @@
   - `zinc-300/400/500`、`sage`、`sage-light` 在紙色底上只有 1.4–3.3:1，只能畫線和形狀，不能當字的顏色。純裝飾的符號（拖曳把手、連結間的 `|`）加 `aria-hidden` 後可以例外。
   - 白字放在 sage 色塊上時，色塊用 `bg-sage-ink`。
   - 不要用 `opacity-*` 或 `/50` 這類透明度把文字調淡；需要次要文字就用 `text-zinc-faded`。停用中的按鈕不在此限。
-  - `tests/contrast.test.ts` 會檢查顏色 token 的對比度，並擋下淡色字。改顏色後，用 Playwright 在淺色、深色模式各掃一次全站，量實際畫面上的對比度。
+  - 兩層檢查：
+    - `tests/contrast.test.ts`（跟著 `npx vitest run` 跑）檢查顏色 token 的對比度，並擋下寫在 class 或 `text:`、`label:` 這類值裡的淡色。
+    - `npm run check:contrast` 用 Playwright 打開全站每一頁，淺色、深色各一次，量畫面上每段文字實際的對比度。它抓得到單看程式碼看不出的情況：顏色放在變數裡、用透明度調淡、字畫在 SVG 色塊上。改顏色、加新圖表後要跑一次，結果要是 0。CI 的 `contrast` 工作在每個 PR 都會跑它。
+    - Claude Code 在這個 repo 改了 `src` 底下的檔案後，`.claude/hooks/design-rules.sh` 會自動跑上面兩個單元測試，失敗時要先修好再繼續。
+  - 字放在有底色的格子或色塊上（熱度圖、sage 淡底的方框）時，用 `ink` 或 `ink-light`：`zinc-faded` 只在底色淡於 sage 15%、zinc-400 20% 時才夠深。
 - **不用斜體**：全站沒有 `italic`。強調用 `<em>`，它在 `index.css` 是 500 字重、正體。
 - **標題**：保持視覺震撼力，使用 clamp() 實現響應式。
 

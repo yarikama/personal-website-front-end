@@ -1,0 +1,104 @@
+// npm run check:contrast [-- /path /other/path]
+//
+// Opens every public page of the site, in light and dark mode, and measures
+// the contrast of every piece of text as the browser draws it (scripts/
+// contrast/scan.js). Fails when any falls short of WCAG AA. The unit test
+// tests/contrast.test.ts checks the colour tokens and the class names it
+// can see; this catches what it can't: a colour picked through a variable,
+// text dimmed with opacity, text on a filled SVG shape.
+//
+// Pages come from the live sitemap, or from the paths given. It starts the
+// dev server itself, and answers the API's calls with CORS allowed, so
+// pages that read the API (the Learnings map among them) render as they do
+// on the site.
+
+import { spawn } from 'node:child_process'
+import { chromium } from 'playwright'
+import { scan } from './contrast/scan.js'
+
+const PORT = 5199
+const BASE = `http://localhost:${PORT}`
+const SITEMAP = 'https://www.yarikama.com/sitemap.xml'
+
+async function pages() {
+  const given = process.argv.slice(2)
+  if (given.length) return given
+  const xml = await (await fetch(SITEMAP)).text()
+  return [...xml.matchAll(/<loc>https:\/\/www\.yarikama\.com([^<]*)<\/loc>/g)].map((m) => m[1] || '/')
+}
+
+function startServer() {
+  // Its own process group, so stopping it stops vite and not only npx
+  const server = spawn('npx', ['vite', '--port', String(PORT), '--strictPort'], {
+    // Not inherited: a stray server would hold this script's output open
+    stdio: ['ignore', 'pipe', 'pipe'],
+    detached: true,
+  })
+  return new Promise((resolve, reject) => {
+    server.stdout.on('data', (chunk) => {
+      if (String(chunk).includes('ready')) resolve(server)
+    })
+    server.on('exit', (code) => reject(new Error(`vite exited with ${code}`)))
+  })
+}
+
+// Playwright's own Chromium, or Google Chrome when that build isn't
+// installed (npx playwright install chromium fetches it)
+async function launch() {
+  try {
+    return await chromium.launch()
+  } catch {
+    return await chromium.launch({ channel: 'chrome' })
+  }
+}
+
+const paths = await pages()
+const browser = await launch()
+const server = await startServer()
+let total = 0
+try {
+  for (const theme of ['light', 'dark']) {
+    const context = await browser.newContext({ colorScheme: theme, reducedMotion: 'reduce', viewport: { width: 1280, height: 900 } })
+    await context.addInitScript((t) => {
+      try {
+        localStorage.setItem('theme', t)
+      } catch {
+        // no storage: the site follows colorScheme
+      }
+    }, theme)
+    // The API allows the site's own origin; let localhost read it too
+    await context.route('https://api.yarikama.com/**', async (route) => {
+      const response = await route.fetch()
+      await route.fulfill({ response, headers: { ...response.headers(), 'access-control-allow-origin': '*' } })
+    })
+    const page = await context.newPage()
+    for (const path of paths) {
+      await page.goto(BASE + path, { waitUntil: 'networkidle' }).catch(() => {})
+      // Scroll through so sections that draw on sight are drawn
+      await page.evaluate(async () => {
+        for (let y = 0; y < document.body.scrollHeight; y += 700) {
+          window.scrollTo(0, y)
+          await new Promise((r) => setTimeout(r, 80))
+        }
+        window.scrollTo(0, 0)
+      })
+      // Sections fade in as they come into view; let them finish
+      await page.waitForTimeout(1500)
+      const failures = await page.evaluate(scan)
+      total += failures.length
+      for (const f of failures) {
+        console.log(`${theme} ${path}: ${f.ratio}:1 (needs ${f.need}) ${f.fg} on ${f.bg}, ${f.size}px "${f.text}" [${f.className}]`)
+      }
+    }
+    await context.close()
+  }
+} finally {
+  await browser.close()
+  try {
+    process.kill(-server.pid)
+  } catch {
+    // already gone
+  }
+}
+console.log(total ? `\n${total} pieces of text below WCAG AA across ${paths.length} pages` : `All text meets WCAG AA on ${paths.length} pages, light and dark`)
+process.exit(total ? 1 : 0)
