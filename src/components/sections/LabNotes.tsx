@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import Section from '../layout/Section'
+import RisoGrid from '../ui/RisoGrid'
 import { useLabNotes } from '../../hooks'
 import { ArrowUpRight, Loader2 } from 'lucide-react'
 
@@ -9,7 +10,9 @@ export default function LabNotes() {
 
   return (
     <Section id="notes">
-      <div className="mb-16">
+      {/* The heading, and beside it a two-ink print that fills what was empty space */}
+      <div className="mb-16 grid items-center gap-x-12 gap-y-8 md:grid-cols-[minmax(0,1fr)_minmax(0,26rem)]">
+        <div>
         <span className="font-mono text-sm text-zinc-faded uppercase tracking-widest">
           Lab Notes
         </span>
@@ -22,6 +25,8 @@ export default function LabNotes() {
           Essays and explorations on software engineering, machine learning theory, and the
           philosophy of building systems that endure.
         </p>
+        </div>
+        <RisoGrid className="max-md:max-w-sm md:-my-8" />
       </div>
 
       {isLoading ? (
