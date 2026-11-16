@@ -161,7 +161,7 @@ export default function DataSystems() {
         {NEXT.map((page) => (
           <li key={page.slug}>
             <Link to={`/learnings/${page.slug}`} className="group flex items-baseline justify-between gap-4 py-4">
-              <span className="font-serif text-xl text-ink group-hover:text-sage transition-colors">{page.title}</span>
+              <span className="font-serif text-xl text-ink group-hover:text-sage-ink transition-colors">{page.title}</span>
               <span className="text-right text-sm text-zinc-faded">{page.about}</span>
             </Link>
           </li>

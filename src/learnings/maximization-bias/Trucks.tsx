@@ -25,7 +25,7 @@ function Axis({ named }: { named: boolean }) {
       {[5, 7, 9, 11].map((score) => (
         <g key={score}>
           <line x1={LEFT} x2={EDGE} y1={y(score)} y2={y(score)} className="stroke-zinc-200 dark:stroke-zinc-200/10" />
-          <text x={LEFT - 8} y={y(score) + 4} textAnchor="end" className="fill-zinc-400 font-mono text-[11px]">
+          <text x={LEFT - 8} y={y(score) + 4} textAnchor="end" className="fill-zinc-faded font-mono text-[11px]">
             {score}
           </text>
         </g>
@@ -70,7 +70,7 @@ export default function Trucks({ step, story, one, two }: { step: number; story:
             one notebook: {means.one.toFixed(1)}
           </text>
           {step === 5 && (
-            <text x={EDGE} y={y(means.two) + 26} textAnchor="end" className="fill-sage font-mono text-[11px] uppercase tracking-widest">
+            <text x={EDGE} y={y(means.two) + 26} textAnchor="end" className="fill-sage-ink font-mono text-[11px] uppercase tracking-widest">
               two notebooks: {means.two.toFixed(1)}
             </text>
           )}
@@ -103,14 +103,14 @@ export default function Trucks({ step, story, one, two }: { step: number; story:
           return (
             <g key={truck}>
               <rect x={x - 13} y={BOTTOM + 8} width={26} height={12} rx={2} className={fav ? 'fill-sage' : 'fill-zinc-400'} />
-              <text x={x} y={BOTTOM + 34} textAnchor="middle" className="fill-zinc-400 font-mono text-[11px]">
+              <text x={x} y={BOTTOM + 34} textAnchor="middle" className="fill-zinc-faded font-mono text-[11px]">
                 {named ? `a${truck + 1}` : truck + 1}
               </text>
               {truck < shown && (
                 <>
                   <circle cx={x} cy={y(score)} r={fav ? 7 : 5} className={fav ? 'fill-sage' : 'fill-zinc-faded'} opacity={back && fav ? 0.45 : 1} />
                   {fav && (
-                    <text x={x + 11} y={y(score) + 4} className="fill-sage font-mono text-[12px]">
+                    <text x={x + 11} y={y(score) + 4} className="fill-sage-ink font-mono text-[12px]">
                       {named ? 'max Q' : score.toFixed(1)}
                     </text>
                   )}
@@ -120,7 +120,7 @@ export default function Trucks({ step, story, one, two }: { step: number; story:
                 <>
                   <line x1={x} x2={x} y1={y(score) + 8} y2={y(second[truck]) - 8} className="stroke-sage" strokeDasharray="3 3" />
                   <circle cx={x} cy={y(second[truck])} r={7} className="fill-paper stroke-sage" strokeWidth={2.5} />
-                  <text x={x + 11} y={y(second[truck]) + 18} className="fill-sage font-mono text-[12px]">
+                  <text x={x + 11} y={y(second[truck]) + 18} className="fill-sage-ink font-mono text-[12px]">
                     {named ? 'a second estimate' : second[truck].toFixed(1)}
                   </text>
                 </>

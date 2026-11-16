@@ -244,7 +244,7 @@ export const work: SlideDef[] = [
             <Stat value="85%" label="Less reproduction time" detail="Paste a ticket; the agent reproduces it. Adopted by the team." />
           </div>
         </div>
-        <p className="mt-8 font-mono text-[15px] text-zinc-400 uppercase tracking-widest">
+        <p className="mt-8 font-mono text-[15px] text-zinc-faded uppercase tracking-widest">
           3 infrastructures, one per service: tenancy, home connection, device setup
         </p>
       </SlideLayout>
@@ -356,7 +356,7 @@ export const work: SlideDef[] = [
         />
         <Reveal at={4} className="mt-14">
           <p className="font-mono text-[24px] leading-relaxed text-ink-light">
-            tokens per turn = system prompt + <span className="text-sage">history</span> + retrieved context + tool
+            tokens per turn = system prompt + <span className="text-sage-ink">history</span> + retrieved context + tool
             definitions
           </p>
           <p className="mt-3 text-[21px] text-zinc-faded">History is the term that grows with every turn.</p>
@@ -387,7 +387,7 @@ export const work: SlideDef[] = [
         </div>
         <Reveal at={2}>
           <p className="mt-6 text-[20px] text-zinc-faded">
-            <span className="font-mono text-[15px] text-zinc-400 uppercase tracking-widest mr-3">The cost</span>
+            <span className="font-mono text-[15px] text-zinc-faded uppercase tracking-widest mr-3">The cost</span>
             More moving parts: a buffer, a background job and a vector store per conversation.
           </p>
         </Reveal>

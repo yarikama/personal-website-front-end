@@ -42,13 +42,13 @@ export default function Shifted({ alpha }: { alpha: number }) {
         {[0, 0.2, 0.4, 0.6, 0.8, 1].map((share) => (
           <g key={share}>
             <line x1={LEFT} x2={RIGHT} y1={y(share)} y2={y(share)} className="stroke-zinc-200 dark:stroke-zinc-200/10" />
-            <text x={LEFT - 8} y={y(share) + 3} textAnchor="end" className="fill-zinc-400 font-mono text-[10px]">
+            <text x={LEFT - 8} y={y(share) + 3} textAnchor="end" className="fill-zinc-faded font-mono text-[10px]">
               {percent(share)}
             </text>
           </g>
         ))}
         {[1, 250, 500, 750, 1000].map((pull) => (
-          <text key={pull} x={x(pull - 1)} y={BOTTOM + 16} textAnchor="middle" className="fill-zinc-400 font-mono text-[10px]">
+          <text key={pull} x={x(pull - 1)} y={BOTTOM + 16} textAnchor="middle" className="fill-zinc-faded font-mono text-[10px]">
             {pull}
           </text>
         ))}
@@ -62,7 +62,7 @@ export default function Shifted({ alpha }: { alpha: number }) {
         </text>
         <path d={line(without.best)} fill="none" className="stroke-ink" strokeWidth={2} />
         <path d={line(withBaseline.best)} fill="none" className="stroke-sage" strokeWidth={2} />
-        <text x={RIGHT + 8} y={endOf(withBaseline.best) + 3} className="fill-sage font-mono text-[10px] uppercase tracking-widest">
+        <text x={RIGHT + 8} y={endOf(withBaseline.best) + 3} className="fill-sage-ink font-mono text-[10px] uppercase tracking-widest">
           Baseline
         </text>
         <text x={RIGHT + 8} y={endOf(without.best) + 3} className="fill-ink font-mono text-[10px] uppercase tracking-widest">
@@ -74,7 +74,7 @@ export default function Shifted({ alpha }: { alpha: number }) {
         <thead>
           <tr className="font-mono text-[0.875rem] uppercase tracking-widest">
             <th className="w-2/5 pb-1 font-normal" />
-            <th className="pb-1 font-normal text-sage">Baseline</th>
+            <th className="pb-1 font-normal text-sage-ink">Baseline</th>
             <th className="pb-1 font-normal text-ink">None</th>
           </tr>
         </thead>
@@ -84,7 +84,7 @@ export default function Shifted({ alpha }: { alpha: number }) {
               <th className="py-1 pr-2 align-middle font-mono text-[0.875rem] font-normal uppercase tracking-widest text-zinc-faded">
                 {label}
               </th>
-              <td className="py-1 text-sage">{percent(measure(withBaseline))}</td>
+              <td className="py-1 text-sage-ink">{percent(measure(withBaseline))}</td>
               <td className="py-1 text-ink">{percent(measure(without))}</td>
             </tr>
           ))}

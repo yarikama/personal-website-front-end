@@ -67,7 +67,7 @@ export default function CurrentGoal() {
         lang="zh-Hant"
         aria-label="Current goal"
         placeholder="A few words"
-        className={`${big} w-full border-b border-zinc-300 bg-transparent pb-1 placeholder:text-zinc-300 focus:border-sage focus:outline-none`}
+        className={`${big} w-full border-b border-zinc-300 bg-transparent pb-1 placeholder:text-zinc-faded focus:border-sage focus:outline-none`}
       />
     )
   }
@@ -79,13 +79,13 @@ export default function CurrentGoal() {
       title="Change the goal"
       className="group flex w-full items-start gap-4 text-left"
     >
-      <span lang="zh-Hant" className={`${big} ${goal ? '' : 'text-zinc-300'}`}>
+      <span lang="zh-Hant" className={`${big} ${goal ? '' : 'text-zinc-faded'}`}>
         {goal === null ? '…' : goal || 'Set a goal'}
       </span>
       <Pencil
         size={16}
         aria-hidden="true"
-        className="mt-3 shrink-0 text-zinc-400 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+        className="mt-3 shrink-0 text-zinc-faded opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
       />
     </button>
   )

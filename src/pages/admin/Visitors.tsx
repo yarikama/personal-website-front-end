@@ -30,11 +30,11 @@ function chip(active: boolean) {
   return `px-3 py-1.5 font-mono text-xs uppercase tracking-widest rounded-full border transition-colors ${
     active
       ? 'border-ink bg-ink text-paper dark:border-white dark:bg-white dark:text-zinc-900'
-      : 'border-zinc-200 dark:border-zinc-800 text-zinc-500 hover:text-ink dark:hover:text-white'
+      : 'border-zinc-200 dark:border-zinc-800 text-zinc-faded hover:text-ink dark:hover:text-white'
   }`
 }
 
-const LABEL = 'font-mono text-xs text-zinc-400 uppercase tracking-widest'
+const LABEL = 'font-mono text-xs text-zinc-faded uppercase tracking-widest'
 
 function Figure({ value, label }: { value: number; label: string }) {
   return (
@@ -90,7 +90,7 @@ function DailyChart({ days }: { days: VisitorDay[] }) {
                   role="tooltip"
                   className={`pointer-events-none invisible absolute ${align} bottom-full z-10 mb-2 w-max rounded border border-zinc-200 dark:border-zinc-700 bg-paper px-3 py-2 text-left shadow-lg group-hover:visible group-focus:visible`}
                 >
-                  <span className="block font-mono text-[11px] uppercase tracking-widest text-zinc-400">
+                  <span className="block font-mono text-[11px] uppercase tracking-widest text-zinc-faded">
                     {WEEKDAY.format(day(d.date))} {DAY.format(day(d.date))}
                   </span>
                   <span className="mt-1 block text-sm">
@@ -107,7 +107,7 @@ function DailyChart({ days }: { days: VisitorDay[] }) {
           })}
         </div>
       </div>
-      <div aria-hidden="true" className="mt-2 flex gap-[2px] font-mono text-[11px] text-zinc-400">
+      <div aria-hidden="true" className="mt-2 flex gap-[2px] font-mono text-[11px] text-zinc-faded">
         {days.map((d, i) => (
           <span key={d.date} className="flex-1 text-center whitespace-nowrap">
             {ticks.includes(i) ? DAY.format(day(d.date)) : ''}
@@ -116,12 +116,12 @@ function DailyChart({ days }: { days: VisitorDay[] }) {
       </div>
 
       <details className="mt-6">
-        <summary className="cursor-pointer font-mono text-xs uppercase tracking-widest text-zinc-400 hover:text-ink dark:hover:text-white">
+        <summary className="cursor-pointer font-mono text-xs uppercase tracking-widest text-zinc-faded hover:text-ink dark:hover:text-white">
           Each day as a table
         </summary>
         <table className="mt-3 w-full max-w-md text-sm">
           <thead>
-            <tr className="text-left font-mono text-[11px] uppercase tracking-widest text-zinc-400">
+            <tr className="text-left font-mono text-[11px] uppercase tracking-widest text-zinc-faded">
               <th className="py-1 font-normal">Day (UTC)</th>
               <th className="py-1 text-right font-normal">Visitors</th>
               <th className="py-1 text-right font-normal">Page views</th>
@@ -163,7 +163,7 @@ function TopList({
     <section className="min-w-0">
       <div className="flex items-baseline justify-between gap-4">
         <h2 className={LABEL}>{title}</h2>
-        {rows.length > 0 && <span className="font-mono text-[11px] text-zinc-400">Visitors · views</span>}
+        {rows.length > 0 && <span className="font-mono text-[11px] text-zinc-faded">Visitors · views</span>}
       </div>
       {rows.length === 0 ? (
         <p className="mt-4 text-sm text-zinc-faded">{empty}</p>
@@ -243,7 +243,7 @@ export default function AdminVisitors() {
             href={DASHBOARD}
             target="_blank"
             rel="noopener noreferrer"
-            className="ml-auto inline-flex items-center gap-1 font-mono text-xs uppercase tracking-widest text-zinc-400 hover:text-sage transition-colors"
+            className="ml-auto inline-flex items-center gap-1 font-mono text-xs uppercase tracking-widest text-zinc-faded hover:text-sage-ink transition-colors"
           >
             Vercel dashboard
             <ArrowUpRight size={12} aria-hidden="true" />
@@ -262,7 +262,7 @@ export default function AdminVisitors() {
             <p className="text-zinc-faded">Vercel’s analytics is unavailable right now.</p>
             <button
               onClick={() => load(days)}
-              className="mt-4 font-mono text-xs uppercase tracking-widest text-sage hover:underline"
+              className="mt-4 font-mono text-xs uppercase tracking-widest text-sage-ink hover:underline"
             >
               Try again
             </button>

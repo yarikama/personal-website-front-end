@@ -16,7 +16,7 @@ export default function WaveLink({ to, children, block = false }: { to: string; 
       }`}
     >
       <span className={`relative overflow-hidden ${block ? 'flex-1' : ''}`}>
-        <span className={`block text-sage ${LABEL} ${block ? 'text-center' : ''}`}>{children}</span>
+        <span className={`block text-sage-ink ${LABEL} ${block ? 'text-center' : ''}`}>{children}</span>
         <span aria-hidden="true" className="liquid-foam" />
         <span aria-hidden="true" className="liquid-fill">
           <span className="liquid-fill-body">

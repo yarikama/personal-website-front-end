@@ -49,12 +49,12 @@ const honors: { title: string; detail: string; rank: string; url?: string }[] = 
 ]
 
 function Eyebrow({ children }: { children: string }) {
-  return <p className="font-mono text-sm text-zinc-400 uppercase tracking-widest">{children}</p>
+  return <p className="font-mono text-sm text-zinc-faded uppercase tracking-widest">{children}</p>
 }
 
 function Badge({ children, className = 'text-xs' }: { children: string; className?: string }) {
   return (
-    <span className={`font-mono text-sage rounded-md border border-sage/40 px-1.5 py-0.5 whitespace-nowrap ${className}`}>
+    <span className={`font-mono text-sage-ink rounded-md border border-sage/40 px-1.5 py-0.5 whitespace-nowrap ${className}`}>
       {children}
     </span>
   )
@@ -97,19 +97,19 @@ function FocusCard() {
         >
           <p className="font-mono text-sm text-zinc-faded uppercase tracking-widest mb-3">Current Focus</p>
           <p className="text-sm text-zinc-faded leading-relaxed">
-            <span className="text-sage font-medium">Agentic Developer Tooling</span> for failure triage,{' '}
-            <span className="text-sage font-medium">Efficient Multimodal Inference</span> via token pruning, and{' '}
-            <span className="text-sage font-medium">Database Internals</span> from storage to query optimization.
+            <span className="text-sage-ink font-medium">Agentic Developer Tooling</span> for failure triage,{' '}
+            <span className="text-sage-ink font-medium">Efficient Multimodal Inference</span> via token pruning, and{' '}
+            <span className="text-sage-ink font-medium">Database Internals</span> from storage to query optimization.
           </p>
         </div>
 
         {/* Read out through aria-describedby */}
         <div
           aria-hidden="true"
-          className="col-start-1 row-start-1 p-6 rounded-2xl bg-sage text-paper"
+          className="col-start-1 row-start-1 p-6 rounded-2xl bg-sage-ink text-paper"
           style={{ backfaceVisibility: 'hidden', transform: 'rotateX(180deg)' }}
         >
-          <p className="font-mono text-xs text-paper/70 uppercase tracking-widest mb-3">Previous Focus</p>
+          <p className="font-mono text-xs text-paper/85 uppercase tracking-widest mb-3">Previous Focus</p>
           <p id="previous-focus" className="text-sm leading-relaxed">
             Building <span className="font-semibold">Production-Ready Generative AI</span> and{' '}
             <span className="font-semibold">RAG Systems</span>, alongside{' '}
@@ -169,7 +169,7 @@ function OpenSourceCard() {
       <p className="font-mono text-sm text-zinc-faded uppercase tracking-widest mb-4">Open Source Contributions</p>
       <div className="flex justify-between items-center mb-1">
         <span className="font-mono text-xs text-ink">LlamaIndex</span>
-        <span className="font-mono text-xs text-zinc-400">
+        <span className="font-mono text-xs text-zinc-faded">
           {isHovered ? prCount : LLAMAINDEX_PRS} PRs merged
         </span>
       </div>
@@ -182,7 +182,7 @@ function OpenSourceCard() {
           }}
         />
       </div>
-      <p className="text-xs text-zinc-400 mt-3">
+      <p className="text-xs text-zinc-faded mt-3">
         AWS Bedrock, Claude, Elasticsearch, Cohere, OpenAI, MCP Client, AI Agent Workflow
       </p>
     </div>
@@ -193,7 +193,7 @@ function OpenSourceCard() {
 export default function Toolkit() {
   return (
     <Section id="skills">
-      <span className="font-mono text-sm text-zinc-400 uppercase tracking-widest">Toolkit</span>
+      <span className="font-mono text-sm text-zinc-faded uppercase tracking-widest">Toolkit</span>
       <h2 className="font-serif text-4xl md:text-5xl font-light mt-4 tracking-tight">
         Tools of the Trade
       </h2>
@@ -221,14 +221,14 @@ export default function Toolkit() {
                         href={honor.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-ink font-medium underline decoration-sage/40 underline-offset-4 hover:text-sage transition-colors duration-200"
+                        className="text-ink font-medium underline decoration-sage/40 underline-offset-4 hover:text-sage-ink transition-colors duration-200"
                       >
                         {honor.title}
                       </a>
                     ) : (
                       <p className="text-ink font-medium">{honor.title}</p>
                     )}
-                    <p className="text-xs text-zinc-400 mt-1">{honor.detail}</p>
+                    <p className="text-xs text-zinc-faded mt-1">{honor.detail}</p>
                   </div>
                   <Badge>{honor.rank}</Badge>
                 </li>
@@ -260,7 +260,7 @@ export default function Toolkit() {
                   <Badge>{school.gpa}</Badge>
                 </div>
                 <p className="mt-1 text-sm text-zinc-faded">{school.degree}</p>
-                <p className="text-xs text-zinc-400 mt-1">{school.detail}</p>
+                <p className="text-xs text-zinc-faded mt-1">{school.detail}</p>
               </div>
             </div>
           ))}

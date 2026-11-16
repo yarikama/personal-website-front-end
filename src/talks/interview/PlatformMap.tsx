@@ -82,7 +82,7 @@ function Chip({ children, accent = false, small = false }: { children: ReactNode
     <span
       className={`inline-flex items-center rounded-md border leading-tight whitespace-nowrap ${
         small ? 'px-2 py-0.5 text-[14px]' : 'px-2.5 py-1 text-[16px]'
-      } ${accent ? 'border-sage/60 text-sage' : 'border-zinc-200 dark:border-zinc-200/40 text-ink-light'}`}
+      } ${accent ? 'border-sage/60 text-sage-ink' : 'border-zinc-200 dark:border-zinc-200/40 text-ink-light'}`}
     >
       {children}
     </span>
@@ -92,18 +92,18 @@ function Chip({ children, accent = false, small = false }: { children: ReactNode
 function Label({ icon: Icon, children, small = false }: { icon: LucideIcon; children: string; small?: boolean }) {
   return (
     <span
-      className={`flex items-center gap-2 font-mono uppercase tracking-widest text-zinc-400 ${
+      className={`flex items-center gap-2 font-mono uppercase tracking-widest text-zinc-faded ${
         small ? 'text-[13px]' : 'text-[14px]'
       }`}
     >
-      <Icon size={small ? 16 : 18} strokeWidth={1.5} className="text-sage" aria-hidden="true" />
+      <Icon size={small ? 16 : 18} strokeWidth={1.5} className="text-sage-ink" aria-hidden="true" />
       {children}
     </span>
   )
 }
 
 const Arrow = ({ size = 18 }: { size?: number }) => (
-  <ArrowRight size={size} strokeWidth={1.5} className="shrink-0 text-zinc-400" aria-hidden="true" />
+  <ArrowRight size={size} strokeWidth={1.5} className="shrink-0 text-zinc-faded" aria-hidden="true" />
 )
 
 export default function PlatformMap() {
@@ -136,7 +136,7 @@ export default function PlatformMap() {
 
   return (
     <div className="relative rounded-2xl border border-dashed border-zinc-300 dark:border-zinc-300/60 px-6 pt-4 pb-6">
-      <p className="font-mono text-[13px] text-zinc-400 uppercase tracking-widest">MaiAgent platform</p>
+      <p className="font-mono text-[13px] text-zinc-faded uppercase tracking-widest">MaiAgent platform</p>
 
       <div className="relative mt-3 grid grid-cols-[19rem_2.5rem_26rem_2.5rem_1fr] grid-rows-[14.5rem_5.5rem] gap-y-4">
         {part(
@@ -229,7 +229,7 @@ export default function PlatformMap() {
                 </span>
               </span>
             </span>
-            <span className="mt-3 flex items-center gap-2 text-[16px] text-sage">
+            <span className="mt-3 flex items-center gap-2 text-[16px] text-sage-ink">
               <Arrow />
               An answer, citing the chunks it used
             </span>
@@ -252,7 +252,7 @@ export default function PlatformMap() {
 
         {/* Chunks are stored; retrieval reads them back through the filters */}
         <span className="absolute left-[9.5rem] top-[14.5rem] -translate-x-1/2 h-4 flex items-center" aria-hidden="true">
-          <ArrowDown size={16} strokeWidth={1.5} className="text-zinc-400" />
+          <ArrowDown size={16} strokeWidth={1.5} className="text-zinc-faded" />
         </span>
         <span
           className={`absolute left-[34.5rem] top-[14.5rem] -translate-x-1/2 h-4 flex items-center ${fade} ${
@@ -260,7 +260,7 @@ export default function PlatformMap() {
           }`}
           aria-hidden="true"
         >
-          <ArrowUp size={16} strokeWidth={1.5} className="text-zinc-400" />
+          <ArrowUp size={16} strokeWidth={1.5} className="text-zinc-faded" />
         </span>
       </div>
 
@@ -290,12 +290,12 @@ export default function PlatformMap() {
               type="button"
               onClick={() => setFocus(null)}
               aria-label="Close details"
-              className="p-1 text-zinc-400 hover:text-sage transition-colors duration-300"
+              className="p-1 text-zinc-faded hover:text-sage-ink transition-colors duration-300"
             >
               <X size={20} strokeWidth={1.5} aria-hidden="true" />
             </button>
           </div>
-          <ul className="mt-3 space-y-2.5 text-[18px] leading-snug text-ink-light list-disc pl-5 marker:text-sage">
+          <ul className="mt-3 space-y-2.5 text-[18px] leading-snug text-ink-light list-disc pl-5 marker:text-sage-ink">
             {open.points.map((point) => (
               <li key={point}>{point}</li>
             ))}

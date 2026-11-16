@@ -69,13 +69,13 @@ export default function Drift({ world, step }: { world: World; step: Step }) {
         {[0, 0.25, 0.5, 0.75, 1].map((share) => (
           <g key={share}>
             <line x1={LEFT} x2={RIGHT} y1={y(share)} y2={y(share)} className="stroke-zinc-200 dark:stroke-zinc-200/10" />
-            <text x={LEFT - 8} y={y(share) + 4} textAnchor="end" className="fill-zinc-400 font-mono text-[11px]">
+            <text x={LEFT - 8} y={y(share) + 4} textAnchor="end" className="fill-zinc-faded font-mono text-[11px]">
               {percent(share)}
             </text>
           </g>
         ))}
         {[0, 500, 1000, 1500, 2000, 2500].map((pull) => (
-          <text key={pull} x={x(pull)} y={BOTTOM + 16} textAnchor="middle" className="fill-zinc-400 font-mono text-[11px]">
+          <text key={pull} x={x(pull)} y={BOTTOM + 16} textAnchor="middle" className="fill-zinc-faded font-mono text-[11px]">
             {pull.toLocaleString('en')}
           </text>
         ))}
@@ -94,7 +94,7 @@ export default function Drift({ world, step }: { world: World; step: Step }) {
         <text
           x={RIGHT + 8}
           y={steadyEnd + 4 + (steadyAbove ? -nudge : nudge)}
-          className="fill-sage font-mono text-[11px] uppercase tracking-widest"
+          className="fill-sage-ink font-mono text-[11px] uppercase tracking-widest"
         >
           Step {current.step}
         </text>

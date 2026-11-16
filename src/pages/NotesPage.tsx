@@ -27,7 +27,7 @@ export default function NotesPage() {
         </Link>
 
         <div className="mb-16">
-          <span className="font-mono text-sm text-zinc-400 uppercase tracking-widest">
+          <span className="font-mono text-sm text-zinc-faded uppercase tracking-widest">
             Lab Notes
           </span>
           <h1 className="font-serif text-5xl md:text-6xl font-light mt-4 tracking-tight">
@@ -66,8 +66,8 @@ export default function NotesPage() {
 
         {isLoading ? (
           <div className="py-16 flex flex-col items-center justify-center">
-            <Loader2 className="w-8 h-8 animate-spin text-zinc-400 mb-4" />
-            <p className="text-sm text-zinc-400">Loading notes...</p>
+            <Loader2 className="w-8 h-8 animate-spin text-zinc-faded mb-4" />
+            <p className="text-sm text-zinc-faded">Loading notes...</p>
           </div>
         ) : error ? (
           <div className="py-16 text-center">
@@ -80,7 +80,7 @@ export default function NotesPage() {
             <p className="font-serif text-2xl text-zinc-faded mb-4">
               Coming Soon
             </p>
-            <p className="text-sm text-zinc-400 max-w-md mx-auto">
+            <p className="text-sm text-zinc-faded max-w-md mx-auto">
               Technical writings on AI systems, distributed architectures, and engineering
               philosophy are in progress.
             </p>
@@ -95,14 +95,14 @@ export default function NotesPage() {
               >
                 <article className="h-full">
                   <div className="mb-4 flex items-center justify-between">
-                    <span className="font-mono text-xs text-zinc-400 uppercase tracking-widest">
+                    <span className="font-mono text-xs text-zinc-faded uppercase tracking-widest">
                       {new Date(note.date).toLocaleDateString('en-US', {
                         year: 'numeric',
                         month: 'short',
                         day: 'numeric',
                       })}
                     </span>
-                    <span className="font-mono text-xs text-zinc-400 uppercase tracking-widest">
+                    <span className="font-mono text-xs text-zinc-faded uppercase tracking-widest">
                       {note.readTime}
                     </span>
                   </div>
@@ -119,7 +119,7 @@ export default function NotesPage() {
                     {note.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="font-mono text-xs text-zinc-400 uppercase tracking-widest px-2 py-0.5 rounded-full border border-zinc-200 dark:border-zinc-700"
+                        className="font-mono text-xs text-zinc-faded uppercase tracking-widest px-2 py-0.5 rounded-full border border-zinc-200 dark:border-zinc-700"
                       >
                         {tag}
                       </span>
@@ -140,7 +140,7 @@ export default function NotesPage() {
         )}
 
         <div className="mt-24">
-          <p className="font-mono text-sm text-zinc-400 uppercase tracking-widest text-center">
+          <p className="font-mono text-sm text-zinc-faded uppercase tracking-widest text-center">
             {notes.length} note{notes.length !== 1 ? 's' : ''}
             {activeTag && ` / ${activeTag}`}
           </p>

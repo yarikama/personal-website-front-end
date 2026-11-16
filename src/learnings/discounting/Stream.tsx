@@ -62,7 +62,7 @@ export default function Stream({ gamma, from, appear = false, labels = false, na
         )}
         <line x1={LEFT} x2={RIGHT} y1={BARS_BOTTOM} y2={BARS_BOTTOM} className="stroke-zinc-300 dark:stroke-zinc-200/25" />
         {[0, 1].map((w) => (
-          <text key={w} x={LEFT - 8} y={yBar(w) + 4} textAnchor="end" className="fill-zinc-400 font-mono text-[15px]">
+          <text key={w} x={LEFT - 8} y={yBar(w) + 4} textAnchor="end" className="fill-zinc-faded font-mono text-[15px]">
             {w}
           </text>
         ))}
@@ -94,7 +94,7 @@ export default function Stream({ gamma, from, appear = false, labels = false, na
           </g>
         )}
         <polyline points={points} fill="none" className="stroke-sage" strokeWidth={3} strokeLinejoin="round" />
-        <text x={x(shown) - 6} y={Math.max(PILE_TOP - 2, yPile(sofar) - 10)} textAnchor="end" className="fill-sage font-serif text-[26px]">
+        <text x={x(shown) - 6} y={Math.max(PILE_TOP - 2, yPile(sofar) - 10)} textAnchor="end" className="fill-sage-ink font-serif text-[26px]">
           {show(sofar, 1)}
         </text>
         {!Number.isFinite(limit) && (

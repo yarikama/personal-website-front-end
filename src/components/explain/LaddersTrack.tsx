@@ -135,7 +135,7 @@ export default function Track({
               fill="none"
               className="stroke-zinc-300 dark:stroke-zinc-200/25"
             />
-            <text x={x + 5} y={y + 13} className="fill-zinc-400 font-mono text-[12px]">
+            <text x={x + 5} y={y + 13} className="fill-zinc-faded font-mono text-[12px]">
               {sq}
             </text>
           </g>
@@ -159,7 +159,7 @@ export default function Track({
                 x={x + CELL / 2}
                 y={y + CELL / 2 + 5}
                 textAnchor="middle"
-                className="fill-sage font-mono text-[12px] uppercase tracking-widest"
+                className="fill-sage-ink font-mono text-[12px] uppercase tracking-widest"
               >
                 end
               </text>
@@ -182,7 +182,7 @@ export default function Track({
                 x={x + CELL / 2}
                 y={y + CELL / 2 + 7}
                 textAnchor="middle"
-                className="fill-zinc-400 font-serif text-[17px]"
+                className="fill-zinc-faded font-serif text-[17px]"
               >
                 ?
               </text>
@@ -192,7 +192,7 @@ export default function Track({
                 x={x + CELL / 2}
                 y={y + CELL - 7}
                 textAnchor="middle"
-                className={`font-mono text-[12px] uppercase ${plan[state(sq)] === STEP ? 'fill-sage' : 'fill-zinc-400'}`}
+                className={`font-mono text-[12px] uppercase ${plan[state(sq)] === STEP ? 'fill-sage-ink' : 'fill-zinc-faded'}`}
               >
                 {plan[state(sq)] === STEP ? 'step' : 'roll'}
               </text>
@@ -233,7 +233,7 @@ export default function Track({
                   strokeWidth={1.5}
                   strokeDasharray="4 3"
                 />
-                <text x={x + CELL - 5} y={y + 13} textAnchor="end" className="fill-sage font-mono text-[12px]">
+                <text x={x + CELL - 5} y={y + 13} textAnchor="end" className="fill-sage-ink font-mono text-[12px]">
                   {focus.move === STEP ? '1' : `${Math.round(chance * 6)}/6`}
                 </text>
               </g>
@@ -255,7 +255,7 @@ export default function Track({
         <g className="pointer-events-none">
           <circle cx={counter.x} cy={counter.y} r={10} className="fill-sage" />
           {said && (
-            <text x={counter.x} y={counter.y - 15} textAnchor="middle" className="fill-sage font-mono text-[13px]">
+            <text x={counter.x} y={counter.y - 15} textAnchor="middle" className="fill-sage-ink font-mono text-[13px]">
               {said}
             </text>
           )}

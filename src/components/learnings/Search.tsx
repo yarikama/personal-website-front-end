@@ -101,7 +101,7 @@ export default function Search({
         {tag && (
           <button
             onClick={() => onTag(null)}
-            className="inline-flex shrink-0 items-center gap-1 rounded-full bg-sage/15 px-1.5 py-0.5 font-mono text-[0.8125rem] uppercase tracking-widest text-sage hover:bg-sage/25 transition-colors"
+            className="inline-flex shrink-0 items-center gap-1 rounded-full bg-sage/15 px-1.5 py-0.5 font-mono text-[0.8125rem] uppercase tracking-widest text-sage-ink hover:bg-sage/25 transition-colors"
             aria-label={`Stop showing the tag ${tag}`}
           >
             {tag}
@@ -131,7 +131,7 @@ export default function Search({
           onKeyDown={keys}
           // The box's border shows the focus, over the site's own outline
           style={{ outline: 'none' }}
-          className="min-w-0 flex-1 bg-transparent text-sm text-ink placeholder:text-zinc-400"
+          className="min-w-0 flex-1 bg-transparent text-sm text-ink placeholder:text-zinc-faded"
         />
       </div>
       {shown && (
@@ -157,17 +157,17 @@ export default function Search({
             >
               {option.kind === 'tag' ? (
                 <>
-                  <Hash size={12} className="shrink-0 text-zinc-400" aria-hidden />
-                  <span className={`font-mono text-[0.875rem] uppercase tracking-widest ${option.tag === tag ? 'text-sage' : 'text-ink'}`}>
+                  <Hash size={12} className="shrink-0 text-zinc-faded" aria-hidden />
+                  <span className={`font-mono text-[0.875rem] uppercase tracking-widest ${option.tag === tag ? 'text-sage-ink' : 'text-ink'}`}>
                     {option.tag}
                   </span>
-                  <span className="ml-auto font-mono text-[0.8125rem] text-zinc-400">{option.count}</span>
+                  <span className="ml-auto font-mono text-[0.8125rem] text-zinc-faded">{option.count}</span>
                 </>
               ) : (
                 <>
                   <span className="h-2 w-2 shrink-0 rounded-full" style={{ background: option.colour }} aria-hidden />
                   <span className="min-w-0 flex-1 truncate text-sm text-ink">{option.title}</span>
-                  {option.where && <span className="shrink-0 max-w-[45%] truncate text-xs text-zinc-400">{option.where}</span>}
+                  {option.where && <span className="shrink-0 max-w-[45%] truncate text-xs text-zinc-faded">{option.where}</span>}
                 </>
               )}
             </li>

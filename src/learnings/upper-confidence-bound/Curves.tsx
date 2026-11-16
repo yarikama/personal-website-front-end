@@ -43,13 +43,13 @@ function Axes({ panel, ticks, title }: { panel: Panel; ticks: number[]; title: s
             y2={yOf(panel, reward)}
             className={reward === 0 ? 'stroke-zinc-300 dark:stroke-zinc-200/25' : 'stroke-zinc-200 dark:stroke-zinc-200/10'}
           />
-          <text x={LEFT - 8} y={yOf(panel, reward) + 4} textAnchor="end" className="fill-zinc-400 font-mono text-[11px]">
+          <text x={LEFT - 8} y={yOf(panel, reward) + 4} textAnchor="end" className="fill-zinc-faded font-mono text-[11px]">
             {reward}
           </text>
         </g>
       ))}
       {ticks.map((step) => (
-        <text key={step} x={xOf(panel, step)} y={panel.bottom + 16} textAnchor="middle" className="fill-zinc-400 font-mono text-[11px]">
+        <text key={step} x={xOf(panel, step)} y={panel.bottom + 16} textAnchor="middle" className="fill-zinc-faded font-mono text-[11px]">
           {step}
         </text>
       ))}
@@ -83,7 +83,7 @@ export default function Curves({ c }: { c: number }) {
         <text
           x={RIGHT + 8}
           y={ucbEnd + 4 + (ucbAbove ? -nudge : nudge)}
-          className="fill-sage font-mono text-[11px] uppercase tracking-widest"
+          className="fill-sage-ink font-mono text-[11px] uppercase tracking-widest"
         >
           UCB
         </text>
@@ -121,7 +121,7 @@ export default function Curves({ c }: { c: number }) {
         <thead>
           <tr className="font-mono text-[0.875rem] uppercase tracking-widest">
             <th className="w-2/5 pb-1 font-normal" />
-            <th className="pb-1 font-normal text-sage">UCB, c = {c}</th>
+            <th className="pb-1 font-normal text-sage-ink">UCB, c = {c}</th>
             <th className="pb-1 font-normal normal-case text-ink">ε = {EPSILON}</th>
           </tr>
         </thead>
@@ -130,14 +130,14 @@ export default function Curves({ c }: { c: number }) {
             <th className="py-1 pr-2 align-middle font-mono text-[0.875rem] font-normal uppercase tracking-widest text-zinc-faded">
               Average reward
             </th>
-            <td className="py-1 text-sage">{meanOf(ucb.reward).toFixed(2)}</td>
+            <td className="py-1 text-sage-ink">{meanOf(ucb.reward).toFixed(2)}</td>
             <td className="py-1 text-ink">{meanOf(random.reward).toFixed(2)}</td>
           </tr>
           <tr>
             <th className="py-1 pr-2 align-middle font-mono text-[0.875rem] font-normal uppercase tracking-widest text-zinc-faded">
               Best arm, last 100
             </th>
-            <td className="py-1 text-sage">{percent(meanOf(ucb.best, 900))}</td>
+            <td className="py-1 text-sage-ink">{percent(meanOf(ucb.best, 900))}</td>
             <td className="py-1 text-ink">{percent(meanOf(random.best, 900))}</td>
           </tr>
         </tbody>

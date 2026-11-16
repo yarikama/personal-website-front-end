@@ -104,7 +104,7 @@ function Frame({ title, note, good = true, children }: { title: string; note: st
   return (
     <div>
       <div className="font-mono text-[0.875rem] uppercase tracking-widest text-zinc-faded">{title}</div>
-      <div className={`mt-2 min-h-[1.25rem] font-mono text-[0.875rem] uppercase tracking-widest ${good ? 'text-sage' : 'text-ink'}`}>
+      <div className={`mt-2 min-h-[1.25rem] font-mono text-[0.875rem] uppercase tracking-widest ${good ? 'text-sage-ink' : 'text-ink'}`}>
         {note}
       </div>
       <div className="mt-2">{children}</div>

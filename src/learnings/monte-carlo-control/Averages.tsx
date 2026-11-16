@@ -65,7 +65,7 @@ export default function Averages({
             <rect x={x} y={y} width={CELL} height={CELL} className="fill-paper" />
             {sq === FINISH && <rect x={x} y={y} width={CELL} height={CELL} className="fill-sage" opacity={0.18} />}
             <rect x={x} y={y} width={CELL} height={CELL} fill="none" className="stroke-zinc-300 dark:stroke-zinc-200/25" />
-            <text x={x + 5} y={y + 13} className="fill-zinc-400 font-mono text-[11px]">
+            <text x={x + 5} y={y + 13} className="fill-zinc-faded font-mono text-[11px]">
               {sq}
             </text>
           </g>
@@ -92,7 +92,7 @@ export default function Averages({
               x={x + CELL / 2}
               y={y + CELL / 2 + 5}
               textAnchor="middle"
-              className="fill-sage font-mono text-[11px] uppercase tracking-widest"
+              className="fill-sage-ink font-mono text-[11px] uppercase tracking-widest"
             >
               end
             </text>
@@ -101,7 +101,7 @@ export default function Averages({
         if (!slots(sq)) return null
         if (unknown) {
           return (
-            <text key={sq} x={x + CELL / 2} y={y + CELL / 2 + 9} textAnchor="middle" className="fill-zinc-400 font-serif text-[17px]">
+            <text key={sq} x={x + CELL / 2} y={y + CELL / 2 + 9} textAnchor="middle" className="fill-zinc-faded font-serif text-[17px]">
               ?
             </text>
           )
@@ -121,7 +121,7 @@ export default function Averages({
                     y={rowY + 4}
                     textAnchor="end"
                     className={`stroke-paper font-mono text-[12px] tabular-nums ${
-                      on ? (move === STEP ? 'fill-sage' : 'fill-ink') : 'fill-zinc-400'
+                      on ? (move === STEP ? 'fill-sage-ink' : 'fill-ink') : 'fill-zinc-faded'
                     }`}
                     strokeWidth={3}
                     strokeLinejoin="round"

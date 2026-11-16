@@ -91,7 +91,7 @@ function Morning({ step }: { step: number }) {
         >
           <Fridge fx={30} fy={24} left={MONDAY.left} bought={MONDAY.bought} drop={drop} />
           <text x={30 + FRIDGE_W / 2} y={24 + FRIDGE_H + 34} textAnchor="middle" className="fill-ink font-mono text-[13px]">
-            {MONDAY.left} + <tspan className="fill-sage">{MONDAY.bought}</tspan>
+            {MONDAY.left} + <tspan className="fill-sage-ink">{MONDAY.bought}</tspan>
             {drop >= 1 ? ` = ${open}` : ''}
           </text>
           <line x1={290} x2={290} y1={14} y2={HEIGHT - 14} className="stroke-zinc-300 dark:stroke-zinc-200/25" strokeDasharray="4 4" />
@@ -128,7 +128,7 @@ function Morning({ step }: { step: number }) {
               <Fridge fx={0} fy={0} left={day.left} bought={day.bought} />
             </g>
             <text x={56 + (FRIDGE_W * small) / 2} y={y + FRIDGE_H * small + 20} textAnchor="middle" className="fill-ink font-mono text-[13px]">
-              {day.left} + <tspan className="fill-sage">{day.bought}</tspan>
+              {day.left} + <tspan className="fill-sage-ink">{day.bought}</tspan>
             </text>
             <path
               d={`M ${56 + FRIDGE_W * small + 10} ${y + (FRIDGE_H * small) / 2} L ${lerp(56 + FRIDGE_W * small + 10, meet.x - 6, k)} ${lerp(
@@ -148,7 +148,7 @@ function Morning({ step }: { step: number }) {
           <text x={meet.x + (FRIDGE_W * big) / 2} y={meet.y + (FRIDGE_H * big) / 2 + 26} textAnchor="middle" className="fill-ink font-mono text-[13px] uppercase tracking-widest">
             open with {open}
           </text>
-          <text x={meet.x + FRIDGE_W * big + 16} y={meet.y + 12} className="fill-zinc-400 font-serif text-[36px]">
+          <text x={meet.x + FRIDGE_W * big + 16} y={meet.y + 12} className="fill-zinc-faded font-serif text-[36px]">
             → ?
           </text>
         </g>

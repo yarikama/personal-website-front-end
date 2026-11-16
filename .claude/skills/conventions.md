@@ -18,7 +18,12 @@
   - `text-xs` 是 15px、`text-sm` 是 16px（`src/index.css` 的 `@theme`）。說明文字、標籤、日期、徽章直接用這兩個。
   - 頁面元件（sections、layout、ui、pages）不要寫死 `text-[13px]`、`text-[0.875rem]` 這類更小的字級。
   - 例外：圖表（SVG）和簡報投影片裡的字，因為會跟著圖一起縮放。
-- **說明文字的顏色**：用 `text-zinc-faded`，不要用 `text-zinc-400`。深色模式下 `zinc-400` 是 `#71717a`，字小時幾乎讀不到。
+- **文字對比度**：所有文字都要達到 WCAG AA，對它所在的底色至少 4.5:1（24px 以上的大字 3:1），淺色、深色模式都要。
+  - 文字只用 `text-ink`、`text-ink-light`、`text-zinc-faded`、`text-sage-ink`，SVG 圖表裡的字用對應的 `fill-*`。
+  - `zinc-300/400/500`、`sage`、`sage-light` 在紙色底上只有 1.4–3.3:1，只能畫線和形狀，不能當字的顏色。純裝飾的符號（拖曳把手、連結間的 `|`）加 `aria-hidden` 後可以例外。
+  - 白字放在 sage 色塊上時，色塊用 `bg-sage-ink`。
+  - 不要用 `opacity-*` 或 `/50` 這類透明度把文字調淡；需要次要文字就用 `text-zinc-faded`。停用中的按鈕不在此限。
+  - `tests/contrast.test.ts` 會檢查顏色 token 的對比度，並擋下淡色字。改顏色後，用 Playwright 在淺色、深色模式各掃一次全站，量實際畫面上的對比度。
 - **不用斜體**：全站沒有 `italic`。強調用 `<em>`，它在 `index.css` 是 500 字重、正體。
 - **標題**：保持視覺震撼力，使用 clamp() 實現響應式。
 
@@ -47,8 +52,8 @@
 
 ### E. 強調色 (Accent Color)
 
-- **Sage Green (#6b8f8b)**：主要強調色
-- **Sage Light (#7fa8a3)**：Dark mode 時的強調色
+- **Sage (#6b8f8b，深色模式 #7fa8a3)**：線條、形狀、進度條、色塊。
+- **Sage Ink (#4f6a67，深色模式 #7fa8a3)**：sage 色的文字，以及上面要放白字的色塊。
 - 用於：數據亮點、hover 狀態、進度條、重點文字
 
 ### F. Dark Mode

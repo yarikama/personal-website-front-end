@@ -64,7 +64,7 @@ export default function ProjectCard({ project, index, featured = false, story = 
       <div className="flex items-start justify-between gap-4">
         <div className="flex-1">
           <div className="flex items-baseline gap-4 mb-3">
-            <span className="font-mono text-sm text-zinc-400">{formattedIndex}</span>
+            <span className="font-mono text-sm text-zinc-faded">{formattedIndex}</span>
             <h3
               className={`
                 font-serif font-light tracking-tight
@@ -122,7 +122,7 @@ export default function ProjectCard({ project, index, featured = false, story = 
             {project.tags.map((tag) => (
               <span
                 key={tag}
-                className="font-mono text-xs text-zinc-400 uppercase tracking-widest"
+                className="font-mono text-xs text-zinc-faded uppercase tracking-widest"
               >
                 {tag}
               </span>
@@ -152,7 +152,7 @@ export default function ProjectCard({ project, index, featured = false, story = 
                   href={project.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 font-mono text-xs uppercase tracking-widest text-sage hover:text-ink transition-colors"
+                  className="inline-flex items-center gap-1 font-mono text-xs uppercase tracking-widest text-sage-ink hover:text-ink transition-colors"
                 >
                   Code <ArrowUpRight size={14} aria-hidden="true" />
                 </a>
@@ -162,7 +162,7 @@ export default function ProjectCard({ project, index, featured = false, story = 
                   href={project.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 font-mono text-xs uppercase tracking-widest text-sage hover:text-ink transition-colors"
+                  className="inline-flex items-center gap-1 font-mono text-xs uppercase tracking-widest text-sage-ink hover:text-ink transition-colors"
                 >
                   Link <ArrowUpRight size={14} aria-hidden="true" />
                 </a>
@@ -177,7 +177,7 @@ export default function ProjectCard({ project, index, featured = false, story = 
             target="_blank"
             rel="noopener noreferrer"
             className="
-              p-2 text-zinc-400 hover:text-ink
+              p-2 text-zinc-faded hover:text-ink
               transition-colors duration-300
               opacity-0 group-hover:opacity-100 focus-visible:opacity-100
             "

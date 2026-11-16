@@ -48,7 +48,7 @@ export default function Knobs({ aim, share }: { aim: Aim; share: Share }) {
         {[0, 10, 20, 30, 40].map((m) => (
           <g key={m}>
             <line x1={LEFT} x2={RIGHT} y1={y(m)} y2={y(m)} className="stroke-zinc-300 dark:stroke-zinc-200/25" strokeWidth={m === 0 ? 1 : 0.5} />
-            <text x={LEFT - 6} y={y(m) + 4} textAnchor="end" className="fill-zinc-400 font-mono text-[10px]">
+            <text x={LEFT - 6} y={y(m) + 4} textAnchor="end" className="fill-zinc-faded font-mono text-[10px]">
               {m}
             </text>
           </g>
@@ -71,14 +71,14 @@ export default function Knobs({ aim, share }: { aim: Aim; share: Share }) {
             off the chart
           </text>
         )}
-        <text x={LEFT} y={HEIGHT - 8} className="fill-zinc-400 font-mono text-[10px] uppercase tracking-widest">
+        <text x={LEFT} y={HEIGHT - 8} className="fill-zinc-faded font-mono text-[10px] uppercase tracking-widest">
           0 updates
         </text>
-        <text x={RIGHT} y={HEIGHT - 8} textAnchor="end" className="fill-zinc-400 font-mono text-[10px] uppercase tracking-widest">
+        <text x={RIGHT} y={HEIGHT - 8} textAnchor="end" className="fill-zinc-faded font-mono text-[10px] uppercase tracking-widest">
           {KNOBS.updates} updates
         </text>
         {aim === 'frozen' && (
-          <text x={(LEFT + RIGHT) / 2} y={HEIGHT - 8} textAnchor="middle" className="fill-sage font-mono text-[10px] uppercase tracking-widest">
+          <text x={(LEFT + RIGHT) / 2} y={HEIGHT - 8} textAnchor="middle" className="fill-sage-ink font-mono text-[10px] uppercase tracking-widest">
             ticks: copy refreshed
           </text>
         )}

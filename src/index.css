@@ -9,7 +9,10 @@
   --color-paper-dark: #f0efe9;
   --color-ink: #1a1a1a;
   --color-ink-light: #2d2d2d;
-  --color-zinc-faded: #71717a;
+  /* Text colours are held to WCAG AA on paper and paper-dark: 4.5:1 for
+     body-size text (tests/contrast.test.ts). zinc-400 and sage are for
+     lines and shapes; text uses zinc-faded and sage-ink. */
+  --color-zinc-faded: #66666e;
   --color-zinc-400: #a1a1aa;
   --color-zinc-300: #d4d4d8;
   --color-zinc-200: #e4e4e7;
@@ -17,6 +20,8 @@
   /* Accent - Sage Green */
   --color-sage: #6b8f8b;
   --color-sage-light: #8aa8a4;
+  /* Sage dark enough to read as text */
+  --color-sage-ink: #4f6a67;
 
   /* Typography */
   --font-serif: "Cormorant Garamond", serif;
@@ -134,6 +139,7 @@ body.dark {
   --color-zinc-200: #27272a;
   --color-sage: #7fa8a3;
   --color-sage-light: #6b8f8b;
+  --color-sage-ink: #7fa8a3;
 }
 
 /* Selection */
@@ -339,7 +345,8 @@ body.dark {
 }
 
 .liquid-fill {
-  --liquid-color: var(--color-sage);
+  /* The label copy rides on this, so it is the sage that paper text reads on */
+  --liquid-color: var(--color-sage-ink);
   transition: transform 550ms cubic-bezier(0.5, 0, 0.75, 0);
 }
 

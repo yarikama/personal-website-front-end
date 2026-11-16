@@ -55,7 +55,7 @@ export default function ShopGraph({ jobs, hubs }: { jobs: number; hubs: boolean 
     <div ref={ref}>
     <svg viewBox={`0 0 ${W} ${H}`} width={W} height={H} className="block max-w-full" role="img" aria-label={`${jobs} jobs on 3 machines, ${hubs ? 'with machine hubs' : `${conflicts.length} same-machine links`}`}>
       {Array.from({ length: jobs }, (_, i) => (
-        <text key={`job${i}`} x={left - (narrow ? 18 : 40)} y={rowY(i) + 4} textAnchor="end" className="fill-zinc-400 font-mono text-[12px]">
+        <text key={`job${i}`} x={left - (narrow ? 18 : 40)} y={rowY(i) + 4} textAnchor="end" className="fill-zinc-faded font-mono text-[12px]">
           job {i + 1}
         </text>
       ))}

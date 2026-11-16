@@ -29,7 +29,7 @@ export function Predict({
   const answered = picked !== null
   return (
     <div className="not-prose my-12 rounded-2xl border border-zinc-200 dark:border-zinc-200/20 p-5 sm:p-7">
-      <span className="font-mono text-[0.875rem] uppercase tracking-widest text-sage">{kicker}</span>
+      <span className="font-mono text-[0.875rem] uppercase tracking-widest text-sage-ink">{kicker}</span>
       <p className="mt-3 font-serif text-2xl font-light leading-snug">{question}</p>
       <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
         {options.map((option, i) => {
@@ -37,10 +37,10 @@ export function Predict({
           const tone = !answered
             ? 'border-zinc-300 dark:border-zinc-200/20 text-ink hover:border-ink'
             : option.right
-              ? 'border-sage bg-sage/15 text-sage'
+              ? 'border-sage bg-sage/15 text-sage-ink'
               : chosen
                 ? 'border-ink text-ink line-through decoration-1'
-                : 'border-zinc-200 dark:border-zinc-200/10 text-zinc-400'
+                : 'border-zinc-200 dark:border-zinc-200/10 text-zinc-faded'
           return (
             <button
               key={option.label}

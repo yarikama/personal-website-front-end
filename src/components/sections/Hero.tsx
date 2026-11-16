@@ -27,7 +27,7 @@ function AwardLink({ href, children }: { href: string; children: string }) {
       className="liquid-trigger group flex items-stretch overflow-hidden rounded-xl border border-sage/40 hover:border-sage transition-colors duration-300"
     >
       <span className="relative overflow-hidden">
-        <span className={`block text-sage ${AWARD_LABEL}`}>{children}</span>
+        <span className={`block text-sage-ink ${AWARD_LABEL}`}>{children}</span>
         <span aria-hidden="true" className="liquid-foam" />
         <span aria-hidden="true" className="liquid-fill">
           <span className="liquid-fill-body">
@@ -111,7 +111,7 @@ export default function Hero() {
                 2024 Presidential Hackathon Winner
               </AwardLink>
               <AwardLink href="https://lifenews.com.tw/334346">Golden Peak Award 2025</AwardLink>
-              <span className="font-mono text-sm text-zinc-400 uppercase tracking-widest rounded-xl px-4 py-2 border border-zinc-200 dark:border-zinc-200/30">
+              <span className="font-mono text-sm text-zinc-faded uppercase tracking-widest rounded-xl px-4 py-2 border border-zinc-200 dark:border-zinc-200/30">
                 Dean's List × 2
               </span>
             </div>
@@ -134,7 +134,7 @@ export default function Hero() {
       <div className="absolute bottom-12 left-1/2 -translate-x-1/2">
         <div className="flex items-center gap-4">
           <div className="flex items-end gap-1">{[0, 1, 2, 3, 4].map(renderBar)}</div>
-          <div className="font-mono text-sm text-zinc-400 uppercase tracking-widest">
+          <div className="font-mono text-sm text-zinc-faded uppercase tracking-widest">
             Scroll to explore
           </div>
           <div className="flex items-end gap-1">{[5, 6, 7, 8, 9].map(renderBar)}</div>

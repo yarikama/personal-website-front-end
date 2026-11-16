@@ -72,7 +72,7 @@ export default function Testbed({ start }: { start: Start }) {
               y2={yRegret(value)}
               className="stroke-zinc-200 dark:stroke-zinc-200/10"
             />
-            <text x={LEFT - 8} y={yRegret(value) + 4} textAnchor="end" className="fill-zinc-400 font-mono text-[11px]">
+            <text x={LEFT - 8} y={yRegret(value) + 4} textAnchor="end" className="fill-zinc-faded font-mono text-[11px]">
               {value.toLocaleString('en')}
             </text>
           </g>
@@ -104,7 +104,7 @@ export default function Testbed({ start }: { start: Start }) {
               y2={yAverage(value)}
               className="stroke-zinc-200 dark:stroke-zinc-200/10"
             />
-            <text x={LEFT - 8} y={yAverage(value) + 4} textAnchor="end" className="fill-zinc-400 font-mono text-[11px]">
+            <text x={LEFT - 8} y={yAverage(value) + 4} textAnchor="end" className="fill-zinc-faded font-mono text-[11px]">
               {value}
             </text>
           </g>
@@ -117,7 +117,7 @@ export default function Testbed({ start }: { start: Start }) {
           className="stroke-sage"
           strokeDasharray="2 4"
         />
-        <text x={LEFT + 6} y={yAverage(best) - 6} className="fill-sage font-mono text-[11px]">
+        <text x={LEFT + 6} y={yAverage(best) - 6} className="fill-sage-ink font-mono text-[11px]">
           best arm, {best.toFixed(2)}
         </text>
         {averages.map((line, i) => (
@@ -140,7 +140,7 @@ export default function Testbed({ start }: { start: Start }) {
             x={xOf(step)}
             y={AVERAGE.bottom + 18}
             textAnchor="middle"
-            className="fill-zinc-400 font-mono text-[11px]"
+            className="fill-zinc-faded font-mono text-[11px]"
           >
             {step.toLocaleString('en')}
           </text>
@@ -157,7 +157,7 @@ export default function Testbed({ start }: { start: Start }) {
         </thead>
         <tbody className="font-serif text-2xl font-light tabular-nums">
           {runs.map((run, i) => (
-            <tr key={i} className={i === 3 ? 'text-sage' : 'text-ink'}>
+            <tr key={i} className={i === 3 ? 'text-sage-ink' : 'text-ink'}>
               <th className="py-0.5 pr-2 align-middle font-mono text-[0.875rem] font-normal normal-case tracking-widest text-zinc-faded">
                 {METHODS[i].name}
               </th>

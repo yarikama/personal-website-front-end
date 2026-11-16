@@ -59,13 +59,13 @@ export default function RaceChart({ run }: { run: Race }) {
         {[0, 10, 20, 30, 40].map((tick) => (
           <g key={tick}>
             <line x1={LEFT} x2={RIGHT} y1={y(tick / 100)} y2={y(tick / 100)} className="stroke-zinc-200 dark:stroke-zinc-200/10" />
-            <text x={LEFT - 8} y={y(tick / 100) + 3} textAnchor="end" className="fill-zinc-400 font-mono text-[10px]">
+            <text x={LEFT - 8} y={y(tick / 100) + 3} textAnchor="end" className="fill-zinc-faded font-mono text-[10px]">
               {tick}
             </text>
           </g>
         ))}
         {[0, budget / 4, budget / 2, (budget * 3) / 4, budget].map((tick) => (
-          <text key={tick} x={x(tick)} y={BOTTOM + 16} textAnchor="middle" className="fill-zinc-400 font-mono text-[10px]">
+          <text key={tick} x={x(tick)} y={BOTTOM + 16} textAnchor="middle" className="fill-zinc-faded font-mono text-[10px]">
             {tick.toLocaleString('en-US')}
           </text>
         ))}
@@ -78,7 +78,7 @@ export default function RaceChart({ run }: { run: Race }) {
         <text x={x(budget / 2)} y={y(run.results[Math.floor(last / 2)].lost) - 12} textAnchor="middle" className="fill-ink font-mono text-[10px] uppercase tracking-widest">
           Results only
         </text>
-        <text x={x(budget / 2)} y={y(run.values[Math.floor(last / 2)].lost) - 10} textAnchor="middle" className="fill-sage font-mono text-[10px] uppercase tracking-widest">
+        <text x={x(budget / 2)} y={y(run.values[Math.floor(last / 2)].lost) - 10} textAnchor="middle" className="fill-sage-ink font-mono text-[10px] uppercase tracking-widest">
           Value function
         </text>
         <path d={line(run.results)} fill="none" className="stroke-ink" strokeWidth={2} strokeLinejoin="round" />

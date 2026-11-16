@@ -68,7 +68,7 @@ export default function Cart({
       <p className="flex justify-between gap-4 font-mono text-[0.875rem] uppercase tracking-widest text-zinc-faded">
         <span>
           {who} · day <span className="text-ink tabular-nums">{now}</span> ·{' '}
-          <span className="text-sage">{CORNERS[today.corner]}</span>
+          <span className="text-sage-ink">{CORNERS[today.corner]}</span>
           {today.random && <span> (at random)</span>}
         </span>
         {chart && (
@@ -102,10 +102,10 @@ export default function Cart({
               </text>
               <text x={x + 10} y={46} className="fill-ink font-serif text-[22px] tabular-nums">
                 {today.visits[c]}
-                <tspan className="fill-zinc-400 font-mono text-[11px]"> {today.visits[c] === 1 ? 'day' : 'days'}</tspan>
+                <tspan className="fill-zinc-faded font-mono text-[11px]"> {today.visits[c] === 1 ? 'day' : 'days'}</tspan>
               </text>
               {truth && (
-                <text x={x + 10} y={66} className="fill-sage font-mono text-[11px]">
+                <text x={x + 10} y={66} className="fill-sage-ink font-mono text-[11px]">
                   truly ${TAKINGS[c]}
                 </text>
               )}
@@ -129,7 +129,7 @@ export default function Cart({
                   y2={yOf(value)}
                   className="stroke-zinc-200 dark:stroke-zinc-200/10"
                 />
-                <text x={LEFT - 6} y={yOf(value) + 4} textAnchor="end" className="fill-zinc-400 font-mono text-[11px]">
+                <text x={LEFT - 6} y={yOf(value) + 4} textAnchor="end" className="fill-zinc-faded font-mono text-[11px]">
                   {thousands(value)}
                 </text>
               </g>
@@ -140,7 +140,7 @@ export default function Cart({
                 x={xOf(day)}
                 y={BOTTOM + 16}
                 textAnchor={day === ticks.at(-1) && span !== YEAR ? 'end' : 'middle'}
-                className="fill-zinc-400 font-mono text-[11px]"
+                className="fill-zinc-faded font-mono text-[11px]"
               >
                 {span === YEAR ? day : `${day / YEAR} yr`}
               </text>
@@ -165,7 +165,7 @@ export default function Cart({
                 x={xOf(now)}
                 y={yOf(today.regret) - 8}
                 textAnchor="end"
-                className="fill-sage font-mono text-[11px] uppercase"
+                className="fill-sage-ink font-mono text-[11px] uppercase"
               >
                 {who}
               </text>

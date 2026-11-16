@@ -73,7 +73,7 @@ export default function Shop({ visits, from, to, pace, truth = false, named = fa
             <>
               {' '}
               · {named ? 'Step' : 'Visit'} {shown} ·{' '}
-              <span className="text-sage">{named ? `Arm ${visit.flavour + 1}` : FLAVOURS[visit.flavour]}</span>
+              <span className="text-sage-ink">{named ? `Arm ${visit.flavour + 1}` : FLAVOURS[visit.flavour]}</span>
             </>
           )}
         </span>
@@ -103,7 +103,7 @@ export default function Shop({ visits, from, to, pace, truth = false, named = fa
           const chosen = visit?.flavour === i
           return (
             <g key={name}>
-              <text x={x} y={26} textAnchor="middle" className={`font-mono text-[15px] uppercase ${chosen ? 'fill-sage' : 'fill-ink'}`}>
+              <text x={x} y={26} textAnchor="middle" className={`font-mono text-[15px] uppercase ${chosen ? 'fill-sage-ink' : 'fill-ink'}`}>
                 {named ? `Arm ${i + 1}` : name}
               </text>
               <rect
@@ -129,7 +129,7 @@ export default function Shop({ visits, from, to, pace, truth = false, named = fa
                 x={x}
                 y={248}
                 textAnchor="middle"
-                className={`font-serif text-[32px] tabular-nums ${chosen ? 'fill-sage' : 'fill-ink'}`}
+                className={`font-serif text-[32px] tabular-nums ${chosen ? 'fill-sage-ink' : 'fill-ink'}`}
               >
                 {ratings[i] === HOPE ? '10' : ratings[i].toFixed(1)}
               </text>
@@ -165,7 +165,7 @@ export default function Shop({ visits, from, to, pace, truth = false, named = fa
             </text>
           </g>
         )}
-        <text x={18} y={level(HOPE) - 6} className="fill-zinc-400 font-mono text-[11px] uppercase tracking-widest">
+        <text x={18} y={level(HOPE) - 6} className="fill-zinc-faded font-mono text-[11px] uppercase tracking-widest">
           {named ? 'Starting estimate 10' : 'Imagined 10'}
         </text>
       </svg>

@@ -12,7 +12,7 @@ export default function BriefSelection() {
   return (
     <Section id="works">
       <div className="mb-16">
-        <span className="font-mono text-sm text-zinc-400 uppercase tracking-widest">
+        <span className="font-mono text-sm text-zinc-faded uppercase tracking-widest">
           Selected Works
         </span>
         <h2 className="font-serif text-4xl md:text-5xl font-light mt-4 tracking-tight">
@@ -26,8 +26,8 @@ export default function BriefSelection() {
 
       {isLoading ? (
         <div className="py-16 flex flex-col items-center justify-center">
-          <Loader2 className="w-8 h-8 animate-spin text-zinc-400 mb-4" />
-          <p className="text-sm text-zinc-400">Loading projects...</p>
+          <Loader2 className="w-8 h-8 animate-spin text-zinc-faded mb-4" />
+          <p className="text-sm text-zinc-faded">Loading projects...</p>
         </div>
       ) : error ? (
         <div className="py-16 text-center">

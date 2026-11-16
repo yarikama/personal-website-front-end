@@ -46,10 +46,10 @@ export default function Sweeping({
         at > 0 && (
           <>
             biggest change{' '}
-            <span className={`tabular-nums ${done ? 'text-sage' : 'text-ink'}`}>
+            <span className={`tabular-nums ${done ? 'text-sage-ink' : 'text-ink'}`}>
               {signed(delta, delta < 0.1 ? 3 : 2).replace('−', '')}
             </span>
-            {done && <span className="text-sage"> &lt; {theta}</span>}
+            {done && <span className="text-sage-ink"> &lt; {theta}</span>}
           </>
         )
       }

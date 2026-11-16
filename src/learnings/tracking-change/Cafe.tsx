@@ -90,7 +90,7 @@ export default function Cafe({ ratings, yours, hers, from, to, pace, friend = fa
           )}
           {friend && shown > 0 && (
             <span>
-              {reveal ? `Step ${FRIEND_STEP}` : 'Hers'} <span className="text-sage">{hers[last].toFixed(1)}</span>
+              {reveal ? `Step ${FRIEND_STEP}` : 'Hers'} <span className="text-sage-ink">{hers[last].toFixed(1)}</span>
             </span>
           )}
         </span>
@@ -111,7 +111,7 @@ export default function Cafe({ ratings, yours, hers, from, to, pace, friend = fa
               className={rating === GOOD ? 'stroke-zinc-400 dark:stroke-zinc-200/40' : 'stroke-zinc-200 dark:stroke-zinc-200/10'}
               strokeDasharray={rating === GOOD ? '4 4' : undefined}
             />
-            <text x={LEFT - 8} y={y(rating) + 4} textAnchor="end" className="fill-zinc-400 font-mono text-[11px]">
+            <text x={LEFT - 8} y={y(rating) + 4} textAnchor="end" className="fill-zinc-faded font-mono text-[11px]">
               {rating}
             </text>
           </g>
@@ -157,7 +157,7 @@ export default function Cafe({ ratings, yours, hers, from, to, pace, friend = fa
           <g>
             <line x1={x(herFall)} x2={x(herFall)} y1={y(hers[herFall]) + 5} y2={BOTTOM - 16} className="stroke-sage" strokeDasharray="2 3" />
             <circle cx={x(herFall)} cy={y(hers[herFall])} r={5} className="fill-paper stroke-sage" strokeWidth={2} />
-            <text x={x(herFall)} y={BOTTOM - 4} textAnchor="middle" className="fill-sage font-mono text-[11px] uppercase tracking-widest">
+            <text x={x(herFall)} y={BOTTOM - 4} textAnchor="middle" className="fill-sage-ink font-mono text-[11px] uppercase tracking-widest">
               After {herFall - OLD_VISITS + 1}
             </text>
           </g>
@@ -201,7 +201,7 @@ export default function Cafe({ ratings, yours, hers, from, to, pace, friend = fa
                 />
               </g>
             ))}
-            <text x={RIGHT} y={STRIP_BOTTOM + 16} textAnchor="end" className="fill-sage font-mono text-[11px] uppercase tracking-widest">
+            <text x={RIGHT} y={STRIP_BOTTOM + 16} textAnchor="end" className="fill-sage-ink font-mono text-[11px] uppercase tracking-widest">
               Newest {Math.round(FRIEND_STEP * 100)}%
             </text>
             <text x={LEFT} y={STRIP_BOTTOM + 16} className="fill-ink font-mono text-[11px] uppercase tracking-widest">

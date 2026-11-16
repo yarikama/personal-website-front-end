@@ -30,7 +30,7 @@ export default function LookAhead({ horizon }: { horizon: number }) {
             <text
               x={LEFT}
               y={top - 6}
-              className={`font-mono text-[13px] uppercase tracking-widest ${chosen ? 'fill-sage' : 'fill-zinc-400'}`}
+              className={`font-mono text-[13px] uppercase tracking-widest ${chosen ? 'fill-sage-ink' : 'fill-zinc-faded'}`}
             >
               {NAMES[way]}
               {chosen ? '  ← picks this' : ''}
@@ -51,7 +51,7 @@ export default function LookAhead({ horizon }: { horizon: number }) {
                     x={x + CELL / 2}
                     y={top + CELL / 2 + 5}
                     textAnchor="middle"
-                    className={`font-mono text-[15px] tabular-nums ${reward > 0 ? 'fill-ink' : 'fill-zinc-400'}`}
+                    className={`font-mono text-[15px] tabular-nums ${reward > 0 ? 'fill-ink' : 'fill-zinc-faded'}`}
                   >
                     {reward}
                   </text>
@@ -61,7 +61,7 @@ export default function LookAhead({ horizon }: { horizon: number }) {
             <text
               x={SUM_X}
               y={top + CELL / 2 + 9}
-              className={`font-serif text-[32px] font-light lining-nums tabular-nums ${chosen ? 'fill-sage' : 'fill-zinc-faded'}`}
+              className={`font-serif text-[32px] font-light lining-nums tabular-nums ${chosen ? 'fill-sage-ink' : 'fill-zinc-faded'}`}
             >
               = {lookAhead(PATHS[way], horizon)}
             </text>

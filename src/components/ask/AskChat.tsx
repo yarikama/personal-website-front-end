@@ -46,7 +46,7 @@ function SourceLink({ citation }: { citation: Citation }) {
   // Notes are pages in this app; projects and the resume PDF open in a new tab.
   if (href.startsWith('/') && !href.endsWith('.pdf')) {
     return (
-      <Link to={href} className="hover:text-sage transition-colors">
+      <Link to={href} className="hover:text-sage-ink transition-colors">
         {label}
       </Link>
     )
@@ -56,7 +56,7 @@ function SourceLink({ citation }: { citation: Citation }) {
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="hover:text-sage transition-colors"
+      className="hover:text-sage-ink transition-colors"
     >
       {label}
     </a>
@@ -70,7 +70,7 @@ function TurnView({ turn, anchor, owls }: { turn: Turn; anchor: string; owls: bo
   return (
     <div className="py-5">
       {turn.passage && (
-        <blockquote className="ml-auto w-fit max-w-[85%] mb-2 border-l-2 border-sage/60 pl-3 text-sm text-zinc-400 line-clamp-3">
+        <blockquote className="ml-auto w-fit max-w-[85%] mb-2 border-l-2 border-sage/60 pl-3 text-sm text-zinc-faded line-clamp-3">
           {turn.passage.text}
         </blockquote>
       )}
@@ -86,13 +86,13 @@ function TurnView({ turn, anchor, owls }: { turn: Turn; anchor: string; owls: bo
         className="w-full max-w-[94%] rounded-xl border border-zinc-300 dark:border-white/70 overflow-hidden"
       >
         <div className="flex items-center justify-between gap-4 px-4 py-2 bg-paper-dark border-b border-zinc-200 dark:border-zinc-700 font-mono text-[12px] uppercase tracking-[0.14em]">
-          <span className="text-sage shrink-0">Answer</span>
+          <span className="text-sage-ink shrink-0">Answer</span>
           <span className="text-zinc-faded truncate">{MODEL}</span>
         </div>
 
         <div className="px-4 py-4 sm:px-5">
           {waiting && (
-            <p className="flex items-center gap-2 text-zinc-400 text-sm">
+            <p className="flex items-center gap-2 text-zinc-faded text-sm">
               <Loader2 className="w-4 h-4 animate-spin" /> Thinking…
             </p>
           )}
@@ -102,7 +102,7 @@ function TurnView({ turn, anchor, owls }: { turn: Turn; anchor: string; owls: bo
             </Suspense>
           )}
           {turn.truncated && (
-            <p className="mt-2 text-sm text-zinc-400">
+            <p className="mt-2 text-sm text-zinc-faded">
               The answer got too long and was cut off. Try a narrower question.
             </p>
           )}
@@ -121,7 +121,7 @@ function TurnView({ turn, anchor, owls }: { turn: Turn; anchor: string; owls: bo
                 id={`${anchor}-${turn.id}-${i + 1}`}
                 className="grid grid-cols-[2.25rem_4.5rem_minmax(0,1fr)] items-baseline gap-2 px-4 py-2 border-t border-zinc-200 dark:border-zinc-700"
               >
-                <span className="font-mono text-[13px] text-sage">[{i + 1}]</span>
+                <span className="font-mono text-[13px] text-sage-ink">[{i + 1}]</span>
                 <span className="font-mono text-[12px] uppercase tracking-[0.14em] text-zinc-faded">
                   {citation.kind}
                 </span>
@@ -240,7 +240,7 @@ export default function AskChat({ className = '', compact = false, autoFocus = f
                 key={s}
                 type="button"
                 onClick={() => submit(s, false)}
-                className="rounded-full font-mono text-xs text-zinc-400 hover:text-sage border border-zinc-200 dark:border-zinc-700 hover:border-sage px-4 py-2 transition-colors"
+                className="rounded-full font-mono text-xs text-zinc-faded hover:text-sage-ink border border-zinc-200 dark:border-zinc-700 hover:border-sage px-4 py-2 transition-colors"
               >
                 {s}
               </button>
@@ -275,7 +275,7 @@ export default function AskChat({ className = '', compact = false, autoFocus = f
             type="button"
             onClick={() => setPassage(null)}
             aria-label="Remove the highlighted passage"
-            className="shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-zinc-400 hover:text-ink hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+            className="shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-zinc-faded hover:text-ink hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
           >
             <X className="w-3.5 h-3.5" />
           </button>
@@ -328,7 +328,7 @@ export default function AskChat({ className = '', compact = false, autoFocus = f
               <button
                 type="button"
                 onClick={reset}
-                className="underline underline-offset-2 hover:text-sage transition-colors"
+                className="underline underline-offset-2 hover:text-sage-ink transition-colors"
               >
                 Start over
               </button>

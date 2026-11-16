@@ -123,7 +123,7 @@ export default function AdminNav() {
 
   const renderSubLink = (sub: SubItem) => {
     const className = `${SUB_LINK} ${
-      isActive(sub) ? 'text-ink dark:text-white' : 'text-zinc-500 hover:text-ink dark:hover:text-white'
+      isActive(sub) ? 'text-ink dark:text-white' : 'text-zinc-faded hover:text-ink dark:hover:text-white'
     }`
     const content = (
       <>
@@ -187,7 +187,7 @@ export default function AdminNav() {
             ${
               active
                 ? 'bg-zinc-100 dark:bg-zinc-800 text-ink dark:text-white'
-                : 'text-zinc-500 hover:text-ink dark:hover:text-white'
+                : 'text-zinc-faded hover:text-ink dark:hover:text-white'
             }
           `}
         >
@@ -254,7 +254,7 @@ export default function AdminNav() {
                     ${
                       location.pathname === '/admin'
                         ? 'bg-zinc-100 dark:bg-zinc-800 text-ink dark:text-white'
-                        : 'text-zinc-500 hover:text-ink dark:hover:text-white'
+                        : 'text-zinc-faded hover:text-ink dark:hover:text-white'
                     }
                   `}
                 >
@@ -271,7 +271,7 @@ export default function AdminNav() {
               <Link
                 to="/admin"
                 title={`Signed in as ${user.email}. Back to your desk`}
-                className="hidden md:inline-flex items-center gap-1.5 max-w-[16rem] font-mono text-xs text-zinc-400 hover:text-ink transition-colors"
+                className="hidden md:inline-flex items-center gap-1.5 max-w-[16rem] font-mono text-xs text-zinc-faded hover:text-ink transition-colors"
               >
                 <UserRound size={14} className="shrink-0" />
                 <span className="truncate">{user.email}</span>
@@ -280,7 +280,7 @@ export default function AdminNav() {
             <ThemeToggle />
             <button
               onClick={handleLogout}
-              className="p-2 text-zinc-400 hover:text-ink dark:hover:text-white transition-colors"
+              className="p-2 text-zinc-faded hover:text-ink dark:hover:text-white transition-colors"
               title="Logout"
             >
               <LogOut size={18} />

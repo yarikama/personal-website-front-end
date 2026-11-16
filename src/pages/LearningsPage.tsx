@@ -152,19 +152,19 @@ function Topics({ graph, onSelect }: { graph: LearningGraph; onSelect: (slug: st
     <div className="flex flex-col gap-8">
       {fields.map(({ field, topics }) => (
         <div key={field.slug}>
-          {pick(field, 'font-serif text-2xl hover:text-sage')}
+          {pick(field, 'font-serif text-2xl hover:text-sage-ink')}
           <div className="mt-4 flex flex-col gap-5">
             {topics.map(({ topic, ideas }) => (
               <div key={topic.slug}>
                 <div className="flex items-center gap-2">
                   <Shape sides={8} size={10} colour={colours.get(topic.slug) ?? 'var(--color-ink)'} />
-                  {pick(topic, 'font-serif text-lg hover:text-sage')}
+                  {pick(topic, 'font-serif text-lg hover:text-sage-ink')}
                 </div>
                 <ul className="mt-1 ml-[18px] flex flex-col gap-1">
                   {ideas.map((idea) => (
                     <li key={idea.slug} className="text-sm">
                       {pick(idea, 'text-zinc-faded hover:text-ink')}
-                      {home.get(idea.slug) !== topic.slug && <span className="ml-2 text-xs text-zinc-400">also here</span>}
+                      {home.get(idea.slug) !== topic.slug && <span className="ml-2 text-xs text-zinc-faded">also here</span>}
                     </li>
                   ))}
                 </ul>
@@ -253,7 +253,7 @@ function Reader({
             </div>
           </>
         ) : (
-          <Loader2 className="mx-auto my-16 h-6 w-6 animate-spin text-zinc-400" />
+          <Loader2 className="mx-auto my-16 h-6 w-6 animate-spin text-zinc-faded" />
         )}
       </motion.div>
     </div>
@@ -346,8 +346,8 @@ export default function LearningsPage() {
     <div className="fixed inset-0 overflow-hidden bg-paper text-ink">
       {isLoading || !graph ? (
         <div className="flex h-full flex-col items-center justify-center">
-          <Loader2 className="w-8 h-8 animate-spin text-zinc-400 mb-4" />
-          <p className="text-sm text-zinc-400">Loading the map...</p>
+          <Loader2 className="w-8 h-8 animate-spin text-zinc-faded mb-4" />
+          <p className="text-sm text-zinc-faded">Loading the map...</p>
         </div>
       ) : (
         <GraphBoundary

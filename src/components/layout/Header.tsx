@@ -165,7 +165,7 @@ export default function Header() {
         transition-colors duration-300
         after:absolute after:left-0 after:-bottom-1.5 after:h-0.5 after:w-full after:bg-sage
         after:origin-left after:transition-transform after:duration-500 after:ease-[var(--ease-elegant)]
-        ${isActive(item) ? 'text-sage after:scale-x-100' : 'text-zinc-faded hover:text-sage after:scale-x-0'}
+        ${isActive(item) ? 'text-sage-ink after:scale-x-100' : 'text-zinc-faded hover:text-sage-ink after:scale-x-0'}
       `}
     >
       {item.label}
@@ -224,7 +224,7 @@ export default function Header() {
             {renderSubLink(
               sub,
               `flex items-center gap-3 px-4 py-2.5 font-mono text-xs uppercase tracking-widest
-              text-zinc-faded hover:text-sage hover:bg-paper-dark focus-visible:bg-paper-dark transition-colors`
+              text-zinc-faded hover:text-sage-ink hover:bg-paper-dark focus-visible:bg-paper-dark transition-colors`
             )}
           </li>
         ))}
@@ -291,7 +291,7 @@ export default function Header() {
                         <li key={sub.label}>
                           {renderSubLink(
                             sub,
-                            'flex items-center gap-3 py-2 font-mono text-xs uppercase tracking-widest text-zinc-faded hover:text-sage transition-colors'
+                            'flex items-center gap-3 py-2 font-mono text-xs uppercase tracking-widest text-zinc-faded hover:text-sage-ink transition-colors'
                           )}
                         </li>
                       ))}

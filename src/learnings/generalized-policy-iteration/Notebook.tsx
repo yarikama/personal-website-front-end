@@ -29,7 +29,7 @@ export function Owed({ moment }: { moment: Moment }) {
   const count = moment.unhappy.length
   return (
     <>
-      off <span className="text-sage tabular-nums">{offText(moment.off)}</span> ·{' '}
+      off <span className="text-sage-ink tabular-nums">{offText(moment.off)}</span> ·{' '}
       <span className="text-ink tabular-nums">{count}</span> to switch
     </>
   )

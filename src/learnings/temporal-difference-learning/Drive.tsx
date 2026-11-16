@@ -97,7 +97,7 @@ export function Drive({ step }: { step: number }) {
             x={x}
             y={ROAD + 30}
             textAnchor="middle"
-            className={`font-mono text-[11px] uppercase tracking-widest ${named ? 'fill-sage' : 'fill-zinc-400'}`}
+            className={`font-mono text-[11px] uppercase tracking-widest ${named ? 'fill-sage-ink' : 'fill-zinc-faded'}`}
           >
             {label}
           </text>

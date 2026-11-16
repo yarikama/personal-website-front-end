@@ -80,7 +80,7 @@ function Edge({ from, to, label, strong = false }: { from: Spot; to: Spot; label
     <g>
       <line x1={x1} y1={from.y} x2={x2} y2={to.y} className={strong ? 'stroke-sage' : faint} strokeWidth={strong ? 2 : 1.25} markerEnd={strong ? 'url(#ce-arrow-strong)' : 'url(#ce-arrow)'} />
       {label && (
-        <text x={lx} y={ly} textAnchor="middle" className={`font-mono text-[10px] tabular-nums ${strong ? 'fill-sage' : 'fill-zinc-400'}`}>
+        <text x={lx} y={ly} textAnchor="middle" className={`font-mono text-[10px] tabular-nums ${strong ? 'fill-sage-ink' : 'fill-zinc-faded'}`}>
           {label}
         </text>
       )}
@@ -96,7 +96,7 @@ function Place({ at, name, children, state = false, below = true }: { at: Spot; 
         {name}
       </text>
       {state && (
-        <text x={at.x} y={below ? at.y - H / 2 - 5 : at.y + H / 2 + 13} textAnchor="middle" className="fill-zinc-400 font-mono text-[9px] uppercase tracking-widest">
+        <text x={at.x} y={below ? at.y - H / 2 - 5 : at.y + H / 2 + 13} textAnchor="middle" className="fill-zinc-faded font-mono text-[9px] uppercase tracking-widest">
           state
         </text>
       )}
@@ -124,7 +124,7 @@ export default function Notes({ step }: { step: number }) {
     if (step === 1 || step === 2) return <tspan className="fill-ink">avg {STORY_MC[place]}</tspan>
     if (step === 4 || step === 5)
       return (
-        <tspan className="fill-sage">
+        <tspan className="fill-sage-ink">
           {leg} + {STORY_TD[STATION]} = {STORY_TD[place]}
         </tspan>
       )
@@ -132,8 +132,8 @@ export default function Notes({ step }: { step: number }) {
       return (
         <>
           <tspan className="fill-ink">MC {STORY_MC[place]}</tspan>
-          <tspan className="fill-zinc-400"> · </tspan>
-          <tspan className="fill-sage">TD {STORY_TD[place]}</tspan>
+          <tspan className="fill-zinc-faded"> · </tspan>
+          <tspan className="fill-sage-ink">TD {STORY_TD[place]}</tspan>
         </>
       )
     return null
@@ -169,13 +169,13 @@ export default function Notes({ step }: { step: number }) {
           {way(BIKE)}
         </Place>
         <Place at={AT[STATION]} name={NAME[STATION]} state={named}>
-          {step >= 3 && <tspan className="fill-sage">{named ? `V = ${STORY_TD[STATION]}` : `avg ${STORY_TD[STATION]}`}</tspan>}
+          {step >= 3 && <tspan className="fill-sage-ink">{named ? `V = ${STORY_TD[STATION]}` : `avg ${STORY_TD[STATION]}`}</tspan>}
         </Place>
         <Place at={AT[FAST]} name={NAME[FAST]} state={named} below={false}>
-          {step >= 3 && <tspan className="fill-zinc-400">{named ? 'r = 10' : '10 min'}</tspan>}
+          {step >= 3 && <tspan className="fill-zinc-faded">{named ? 'r = 10' : '10 min'}</tspan>}
         </Place>
         <Place at={AT[SLOW]} name={NAME[SLOW]} state={named}>
-          {step >= 3 && <tspan className="fill-zinc-400">{named ? 'r = 30' : '30 min'}</tspan>}
+          {step >= 3 && <tspan className="fill-zinc-faded">{named ? 'r = 30' : '30 min'}</tspan>}
         </Place>
         <Place at={AT.work} name={NAME.work} />
 
@@ -186,7 +186,7 @@ export default function Notes({ step }: { step: number }) {
               const y = TABLE + 34 + i * 50
               return (
                 <g key={method}>
-                  <text x={4} y={y - 12} className={`font-mono text-[10px] uppercase tracking-widest ${method === 'td' ? 'fill-sage' : 'fill-ink'}`}>
+                  <text x={4} y={y - 12} className={`font-mono text-[10px] uppercase tracking-widest ${method === 'td' ? 'fill-sage-ink' : 'fill-ink'}`}>
                     {method === 'mc' ? 'Whole trips' : 'Leg + station'}
                   </text>
                   {BIKE_ANSWERS.slice(0, Math.floor(dots)).map((answer, k) => (
@@ -207,11 +207,11 @@ export default function Notes({ step }: { step: number }) {
               true {BIKE_TRUE}
             </text>
             {[20, 30, 40, 50].map((minutes) => (
-              <text key={minutes} x={strip(minutes)} y={TABLE + 120} textAnchor="middle" className="fill-zinc-400 font-mono text-[10px]">
+              <text key={minutes} x={strip(minutes)} y={TABLE + 120} textAnchor="middle" className="fill-zinc-faded font-mono text-[10px]">
                 {minutes}
               </text>
             ))}
-            <text x={WIDTH - 4} y={TABLE + 138} textAnchor="end" className="fill-zinc-400 font-mono text-[10px] uppercase tracking-widest">
+            <text x={WIDTH - 4} y={TABLE + 138} textAnchor="end" className="fill-zinc-faded font-mono text-[10px] uppercase tracking-widest">
               minutes, by bike
             </text>
           </g>
@@ -224,7 +224,7 @@ export default function Notes({ step }: { step: number }) {
                 x={COLUMNS[c]}
                 y={TABLE}
                 textAnchor={c === 3 ? 'end' : 'start'}
-                className={`font-mono text-[10px] uppercase tracking-widest ${named && c > 0 ? 'fill-sage' : 'fill-zinc-400'}`}
+                className={`font-mono text-[10px] uppercase tracking-widest ${named && c > 0 ? 'fill-sage-ink' : 'fill-zinc-faded'}`}
               >
                 {header}
               </text>
@@ -241,16 +241,16 @@ export default function Notes({ step }: { step: number }) {
                   {(step === 1 || step === 2) && bike && (
                     <rect x={4} y={y - 15} width={WIDTH - 8} height={ROW - 2} className="fill-ink" opacity={0.07} />
                   )}
-                  <text x={COLUMNS[0]} y={y} className="fill-zinc-400">
+                  <text x={COLUMNS[0]} y={y} className="fill-zinc-faded">
                     {i + 1}
                   </text>
-                  <text x={COLUMNS[1]} y={y} className={legs ? 'fill-sage' : 'fill-ink'}>
+                  <text x={COLUMNS[1]} y={y} className={legs ? 'fill-sage-ink' : 'fill-ink'}>
                     {bike ? 'bike' : 'bus'} {trip.leg}
                   </text>
-                  <text x={COLUMNS[2]} y={y} className={trainStrong ? (trip.train === SLOW ? 'fill-ink font-bold' : 'fill-sage') : 'fill-ink'}>
+                  <text x={COLUMNS[2]} y={y} className={trainStrong ? (trip.train === SLOW ? 'fill-ink font-bold' : 'fill-sage-ink') : 'fill-ink'}>
                     {trip.train === FAST ? 'fast' : 'slow'} {trip.ride}
                   </text>
-                  <text x={COLUMNS[3]} y={y} textAnchor="end" className={step === 1 ? 'fill-ink font-bold' : 'fill-zinc-400'}>
+                  <text x={COLUMNS[3]} y={y} textAnchor="end" className={step === 1 ? 'fill-ink font-bold' : 'fill-zinc-faded'}>
                     {total(trip)}
                   </text>
                 </g>

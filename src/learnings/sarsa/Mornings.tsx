@@ -110,7 +110,7 @@ export default function Mornings({
           />
         </div>
         <p className="mt-3 text-center font-mono text-[0.875rem] tabular-nums text-zinc-faded">
-          <span className="uppercase tracking-widest">{way}:</span> {fmt(now.before)} + 0.5 × (−1 + <span className="text-sage">{paren(onward)}</span> −{' '}
+          <span className="uppercase tracking-widest">{way}:</span> {fmt(now.before)} + 0.5 × (−1 + <span className="text-sage-ink">{paren(onward)}</span> −{' '}
           {paren(now.before)}) = <span className={updated ? 'text-ink' : 'opacity-0'}>{fmt(now.after)}</span>
         </p>
       </div>
@@ -165,7 +165,7 @@ export default function Mornings({
         />
       </div>
       <p className="mt-3 text-center font-mono text-[0.875rem] tabular-nums text-zinc-faded">
-        Q(s, a) ← Q(s, a) + α × (r + γ <span className="text-sage">Q(s′, a′)</span> − Q(s, a))
+        Q(s, a) ← Q(s, a) + α × (r + γ <span className="text-sage-ink">Q(s′, a′)</span> − Q(s, a))
       </p>
     </div>
   )

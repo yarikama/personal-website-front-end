@@ -75,7 +75,7 @@ export function Clip({ src, label, caption }: { src: string; label: string; capt
         />
         <button
           onClick={toggle}
-          className="absolute bottom-2 right-2 inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-black/50 px-2.5 py-1 font-mono text-[0.8rem] uppercase tracking-widest text-zinc-300 backdrop-blur-sm transition-colors hover:text-white"
+          className="absolute bottom-2 right-2 inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-black/60 px-2.5 py-1 font-mono text-[0.8rem] uppercase tracking-widest text-white/90 backdrop-blur-sm transition-colors hover:text-white"
         >
           <Icon size={12} aria-hidden /> {action}
         </button>

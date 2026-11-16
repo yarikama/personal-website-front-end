@@ -62,7 +62,7 @@ export default function Contact() {
   return (
     <Section id="contact" narrow>
       <div className="text-center mb-16">
-        <span className="font-mono text-sm text-zinc-400 uppercase tracking-widest">
+        <span className="font-mono text-sm text-zinc-faded uppercase tracking-widest">
           Contact
         </span>
         <h2 className="font-serif text-4xl md:text-5xl font-light mt-4 tracking-tight">
@@ -80,7 +80,7 @@ export default function Contact() {
       <div className="max-w-xl mx-auto mb-16">
         {isSuccess ? (
           <div className="text-center py-12 border border-sage/30 bg-sage/5 rounded-2xl">
-            <CheckCircle className="w-12 h-12 text-sage mx-auto mb-4" />
+            <CheckCircle className="w-12 h-12 text-sage-ink mx-auto mb-4" />
             <h3 className="font-serif text-2xl mb-2">Message Sent</h3>
             <p className="text-zinc-faded mb-6">
               Thank you for reaching out. I'll get back to you soon.
@@ -104,7 +104,7 @@ export default function Contact() {
               <div>
                 <label
                   htmlFor="name"
-                  className="block font-mono text-xs uppercase tracking-widest text-zinc-400 mb-2"
+                  className="block font-mono text-xs uppercase tracking-widest text-zinc-faded mb-2"
                 >
                   Name
                 </label>
@@ -132,7 +132,7 @@ export default function Contact() {
               <div>
                 <label
                   htmlFor="email"
-                  className="block font-mono text-xs uppercase tracking-widest text-zinc-400 mb-2"
+                  className="block font-mono text-xs uppercase tracking-widest text-zinc-faded mb-2"
                 >
                   Email
                 </label>
@@ -161,7 +161,7 @@ export default function Contact() {
             <div>
               <label
                 htmlFor="subject"
-                className="block font-mono text-xs uppercase tracking-widest text-zinc-400 mb-2"
+                className="block font-mono text-xs uppercase tracking-widest text-zinc-faded mb-2"
               >
                 Subject
               </label>
@@ -189,7 +189,7 @@ export default function Contact() {
             <div>
               <label
                 htmlFor="message"
-                className="block font-mono text-xs uppercase tracking-widest text-zinc-400 mb-2"
+                className="block font-mono text-xs uppercase tracking-widest text-zinc-faded mb-2"
               >
                 Message
               </label>
@@ -260,7 +260,7 @@ export default function Contact() {
             >
               <div className="flex items-start justify-between">
                 <div>
-                  <p className="font-mono text-sm text-zinc-400 uppercase tracking-widest mb-2">
+                  <p className="font-mono text-sm text-zinc-faded uppercase tracking-widest mb-2">
                     {link.label}
                   </p>
                   <p className="font-serif text-lg transition-colors duration-300">
@@ -270,7 +270,7 @@ export default function Contact() {
                 <Icon
                   width={20}
                   height={20}
-                  className="text-zinc-400 group-hover:text-sage transition-colors duration-300"
+                  className="text-zinc-faded group-hover:text-sage-ink transition-colors duration-300"
                 />
               </div>
             </a>
@@ -279,7 +279,7 @@ export default function Contact() {
       </div>
 
       <div className="mt-16 text-center">
-        <p className="font-mono text-xs text-zinc-400 uppercase tracking-widest">
+        <p className="font-mono text-xs text-zinc-faded uppercase tracking-widest">
           Houston, TX / Open to opportunities
         </p>
       </div>

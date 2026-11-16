@@ -94,14 +94,14 @@ export default function Scan({ day }: { day: Meeting[] }) {
           Picked <span className="text-ink tabular-nums">{step.picked.length}</span>
         </span>
         <span className="text-right text-zinc-faded">
-          last_end <span className="text-sage tabular-nums">{clock(step.lastEnd)}</span>
+          last_end <span className="text-sage-ink tabular-nums">{clock(step.lastEnd)}</span>
         </span>
       </div>
       <svg viewBox={`0 0 ${WIDTH} ${height}`} className="mt-3 w-full" role="img" aria-label={`The ${day.length} requests the code runs on`}>
         {Array.from({ length: to - from + 1 }, (_, k) => from + k).map((h) => (
           <g key={h}>
             <line x1={x(h)} x2={x(h)} y1={TOP - 6} y2={height - 18} className="stroke-zinc-200 dark:stroke-zinc-200/10" />
-            <text x={x(h)} y={height - 4} textAnchor="middle" className="fill-zinc-400 font-mono text-[10px]">
+            <text x={x(h)} y={height - 4} textAnchor="middle" className="fill-zinc-faded font-mono text-[10px]">
               {((h + 11) % 12) + 1}
             </text>
           </g>
@@ -111,7 +111,7 @@ export default function Scan({ day }: { day: Meeting[] }) {
         {step.line >= 3 && (
           <g style={{ transform: `translateX(${freeAt}px)`, transition: 'transform 500ms cubic-bezier(0.16, 1, 0.3, 1)' }}>
             <line y1={TOP - 8} y2={height - 18} className="stroke-sage" strokeWidth={1.5} strokeDasharray="4 3" />
-            <text y={TOP - 12} textAnchor="middle" className="fill-sage font-mono text-[10px]">
+            <text y={TOP - 12} textAnchor="middle" className="fill-sage-ink font-mono text-[10px]">
               last_end
             </text>
           </g>

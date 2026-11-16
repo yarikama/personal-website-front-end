@@ -72,15 +72,15 @@ export default function AdminProjectsList() {
       <main className="max-w-5xl mx-auto px-6 py-8">
         {isLoading ? (
           <div className="py-16 flex flex-col items-center justify-center">
-            <Loader2 className="w-8 h-8 animate-spin text-zinc-400 mb-4" />
-            <p className="text-sm text-zinc-400">Loading projects...</p>
+            <Loader2 className="w-8 h-8 animate-spin text-zinc-faded mb-4" />
+            <p className="text-sm text-zinc-faded">Loading projects...</p>
           </div>
         ) : error ? (
           <div className="py-16 text-center">
             <p className="text-zinc-faded">Failed to load projects</p>
             <button
               onClick={() => fetchProjects()}
-              className="mt-4 font-mono text-xs uppercase tracking-widest text-sage hover:underline"
+              className="mt-4 font-mono text-xs uppercase tracking-widest text-sage-ink hover:underline"
             >
               Try again
             </button>
@@ -90,7 +90,7 @@ export default function AdminProjectsList() {
             <p className="font-serif text-xl text-zinc-faded mb-4">No projects yet</p>
             <Link
               to="/admin/projects/new"
-              className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-sage hover:underline"
+              className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-sage-ink hover:underline"
             >
               <Plus size={14} />
               Create your first project
@@ -114,10 +114,10 @@ export default function AdminProjectsList() {
                       <Star size={14} className="text-amber-500 fill-amber-500 shrink-0" />
                     )}
                   </div>
-                  <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-2 line-clamp-1">
+                  <p className="text-sm text-zinc-600 dark:text-zinc-faded mb-2 line-clamp-1">
                     {project.description}
                   </p>
-                  <div className="flex items-center gap-3 text-xs text-zinc-400 flex-wrap">
+                  <div className="flex items-center gap-3 text-xs text-zinc-faded flex-wrap">
                     <span className="font-mono uppercase tracking-widest">
                       {project.category.label}
                     </span>
@@ -140,7 +140,7 @@ export default function AdminProjectsList() {
                       href={project.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="p-2 text-zinc-400 hover:text-ink transition-colors"
+                      className="p-2 text-zinc-faded hover:text-ink transition-colors"
                       title="View Live"
                     >
                       <ExternalLink size={16} />
@@ -149,7 +149,7 @@ export default function AdminProjectsList() {
                   <Link
                     to={`/admin/projects/${project.id}/edit`}
                     state={{ project }}
-                    className="p-2 text-zinc-400 hover:text-ink transition-colors"
+                    className="p-2 text-zinc-faded hover:text-ink transition-colors"
                     title="Edit"
                   >
                     <Edit size={16} />
@@ -157,7 +157,7 @@ export default function AdminProjectsList() {
                   <button
                     onClick={() => handleDelete(project.id, project.title)}
                     disabled={deletingId === project.id}
-                    className="p-2 text-zinc-400 hover:text-red-500 transition-colors disabled:opacity-50"
+                    className="p-2 text-zinc-faded hover:text-red-500 transition-colors disabled:opacity-50"
                     title="Delete"
                   >
                     {deletingId === project.id ? (

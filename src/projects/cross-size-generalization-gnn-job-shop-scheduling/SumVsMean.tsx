@@ -25,7 +25,7 @@ export default function SumVsMean({ rivals }: { rivals: number }) {
     <svg viewBox={`0 0 ${W} 170`} width={W} height={170} className="block max-w-full" role="img" aria-label={`With ${rivals} rivals: the sum is ${rivals}, the average is 1`}>
       {/* What the model saw while training */}
       <rect x={L} y={14} width={x(TRAINED) - L} height={116} className="fill-sage/10" />
-      <text x={x(TRAINED) + 6} y={26} className="fill-sage font-mono text-[12px]">
+      <text x={x(TRAINED) + 6} y={26} className="fill-sage-ink font-mono text-[12px]">
         {W < NARROW ? `training: ≤ ${TRAINED}` : `seen in training (≤ ${TRAINED} rivals)`}
       </text>
       {rows.map((row, k) => (
@@ -53,10 +53,10 @@ export default function SumVsMean({ rivals }: { rivals: number }) {
           </motion.text>
         </g>
       ))}
-      <text x={L} y={158} className="fill-zinc-400 font-mono text-[12px]">
+      <text x={L} y={158} className="fill-zinc-faded font-mono text-[12px]">
         0
       </text>
-      <text x={W - R} y={158} textAnchor="end" className="fill-zinc-400 font-mono text-[12px]">
+      <text x={W - R} y={158} textAnchor="end" className="fill-zinc-faded font-mono text-[12px]">
         {MOST}
       </text>
     </svg>

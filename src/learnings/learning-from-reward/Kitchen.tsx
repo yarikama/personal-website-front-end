@@ -119,14 +119,14 @@ export function Kitchen({
           x={WIDTH - 12}
           y={44}
           textAnchor="end"
-          className={`font-mono text-[13px] uppercase tracking-widest ${reward > 0 ? 'fill-sage' : 'fill-ink'}`}
+          className={`font-mono text-[13px] uppercase tracking-widest ${reward > 0 ? 'fill-sage-ink' : 'fill-ink'}`}
         >
           {labels ? `Reward ${score(reward)}` : `${said(flick, outcome)} · ${score(reward)}`}
         </text>
       )}
 
       <line x1={20} x2={WIDTH - 20} y1={FLOOR_LINE} y2={FLOOR_LINE} className="stroke-zinc-300 dark:stroke-zinc-200/25" />
-      <text x={WIDTH - 20} y={FLOOR_LINE + 14} textAnchor="end" className={`${label} fill-zinc-400`}>
+      <text x={WIDTH - 20} y={FLOOR_LINE + 14} textAnchor="end" className={`${label} fill-zinc-faded`}>
         Floor
       </text>
 
@@ -148,7 +148,7 @@ export function Kitchen({
       {band && (
         <g>
           <rect x={at(FLIPS_FROM)} y={AXIS.y - 40} width={at(FLIPS_TO) - at(FLIPS_FROM)} height={40} className="fill-sage/15" />
-          <text x={(at(FLIPS_FROM) + at(FLIPS_TO)) / 2} y={AXIS.y - 46} textAnchor="middle" className={`${label} fill-sage`}>
+          <text x={(at(FLIPS_FROM) + at(FLIPS_TO)) / 2} y={AXIS.y - 46} textAnchor="middle" className={`${label} fill-sage-ink`}>
             What works
           </text>
         </g>

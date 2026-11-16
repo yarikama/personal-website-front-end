@@ -54,7 +54,7 @@ function Box({ x, y, w, h, label, accent = false }: {
         x={x + w / 2}
         y={y + h / 2 + 6}
         textAnchor="middle"
-        className={`font-sans text-[17px] ${accent ? 'fill-sage' : 'fill-ink'}`}
+        className={`font-sans text-[17px] ${accent ? 'fill-sage-ink' : 'fill-ink'}`}
       >
         {label}
       </text>
@@ -114,7 +114,7 @@ export function TestArchitecture({ afterAt = 1 }: { afterAt?: number }) {
       <Arrow x1={246} y1={222} x2={390} y2={222} />
       <Caption x={318} y={212} anchor="middle">HARD-CODED</Caption>
       <Box x={390} y={192} w={230} h={60} label="Integration tests" />
-      <text x={0} y={290} className="font-sans text-[16px] fill-sage">
+      <text x={0} y={290} className="font-sans text-[16px] fill-sage-ink">
         The same cases, written again
       </text>
       <Caption x={505} y={290} anchor="middle">AT MOST 15 CASES</Caption>
@@ -125,7 +125,7 @@ export function TestArchitecture({ afterAt = 1 }: { afterAt?: number }) {
       <g className={fade} style={{ opacity: showAfter ? 1 : 0 }}>
         <Caption x={after} y={14}>AFTER</Caption>
         <Box x={after} y={160} w={210} h={60} label="Case protobufs" accent />
-        <text x={after + 105} y={246} textAnchor="middle" className="font-sans text-[16px] fill-sage">
+        <text x={after + 105} y={246} textAnchor="middle" className="font-sans text-[16px] fill-sage-ink">
           One source of truth
         </text>
 
@@ -141,7 +141,7 @@ export function TestArchitecture({ afterAt = 1 }: { afterAt?: number }) {
         ))}
 
         <rect x={1280} y={180} width={96} height={72} rx={10} className="fill-paper stroke-sage" strokeWidth={2} />
-        <text x={1328} y={214} textAnchor="middle" className="font-serif text-[30px] fill-sage lining-nums">
+        <text x={1328} y={214} textAnchor="middle" className="font-serif text-[30px] fill-sage-ink lining-nums">
           402+
         </text>
         <Caption x={1328} y={236} anchor="middle" className="fill-sage">CASES</Caption>
@@ -230,11 +230,11 @@ export function MemoryCostCurve({ newAt = 1 }: { newAt?: number }) {
       <g className={fade} style={{ opacity: showNew ? 1 : 0 }}>
         <polygon points={[...oldPoints, ...newPoints.slice().reverse()].join(' ')} className="fill-sage" fillOpacity={0.1} />
         <polyline points={newPoints.join(' ')} fill="none" className="stroke-sage" strokeWidth={2.5} />
-        <text x={x1 + 16} y={sy(1.5 * N) - 4} className="font-sans text-[17px] fill-sage">
+        <text x={x1 + 16} y={sy(1.5 * N) - 4} className="font-sans text-[17px] fill-sage-ink">
           Condense each once
           <tspan x={x1 + 16} dy={22}>Grows with N</tspan>
         </text>
-        <text x={600} y={235} textAnchor="end" className="font-sans text-[17px] fill-sage">
+        <text x={600} y={235} textAnchor="end" className="font-sans text-[17px] fill-sage-ink">
           The gap grows every turn
         </text>
       </g>
@@ -279,7 +279,7 @@ export function ContextWindow() {
           <text
             x={80}
             y={segment.y + segment.h / 2 - 3}
-            className={`font-mono text-[15px] tracking-[0.1em] ${segment.tone === 'rest' ? 'fill-zinc-400' : 'fill-sage'}`}
+            className={`font-mono text-[15px] tracking-[0.1em] ${segment.tone === 'rest' ? 'fill-zinc-faded' : 'fill-sage-ink'}`}
           >
             {segment.label}
           </text>
@@ -343,7 +343,7 @@ export function PoisoningBars({ steeringAt = 1 }: { steeringAt?: number }) {
                       x={x + barW / 2}
                       y={base - h - 36}
                       textAnchor="middle"
-                      className={`font-mono text-[13px] ${i === 2 ? 'fill-sage' : 'fill-zinc-faded'}`}
+                      className={`font-mono text-[13px] ${i === 2 ? 'fill-sage-ink' : 'fill-zinc-faded'}`}
                     >
                       {delta}
                     </text>
@@ -546,7 +546,7 @@ export function FailurePatterns() {
         const ox = p * (gridW + panelGap)
         return (
           <g key={panel.title} transform={`translate(${ox}, 0)`}>
-            <text x={0} y={16} className="font-mono text-[16px] tracking-[0.12em] fill-zinc-400">
+            <text x={0} y={16} className="font-mono text-[16px] tracking-[0.12em] fill-zinc-faded">
               {panel.title}
             </text>
             <g transform="translate(0, 30)">
@@ -573,13 +573,13 @@ export function FailurePatterns() {
                 strokeWidth={2.5}
               />
             </g>
-            <text x={0} y={gridH + 64} className="font-sans text-[21px] fill-sage">
+            <text x={0} y={gridH + 64} className="font-sans text-[21px] fill-sage-ink">
               {panel.verdict}
             </text>
           </g>
         )
       })}
-      <text x={0} y={gridH + 94} className="font-mono text-[15px] tracking-[0.12em] fill-zinc-400">
+      <text x={0} y={gridH + 94} className="font-mono text-[15px] tracking-[0.12em] fill-zinc-faded">
         ROWS ARE DEVICES, COLUMNS ARE RUNS FROM OLDEST TO LATEST. ILLUSTRATION.
       </text>
     </svg>

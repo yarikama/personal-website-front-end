@@ -80,7 +80,7 @@ export default function AdminNotesList() {
         {/* Search */}
         <div className="mb-6">
           <div className="relative">
-            <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400" />
+            <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-faded" />
             <input
               type="text"
               placeholder="Search by title..."
@@ -90,7 +90,7 @@ export default function AdminNotesList() {
                 w-full pl-10 pr-4 py-2
                 bg-transparent rounded-xl border border-zinc-200 dark:border-zinc-800
                 font-mono text-sm
-                placeholder:text-zinc-400
+                placeholder:text-zinc-faded
                 focus:outline-none focus:border-zinc-400 dark:focus:border-zinc-600
                 transition-colors
               "
@@ -100,15 +100,15 @@ export default function AdminNotesList() {
 
         {isLoading ? (
           <div className="py-16 flex flex-col items-center justify-center">
-            <Loader2 className="w-8 h-8 animate-spin text-zinc-400 mb-4" />
-            <p className="text-sm text-zinc-400">Loading notes...</p>
+            <Loader2 className="w-8 h-8 animate-spin text-zinc-faded mb-4" />
+            <p className="text-sm text-zinc-faded">Loading notes...</p>
           </div>
         ) : error ? (
           <div className="py-16 text-center">
             <p className="text-zinc-faded">Failed to load notes</p>
             <button
               onClick={() => fetchNotes()}
-              className="mt-4 font-mono text-xs uppercase tracking-widest text-sage hover:underline"
+              className="mt-4 font-mono text-xs uppercase tracking-widest text-sage-ink hover:underline"
             >
               Try again
             </button>
@@ -118,7 +118,7 @@ export default function AdminNotesList() {
             <p className="font-serif text-xl text-zinc-faded mb-4">No notes yet</p>
             <Link
               to="/admin/notes/new"
-              className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-sage hover:underline"
+              className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-sage-ink hover:underline"
             >
               <Plus size={14} />
               Create your first note
@@ -129,7 +129,7 @@ export default function AdminNotesList() {
             <p className="font-serif text-xl text-zinc-faded mb-4">No matching notes</p>
             <button
               onClick={() => setSearchQuery('')}
-              className="font-mono text-xs uppercase tracking-widest text-sage hover:underline"
+              className="font-mono text-xs uppercase tracking-widest text-sage-ink hover:underline"
             >
               Clear search
             </button>
@@ -149,7 +149,7 @@ export default function AdminNotesList() {
                   <div className="flex items-center gap-3 mb-1">
                     <h2 className="font-serif text-lg truncate">{note.title}</h2>
                   </div>
-                  <div className="flex items-center gap-3 text-xs text-zinc-400 flex-wrap">
+                  <div className="flex items-center gap-3 text-xs text-zinc-faded flex-wrap">
                     <span className="font-mono uppercase tracking-widest">
                       {new Date(note.date).toLocaleDateString()}
                     </span>
@@ -170,7 +170,7 @@ export default function AdminNotesList() {
                   <Link
                     to={`/notes/${note.slug}`}
                     target="_blank"
-                    className="p-2 text-zinc-400 hover:text-ink transition-colors"
+                    className="p-2 text-zinc-faded hover:text-ink transition-colors"
                     title="View"
                   >
                     <Eye size={16} />
@@ -178,7 +178,7 @@ export default function AdminNotesList() {
                   <Link
                     to={`/admin/notes/${note.id}/edit`}
                     state={{ note }}
-                    className="p-2 text-zinc-400 hover:text-ink transition-colors"
+                    className="p-2 text-zinc-faded hover:text-ink transition-colors"
                     title="Edit"
                   >
                     <Edit size={16} />
@@ -186,7 +186,7 @@ export default function AdminNotesList() {
                   <button
                     onClick={() => handleDelete(note.id, note.title)}
                     disabled={deletingId === note.id}
-                    className="p-2 text-zinc-400 hover:text-red-500 transition-colors disabled:opacity-50"
+                    className="p-2 text-zinc-faded hover:text-red-500 transition-colors disabled:opacity-50"
                     title="Delete"
                   >
                     {deletingId === note.id ? (

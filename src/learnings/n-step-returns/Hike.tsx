@@ -24,7 +24,7 @@ function Walked({ from, to, label, shown = 1 }: { from: number; to: number; labe
   return (
     <g opacity={shown}>
       <path d={`M ${left} ${y - 6} V ${y} H ${right} V ${y - 6}`} fill="none" className="stroke-sage" strokeWidth={1.5} />
-      <text x={(left + right) / 2} y={y + 17} textAnchor="middle" className="fill-sage font-mono text-[11px]">
+      <text x={(left + right) / 2} y={y + 17} textAnchor="middle" className="fill-sage-ink font-mono text-[11px]">
         {label}
       </text>
     </g>
@@ -73,12 +73,12 @@ export default function Hike({ step }: { step: number }) {
                 x={x}
                 y={GROUND - 42}
                 textAnchor="middle"
-                className={`font-mono text-[11px] tabular-nums ${trust ? 'fill-paper' : checked ? 'fill-sage' : 'fill-ink'}`}
+                className={`font-mono text-[11px] tabular-nums ${trust ? 'fill-paper' : checked ? 'fill-sage-ink' : 'fill-ink'}`}
               >
                 {minutes}
               </text>
               {named && (i === 0 || i === 3) && (
-                <text x={x} y={GROUND - 64} textAnchor="middle" className="fill-sage font-mono text-[11px]">
+                <text x={x} y={GROUND - 64} textAnchor="middle" className="fill-sage-ink font-mono text-[11px]">
                   {i === 0 ? 'S0' : 'V(S3)'}
                 </text>
               )}
@@ -92,7 +92,7 @@ export default function Hike({ step }: { step: number }) {
           className="fill-paper stroke-ink"
           strokeWidth={1.5}
         />
-        <text x={post(HUT)} y={GROUND + 18} textAnchor="middle" className="fill-zinc-400 font-mono text-[10px] uppercase tracking-widest">
+        <text x={post(HUT)} y={GROUND + 18} textAnchor="middle" className="fill-zinc-faded font-mono text-[10px] uppercase tracking-widest">
           Hut
         </text>
 

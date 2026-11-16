@@ -121,7 +121,7 @@ function Frame({
           </span>
         )}
       </div>
-      <div className={`mt-2 min-h-[1.25rem] font-mono text-[0.875rem] uppercase tracking-widest ${good ? 'text-sage' : 'text-ink'}`}>
+      <div className={`mt-2 min-h-[1.25rem] font-mono text-[0.875rem] uppercase tracking-widest ${good ? 'text-sage-ink' : 'text-ink'}`}>
         {named ? 'The rating: the return G' : note}
       </div>
       <div className="mt-2">{children}</div>

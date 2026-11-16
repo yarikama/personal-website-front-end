@@ -10,7 +10,7 @@ function chip(active: boolean) {
   return `px-3 py-1.5 font-mono text-xs uppercase tracking-widest rounded-full border transition-colors ${
     active
       ? 'border-ink bg-ink text-paper dark:border-white dark:bg-white dark:text-zinc-900'
-      : 'border-zinc-200 dark:border-zinc-800 text-zinc-500 hover:text-ink dark:hover:text-white'
+      : 'border-zinc-200 dark:border-zinc-800 text-zinc-faded hover:text-ink dark:hover:text-white'
   }`
 }
 
@@ -53,8 +53,8 @@ function TalkCard({ talk, content }: { talk: TalkEntry; content: TalkContent | n
 
   return (
     <article className="rounded-xl border border-zinc-200 dark:border-zinc-800 p-5">
-      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs text-zinc-400">
-        <span className={`inline-flex items-center gap-1.5 ${isPublic ? 'text-sage' : ''}`}>
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs text-zinc-faded">
+        <span className={`inline-flex items-center gap-1.5 ${isPublic ? 'text-sage-ink' : ''}`}>
           {isPublic ? <Eye size={12} aria-hidden="true" /> : <EyeOff size={12} aria-hidden="true" />}
           {isPublic ? 'Public' : 'Private'}
         </span>
@@ -71,10 +71,10 @@ function TalkCard({ talk, content }: { talk: TalkEntry; content: TalkContent | n
       </div>
       <h2 className="mt-2 font-serif text-lg leading-snug">{talk.title}</h2>
       <p className="mt-1 text-sm text-zinc-faded">{talk.summary}</p>
-      <p className="mt-2 font-mono text-xs text-zinc-400 break-all">{path}</p>
+      <p className="mt-2 font-mono text-xs text-zinc-faded break-all">{path}</p>
 
       <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-3 border-t border-zinc-200 dark:border-zinc-800 pt-4">
-        <a href={path} target="_blank" rel="noopener noreferrer" className={`${ACTION} text-sage hover:underline`}>
+        <a href={path} target="_blank" rel="noopener noreferrer" className={`${ACTION} text-sage-ink hover:underline`}>
           <SquareArrowOutUpRight size={14} aria-hidden="true" />
           Open
         </a>
@@ -82,12 +82,12 @@ function TalkCard({ talk, content }: { talk: TalkEntry; content: TalkContent | n
           href={`${path}/presenter`}
           target="_blank"
           rel="noopener noreferrer"
-          className={`${ACTION} text-zinc-500 hover:text-ink dark:hover:text-white`}
+          className={`${ACTION} text-zinc-faded hover:text-ink dark:hover:text-white`}
         >
           <Presentation size={14} aria-hidden="true" />
           Presenter
         </a>
-        <button onClick={copyLink} className={`${ACTION} text-zinc-500 hover:text-ink dark:hover:text-white`}>
+        <button onClick={copyLink} className={`${ACTION} text-zinc-faded hover:text-ink dark:hover:text-white`}>
           {copied ? <Check size={14} aria-hidden="true" /> : <Copy size={14} aria-hidden="true" />}
           {copied ? 'Copied' : 'Copy link'}
         </button>
@@ -129,7 +129,7 @@ export default function AdminTalksList() {
           <button onClick={() => setFilter('private')} className={chip(filter === 'private')}>
             Private ({count('private')})
           </button>
-          <span className="ml-auto font-mono text-xs text-zinc-400">
+          <span className="ml-auto font-mono text-xs text-zinc-faded">
             {talks.length} talk{talks.length === 1 ? '' : 's'}
           </span>
         </div>

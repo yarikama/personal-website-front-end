@@ -34,13 +34,13 @@ export default function Train({ lines, label }: { lines: Line[]; label: string }
       {[0, 0.25, 0.5, 0.75, 1].map((share) => (
         <g key={share}>
           <line x1={LEFT} x2={RIGHT} y1={y(share)} y2={y(share)} className="stroke-zinc-200 dark:stroke-zinc-200/10" />
-          <text x={LEFT - 8} y={y(share) + 4} textAnchor="end" className="fill-zinc-400 font-mono text-[12px]">
+          <text x={LEFT - 8} y={y(share) + 4} textAnchor="end" className="fill-zinc-faded font-mono text-[12px]">
             {percent(share)}
           </text>
         </g>
       ))}
       {[1, Math.round(count / 2), count].map((lunch) => (
-        <text key={lunch} x={x(lunch - 1)} y={BOTTOM + 18} textAnchor="middle" className="fill-zinc-400 font-mono text-[12px]">
+        <text key={lunch} x={x(lunch - 1)} y={BOTTOM + 18} textAnchor="middle" className="fill-zinc-faded font-mono text-[12px]">
           {lunch}
         </text>
       ))}
@@ -58,7 +58,7 @@ export default function Train({ lines, label }: { lines: Line[]; label: string }
             <text
               x={x(Math.min(drawn, count) - 1) + 8}
               y={y(end) + 4 + apart}
-              className={`font-mono text-[12px] uppercase ${line.accent ? 'fill-sage' : 'fill-ink'}`}
+              className={`font-mono text-[12px] uppercase ${line.accent ? 'fill-sage-ink' : 'fill-ink'}`}
             >
               {line.name} {percent(end)}
             </text>

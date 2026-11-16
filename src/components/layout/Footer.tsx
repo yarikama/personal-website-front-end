@@ -11,7 +11,7 @@ export default function Footer() {
       <Container>
         <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
           <div className="font-mono text-sm text-zinc-faded uppercase tracking-widest">
-            <Link to="/admin" className="font-serif text-sm normal-case tracking-normal hover:text-sage transition-colors duration-300">
+            <Link to="/admin" className="font-serif text-sm normal-case tracking-normal hover:text-sage-ink transition-colors duration-300">
               Henry Hsu
             </Link>
             <span className="mx-3">/</span>
@@ -23,7 +23,7 @@ export default function Footer() {
               href="https://github.com/yarikama"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-zinc-faded hover:text-sage transition-colors duration-300"
+              className="text-zinc-faded hover:text-sage-ink transition-colors duration-300"
               aria-label="GitHub"
             >
               <Github size={18} />
@@ -32,14 +32,14 @@ export default function Footer() {
               href="https://linkedin.com/in/yarikama"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-zinc-faded hover:text-sage transition-colors duration-300"
+              className="text-zinc-faded hover:text-sage-ink transition-colors duration-300"
               aria-label="LinkedIn"
             >
               <Linkedin size={18} />
             </a>
             <a
               href="mailto:hsuhengjui@gmail.com"
-              className="text-zinc-faded hover:text-sage transition-colors duration-300"
+              className="text-zinc-faded hover:text-sage-ink transition-colors duration-300"
               aria-label="Email"
             >
               <Mail size={18} />

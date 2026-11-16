@@ -99,10 +99,10 @@ export default function RequestFlow({ step }: { step: number }) {
     <svg viewBox={`0 0 ${layout.width} ${layout.height}`} className="w-full" role="img" aria-label="A request going from a browser through Cloudflare into Henry's laptop">
       {/* Henry's home: one laptop, nothing listening to the internet */}
       <rect {...layout.home} rx={10} className="fill-sage/5 stroke-sage/50" strokeDasharray="4 4" />
-      <text x={layout.homeLabel.x} y={layout.homeLabel.y} textAnchor={layout.homeLabel.anchor} className="fill-sage font-mono text-[12px] uppercase tracking-widest">
+      <text x={layout.homeLabel.x} y={layout.homeLabel.y} textAnchor={layout.homeLabel.anchor} className="fill-sage-ink font-mono text-[12px] uppercase tracking-widest">
         One laptop at home
       </text>
-      <text x={layout.ports.x} y={layout.ports.y} textAnchor="end" className="fill-zinc-400 font-mono text-[12px]">
+      <text x={layout.ports.x} y={layout.ports.y} textAnchor="end" className="fill-zinc-faded font-mono text-[12px]">
         no open ports
       </text>
 
@@ -128,7 +128,7 @@ export default function RequestFlow({ step }: { step: number }) {
         )
       })}
       {on('edge') && on('api') && (
-        <text x={layout.tunnel.x} y={layout.tunnel.y} textAnchor={layout.tunnel.anchor} className="fill-sage font-mono text-[12px]">
+        <text x={layout.tunnel.x} y={layout.tunnel.y} textAnchor={layout.tunnel.anchor} className="fill-sage-ink font-mono text-[12px]">
           tunnel
         </text>
       )}
@@ -153,11 +153,11 @@ export default function RequestFlow({ step }: { step: number }) {
               x={node.x}
               y={node.y - 3}
               textAnchor="middle"
-              className={`font-serif text-[17px] transition-colors duration-300 ${active ? 'fill-ink' : 'fill-zinc-400'}`}
+              className={`font-serif text-[17px] transition-colors duration-300 ${active ? 'fill-ink' : 'fill-zinc-faded'}`}
             >
               {node.label}
             </text>
-            <text x={node.x} y={node.y + 14} textAnchor="middle" className="fill-zinc-400 font-mono text-[12px]">
+            <text x={node.x} y={node.y + 14} textAnchor="middle" className="fill-zinc-faded font-mono text-[12px]">
               {node.sub}
             </text>
           </g>

@@ -3,9 +3,9 @@ import { codeLines, tokens, type TokenKind } from './codeText'
 
 const TONE: Record<TokenKind, string> = {
   keyword: 'text-ink font-medium',
-  string: 'text-sage',
-  comment: 'text-zinc-400',
-  number: 'text-sage',
+  string: 'text-sage-ink',
+  comment: 'text-zinc-faded',
+  number: 'text-sage-ink',
   plain: 'text-ink/85',
 }
 
@@ -40,7 +40,7 @@ export function Code({
                 aria-current={lit ? 'step' : undefined}
                 className={`block border-l-2 pr-4 transition-colors ${lit ? 'border-sage bg-sage/15' : 'border-transparent'}`}
               >
-                <span aria-hidden className={`inline-block select-none pl-3 pr-4 text-right tabular-nums ${lit ? 'text-sage' : 'text-zinc-400'}`} style={{ width: `${gutter + 3.5}ch` }}>
+                <span aria-hidden className={`inline-block select-none pl-3 pr-4 text-right tabular-nums ${lit ? 'text-sage-ink' : 'text-zinc-faded'}`} style={{ width: `${gutter + 3.5}ch` }}>
                   {i + 1}
                 </span>
                 {tokens(line).map((token, k) => (

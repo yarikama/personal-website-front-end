@@ -40,7 +40,7 @@ export default function CaseStudy({ project, pitch, problem, did, result, stats,
   return (
     <article>
       <header className="mb-14">
-        <span className="font-mono text-sm text-zinc-400 uppercase tracking-widest">
+        <span className="font-mono text-sm text-zinc-faded uppercase tracking-widest">
           {project.category.label} · {project.year}
         </span>
         <h1 className="font-serif text-4xl md:text-5xl font-light tracking-tight mt-4 mb-8">{project.title}</h1>
@@ -59,13 +59,13 @@ export default function CaseStudy({ project, pitch, problem, did, result, stats,
           prose-p:text-zinc-faded prose-p:leading-relaxed
           prose-li:text-zinc-faded
           prose-strong:text-ink prose-strong:font-medium
-          prose-a:text-sage prose-a:no-underline hover:prose-a:underline"
+          prose-a:text-sage-ink prose-a:no-underline hover:prose-a:underline"
       >
         {children}
       </div>
 
       <div className="mt-20 border-l-2 border-sage pl-5">
-        <span className="font-mono text-[0.875rem] uppercase tracking-widest text-sage">What I took away</span>
+        <span className="font-mono text-[0.875rem] uppercase tracking-widest text-sage-ink">What I took away</span>
         <p className="mt-2 font-serif text-2xl font-light leading-snug">{learned}</p>
       </div>
 
@@ -95,7 +95,7 @@ function Stats({ stats }: { stats: Stat[] }) {
             <StatValue stat={stat} go={seen} />
           </dd>
           <dt className="mt-2 font-mono text-[0.875rem] uppercase tracking-widest text-zinc-faded">{stat.label}</dt>
-          {stat.note && <p className="mt-1 text-sm text-zinc-400">{stat.note}</p>}
+          {stat.note && <p className="mt-1 text-sm text-zinc-faded">{stat.note}</p>}
         </motion.div>
       ))}
     </dl>
@@ -123,7 +123,7 @@ function InShort(props: { problem: ReactNode; did: ReactNode; result: ReactNode 
   const { ref, seen } = useSeen<HTMLDivElement>(0.3)
   return (
     <section ref={ref} aria-label="In thirty seconds" className="not-prose mt-10 mb-6">
-      <span className="font-mono text-[0.875rem] uppercase tracking-widest text-sage">In thirty seconds</span>
+      <span className="font-mono text-[0.875rem] uppercase tracking-widest text-sage-ink">In thirty seconds</span>
       <ol className="mt-4 flex flex-col">
         {ROWS.map(({ key, label, icon: Icon }, i) => (
           <motion.li
@@ -133,9 +133,9 @@ function InShort(props: { problem: ReactNode; did: ReactNode; result: ReactNode 
             transition={{ duration: 0.5, delay: 0.15 + i * 0.15, ease: EASE }}
             className="grid grid-cols-[2rem_1fr] gap-x-3 border-t border-zinc-200 dark:border-zinc-200/20 py-4"
           >
-            <Icon size={18} className="mt-1 text-sage" aria-hidden />
+            <Icon size={18} className="mt-1 text-sage-ink" aria-hidden />
             <div>
-              <p className="font-mono text-[0.875rem] uppercase tracking-widest text-zinc-400">{label}</p>
+              <p className="font-mono text-[0.875rem] uppercase tracking-widest text-zinc-faded">{label}</p>
               <p className="mt-1 text-lg leading-relaxed text-ink">{props[key]}</p>
             </div>
           </motion.li>
@@ -154,7 +154,7 @@ export function Built({ project }: { project: Project }) {
   return (
     <footer className="flex flex-col gap-6">
       <div>
-        <h2 className="font-mono text-[0.875rem] uppercase tracking-widest text-zinc-400 mb-3">Built with</h2>
+        <h2 className="font-mono text-[0.875rem] uppercase tracking-widest text-zinc-faded mb-3">Built with</h2>
         <ul className="flex flex-wrap gap-2">
           {project.tags.map((tag) => (
             <li
@@ -174,7 +174,7 @@ export function Built({ project }: { project: Project }) {
               href={link.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 font-mono text-xs uppercase tracking-widest text-sage hover:text-ink transition-colors"
+              className="inline-flex items-center gap-1 font-mono text-xs uppercase tracking-widest text-sage-ink hover:text-ink transition-colors"
             >
               {link.label} <ArrowUpRight size={14} aria-hidden="true" />
             </a>

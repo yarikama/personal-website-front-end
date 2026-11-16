@@ -10,7 +10,7 @@ function chip(active: boolean) {
   return `px-3 py-1.5 font-mono text-xs uppercase tracking-widest rounded-full border transition-colors ${
     active
       ? 'border-ink bg-ink text-paper dark:border-white dark:bg-white dark:text-zinc-900'
-      : 'border-zinc-200 dark:border-zinc-800 text-zinc-500 hover:text-ink dark:hover:text-white'
+      : 'border-zinc-200 dark:border-zinc-800 text-zinc-faded hover:text-ink dark:hover:text-white'
   }`
 }
 
@@ -42,9 +42,9 @@ function MessageCard({
       }`}
     >
       <button onClick={toggle} aria-expanded={open} className="block w-full text-left">
-        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs text-zinc-400">
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs text-zinc-faded">
           {!item.read && (
-            <span className="inline-flex items-center gap-1.5 text-sage">
+            <span className="inline-flex items-center gap-1.5 text-sage-ink">
               <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-sage" />
               Unread
             </span>
@@ -55,7 +55,7 @@ function MessageCard({
           <span className="text-ink">{item.name}</span>
           <span className="break-all">{item.email}</span>
           {item.replied && (
-            <span className="inline-flex items-center gap-1 text-sage">
+            <span className="inline-flex items-center gap-1 text-sage-ink">
               <Check size={12} aria-hidden="true" />
               Replied
             </span>
@@ -75,14 +75,14 @@ function MessageCard({
         <>
           <p className="mt-4 text-sm leading-relaxed whitespace-pre-wrap break-words">{item.message}</p>
           <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-3 border-t border-zinc-200 dark:border-zinc-800 pt-4">
-            <a href={replyLink(item)} className={`${ACTION} text-sage hover:underline`}>
+            <a href={replyLink(item)} className={`${ACTION} text-sage-ink hover:underline`}>
               <Reply size={14} aria-hidden="true" />
               Reply by email
             </a>
             <button
               onClick={() => onChange({ replied: !item.replied })}
               aria-pressed={item.replied}
-              className={`${ACTION} ${item.replied ? 'text-sage' : 'text-zinc-500 hover:text-ink dark:hover:text-white'}`}
+              className={`${ACTION} ${item.replied ? 'text-sage-ink' : 'text-zinc-faded hover:text-ink dark:hover:text-white'}`}
             >
               <Check size={14} aria-hidden="true" />
               {item.replied ? 'Replied' : 'Mark replied'}
@@ -92,14 +92,14 @@ function MessageCard({
                 onChange({ read: false })
                 setOpen(false)
               }}
-              className={`${ACTION} text-zinc-500 hover:text-ink dark:hover:text-white`}
+              className={`${ACTION} text-zinc-faded hover:text-ink dark:hover:text-white`}
             >
               <Mail size={14} aria-hidden="true" />
               Mark unread
             </button>
             <button
               onClick={onDelete}
-              className={`${ACTION} ml-auto text-zinc-400 hover:text-red-500`}
+              className={`${ACTION} ml-auto text-zinc-faded hover:text-red-500`}
             >
               <Trash2 size={14} aria-hidden="true" />
               Delete
@@ -181,7 +181,7 @@ export default function AdminMessagesList() {
           <button onClick={() => setUnreadOnly(true)} className={chip(unreadOnly)}>
             Unread
           </button>
-          <span className="ml-auto font-mono text-xs text-zinc-400">
+          <span className="ml-auto font-mono text-xs text-zinc-faded">
             {total} message{total === 1 ? '' : 's'}
           </span>
         </div>
@@ -191,7 +191,7 @@ export default function AdminMessagesList() {
             <p className="text-zinc-faded">{error}</p>
             <button
               onClick={() => load(0)}
-              className="mt-4 font-mono text-xs uppercase tracking-widest text-sage hover:underline"
+              className="mt-4 font-mono text-xs uppercase tracking-widest text-sage-ink hover:underline"
             >
               Try again
             </button>
@@ -218,14 +218,14 @@ export default function AdminMessagesList() {
 
         {isLoading ? (
           <div className="py-8 flex justify-center">
-            <Loader2 className="w-6 h-6 animate-spin text-zinc-400" />
+            <Loader2 className="w-6 h-6 animate-spin text-zinc-faded" />
           </div>
         ) : (
           items.length < total && (
             <div className="mt-8 flex justify-center">
               <button
                 onClick={() => load(items.length)}
-                className="font-mono text-xs uppercase tracking-widest text-sage hover:underline"
+                className="font-mono text-xs uppercase tracking-widest text-sage-ink hover:underline"
               >
                 Load more
               </button>

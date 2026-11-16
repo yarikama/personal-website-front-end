@@ -36,7 +36,7 @@ function Lines({ step }: { step: number }) {
       {[0, 3, 6, 9].map((miss) => (
         <g key={miss}>
           <line x1={LEFT} x2={RIGHT} y1={y(miss)} y2={y(miss)} className="stroke-zinc-300 dark:stroke-zinc-200/25" strokeWidth={0.5} />
-          <text x={LEFT - 6} y={y(miss) + 3} textAnchor="end" className="fill-zinc-400 font-mono text-[10px]">
+          <text x={LEFT - 6} y={y(miss) + 3} textAnchor="end" className="fill-zinc-faded font-mono text-[10px]">
             {miss}
           </text>
         </g>
@@ -48,18 +48,18 @@ function Lines({ step }: { step: number }) {
           <text x={RIGHT} y={y(mc[CURVE_TRIPS]) - 8} textAnchor="end" className="fill-ink">
             Monte Carlo
           </text>
-          <text x={RIGHT} y={y(td[CURVE_TRIPS]) + 16} textAnchor="end" className="fill-sage">
+          <text x={RIGHT} y={y(td[CURVE_TRIPS]) + 16} textAnchor="end" className="fill-sage-ink">
             TD(0)
           </text>
         </g>
       )}
-      <text x={LEFT} y={HEIGHT - 8} className="fill-zinc-400 font-mono text-[10px] uppercase tracking-widest">
+      <text x={LEFT} y={HEIGHT - 8} className="fill-zinc-faded font-mono text-[10px] uppercase tracking-widest">
         0 trips
       </text>
-      <text x={RIGHT} y={HEIGHT - 8} textAnchor="end" className="fill-zinc-400 font-mono text-[10px] uppercase tracking-widest">
+      <text x={RIGHT} y={HEIGHT - 8} textAnchor="end" className="fill-zinc-faded font-mono text-[10px] uppercase tracking-widest">
         {CURVE_TRIPS} trips
       </text>
-      <text x={LEFT + 4} y={TOP + 4} className="fill-zinc-400 font-mono text-[10px] uppercase tracking-widest">
+      <text x={LEFT + 4} y={TOP + 4} className="fill-zinc-faded font-mono text-[10px] uppercase tracking-widest">
         minutes off
       </text>
     </svg>

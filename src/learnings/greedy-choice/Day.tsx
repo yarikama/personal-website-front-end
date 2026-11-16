@@ -74,7 +74,7 @@ export default function Day({ day, rule, pace = 900, named = false, cancelled = 
     <div>
       <div className="flex items-baseline justify-between gap-4 font-mono text-[0.875rem] uppercase tracking-widest">
         <span className="shrink-0 text-zinc-faded">{rule ? (named ? 'Greedy · ends first' : RULE_NAMES[rule]) : 'One room'}</span>
-        <span className={`text-right ${rule && done ? (short ? 'text-ink' : 'text-sage') : 'text-zinc-faded'}`}>{status}</span>
+        <span className={`text-right ${rule && done ? (short ? 'text-ink' : 'text-sage-ink') : 'text-zinc-faded'}`}>{status}</span>
       </div>
       <svg
         viewBox={`0 0 ${WIDTH} ${height}`}
@@ -86,7 +86,7 @@ export default function Day({ day, rule, pace = 900, named = false, cancelled = 
         {Array.from({ length: DAY.to - DAY.from + 1 }, (_, k) => DAY.from + k).map((h) => (
           <g key={h}>
             <line x1={x(h)} x2={x(h)} y1={TOP - 4} y2={axis} className="stroke-zinc-200 dark:stroke-zinc-200/10" />
-            <text x={x(h)} y={axis + 14} textAnchor="middle" className="fill-zinc-400 font-mono text-[10px]">
+            <text x={x(h)} y={axis + 14} textAnchor="middle" className="fill-zinc-faded font-mono text-[10px]">
               {((h + 11) % 12) + 1}
             </text>
           </g>
@@ -147,7 +147,7 @@ export default function Day({ day, rule, pace = 900, named = false, cancelled = 
                 {/* Broken around the hour's label, so a finish on the hour leaves it readable */}
                 <line x1={x(end)} x2={x(end)} y1={axis - 6} y2={axis + 2} className="stroke-sage" strokeWidth={1.5} />
                 <line x1={x(end)} x2={x(end)} y1={axis + 19} y2={axis + 25} className="stroke-sage" strokeWidth={1.5} />
-                <text x={x(end)} y={axis + 37} textAnchor="middle" className="fill-sage font-mono text-[11px]">
+                <text x={x(end)} y={axis + 37} textAnchor="middle" className="fill-sage-ink font-mono text-[11px]">
                   f{k + 1}
                 </text>
               </g>
@@ -156,7 +156,7 @@ export default function Day({ day, rule, pace = 900, named = false, cancelled = 
 
         {best && (
           <g>
-            <text x={LEFT} y={height - 24} className="fill-zinc-400 font-mono text-[10px] uppercase tracking-widest">
+            <text x={LEFT} y={height - 24} className="fill-zinc-faded font-mono text-[10px] uppercase tracking-widest">
               Most that fit · {fit.length}
             </text>
             {fit.map((i) => (

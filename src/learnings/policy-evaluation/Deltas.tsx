@@ -37,7 +37,7 @@ export default function Deltas({ theta, order }: { theta: number; order: Order }
               y2={yOf(delta)}
               className="stroke-zinc-200 dark:stroke-zinc-200/10"
             />
-            <text x={LEFT - 8} y={yOf(delta) + 4} textAnchor="end" className="fill-zinc-400 font-mono text-[11px]">
+            <text x={LEFT - 8} y={yOf(delta) + 4} textAnchor="end" className="fill-zinc-faded font-mono text-[11px]">
               {delta < 0.001 ? '10⁻⁴' : delta}
             </text>
           </g>
@@ -48,7 +48,7 @@ export default function Deltas({ theta, order }: { theta: number; order: Order }
             x={xOf(sweep)}
             y={BOTTOM + 18}
             textAnchor="middle"
-            className="fill-zinc-400 font-mono text-[11px]"
+            className="fill-zinc-faded font-mono text-[11px]"
           >
             {sweep}
           </text>

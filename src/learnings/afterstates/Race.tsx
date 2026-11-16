@@ -86,13 +86,13 @@ export default function Race() {
         {[0, 1, 2, 3, 4, 5].map((lost) => (
           <g key={lost}>
             <line x1={LEFT} x2={RIGHT} y1={y(lost)} y2={y(lost)} className="stroke-zinc-200 dark:stroke-zinc-200/10" />
-            <text x={LEFT - 8} y={y(lost) + 4} textAnchor="end" className="fill-zinc-400 font-mono text-[11px]">
+            <text x={LEFT - 8} y={y(lost) + 4} textAnchor="end" className="fill-zinc-faded font-mono text-[11px]">
               {lost}
             </text>
           </g>
         ))}
         {[0, 50, 100, 150, 200].map((d) => (
-          <text key={d} x={x(d)} y={BOTTOM + 18} textAnchor="middle" className="fill-zinc-400 font-mono text-[11px]">
+          <text key={d} x={x(d)} y={BOTTOM + 18} textAnchor="middle" className="fill-zinc-faded font-mono text-[11px]">
             {d === DAYS ? `${d} days` : d}
           </text>
         ))}
@@ -113,7 +113,7 @@ export default function Race() {
         ].map(({ name, tone, at }) => (
           <g key={name}>
             <line x1={250} x2={272} y1={at - 4} y2={at - 4} className={tone === 'sage' ? 'stroke-sage' : 'stroke-ink'} strokeWidth={2} />
-            <text x={280} y={at} className={`${tone === 'sage' ? 'fill-sage' : 'fill-ink'} font-mono text-[11px] uppercase tracking-widest`}>
+            <text x={280} y={at} className={`${tone === 'sage' ? 'fill-sage-ink' : 'fill-ink'} font-mono text-[11px] uppercase tracking-widest`}>
               {name}
             </text>
           </g>

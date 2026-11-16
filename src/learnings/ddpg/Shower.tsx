@@ -94,14 +94,14 @@ export default function Shower({ step }: { step: number }) {
         <text x={DIAL.x + DIAL.r} y={DIAL.y + 18} textAnchor="middle" className="fill-zinc-faded font-mono text-[10px] uppercase tracking-widest">
           hot
         </text>
-        <text x={DIAL.x} y={DIAL.y + 44} textAnchor="middle" className={`font-mono text-[12px] tabular-nums ${named ? 'fill-sage' : 'fill-ink'}`}>
+        <text x={DIAL.x} y={DIAL.y + 44} textAnchor="middle" className={`font-mono text-[12px] tabular-nums ${named ? 'fill-sage-ink' : 'fill-ink'}`}>
           {named ? 'action a' : `${Math.round(point)}`}
         </text>
 
         {/* The settings, and the feel for each */}
         <line x1={LEFT} x2={RIGHT} y1={BOTTOM} y2={BOTTOM} className="stroke-zinc-300 dark:stroke-zinc-200/25" />
         {[0, 50, 100].map((d) => (
-          <text key={d} x={px(d)} y={BOTTOM + 16} textAnchor="middle" className="fill-zinc-400 font-mono text-[10px]">
+          <text key={d} x={px(d)} y={BOTTOM + 16} textAnchor="middle" className="fill-zinc-faded font-mono text-[10px]">
             {d}
           </text>
         ))}
@@ -132,7 +132,7 @@ export default function Shower({ step }: { step: number }) {
           />
         )}
         {step >= 3 && (
-          <text x={RIGHT} y={py(feel(100)) + 26} textAnchor="end" className={`font-mono text-[11px] ${named ? 'fill-sage' : 'fill-zinc-faded'}`}>
+          <text x={RIGHT} y={py(feel(100)) + 26} textAnchor="end" className={`font-mono text-[11px] ${named ? 'fill-sage-ink' : 'fill-zinc-faded'}`}>
             {named ? 'critic Q(s, a)' : 'how it would feel'}
           </text>
         )}
@@ -142,7 +142,7 @@ export default function Shower({ step }: { step: number }) {
           <g>
             <line x1={px(habit)} x2={px(habit)} y1={BOTTOM} y2={TOP - 8} className="stroke-sage" strokeDasharray="3 3" />
             <circle cx={px(habit)} cy={step >= 3 ? py(feel(habit)) : BOTTOM} r={5} className="fill-sage" />
-            <text x={px(habit) + 6} y={BOTTOM - 8} className="fill-sage font-mono text-[11px] tabular-nums">
+            <text x={px(habit) + 6} y={BOTTOM - 8} className="fill-sage-ink font-mono text-[11px] tabular-nums">
               {named ? 'actor μ(s)' : `habit ${Math.round(habit * 10) / 10}`}
             </text>
           </g>
@@ -160,7 +160,7 @@ export default function Shower({ step }: { step: number }) {
                 x={named ? tangent.x2 + 6 : px(habit) - 8}
                 y={named ? tangent.y2 - 8 : TOP - 4}
                 textAnchor={named ? 'start' : 'end'}
-                className="fill-sage font-mono text-[11px]"
+                className="fill-sage-ink font-mono text-[11px]"
               >
                 {named ? '∂Q/∂a' : 'hotter is better'}
               </text>

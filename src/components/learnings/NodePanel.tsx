@@ -70,7 +70,7 @@ function NodeList({ title, nodes, onSelect, stages, ordered = false }: {
   const List = ordered ? 'ol' : 'ul'
   return (
     <div>
-      <h3 className="font-mono text-[0.875rem] uppercase tracking-widest text-zinc-400 mb-3">{title}</h3>
+      <h3 className="font-mono text-[0.875rem] uppercase tracking-widest text-zinc-faded mb-3">{title}</h3>
       <List className="flex flex-col gap-1.5">
         {nodes.map((node, index) => (
           <li key={node.slug}>
@@ -78,7 +78,7 @@ function NodeList({ title, nodes, onSelect, stages, ordered = false }: {
               onClick={() => onSelect(node.slug)}
               className="group flex w-full items-baseline gap-3 text-left text-sm text-zinc-faded hover:text-ink transition-colors"
             >
-              {ordered && <span className="font-mono text-[0.875rem] text-sage w-5 shrink-0">{index + 1}</span>}
+              {ordered && <span className="font-mono text-[0.875rem] text-sage-ink w-5 shrink-0">{index + 1}</span>}
               <span className="border-b border-transparent group-hover:border-zinc-300">{node.title}</span>
               <Checks stage={stages.get(node.slug)} />
             </button>
@@ -100,7 +100,7 @@ export default function NodePanel({ graph, node, onSelect, onGo, onTag, hasPage,
   return (
     <div key={node.slug} className="flex flex-col gap-8 animate-slide-enter">
       <div>
-        <span className="font-mono text-[0.875rem] uppercase tracking-widest text-sage">{place ? LEVEL_LABEL[place.level] : 'Elsewhere'}</span>
+        <span className="font-mono text-[0.875rem] uppercase tracking-widest text-sage-ink">{place ? LEVEL_LABEL[place.level] : 'Elsewhere'}</span>
         <h2 className="font-serif text-3xl font-light tracking-tight mt-2 mb-3">{node.title}</h2>
         <p className="text-sm text-zinc-faded leading-relaxed">{node.summary}</p>
         {node.tags.length > 0 && (
@@ -109,7 +109,7 @@ export default function NodePanel({ graph, node, onSelect, onGo, onTag, hasPage,
               <button
                 key={tag}
                 onClick={() => onTag(tag)}
-                className="font-mono text-[0.875rem] text-zinc-400 hover:text-sage transition-colors"
+                className="font-mono text-[0.875rem] text-zinc-faded hover:text-sage-ink transition-colors"
               >
                 #{tag}
               </button>
@@ -131,7 +131,7 @@ export default function NodePanel({ graph, node, onSelect, onGo, onTag, hasPage,
           {to.kind === 'page' && to.to !== `/learnings/${node.slug}` && (
             <Link
               to={to.to}
-              className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-ink hover:text-sage transition-colors"
+              className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-ink hover:text-sage-ink transition-colors"
             >
               Open <ArrowRight size={14} />
             </Link>
@@ -141,22 +141,22 @@ export default function NodePanel({ graph, node, onSelect, onGo, onTag, hasPage,
               href={to.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-ink hover:text-sage transition-colors"
+              className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-ink hover:text-sage-ink transition-colors"
             >
               Read it <ArrowUpRight size={14} />
             </a>
           )}
           {to.kind === 'soon' && (
-            <span className="font-mono text-xs uppercase tracking-widest text-zinc-400">Page coming soon</span>
+            <span className="font-mono text-xs uppercase tracking-widest text-zinc-faded">Page coming soon</span>
           )}
         </div>
         {to.kind === 'page' && to.to === `/learnings/${node.slug}` && (
-          <p className="mt-4 text-xs leading-relaxed text-zinc-400">
+          <p className="mt-4 text-xs leading-relaxed text-zinc-faded">
             <Growth progress={progress} />
           </p>
         )}
         {!hasPage(node.slug) && stages.has(node.slug) && (
-          <p className="mt-4 text-xs leading-relaxed text-zinc-400">
+          <p className="mt-4 text-xs leading-relaxed text-zinc-faded">
             It grows with the pages inside it, as far as the least read of them.{' '}
             <Checks stage={stages.get(node.slug)} />
           </p>

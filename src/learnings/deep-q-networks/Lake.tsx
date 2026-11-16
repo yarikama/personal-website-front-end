@@ -141,7 +141,7 @@ export default function Lake({ step: shown }: { step: number }) {
           [PIER.x - 4, PIER.y + 22, named ? 's' : 'pier'],
           [SHORE.x + 4, SHORE.y + 22, named ? 's′' : 'far shore'],
         ].map(([x, y, label]) => (
-          <text key={label} x={x} y={y} textAnchor="middle" className={`font-mono text-[11px] uppercase tracking-widest ${named ? 'fill-sage' : 'fill-zinc-faded'}`}>
+          <text key={label} x={x} y={y} textAnchor="middle" className={`font-mono text-[11px] uppercase tracking-widest ${named ? 'fill-sage-ink' : 'fill-zinc-faded'}`}>
             {label}
           </text>
         ))}
@@ -191,7 +191,7 @@ export default function Lake({ step: shown }: { step: number }) {
         {(note !== null || named) && (
           <g>
             <rect x={DIAL.x - 58} y={140} width={116} height={30} className="fill-paper stroke-sage" />
-            <text x={DIAL.x} y={159} textAnchor="middle" className="fill-sage font-mono text-[11px]">
+            <text x={DIAL.x} y={159} textAnchor="middle" className="fill-sage-ink font-mono text-[11px]">
               {named ? 'target w⁻' : `copy: k = ${START_K}`}
             </text>
           </g>
@@ -243,10 +243,10 @@ export default function Lake({ step: shown }: { step: number }) {
               strokeDasharray="4 3"
               opacity={step === 3 ? ease(t * 2) : 1}
             />
-            <text x={PIER.x - BAR / 2 - 10} y={BASE - target * PER_MINUTE + 4} textAnchor="end" className="fill-sage font-mono text-[11px] tabular-nums">
+            <text x={PIER.x - BAR / 2 - 10} y={BASE - target * PER_MINUTE + 4} textAnchor="end" className="fill-sage-ink font-mono text-[11px] tabular-nums">
               target {target.toFixed(1)}
             </text>
-            <text x={PIER.x + BAR / 2 + 10} y={BASE - 6} className="fill-sage font-mono text-[10px] tabular-nums">
+            <text x={PIER.x + BAR / 2 + 10} y={BASE - 6} className="fill-sage-ink font-mono text-[10px] tabular-nums">
               gap {gap(k, note ?? k).toFixed(1)}
             </text>
           </g>
@@ -274,7 +274,7 @@ export default function Lake({ step: shown }: { step: number }) {
           </g>
         )}
         {named && (
-          <text x={(PIER.x + SHORE.x) / 2} y={BASE - 92} textAnchor="middle" className="fill-sage font-mono text-[11px]">
+          <text x={(PIER.x + SHORE.x) / 2} y={BASE - 92} textAnchor="middle" className="fill-sage-ink font-mono text-[11px]">
             target: r + Q(s′; w⁻)
           </text>
         )}

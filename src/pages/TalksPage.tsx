@@ -19,7 +19,7 @@ export default function TalksPage() {
         </Link>
 
         <div className="mb-16">
-          <span className="font-mono text-sm text-zinc-400 uppercase tracking-widest">Talks</span>
+          <span className="font-mono text-sm text-zinc-faded uppercase tracking-widest">Talks</span>
           <h1 className="font-serif text-5xl md:text-6xl font-light mt-4 tracking-tight">Talks and Lessons</h1>
           <p className="mt-6 text-zinc-faded max-w-2xl text-lg md:text-xl leading-relaxed">
             Interactive slides from talks I have given and things I have taught. Open one and step through it with
@@ -30,14 +30,14 @@ export default function TalksPage() {
         {publicTalks.length === 0 ? (
           <div className="py-16 text-center">
             <p className="font-serif text-2xl text-zinc-faded mb-4">Coming Soon</p>
-            <p className="text-sm text-zinc-400 max-w-md mx-auto">The first public talk is in the works.</p>
+            <p className="text-sm text-zinc-faded max-w-md mx-auto">The first public talk is in the works.</p>
           </div>
         ) : (
           <div className="flex flex-col gap-12">
             {publicTalks.map((talk) => (
               <Link key={talk.slug} to={`/talks/${talk.slug}`} className="group block">
                 <article>
-                  <div className="mb-4 flex items-center justify-between gap-4 font-mono text-xs text-zinc-400 uppercase tracking-widest">
+                  <div className="mb-4 flex items-center justify-between gap-4 font-mono text-xs text-zinc-faded uppercase tracking-widest">
                     <time dateTime={talk.date}>{formatTalkDate(talk.date)}</time>
                     <span>{talk.venue ? `${talk.kind} · ${talk.venue}` : talk.kind}</span>
                   </div>
@@ -60,7 +60,7 @@ export default function TalksPage() {
         )}
 
         <div className="mt-24">
-          <p className="font-mono text-sm text-zinc-400 uppercase tracking-widest text-center">
+          <p className="font-mono text-sm text-zinc-faded uppercase tracking-widest text-center">
             {publicTalks.length} talk{publicTalks.length !== 1 ? 's' : ''}
           </p>
         </div>

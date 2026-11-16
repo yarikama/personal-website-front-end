@@ -128,7 +128,7 @@ export default function CategoryEditor() {
         <form id="category-form" onSubmit={handleSubmit} className="space-y-6">
           {/* Label */}
           <div>
-            <label className="block font-mono text-xs uppercase tracking-widest text-zinc-400 mb-2">
+            <label className="block font-mono text-xs uppercase tracking-widest text-zinc-faded mb-2">
               Label (Display Name)
             </label>
             <input
@@ -148,12 +148,12 @@ export default function CategoryEditor() {
 
           {/* Name (slug) */}
           <div>
-            <label className="block font-mono text-xs uppercase tracking-widest text-zinc-400 mb-2">
+            <label className="block font-mono text-xs uppercase tracking-widest text-zinc-faded mb-2">
               Name (ID/Slug)
               <button
                 type="button"
                 onClick={() => setAutoName(!autoName)}
-                className="ml-2 text-sage hover:underline normal-case"
+                className="ml-2 text-sage-ink hover:underline normal-case"
               >
                 ({autoName ? 'auto' : 'manual'})
               </button>
@@ -174,14 +174,14 @@ export default function CategoryEditor() {
               "
               placeholder="engineering"
             />
-            <p className="mt-1 text-xs text-zinc-400">
+            <p className="mt-1 text-xs text-zinc-faded">
               Used as the category identifier in URLs and API
             </p>
           </div>
 
           {/* Order */}
           <div>
-            <label className="block font-mono text-xs uppercase tracking-widest text-zinc-400 mb-2">
+            <label className="block font-mono text-xs uppercase tracking-widest text-zinc-faded mb-2">
               Order
             </label>
             <input
@@ -198,14 +198,14 @@ export default function CategoryEditor() {
               "
               placeholder="0"
             />
-            <p className="mt-1 text-xs text-zinc-400">
+            <p className="mt-1 text-xs text-zinc-faded">
               Lower numbers appear first
             </p>
           </div>
 
           {/* Description */}
           <div>
-            <label className="block font-mono text-xs uppercase tracking-widest text-zinc-400 mb-2">
+            <label className="block font-mono text-xs uppercase tracking-widest text-zinc-faded mb-2">
               Description (optional)
             </label>
             <textarea

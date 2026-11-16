@@ -150,7 +150,7 @@ export default function Routes({ run, who, baseline, from, to, pace, named = fal
       <div
         className={`mt-2 font-mono text-[0.875rem] uppercase tracking-widest transition-opacity ${
           arrived ? 'opacity-100' : 'opacity-0'
-        } ${baseline && surprise < -0.05 ? 'text-ink' : 'text-sage'}`}
+        } ${baseline && surprise < -0.05 ? 'text-ink' : 'text-sage-ink'}`}
       >
         {verdict}
       </div>
@@ -201,7 +201,7 @@ export default function Routes({ run, who, baseline, from, to, pace, named = fal
                 x={LABELS[i].x}
                 y={LABELS[i].y}
                 textAnchor="middle"
-                className={`font-mono text-[14px] uppercase tracking-widest ${taken ? 'fill-sage' : 'fill-zinc-faded'}`}
+                className={`font-mono text-[14px] uppercase tracking-widest ${taken ? 'fill-sage-ink' : 'fill-zinc-faded'}`}
               >
                 {ROUTES[i]}
               </text>
@@ -239,10 +239,10 @@ export default function Routes({ run, who, baseline, from, to, pace, named = fal
           const change = morning && learned > 0 ? after.habits[i] - was.habits[i] : 0
           return (
             <g key={name}>
-              <text x={PANEL} y={y - 16} className={`font-mono text-[15px] uppercase ${top ? 'fill-sage' : 'fill-ink'}`}>
+              <text x={PANEL} y={y - 16} className={`font-mono text-[15px] uppercase ${top ? 'fill-sage-ink' : 'fill-ink'}`}>
                 {named ? `Arm ${i + 1} · ${name}` : name}
               </text>
-              <text x={PANEL + BAR} y={y - 14} textAnchor="end" className={`font-serif text-[22px] ${top ? 'fill-sage' : 'fill-ink'}`}>
+              <text x={PANEL + BAR} y={y - 14} textAnchor="end" className={`font-serif text-[22px] ${top ? 'fill-sage-ink' : 'fill-ink'}`}>
                 {Math.round(chances[i] * 100)}%
               </text>
               <rect x={PANEL} y={y - 6} width={BAR} height={14} className="fill-zinc-200 dark:fill-zinc-200/10" />
@@ -250,7 +250,7 @@ export default function Routes({ run, who, baseline, from, to, pace, named = fal
               <text x={PANEL} y={y + 28} className="fill-zinc-faded font-mono text-[14px]">
                 {named ? 'H' : 'HABIT'} {signed(habits[i])}
                 {Math.abs(change) >= 0.005 && (
-                  <tspan className={change > 0 ? 'fill-sage' : 'fill-ink'}>
+                  <tspan className={change > 0 ? 'fill-sage-ink' : 'fill-ink'}>
                     {'  '}
                     {change > 0 ? '▲' : '▼'} {signed(change)}
                   </tspan>

@@ -60,11 +60,11 @@ export default function Notebook({
       {cells.map((n) => (
         <g key={n}>
           {n % 2 === 0 && (
-            <text x={x(n) + CELL / 2} y={TOP - 6} textAnchor="middle" className="fill-zinc-400 font-mono text-[10px]">
+            <text x={x(n) + CELL / 2} y={TOP - 6} textAnchor="middle" className="fill-zinc-faded font-mono text-[10px]">
               {n}
             </text>
           )}
-          <text x={LEFT - 4} y={y(n) + CELL / 2 + 3.5} textAnchor="end" className="fill-zinc-400 font-mono text-[10px]">
+          <text x={LEFT - 4} y={y(n) + CELL / 2 + 3.5} textAnchor="end" className="fill-zinc-faded font-mono text-[10px]">
             {n}
           </text>
         </g>

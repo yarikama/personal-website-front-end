@@ -22,7 +22,7 @@ export default function MarkdownRenderer({ content, className = '' }: MarkdownRe
         prose-h3:text-xl prose-h3:mb-3 prose-h3:mt-5
         prose-h4:text-lg prose-h4:mb-2 prose-h4:mt-4
         prose-p:text-zinc-faded prose-p:leading-relaxed
-        prose-a:text-sage prose-a:no-underline hover:prose-a:underline
+        prose-a:text-sage-ink prose-a:no-underline hover:prose-a:underline
         prose-code:font-mono prose-code:text-sm
         prose-pre:bg-zinc-100 dark:prose-pre:bg-zinc-900 prose-pre:p-0
         [&_pre]:overflow-x-auto

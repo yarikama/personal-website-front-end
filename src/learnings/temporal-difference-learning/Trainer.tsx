@@ -98,7 +98,7 @@ export default function Trainer() {
           {[0, 0.5, 1].map((share) => (
             <g key={share}>
               <line x1={LEFT} x2={RIGHT} y1={y(share)} y2={y(share)} className="stroke-zinc-300 dark:stroke-zinc-200/25" />
-              <text x={LEFT - 6} y={y(share) + 4} textAnchor="end" className="fill-zinc-400 font-mono text-[10px]">
+              <text x={LEFT - 6} y={y(share) + 4} textAnchor="end" className="fill-zinc-faded font-mono text-[10px]">
                 {percent(share)}
               </text>
             </g>
@@ -116,10 +116,10 @@ export default function Trainer() {
             never trained: {percent(NEVER_TRAINED)}
           </text>
           <path d={line} className="fill-none stroke-sage" strokeWidth={2.5} strokeLinejoin="round" />
-          <text x={LEFT} y={HEIGHT - 8} className="fill-zinc-400 font-mono text-[10px] uppercase tracking-widest">
+          <text x={LEFT} y={HEIGHT - 8} className="fill-zinc-faded font-mono text-[10px] uppercase tracking-widest">
             0 games
           </text>
-          <text x={RIGHT} y={HEIGHT - 8} textAnchor="end" className="fill-zinc-400 font-mono text-[10px] uppercase tracking-widest">
+          <text x={RIGHT} y={HEIGHT - 8} textAnchor="end" className="fill-zinc-faded font-mono text-[10px] uppercase tracking-widest">
             {span.toLocaleString('en-US')} games
           </text>
         </svg>

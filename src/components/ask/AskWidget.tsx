@@ -55,7 +55,7 @@ export default function AskWidget() {
           <div className="flex items-start justify-between gap-3 px-5 pt-4 pb-3 border-b border-zinc-200 dark:border-zinc-700">
             <div>
               <p className="font-serif text-xl">Ask about me</p>
-              <p className="text-xs text-zinc-400 mt-0.5">
+              <p className="text-xs text-zinc-faded mt-0.5">
                 A small model on my home server, answering from this site. It can be wrong.
               </p>
             </div>
@@ -63,7 +63,7 @@ export default function AskWidget() {
               type="button"
               onClick={() => setOpen(false)}
               aria-label="Close"
-              className="shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-zinc-400 hover:text-ink hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+              className="shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-zinc-faded hover:text-ink hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
             >
               <X className="w-4 h-4" />
             </button>

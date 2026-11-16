@@ -30,7 +30,7 @@ export default function Strip() {
       {[100, 150, 200, 250, 300].map((minutes) => (
         <g key={minutes}>
           <line x1={LEFT} x2={RIGHT} y1={y(minutes)} y2={y(minutes)} className="stroke-zinc-300 dark:stroke-zinc-200/25" strokeWidth={0.5} />
-          <text x={LEFT - 6} y={y(minutes) + 3} textAnchor="end" className="fill-zinc-400 font-mono text-[10px]">
+          <text x={LEFT - 6} y={y(minutes) + 3} textAnchor="end" className="fill-zinc-faded font-mono text-[10px]">
             {minutes}
           </text>
         </g>
@@ -51,13 +51,13 @@ export default function Strip() {
       </text>
 
       {/* Under each column: its n, how far off its average is, and its spread */}
-      <text x={LEFT - 6} y={BOTTOM + 20} textAnchor="end" className="fill-zinc-400 font-mono text-[10px] uppercase">
+      <text x={LEFT - 6} y={BOTTOM + 20} textAnchor="end" className="fill-zinc-faded font-mono text-[10px] uppercase">
         n
       </text>
-      <text x={LEFT - 6} y={BOTTOM + 40} textAnchor="end" className="fill-zinc-400 font-mono text-[10px] uppercase">
+      <text x={LEFT - 6} y={BOTTOM + 40} textAnchor="end" className="fill-zinc-faded font-mono text-[10px] uppercase">
         off
       </text>
-      <text x={LEFT - 6} y={BOTTOM + 60} textAnchor="end" className="fill-zinc-400 font-mono text-[10px] uppercase">
+      <text x={LEFT - 6} y={BOTTOM + 60} textAnchor="end" className="fill-zinc-faded font-mono text-[10px] uppercase">
         ±
       </text>
       {COLUMNS.map(({ n, mean, sd }, i) => (
@@ -68,7 +68,7 @@ export default function Strip() {
           <text x={column(i)} y={BOTTOM + 40} textAnchor="middle" className="fill-ink">
             {signed(mean - TRUE[0])}
           </text>
-          <text x={column(i)} y={BOTTOM + 60} textAnchor="middle" className="fill-sage">
+          <text x={column(i)} y={BOTTOM + 60} textAnchor="middle" className="fill-sage-ink">
             {Math.round(sd)}
           </text>
         </g>

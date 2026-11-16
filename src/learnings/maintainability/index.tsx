@@ -141,7 +141,7 @@ export default function Maintainability() {
         <li>
           <strong>For evolvability:</strong> keep it simple, because simple systems are the easy ones to change. Moving
           Twitter’s timelines from{' '}
-          <Link to="/learnings/describing-load" className="text-sage">
+          <Link to="/learnings/describing-load" className="text-sage-ink">
             collecting on read to delivering on post
           </Link>{' '}
           is the kind of change a system should be able to take.

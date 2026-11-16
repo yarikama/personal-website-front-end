@@ -98,18 +98,18 @@ export default function Patches({ step }: { step: number }) {
       </svg>
 
       <div className="flex w-full flex-col gap-3 sm:max-w-[14rem]">
-        <p className="font-mono text-[0.8125rem] uppercase tracking-widest text-zinc-400">Question</p>
+        <p className="font-mono text-[0.8125rem] uppercase tracking-widest text-zinc-faded">Question</p>
         <p className="font-serif text-xl leading-snug">“What is the brand of this camera?”</p>
-        <p className="mt-2 font-mono text-[0.8125rem] uppercase tracking-widest text-zinc-400">
+        <p className="mt-2 font-mono text-[0.8125rem] uppercase tracking-widest text-zinc-faded">
           Patches kept · <span className="text-ink">{keep.size}</span> of 576
         </p>
-        <p className="mt-2 font-mono text-[0.8125rem] uppercase tracking-widest text-zinc-400">Model answers</p>
+        <p className="mt-2 font-mono text-[0.8125rem] uppercase tracking-widest text-zinc-faded">Model answers</p>
         <motion.p
           key={answer}
           initial={reducedMotion ? false : { opacity: 0, y: 6 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: reducedMotion ? 0 : 0.5 }}
-          className={`font-serif text-3xl ${right ? 'text-sage' : 'text-ink line-through decoration-1'}`}
+          className={`font-serif text-3xl ${right ? 'text-sage-ink' : 'text-ink line-through decoration-1'}`}
         >
           {answer}
         </motion.p>

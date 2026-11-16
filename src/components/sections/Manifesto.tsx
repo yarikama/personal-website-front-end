@@ -159,7 +159,7 @@ function StaticManifesto() {
             <h2 className="font-serif text-5xl md:text-7xl font-light tracking-tight leading-none">
               {story.text}
             </h2>
-            <p className="mt-6 font-mono text-sm text-sage uppercase tracking-widest">{story.subtext}</p>
+            <p className="mt-6 font-mono text-sm text-sage-ink uppercase tracking-widest">{story.subtext}</p>
             <p className="mt-6 font-serif text-lg md:text-xl text-zinc-faded leading-relaxed">{story.story}</p>
           </div>
         ))}
