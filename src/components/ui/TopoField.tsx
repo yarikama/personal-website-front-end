@@ -1,12 +1,20 @@
 import { useEffect, useRef } from 'react'
 
-// A few smooth hills, [x, y, spread, height], in the box's own 0..1 coordinates
-const HILLS = [[0.72, 0.38, 0.3, 1], [0.38, 0.7, 0.22, 0.7], [0.95, 0.85, 0.18, 0.55], [0.55, 0.12, 0.14, 0.45], [0.18, 0.25, 0.2, 0.35]]
-const STEP = 6, LEVELS = 30, GAP = 0.045
+// The peaks of what I work on, [name, x, y, spread, height]: x and y in the
+// box's own 0..1 coordinates and spread as a share of its width, so each peak
+// is round. Each narrow enough to show its own rings, and clear of the link
+// on the right
+const PEAKS: [string, number, number, number, number][] = [
+  ['Math', 0.2, 0.45, 0.065, 0.7],
+  ['ML', 0.4, 0.68, 0.07, 0.95],
+  ['Systems', 0.6, 0.3, 0.065, 0.85],
+  ['Web', 0.88, 0.22, 0.05, 0.6],
+]
+const STEP = 4, LEVELS = 16, GAP = 0.06
 
 /**
- * Contour lines of a still field, drawn once on a canvas and again when the
- * box resizes or the theme changes. Decoration only: it is hidden from screen
+ * A contour map of a few named peaks, drawn once on a canvas and again when
+ * the box resizes or the theme changes. Decoration only: it is hidden from screen
  * readers, takes no pointer, and fades out toward the left (see the class
  * passed in), so it never sits under text.
  */
@@ -29,7 +37,7 @@ export default function TopoField({ className = '' }: { className?: string }) {
       const W = r.width, H = r.height
       const f = (x: number, y: number) => {
         let v = 0
-        for (const [hx, hy, s, a] of HILLS) {
+        for (const [, hx, hy, s, a] of PEAKS) {
           const dx = x / W - hx, dy = (y / H - hy) * (H / W)
           v += a * Math.exp(-(dx * dx + dy * dy) / (2 * s * s))
         }
@@ -58,6 +66,30 @@ export default function TopoField({ className = '' }: { className?: string }) {
           for (let n = 0; n + 1 < p.length; n += 2) { g.moveTo(p[n][0], p[n][1]); g.lineTo(p[n + 1][0], p[n + 1][1]) }
         }
         g.stroke()
+      }
+      // Each summit named, as on a map: a small triangle and the name beside it.
+      // Not on a narrow screen, where the map runs behind the heading
+      if (W < 480) return
+      const style = getComputedStyle(canvas)
+      g.globalAlpha = 0.85
+      g.fillStyle = style.getPropertyValue('--color-ink').trim() || '#1a1a1a'
+      // A halo in the page's colour keeps the name clear of the rings under it
+      g.strokeStyle = style.getPropertyValue('--color-paper').trim() || '#f7f6f3'
+      g.lineWidth = 4
+      g.lineJoin = 'round'
+      g.font = `500 11px ${style.getPropertyValue('--font-mono').trim() || 'monospace'}`
+      g.letterSpacing = '0.15em'
+      g.textBaseline = 'middle'
+      for (const [name, hx, hy] of PEAKS) {
+        const x = hx * W, y = hy * H
+        g.beginPath()
+        g.moveTo(x, y - 4)
+        g.lineTo(x + 4, y + 3)
+        g.lineTo(x - 4, y + 3)
+        g.closePath()
+        g.fill()
+        g.strokeText(name.toUpperCase(), x + 9, y)
+        g.fillText(name.toUpperCase(), x + 9, y)
       }
     }
 
