@@ -152,6 +152,11 @@ opens the same way every time and tests are stable.
   for the thing to watch, `fill-ink` for what goes wrong, `stroke-zinc-300` and
   `fill-zinc-400` for scaffolding, `fill-paper` for empty shapes. `dark:` variants only
   where a token is too strong on black (`dark:stroke-zinc-200/25`).
+- Never draw data with `zinc`: the dark theme turns `zinc-200` into a dark grey, so a bar,
+  dot or label drawn with it all but vanishes on black. Draw data with `fill-ink` and fade
+  it with the `fillOpacity` / `strokeOpacity` attribute, or `bg-ink/35` on an HTML
+  element. On SVG an opacity suffix such as `fill-ink/25` does not apply, and the mark
+  renders solid black in both themes. Keep `zinc` for gridlines and tracks.
 - Text in SVG: `font-mono text-[10px]` or `text-[11px] uppercase tracking-widest`.
 - Animation: drive it with a clock (`useAnimationFrame` from `motion/react`) and derive
   every position from the time, rather than animating each element on its own. Give a
@@ -254,6 +259,12 @@ export default function MyTopic() {
 ```
 
 Hold settings that several figures share in the page, and pass them down.
+
+JSX drops the space at a line break that sits next to a tag. When a line ends with an
+inline element (`</Link>`, `</em>`, `</strong>`) and the sentence goes on below, the two
+words run together on the page: put the space in as `{' '}`, or keep the next word on
+the same line. Don't name anything `window`, `document`, `self` or `globalThis`; lint
+refuses it, since a module-level `function window` breaks the page in the browser.
 
 | Block | Use |
 |---|---|
@@ -374,6 +385,10 @@ Then `npm run dev` and open `/learnings/<slug>` in both themes, on a phone width
 expanded on the map at `/learnings?node=<slug>&read=1` on a wide screen (the card beside
 it). Play with every control, including changing a setting while a simulation is running.
 Answer every check and watch its node crack beside the page.
+
+`node scripts/check-contrast.mjs /learnings/<slug>` (and CI) checks the contrast of text
+only. Whether bars, dots and shaded cells can be seen in the dark theme is on you: look
+at every figure and every story step there.
 
 Once it is live and its node published, check what search engines get: the tab title
 reads "<node title> | Henry Hsu", and in the console
