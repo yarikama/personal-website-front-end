@@ -1,13 +1,14 @@
 import { useEffect, useRef } from 'react'
 import { kindOf } from '../../projects/tagKinds'
+import { pickTag } from './pickTag'
 
 /**
  * A project's tags as a row of coloured strips, one per tag at the tag's own
  * width, coloured by kind (see tagKinds.ts). At rest only the first tag is
- * open; the one nearest the pointer opens as it moves over the card (the
- * `.group` around it), the others close in turn, nearest first. Nothing
- * changes width, so nothing moves out from under the pointer. On a screen
- * without hover every tag is open (index.css, .tag-strip).
+ * open; as the pointer moves anywhere over the card (the `.group` around it),
+ * the tag across from it opens (see pickTag), the others close in turn,
+ * nearest first. Nothing changes width, so nothing moves out from under the
+ * pointer. On a screen without hover every tag is open (index.css, .tag-strip).
  *
  * The strips are drawing; screen readers get the tags as one line of text.
  */
@@ -34,17 +35,7 @@ export default function TagStrip({ tags }: { tags: string[] }) {
     }
 
     function move(e: PointerEvent) {
-      if (!row) return
-      const r = row.getBoundingClientRect()
-      if (e.clientY < r.top - 24 || e.clientY > r.bottom + 12) return show(-1)
-      // Nearest centre, weighing height double so a wrapped second row is picked by its row first
-      let best = 0, bd = Infinity
-      chips.forEach((chip, i) => {
-        const c = chip.getBoundingClientRect()
-        const d = Math.hypot((c.left + c.width / 2 - e.clientX) / 2, c.top + c.height / 2 - e.clientY)
-        if (d < bd) { bd = d; best = i }
-      })
-      show(best)
+      show(pickTag(chips.map((chip) => chip.getBoundingClientRect()), e.clientX, e.clientY))
     }
     const leave = () => show(-1)
 
