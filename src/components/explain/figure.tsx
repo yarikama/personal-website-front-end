@@ -83,7 +83,8 @@ export function Choice<T extends string | number>({
   return (
     <div className="flex flex-col gap-2" role="radiogroup" aria-label={name}>
       <span className={label}>{name}</span>
-      <div className="flex">
+      {/* Wraps, so five or six options still fit a phone */}
+      <div className="flex flex-wrap gap-y-1.5">
         {options.map((option) => (
           <button
             key={option}
