@@ -253,7 +253,7 @@ export default function Lstm() {
         <li>
           <strong>Know where it stops.</strong> A cell can carry a few facts a long way, but not every word of a long
           passage. Reading a whole sentence into one vector and writing another from it strains it; that is what
-          attention, later in this field, was built for.
+          <Link to="/learnings/attention">attention</Link> was built for.
         </li>
       </ul>
 

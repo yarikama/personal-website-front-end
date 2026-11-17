@@ -208,7 +208,7 @@ export default function SubwordTokenization() {
         Real tokenizers run the same loop over billions of words, for tens of thousands of merges. They start from the
         256 possible bytes rather than 26 letters, so any script, emoji included, can be spelled. They also mark where
         words start or end, so the pieces can be put back together: the 2016 paper adds an end-of-word mark, and GPT’s
-        tokenizers keep a word’s leading space on its first piece. WordPiece, used by BERT, is a close cousin that
+        tokenizers keep a word’s leading space on its first piece. WordPiece, used by <Link to="/learnings/pretraining-objectives">BERT</Link>, is a close cousin that
         scores pairs a little differently.
       </p>
 

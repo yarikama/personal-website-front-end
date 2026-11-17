@@ -249,8 +249,8 @@ export default function Smoothing() {
           to 1 (<strong>interpolation</strong>). Both beat pretend counts on real text.
         </li>
         <li>
-          <strong>Or split words into pieces.</strong> Modern models break a rare word into common pieces, subword
-          tokenization, so no word is ever wholly unknown.
+          <strong>Or split words into pieces.</strong> Modern models break a rare word into common pieces, <Link to="/learnings/subword-tokenization">subword
+          tokenization</Link>, so no word is ever wholly unknown.
         </li>
       </ul>
 
