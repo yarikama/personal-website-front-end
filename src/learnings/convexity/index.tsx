@@ -223,7 +223,7 @@ export default function Convexity() {
         You rarely work out that grid, because two rules do most of the work: a sum of convex functions is convex, and a
         convex function of a linear map of the parameters is convex. <Link to="/learnings/least-squares">Least squares</Link>{' '}
         squares each point’s error, which is linear in the weights, and adds them up: convex. The loss of{' '}
-        logistic regression is convex in each point’s score, and the
+        <Link to="/learnings/logistic-regression">logistic regression</Link> is convex in each point’s score, and the
         score is linear in the weights: convex too. A neural network passes its weights through layer after layer of
         bends, and its loss is not.
       </p>

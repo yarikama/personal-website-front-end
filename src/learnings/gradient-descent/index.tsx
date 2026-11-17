@@ -152,7 +152,7 @@ export default function GradientDescent() {
       <p>
         Why walk when you could look the answer up? <Link to="/learnings/least-squares">Least squares</Link> has a
         formula, but it solves a system with a row and a column per feature, about n³ sums for n features: hopeless at a
-        hundred thousand. Logistic regression has no formula at all. A
+        hundred thousand. <Link to="/learnings/logistic-regression">Logistic regression</Link> has no formula at all. A
         gradient costs one pass over the data, so a model takes many cheap steps instead of one dear one.{' '}
         <Link to="/learnings/gradient-bandits">Gradient bandits</Link> climb their preferences with the same move.
       </p>
