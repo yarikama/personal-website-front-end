@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import Article from '../../components/explain/Article'
 import { Clip } from '../../components/explain/Clip'
 import { Figure, Numbers } from '../../components/explain/figure'
@@ -151,7 +152,8 @@ export default function RelationalAlgebra() {
 
       <p>
         That tree pairs before it filters, while the kitchen dropped the meat sauce first. Both give the same answer, and
-        that freedom to pick among equal trees is what an optimizer works with.
+        that freedom to pick among equal trees is what an{' '}
+        <Link to="/learnings/predicate-pushdown">optimizer works with</Link>.
       </p>
 
       <h2>Build a plan</h2>

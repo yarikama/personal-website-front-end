@@ -261,7 +261,7 @@ export default function IndexOrScan() {
         </li>
         <li>
           <strong>Let the optimizer choose.</strong> It guesses how many rows will match from statistics it keeps on
-          each column and prices both plans. PostgreSQL,
+          each column (<Link to="/learnings/size-estimation">size estimation</Link>) and prices both plans. PostgreSQL,
           expecting many random reads to hit its cache, prices a random page at 4 times a sequential one by default.
         </li>
       </ul>
