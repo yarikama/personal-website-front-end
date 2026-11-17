@@ -28,6 +28,21 @@ export default tseslint.config(
       // `const { node, ...rest } = props` drops `node` on purpose.
       '@typescript-eslint/no-unused-vars': ['error', { ignoreRestSiblings: true }],
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
+      // A module-level `function window()` hides the browser's window from the
+      // whole file. Vite's React refresh code reads window, so the module throws
+      // when it loads in dev and the page shows "did not load"; the build and
+      // the tests still pass, so nothing else catches it.
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector: [
+            'FunctionDeclaration[id.name=/^(window|document|self|globalThis)$/]',
+            'VariableDeclarator[id.name=/^(window|document|self|globalThis)$/]',
+            'ClassDeclaration[id.name=/^(window|document|self|globalThis)$/]',
+          ].join(', '),
+          message: 'Do not name something after a browser global (window, document, self, globalThis): it hides the global in this file.',
+        },
+      ],
     },
   },
 )
