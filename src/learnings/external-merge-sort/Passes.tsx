@@ -100,7 +100,7 @@ export default function Passes({ data, memory, written }: { data: number; memory
               x={aside((from + to) / 2, marker)}
               y={BAND_Y + BAND_H / 2 + 5}
               textAnchor="middle"
-              className={`font-mono text-[13px] ${k === needed ? 'fill-sage-ink' : 'fill-zinc-faded'}`}
+              className={`fill-ink font-mono text-[13px] ${k === needed ? 'font-semibold' : ''}`}
             >
               {k}
             </text>
