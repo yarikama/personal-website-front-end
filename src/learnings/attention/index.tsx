@@ -249,7 +249,7 @@ export default function Attention() {
       </ul>
       <p>
         Later the Transformer takes the step further: every word of a sentence attends to the words of its own sentence,
-        which is called self-attention.
+        which is called <Link to="/learnings/self-attention">self-attention</Link>.
       </p>
 
       <Predict

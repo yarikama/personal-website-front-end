@@ -253,7 +253,7 @@ export default function Glove() {
         </li>
         <li>
           <strong>One vector per spelling.</strong> GloVe gives “bank” a single vector for the river and the money.
-          Vectors that change with the sentence around the word came later.
+          <Link to="/learnings/pretraining-objectives">Vectors that change with the sentence around the word</Link> came later.
         </li>
       </ul>
 
