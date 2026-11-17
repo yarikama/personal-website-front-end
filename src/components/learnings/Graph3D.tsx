@@ -69,9 +69,12 @@ const SIZE: Record<Level | 'elsewhere', number> = { 1: 28, 2: 14, 3: 6, elsewher
 const LABEL: Record<Level | 'elsewhere', number> = { 1: 8, 2: 4.8, 3: 3.2, elsewhere: 3 }
 // How wide the glow around a tagged node is
 const GLOW_SIZE = 40
-// How the map is spread out: each field a disc, one above the other, its
-// topics on a ring round it and their ideas on a wider one
-const ORBIT = { gap: 260, topic: 72, idea: 132, stagger: 22 }
+// How the map is spread out: each field a disc, its topics on a ring round it
+// and their ideas on a wider one. Side by side on a big ring, neighbouring
+// discs stand a disc's width apart, labels included; stacked, closer, since
+// the camera looks down on them
+const ORBIT = { topic: 72, idea: 132, stagger: 22 }
+const GAP = { wide: 470, tall: 260 }
 // How hard each level is drawn to its place there, and a link elsewhere,
 // with no place of its own, to the middle
 const PULL: Record<Level | 'elsewhere', number> = { 1: 0.4, 2: 0.2, 3: 0.12, elsewhere: 0.02 }
@@ -675,13 +678,15 @@ export default function Graph3D({
     [palette, onPath, linkLit]
   )
 
-  // Spread the map out by level, and keep near neighbours apart
+  // Spread the map out by level, and keep near neighbours apart: the fields
+  // side by side on a screen wider than tall, stacked on one taller
+  const wide = width >= height
   useEffect(() => {
     const graph3d = fg.current
     if (!graph3d) return
     const at = places(graph)
     const levels = new Map([...at].map(([slug, place]) => [slug, place.level]))
-    graph3d.d3Force('orbit', orbitForce(orbits(graph, ORBIT), levels, homes(graph)))
+    graph3d.d3Force('orbit', orbitForce(orbits(graph, { ...ORBIT, wide, gap: wide ? GAP.wide : GAP.tall }), levels, homes(graph)))
     // Bigger shapes push harder, so fields and topics keep room round them
     // and their labels; only near by, so the rings keep their shape
     const PUSH: Record<Level | 'elsewhere', number> = { 1: -360, 2: -180, 3: -80, elsewhere: -60 }
@@ -695,7 +700,7 @@ export default function Graph3D({
       return at.has(source) && at.has(target) ? 0.01 : 0.3
     })
     graph3d.d3ReheatSimulation()
-  }, [graph])
+  }, [graph, wide])
 
   // Turn slowly by itself while nothing is chosen
   useEffect(() => {

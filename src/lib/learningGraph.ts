@@ -206,13 +206,16 @@ export interface Orbit {
   z: number
 }
 
-// How the map is spread out: each field a disc, one above the other in
-// reading order; its topics on a ring round it, in reading order like a
-// clock; each topic's ideas on a wider ring, fanned out behind it. Sizes in
-// the map's units.
+// How the map is spread out: each field a disc, in reading order; its topics
+// on a ring round it, in reading order like a clock; each topic's ideas on a
+// wider ring, fanned out behind it. On a wide screen the discs lie side by
+// side on one big ring, which turns like a carousel; on a tall one they stack,
+// one above the other. Sizes in the map's units.
 export interface OrbitSizes {
-  // Between one field's disc and the next
+  // Between the middles of neighbouring fields' discs
   gap: number
+  // Side by side on a ring, or stacked
+  wide: boolean
   // From a field to its topics, and to their ideas
   topic: number
   idea: number
@@ -233,14 +236,20 @@ export function orbits(graph: LearningGraph, size: OrbitSizes): Map<string, Orbi
   }
   const fields = graph.nodes.filter((node) => at.get(node.slug)?.level === 1).sort(order)
   const placed = new Map<string, Orbit>()
+  // The big ring is just wide enough that neighbouring discs stand gap apart
+  const ring = size.wide && fields.length > 1 ? size.gap / (2 * Math.sin(Math.PI / fields.length)) : 0
   fields.forEach((field, f) => {
-    const y = ((fields.length - 1) / 2 - f) * size.gap
-    placed.set(field.slug, { x: 0, y, z: 0 })
+    // The first field in front, the rest round the ring like a clock; or the
+    // first on top
+    const where = Math.PI / 2 - (2 * Math.PI * f) / fields.length
+    const [cx, cz] = ring ? [ring * Math.cos(where), ring * Math.sin(where)] : [0, 0]
+    const y = size.wide ? 0 : ((fields.length - 1) / 2 - f) * size.gap
+    placed.set(field.slug, { x: cx, y, z: cz })
     const topics = (inside.get(field.slug) ?? []).sort(order)
     topics.forEach((topic, t) => {
       // Half a step round, so no topic stands right in front of its field
       const angle = Math.PI / 2 + (2 * Math.PI * (t + 0.5)) / topics.length
-      placed.set(topic.slug, { x: size.topic * Math.cos(angle), y, z: size.topic * Math.sin(angle) })
+      placed.set(topic.slug, { x: cx + size.topic * Math.cos(angle), y, z: cz + size.topic * Math.sin(angle) })
       // Its ideas fan out over most of its share of the ring
       const ideas = (inside.get(topic.slug) ?? []).sort(order)
       const share = (2 * Math.PI) / topics.length
@@ -248,7 +257,7 @@ export function orbits(graph: LearningGraph, size: OrbitSizes): Map<string, Orbi
       ideas.forEach((idea, i) => {
         const turn = angle + (i - (ideas.length - 1) / 2) * step
         const out = size.idea + (ideas.length > 2 && i % 2 === 1 ? size.stagger : 0)
-        placed.set(idea.slug, { x: out * Math.cos(turn), y, z: out * Math.sin(turn) })
+        placed.set(idea.slug, { x: cx + out * Math.cos(turn), y, z: cz + out * Math.sin(turn) })
       })
     })
   })

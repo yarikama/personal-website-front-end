@@ -60,65 +60,30 @@ function Shape({ sides, size, colour }: { sides: number; size: number; colour: s
   )
 }
 
-// What the shapes and colours mean: a shape per level, and a colour per
-// area, each beside the field it is in
-function Legend({ graph }: { graph: LearningGraph }) {
-  const dark = useIsDark()
-  const fields = useMemo(() => {
-    const colours = areaColours(graph, dark)
-    const home = homes(graph)
-    const titles = new Map(graph.nodes.map((node) => [node.slug, node.title]))
-    const byField = new Map<string, { area: string; title: string; colour: string }[]>()
-    for (const [area, colour] of colours) {
-      const field = home.get(area) ?? ''
-      byField.set(field, [...(byField.get(field) ?? []), { area, title: titles.get(area) ?? area, colour }])
-    }
-    return {
-      count: colours.size,
-      list: [...byField]
-        .map(([field, areas]) => ({ field, title: titles.get(field) ?? '', areas }))
-        .sort((a, b) => a.title.localeCompare(b.title)),
-    }
-  }, [graph, dark])
+// What the shapes and lines mean. The areas' colours get no key: with every
+// field's topics listed it outgrew the corner, and the Topics list names them
+function Legend() {
   const item = 'inline-flex items-center gap-2'
   const ink = 'var(--color-ink)'
   return (
-    <div className="flex flex-col gap-2 font-mono text-xs uppercase tracking-widest text-zinc-faded">
-      <div className="flex flex-wrap items-center gap-x-5 gap-y-1.5">
-        <span className={item}>
-          <Shape sides={6} size={16} colour={ink} />
-          Field
-        </span>
-        <span className={item}>
-          <Shape sides={8} size={11} colour={ink} />
-          Topic
-        </span>
-        <span className={item}>
-          <Shape sides={0} size={6} colour={ink} />
-          Idea
-        </span>
-        <span className={item}>
-          <span className="h-px w-5 bg-zinc-400" />
-          <span aria-hidden>›</span>
-          Learn before
-        </span>
-      </div>
-      {/* On a phone the graph needs the room; the Topics list shows the areas */}
-      {fields.count > 1 && (
-        <div className="hidden md:flex flex-col gap-1.5">
-          {fields.list.map(({ field, title, areas }) => (
-            <div key={field} className="flex flex-wrap items-center gap-x-5 gap-y-1.5">
-              {title && <span className="text-ink">{title}</span>}
-              {areas.map(({ area, title: name, colour }) => (
-                <span key={area} className={item}>
-                  <Shape sides={0} size={9} colour={colour} />
-                  {name}
-                </span>
-              ))}
-            </div>
-          ))}
-        </div>
-      )}
+    <div className="flex flex-wrap items-center gap-x-5 gap-y-1.5 font-mono text-xs uppercase tracking-widest text-zinc-faded">
+      <span className={item}>
+        <Shape sides={6} size={16} colour={ink} />
+        Field
+      </span>
+      <span className={item}>
+        <Shape sides={8} size={11} colour={ink} />
+        Topic
+      </span>
+      <span className={item}>
+        <Shape sides={0} size={6} colour={ink} />
+        Idea
+      </span>
+      <span className={item}>
+        <span className="h-px w-5 bg-zinc-400" />
+        <span aria-hidden>›</span>
+        Learn before
+      </span>
     </div>
   )
 }
@@ -505,7 +470,7 @@ export default function LearningsPage() {
       {/* Legend, bottom left */}
       {!selected && graph && (
         <div className="pointer-events-none absolute bottom-4 left-4 right-4 md:bottom-6 md:left-8">
-          <Legend graph={graph} />
+          <Legend />
         </div>
       )}
     </div>

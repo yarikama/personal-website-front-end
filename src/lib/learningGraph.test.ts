@@ -239,7 +239,7 @@ describe('the colours of a field', () => {
 })
 
 describe('the map spread out', () => {
-  const size = { gap: 200, topic: 70, idea: 120, stagger: 20 }
+  const size = { gap: 200, topic: 70, idea: 120, stagger: 20, wide: true }
   const g = graph(
     ['top', 'bottom', 'one', 'two', 'x', 'y', 'z', 'lone', 'paper'],
     [
@@ -256,25 +256,48 @@ describe('the map spread out', () => {
   const at = orbits(g, size)
   const round = (v: number) => Math.round(v * 1000) / 1000
 
-  it('stacks the fields in reading order, their topics on a ring round them', () => {
-    expect(at.get('top')).toEqual({ x: 0, y: 100, z: 0 })
-    expect(at.get('bottom')).toEqual({ x: 0, y: -100, z: 0 })
+  it('sets the fields side by side on a ring, the first in front, their topics on a ring round each', () => {
+    // Two fields gap apart: either side of the middle, the first nearer the camera
+    const [top, bottom] = ['top', 'bottom'].map((slug) => at.get(slug)!)
+    expect([round(top.x), top.y, round(top.z)]).toEqual([0, 0, 100])
+    expect([round(bottom.x), bottom.y, round(bottom.z)]).toEqual([0, 0, -100])
     for (const slug of ['one', 'two']) {
       const p = at.get(slug)!
-      expect(round(Math.hypot(p.x, p.z))).toBe(70)
-      expect(p.y).toBe(100)
+      expect(round(Math.hypot(p.x, p.z - 100))).toBe(70)
+      expect(p.y).toBe(0)
     }
-    // Two topics: opposite each other
-    expect(round(at.get('one')!.z)).toBe(-round(at.get('two')!.z))
+    // Two topics: opposite each other across their field
+    expect(round(at.get('one')!.x)).toBe(-round(at.get('two')!.x))
+  })
+
+  it('stacks the fields in reading order on a tall screen, first on top', () => {
+    const tall = orbits(g, { ...size, wide: false })
+    expect(tall.get('top')).toEqual({ x: 0, y: 100, z: 0 })
+    expect(tall.get('bottom')).toEqual({ x: 0, y: -100, z: 0 })
+    expect(round(Math.hypot(tall.get('one')!.x, tall.get('one')!.z))).toBe(70)
+  })
+
+  it('keeps every disc gap apart however many fields there are', () => {
+    const many = graph(['a', 'b', 'c', 'd', 'e', 'f'], [])
+    const placed = orbits(many, size)
+    const fields = ['a', 'b', 'c', 'd', 'e', 'f'].map((slug) => placed.get(slug)!)
+    fields.forEach((p, i) => {
+      const q = fields[(i + 1) % fields.length]
+      expect(round(Math.hypot(p.x - q.x, p.z - q.z))).toBe(200)
+      expect(p.y).toBe(0)
+    })
   })
 
   it('fans a topic’s ideas out beyond it, every other one further', () => {
+    // Measured from the topic's field, in the middle of its ring
+    const middle = at.get('top')!
+    const from = (p: Orbit) => ({ x: p.x - middle.x, z: p.z - middle.z })
     // The first and last ideas lie either side of the topic, evenly
-    const [one, first, last] = ['one', 'x', 'z'].map((slug) => at.get(slug)!)
-    const turn = (p: Orbit) => Math.atan2(one.x * p.z - one.z * p.x, one.x * p.x + one.z * p.z)
+    const [one, first, last] = ['one', 'x', 'z'].map((slug) => from(at.get(slug)!))
+    const turn = (p: { x: number; z: number }) => Math.atan2(one.x * p.z - one.z * p.x, one.x * p.x + one.z * p.z)
     expect(round(turn(first))).toBe(-round(turn(last)))
     expect(turn(first)).not.toBe(0)
-    expect(['x', 'y', 'z'].map((slug) => round(Math.hypot(at.get(slug)!.x, at.get(slug)!.z)))).toEqual([120, 140, 120])
+    expect(['x', 'y', 'z'].map((slug) => round(Math.hypot(from(at.get(slug)!).x, from(at.get(slug)!).z)))).toEqual([120, 140, 120])
   })
 
   it('leaves a node in no field to find its own place', () => {
