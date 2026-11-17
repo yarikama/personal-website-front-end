@@ -4,6 +4,10 @@ on:
   pull_request:
   push:
     branches: [main]
+  # Every night, every page: publishing a learning node or a project adds a
+  # page to the sitemap without any push, and the contrast check should see it
+  schedule:
+    - cron: '0 9 * * *'
 
 # A newer push to the same branch or PR replaces a run still going.
 concurrency:
@@ -29,19 +33,26 @@ jobs:
       # Type-checks (tsc) and bundles, as Vercel does.
       - run: npm run build
 
-  # Every page, light and dark, in a real browser: text must meet WCAG AA
-  # contrast as drawn (scripts/check-contrast.mjs). Catches what the unit
-  # tests can't see, such as a colour picked through a variable or text on
-  # a tinted SVG shape.
+  # Pages light and dark, in a real browser: text must meet WCAG AA contrast
+  # as drawn (scripts/check-contrast.mjs). Catches what the unit tests can't
+  # see, such as a colour picked through a variable or text on a tinted SVG
+  # shape. A pull request checks the pages its changes can touch, from its own
+  # code; a push to main and the nightly run check every page.
   contrast:
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
+        with:
+          # The base branch too, to see what the pull request changed
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
       - run: npm ci
       - run: npx playwright install --with-deps chromium
-      - run: npm run check:contrast
+      - if: github.event_name == 'pull_request'
+        run: npm run check:contrast -- --changed origin/${{ github.base_ref }}
+      - if: github.event_name != 'pull_request'
+        run: npm run check:contrast
