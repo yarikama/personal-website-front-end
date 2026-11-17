@@ -29,7 +29,7 @@ function Answer({ x, y, value, unsureIn }: { x: number; y: number; value: Truth;
         x={x + CELL / 2}
         y={y + CELL / 2 + 4}
         textAnchor="middle"
-        className={`${settled ? 'fill-sage-ink' : value === 'UNKNOWN' ? 'fill-zinc-faded' : 'fill-ink'} font-mono text-[12px]`}
+        className={`${settled ? 'fill-ink font-semibold' : value === 'UNKNOWN' ? 'fill-zinc-faded' : 'fill-ink'} font-mono text-[12px]`}
       >
         {short(value)}
       </text>

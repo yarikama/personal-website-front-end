@@ -77,7 +77,7 @@ export default function LikesLab({
               x={cx}
               y={37.5}
               textAnchor="middle"
-              className={`${good ? 'fill-sage-ink' : 'fill-ink'} font-mono text-[10px] uppercase tracking-widest`}
+              className="fill-ink font-mono text-[10px] uppercase tracking-widest"
             >
               {good ? 'good' : 'bad'}
             </text>
