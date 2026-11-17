@@ -219,8 +219,9 @@ export default function BiasVariance() {
           charges for large coefficients, giving up a little bias for much less variance.
         </li>
         <li>
-          <strong>Average many fits.</strong> Fits that wobble differently cancel out, which is what random forests
-          do with trees.
+          <strong>Average many fits.</strong> Fits that wobble differently cancel out, which is what{' '}
+          <Link to="/learnings/random-forests">random forests</Link> do
+          with trees.
         </li>
       </ul>
       <p>
