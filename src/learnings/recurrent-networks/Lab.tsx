@@ -129,7 +129,8 @@ export default function Lab() {
           </g>
         ))}
 
-        {/* How much of this guess's blame reaches each memory */}
+        {/* How much of this guess's blame reaches each memory. Labels carry a paper halo:
+            they are wider than a bar and can sit over a taller neighbour */}
         <text x={col(0) - 20} y={BLAME.label} className="fill-zinc-faded font-mono text-[10px] uppercase tracking-widest">
           Blame from this guess reaching each memory (log scale)
         </text>
@@ -141,7 +142,7 @@ export default function Lab() {
             <g key={k}>
               <rect x={col(k) - 9} y={BLAME.base - Math.max(h, 0.8)} width={18} height={Math.max(h, 0.8)} rx={2} className="fill-ink" fillOpacity={k === t ? 0.9 : 0.55} />
               {(k === 0 || k === NOUN_STEP || k === t) && (
-                <text x={col(k)} y={BLAME.base - h - 5} textAnchor="middle" className="fill-ink font-mono text-[10px]">
+                <text x={col(k)} y={BLAME.base - h - 5} textAnchor="middle" className="fill-ink stroke-paper font-mono text-[10px]" strokeWidth={3} paintOrder="stroke">
                   {fraction(r)}
                 </text>
               )}
@@ -162,7 +163,7 @@ export default function Lab() {
             <g key={word}>
               <rect x={CHANCE.x(v) - 10} y={CHANCE.base - h} width={20} height={h} rx={2} className={right ? 'fill-sage' : 'fill-ink'} fillOpacity={right ? 1 : 0.4} />
               {p[v] >= 0.05 && (
-                <text x={CHANCE.x(v)} y={CHANCE.base - h - 4} textAnchor="middle" className="fill-ink font-mono text-[10px]">
+                <text x={CHANCE.x(v)} y={CHANCE.base - h - 4} textAnchor="middle" className="fill-ink stroke-paper font-mono text-[10px]" strokeWidth={3} paintOrder="stroke">
                   {Math.round(100 * p[v])}%
                 </text>
               )}

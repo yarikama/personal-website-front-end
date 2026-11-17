@@ -95,6 +95,13 @@ export function scan() {
         fill.a *= alpha
         if (fill.a > 0) bg = over(fill, bg)
       }
+      // A halo (a stroke painted under the fill, as with paint-order="stroke") is what
+      // sits right behind the letters, so it is the background that counts
+      const halo = rgba(style.stroke)
+      if (style.paintOrder.startsWith('stroke') && halo.a > 0 && parseFloat(style.strokeWidth) >= 2) {
+        halo.a *= Number(style.strokeOpacity || 1)
+        bg = over(halo, bg)
+      }
     }
     const fg = rgba(svg ? style.fill : style.color)
     if (svg) fg.a *= Number(style.fillOpacity || 1)
