@@ -226,7 +226,7 @@ export default function UndoRedoLogging() {
         Pick a scheme and an order, then pick any step to crash after.
       </p>
 
-      <Figure caption="Rows after the crash never happened. Memory and the log tail are lost, so recovery has only the disk and the log on disk; sage marks the record it is reading. Kept to its rules, every scheme is right at every crash point. In an order that breaks a rule, the marked row is where it breaks, and a crash soon after it leaves a balance wrong.">
+      <Figure caption="Struck-out rows come after the crash and never happened. Memory and the log tail are lost, so recovery has only the disk and the log on disk; sage marks the record it is reading. Kept to its rules, every scheme is right at every crash point. In an order that breaks a rule, the marked row is where it breaks, and a crash soon after it leaves a balance wrong.">
         <div className="grid gap-6 md:grid-cols-[minmax(0,16rem)_minmax(0,1fr)]">
           <Timeline events={events} crash={k} broke={broke} onCrash={setCrash} />
           <Recovery key={`${scheme}-${name}-${k}-${replays}`} crash={result} broke={broke && broke.at < k ? broke : null} />

@@ -130,11 +130,11 @@ export function Timeline({
               onClick={() => onCrash(i + 1)}
               aria-label={`Crash after step ${i + 1}, ${eventText(e)}`}
               className={`flex w-full items-baseline gap-3 rounded-lg px-2 py-1 text-left transition-colors hover:bg-sage/10 ${
-                happened ? 'text-ink' : 'text-zinc-faded opacity-60'
+                happened ? 'text-ink' : 'text-zinc-faded'
               }`}
             >
               <span className="w-5 shrink-0 text-right tabular-nums text-zinc-faded">{i + 1}</span>
-              <span className="flex-1">{eventText(e)}</span>
+              <span className={`flex-1 ${happened ? '' : 'line-through decoration-zinc-faded/60'}`}>{eventText(e)}</span>
               {broke?.at === i && (
                 <span className="shrink-0 rounded-full border border-ink px-2 text-[0.75rem] uppercase tracking-widest text-ink">
                   {broke.rule}
