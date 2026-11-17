@@ -121,7 +121,7 @@ function Run({ order, onOrder }: { order: Order; onOrder: (order: Order) => void
                         x={i * CELL + CELL / 2}
                         y={NODE_H / 2 + 4.5}
                         textAnchor="middle"
-                        className={`font-mono text-[13px] ${on ? 'fill-paper' : node.children ? 'fill-zinc-faded' : 'fill-ink'}`}
+                        className={`font-mono text-[13px] ${on ? 'fill-ink dark:fill-paper' : node.children ? 'fill-ink/80' : 'fill-ink'}`}
                       >
                         {key}
                       </text>
