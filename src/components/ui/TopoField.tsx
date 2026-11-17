@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react'
 
 // A few smooth hills, [x, y, spread, height], in the box's own 0..1 coordinates
 const HILLS = [[0.72, 0.38, 0.3, 1], [0.38, 0.7, 0.22, 0.7], [0.95, 0.85, 0.18, 0.55], [0.55, 0.12, 0.14, 0.45], [0.18, 0.25, 0.2, 0.35]]
-const STEP = 6, LEVELS = 14, GAP = 0.075
+const STEP = 6, LEVELS = 30, GAP = 0.045
 
 /**
  * Contour lines of a still field, drawn once on a canvas and again when the
@@ -39,11 +39,13 @@ export default function TopoField({ className = '' }: { className?: string }) {
       const v = new Float32Array(cols * rows)
       for (let j = 0; j < rows; j++) for (let i = 0; i < cols; i++) v[j * cols + i] = f(i * STEP, j * STEP)
       g.strokeStyle = getComputedStyle(canvas).getPropertyValue('--color-sage').trim() || '#6b8f8b'
-      g.lineWidth = 1
-      // Marching squares, one height at a time; every fifth line a little stronger, as on a map
+      // Marching squares, one height at a time; every fifth line stronger and
+      // a little thicker, as on a map
       for (let k = 1; k <= LEVELS; k++) {
         const lv = k * GAP
-        g.globalAlpha = k % 5 === 0 ? 0.55 : 0.28
+        const major = k % 5 === 0
+        g.lineWidth = major ? 1.5 : 1.1
+        g.globalAlpha = major ? 0.9 : 0.5
         g.beginPath()
         for (let j = 0; j < rows - 1; j++) for (let i = 0; i < cols - 1; i++) {
           const a = v[j * cols + i], b = v[j * cols + i + 1], d = v[(j + 1) * cols + i], e = v[(j + 1) * cols + i + 1]

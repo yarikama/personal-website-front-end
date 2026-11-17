@@ -13,7 +13,7 @@ export default function BriefSelection() {
     <Section id="works">
       {/* The heading, with the way to every project beside it, over a contour field that fades out before the text */}
       <div className="relative mb-14 flex flex-wrap items-end justify-between gap-x-6 gap-y-4">
-        <TopoField className="absolute -right-10 -top-16 h-[calc(100%+7rem)] w-[min(62%,40rem)] [mask-image:linear-gradient(to_right,transparent,#000_45%,#000_85%,transparent),linear-gradient(to_bottom,transparent,#000_30%,#000_70%,transparent)] [mask-composite:intersect] [-webkit-mask-composite:source-in] max-md:w-full max-md:-right-4 max-md:opacity-70" />
+        <TopoField className="absolute -right-10 -top-16 h-[calc(100%+7rem)] w-[min(62%,40rem)] [mask-image:linear-gradient(to_right,transparent,#000_25%,#000_92%,transparent),linear-gradient(to_bottom,transparent,#000_18%,#000_82%,transparent)] [mask-composite:intersect] [-webkit-mask-composite:source-in] max-md:w-full max-md:-right-4 max-md:opacity-80" />
         <div className="relative">
           <span className="font-mono text-sm text-zinc-faded uppercase tracking-widest">
             Selected Works
