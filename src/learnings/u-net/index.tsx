@@ -243,7 +243,8 @@ export default function UNet() {
         </li>
       </ul>
       <p>
-        The same shape returns as the denoiser in diffusion models, which must hand back an image the size of the one it
+        The same shape returns as the denoiser in{' '}
+        <Link to="/learnings/diffusion-models">diffusion models</Link>, which must hand back an image the size of the one it
         was given.
       </p>
 
