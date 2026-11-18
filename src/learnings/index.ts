@@ -115,6 +115,10 @@ export const learningPages: LearningPage[] = [
   { slug: 'gaussian-policies', load: () => import('./gaussian-policies') },
   { slug: 'ppo', load: () => import('./ppo') },
   { slug: 'ddpg', load: () => import('./ddpg') },
+  { slug: 'lora', load: () => import('./lora') },
+  { slug: 'instruction-tuning', load: () => import('./instruction-tuning') },
+  { slug: 'dpo', load: () => import('./dpo') },
+  { slug: 'rlvr', load: () => import('./rlvr') },
 ]
 
 export const findLearningPage = (slug: string | undefined) => learningPages.find((page) => page.slug === slug)
