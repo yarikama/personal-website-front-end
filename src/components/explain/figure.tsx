@@ -1,4 +1,5 @@
 import { useId, useRef, type ReactNode } from 'react'
+import { keepCase } from './keepCase'
 import { useReadableText } from './useReadableText'
 
 // A figure in a learning page: the drawing, the controls that change it,
@@ -49,7 +50,7 @@ export function Slider({
   return (
     <div className="flex min-w-[12rem] flex-1 flex-col gap-2">
       <label htmlFor={id} className={`flex justify-between ${label}`}>
-        <span>{name}</span>
+        <span>{keepCase(name)}</span>
         <span className="text-ink tabular-nums">{format(value)}</span>
       </label>
       <input
@@ -82,7 +83,7 @@ export function Choice<T extends string | number>({
 }) {
   return (
     <div className="flex flex-col gap-2" role="radiogroup" aria-label={name}>
-      <span className={label}>{name}</span>
+      <span className={label}>{keepCase(name)}</span>
       {/* Wraps, so five or six options still fit a phone */}
       <div className="flex flex-wrap gap-y-1.5">
         {options.map((option) => (
@@ -121,7 +122,7 @@ export function Button({ children, onClick, disabled = false }: { children: Reac
 export function Readout({ label: name, value, accent = false }: { label: string; value: ReactNode; accent?: boolean }) {
   return (
     <div className="flex flex-col gap-1">
-      <span className={label}>{name}</span>
+      <span className={label}>{keepCase(name)}</span>
       <span className={`font-serif text-3xl font-light tabular-nums ${accent ? 'text-sage-ink' : 'text-ink'}`}>{value}</span>
     </div>
   )
@@ -143,7 +144,7 @@ export function Numbers({
     >
       {items.map((item) => (
         <div key={item.label} className="px-2 py-5">
-          <p className="font-mono text-[0.875rem] uppercase tracking-widest text-zinc-faded">{item.label}</p>
+          <p className="font-mono text-[0.875rem] uppercase tracking-widest text-zinc-faded">{keepCase(item.label)}</p>
           <p className={`mt-2 font-serif font-light text-ink ${words ? 'text-2xl leading-tight' : 'text-4xl'}`}>{item.value}</p>
           {item.note && <p className="font-mono text-[0.875rem] text-zinc-faded">{item.note}</p>}
         </div>
