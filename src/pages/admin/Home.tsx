@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { ArrowRight, FilePen, Inbox, MessageSquare, Users } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import AdminNav from '../../components/admin/AdminNav'
+import CalendarWeek from '../../components/admin/CalendarWeek'
 import CurrentGoal from '../../components/admin/CurrentGoal'
 import DayCountdown from '../../components/admin/DayCountdown'
 import ContributionHeatmap from '../../components/admin/ContributionHeatmap'
@@ -11,7 +12,8 @@ import { useNewQuestions, useUnreadMessages } from '../../hooks'
 import { adminLabNotesService, adminVisitorsService } from '../../services/api'
 
 // The admin's first page after signing in: the current goal, the day's
-// to-dos, what is waiting, and a year on GitHub.
+// to-dos, what is waiting, the week from Google Calendar, and a year on
+// GitHub.
 
 function useNow(everyMs = 30_000): Date {
   const [now, setNow] = useState(() => new Date())
@@ -166,6 +168,13 @@ export default function AdminHome() {
             </div>
           </section>
         </div>
+
+        <section className="mt-16">
+          <p className="font-mono text-xs text-zinc-faded uppercase tracking-widest">This week</p>
+          <div className="mt-4">
+            <CalendarWeek date={day} />
+          </div>
+        </section>
 
         <section className="mt-16">
           <p className="font-mono text-xs text-zinc-faded uppercase tracking-widest">A year on GitHub</p>
