@@ -70,7 +70,7 @@ export default function Contact() {
           <br />
           Something Together
         </h2>
-        <p className="mt-6 text-lg md:text-xl leading-relaxed text-zinc-faded max-w-xl mx-auto">
+        <p className="mt-6 text-lg md:text-xl leading-relaxed text-zinc-faded max-w-xl mx-auto text-balance">
           Whether you're building AI systems, exploring open-source collaboration, or have an
           interesting problem to solve, I'd be glad to hear from you.
         </p>

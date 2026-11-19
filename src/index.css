@@ -123,6 +123,27 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* No word left alone on a paragraph's last line, and headings broken into
+   lines of even length. In the base layer, so a component's own
+   text-balance or text-wrap utility still wins. Browsers without
+   text-wrap: pretty wrap as before. */
+@layer base {
+  p,
+  li,
+  dd,
+  blockquote,
+  figcaption {
+    text-wrap: pretty;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+  }
+}
+
 /* The site sets nothing in italics. Emphasis is a step heavier instead, and
    the tags browsers slant by default stand upright. */
 em,
