@@ -49,6 +49,11 @@
   --text-xs--line-height: calc(1.375 / 0.9375);
   --text-sm: 1rem;
   --text-sm--line-height: calc(1.5 / 1);
+  /* The header's links on wider screens and its drop-down menus: spaced-out
+     capitals read larger than their size, so a step under text-xs. The
+     phone menu keeps text-xs. */
+  --text-nav: 0.875rem;
+  --text-nav--line-height: calc(1.25 / 0.875);
 
   /* Font sizes for titles */
   --text-display: clamp(4rem, 12vw, 10rem);
