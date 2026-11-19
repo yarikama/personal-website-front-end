@@ -96,7 +96,7 @@ function AskHeader() {
           })}
         </span>
       </h2>
-      <p className="mt-4 text-lg md:text-xl leading-relaxed text-zinc-faded max-w-2xl">
+      <p className="mt-4 text-lg md:text-xl leading-relaxed text-zinc-faded max-w-2xl text-balance">
         A small language model on my home server answers from the projects and notes on this
         site and my resume, with sources. It can be wrong, so check the links.
       </p>
