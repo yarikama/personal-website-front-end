@@ -161,7 +161,7 @@ export default function Header() {
       // The active item is also underlined, the line drawing in from the left
       className={`
         relative inline-flex items-center gap-1
-        font-mono text-xs uppercase tracking-widest
+        font-mono text-xs md:text-nav uppercase tracking-widest
         transition-colors duration-300
         after:absolute after:left-0 after:-bottom-1.5 after:h-0.5 after:w-full after:bg-sage
         after:origin-left after:transition-transform after:duration-500 after:ease-[var(--ease-elegant)]
@@ -223,7 +223,7 @@ export default function Header() {
           <li key={sub.label}>
             {renderSubLink(
               sub,
-              `flex items-center gap-3 px-4 py-2.5 font-mono text-xs uppercase tracking-widest
+              `flex items-center gap-3 px-4 py-2.5 font-mono text-nav uppercase tracking-widest
               text-zinc-faded hover:text-sage-ink hover:bg-paper-dark focus-visible:bg-paper-dark transition-colors`
             )}
           </li>
