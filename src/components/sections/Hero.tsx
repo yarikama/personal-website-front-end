@@ -96,13 +96,13 @@ export default function Hero() {
             <div className="mt-12 md:mt-16">
               {/* In the name's serif. Cormorant's small x-height reads small,
                   so it is set a step larger than the old tagline. */}
-              <p className="font-serif font-normal text-[1.75rem] md:text-[2.25rem] text-zinc-faded leading-snug">
-                Building AI systems, and the infrastructure behind them.
+              <p className="font-serif font-normal text-[1.75rem] md:text-[2.25rem] text-zinc-faded leading-snug text-balance">
+                Building the infrastructure AI systems run on.
               </p>
 
-              <p className="mt-4 text-lg md:text-xl text-zinc-faded leading-relaxed">
-                Software engineer across GenAI and backend, from RAG architectures and
-                agentic workflows to the pipelines and test infrastructure that keep them running.
+              <p className="mt-4 text-lg md:text-xl text-zinc-faded leading-relaxed text-balance">
+                Software engineer working on LLM inference, backend systems and the test
+                infrastructure that keeps them reliable.
               </p>
             </div>
 

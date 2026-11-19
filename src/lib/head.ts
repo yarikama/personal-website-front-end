@@ -6,9 +6,9 @@
 
 export const SITE = 'https://www.yarikama.com'
 export const NAME = 'Henry Hsu'
-export const DEFAULT_TITLE = `${NAME} | Software Engineer, GenAI & Infrastructure`
+export const DEFAULT_TITLE = `${NAME} | Software Engineer, AI Infrastructure`
 export const DEFAULT_DESCRIPTION =
-  'Henry Hsu builds GenAI systems and the infrastructure behind them. Former Google SWE intern and MaiAgent GenAI team lead, now an M.C.S. student at Rice.'
+  'Henry Hsu builds the infrastructure AI systems run on: LLM inference, backends and test infrastructure. Former Google SWE intern, now an M.C.S. student at Rice.'
 export const DEFAULT_IMAGE = `${SITE}/og-image.png`
 
 export interface PageMeta {
